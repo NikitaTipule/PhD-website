@@ -1,0 +1,39 @@
+.NavbarItems {
+    background-color: cadetblue;
+    height: 70px;
+    display: flex;
+    justify-content:flex-start;
+    align-items:center;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+    border-bottom-width: 2rem;
+    border-bottom-color: whitesmoke;
+    color: white;
+}
+
+.navbar-logo {
+    color: #fff;
+    justify-self: start;
+    margin-left: 50px;
+    margin-right: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+@media screen and (max-width: 600px) {
+
+    .NavbarItems {
+        height: 50px;
+        font-size: 10px;
+    }
+
+    .navbar-logo {
+        margin-left: 20px;
+        margin-right: 20px;
+        
+    }
+}
