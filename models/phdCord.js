@@ -1,19 +1,12 @@
 const mongoose = require("mongoose");
-const {
-  reqString,
-  departmentField,
-  email,
-  preSaveHashPassword,
-} = require("./schemaFields");
+const { reqString, departmentField, email } = require("./schemaFields");
 
 const PhdCordSchema = mongoose.Schema({
   name: reqString,
+  mis: reqString,
   email: email,
-  password: reqString,
   department: departmentField,
 });
-
-PhdCordSchema.pre("save", preSaveHashPassword);
 
 const PhdCord = mongoose.model("phdCord", PhdCordSchema, "phdCord");
 
