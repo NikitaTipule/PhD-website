@@ -1,4 +1,5 @@
-import * as React from 'react';
+// import * as React from 'react';
+import { React, Component } from 'react'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,49 +9,175 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import NavBar from '../components/Navbar/Navbar';
+import { Link } from 'react-router-dom'
 
-const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+
+
+class StickyHeadTable extends Component {
+  // const [page, setPage] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage);
+  // };
+
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(+event.target.value);
+  //   setPage(0);
+  // };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      studentData: [],
+      logout: false,
+      page: 0,
+      rowsPerPage: 10,
+      // handleChangePage(),
+      // handleChangeRowsPerPage(),
+    }
+  };
+ columns = [
+  {id: 'id', label:'No.', minWidth: 30},
+  { id: 'name', label: 'Name', minWidth: 120 },
+  { id: 'status', label: 'Verification Status', minWidth: 70 },
 
 ];
 
-function createData(name, code) {
-  // const density = population / size;
-  return { name, code };
-}
+ rows = [
+  {
+    id: 1,
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    id:2,
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    id:3,
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Not Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Modification needed"
+  },
 
-const rows = [
-  createData('India sopan tipule', 'IN'),
-  createData('China sopan tipule', 'CN'),
-  createData('Italy sopan tipule', 'IT'),
-  createData('United States nikta tipule', 'US'),
-  createData('Canada nikita sopan ', 'CA'),
-  createData('Australia tipule', 'AU'),
-  createData('Germany', 'DE'),
-  createData('Ireland', 'IE'),
-  createData('Mexico', 'MX'),
-  createData('Japan', 'JP'),
-  createData('France', 'FR'),
-  createData('United Kingdom'),
-  createData('Russia', 'RU'),
-  createData('Nigeria', 'NG'),
-  createData('Brazil', 'BR'),
-];
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Not Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Modification needed"
+  },
 
-export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+ 
+  {
+    name : "nikita sopan Tipule", 
+    status: "Modification needed"
+  },
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+  {
+    name : "nikita sopan Tipule", 
+    status: "Verified"
+  },
+]
+
+  handleChangePage = (event, newPage) => {
+    this.setState ({
+      page : newPage
+    })
+  }
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage : +event.target.value,
+      page: 0
+    })
   };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
+  render() {
   return (
     <>
       <NavBar />
@@ -60,7 +187,7 @@ export default function StickyHeadTable() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead >
                 <TableRow>
-                  {columns.map((column) => (
+                  {this.columns.map((column) => (
                     <TableCell
                       key={column.id}
                       align='center'
@@ -72,21 +199,44 @@ export default function StickyHeadTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                {this.rows
+                  .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
                   .map((row) => {
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
+                        {this.columns.map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align='center'>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
+                              {column.id === 'status'? (
+                              <div>
+                              {column.id === 'status' && value === 'Verified'
+                                ? (
+                                  <div style = {{color: 'green'}}>{value}</div>
+                                ):(
+                                  <div>
+                                  {column.id === 'status' && value === 'Not Verified'
+                                  ? (
+                                    <div style = {{color: 'red'}}>{value}</div>
+                                  ):(
+                                    <div style = {{color: 'blue'}}>{value}</div>
+                                  )
+                                  }
+                                  </div>    
+                                )}
+                                </div>
+                                ):(
+                                  <div>
+                                     {/* to do Link part */}
+                                    <Link to={{pathname: '/'}} style={{textDecoration: 'none', color: 'black'}} >
+                                    {value}
+                                    </Link>
+                                  </div>
+                                )}
                             </TableCell>
                           );
                         })}
+                       
                       </TableRow>
                     );
                   })}
@@ -96,14 +246,17 @@ export default function StickyHeadTable() {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+            count={this.rows.length}
+            rowsPerPage={this.state.rowsPerPage}
+            page={this.state.page}
+            onPageChange={this.handleChangePage}
+            onRowsPerPageChange={this.handleChangeRowsPerPage}
           />
         </Paper>
       </div>
     </>
   );
+                }
 }
+
+export default StickyHeadTable
