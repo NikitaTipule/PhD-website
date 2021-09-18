@@ -11,3 +11,22 @@
     align-items: center;
     width: auto;
 }
+
+/* constructor(props) {
+    super(props);
+    this.state = {
+      studentData = [],
+      logout = false,
+      page= 0,
+      rowsPerPage = 10,
+    }
+  }
+
+  handleChangePage = (event, newPage) => {
+    this.setState ({
+      page = newPage
+    })
+  }
+  handleChangeRowsPerPage = () => {
+
+  } */
