@@ -1,23 +1,23 @@
 const jwt = require("jsonwebtoken");
 const { compare } = require("bcryptjs");
 const axios = require("axios");
-const {
-  studentKey,
-  cordKey,
-  adminKey,
-  accountSectionKey,
-  ldapAuthUrl,
-} = require("../config/configKeys");
+const { jwtSecretKey, ldapAuthUrl } = require("../config/configKeys");
+const roleToModel = require("./roles");
 const Student = require("../models/student");
-const PhdCord = require("../models/phdCord");
-const Admin = require("../models/admin");
-const AccountSec = require("../models/accountSec");
 
-const generateToken = (user, tokenKey) => {
+const generateToken = (user) => {
   // Create token
-  const token = jwt.sign({ id: user._id, email: user.email }, tokenKey, {
-    expiresIn: "2h",
-  });
+  const token = jwt.sign(
+    {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    },
+    jwtSecretKey,
+    {
+      expiresIn: "2h",
+    }
+  );
   return {
     success: true,
     token: token,
@@ -26,10 +26,10 @@ const generateToken = (user, tokenKey) => {
 
 exports.registerStudent = (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
     console.log(req.body);
     // Validate user input
-    if (!(email && password)) {
+    if (!(name, email && password)) {
       return res.status(400).json({ error: "All input is required" });
     }
     // check if user already exist
@@ -40,11 +40,13 @@ exports.registerStudent = (req, res) => {
           .json({ error: "User Already Exist. Please Login" });
       }
       const newStudent = new Student({
+        name: name,
         email: email,
         password: password,
       });
       newStudent.save().then((user) => {
-        const token = generateToken(user, studentKey);
+        user.role = Student.modelName;
+        const token = generateToken(user);
         return res.json(token);
       });
     });
@@ -68,7 +70,8 @@ exports.loginStudent = (req, res) => {
       }
       const isMatch = await compare(password, user.password);
       if (isMatch) {
-        const token = generateToken(user, studentKey);
+        user.role = Student.modelName;
+        const token = generateToken(user);
         return res.json(token);
       } else {
         return res.status(400).json({ error: "Invalid Credentials" });
@@ -80,12 +83,15 @@ exports.loginStudent = (req, res) => {
   }
 };
 
-const loginUser = (User, userKey, req, res) => {
+exports.loginStaff = (req, res) => {
   try {
-    const { mis, password } = req.body;
+    const { mis, password, role } = req.body;
     // Validate user input
-    if (!(mis && password)) {
+    if (!(mis && password && role)) {
       return res.status(400).json({ error: "All input is required" });
+    }
+    if (!(role in roleToModel)) {
+      return res.status(400).json({ error: "invalid role" });
     }
     const reqData = {
       MIS: mis,
@@ -94,11 +100,13 @@ const loginUser = (User, userKey, req, res) => {
     axios
       .post(ldapAuthUrl, reqData)
       .then((resp) => {
+        const User = roleToModel[role];
         User.findOne({ email: resp.data.Email }).then(async (user) => {
           if (!user) {
             return res.status(404).json({ error: "user not found" });
           }
-          const token = generateToken(user, userKey);
+          user.role = role;
+          const token = generateToken(user);
           return res.json(token);
         });
       })
@@ -113,16 +121,4 @@ const loginUser = (User, userKey, req, res) => {
     console.log(err);
     res.status(400).json({ error: "Invalid Credentials" });
   }
-};
-
-exports.loginPhdCord = (req, res) => {
-  loginUser(PhdCord, cordKey, req, res);
-};
-
-exports.loginAdmin = (req, res) => {
-  loginUser(Admin, adminKey, req, res);
-};
-
-exports.loginAccountSec = (req, res) => {
-  loginUser(AccountSec, accountSectionKey, req, res);
 };

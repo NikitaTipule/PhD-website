@@ -59,6 +59,8 @@ export default function StudentLogIn() {
       
   }
   return (
+    <>
+    {/* <NavBar /> */}
     <ThemeProvider theme={theme}>
       <NavBar />
       <Container component="main" maxWidth="xs">
@@ -117,5 +119,6 @@ export default function StudentLogIn() {
         </Box>
       </Container>
     </ThemeProvider>
+    </>
   );
 }

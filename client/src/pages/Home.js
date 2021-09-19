@@ -7,7 +7,6 @@ class Home extends Component {
             <>
              <div>
                 <NavBar />
-                homepage
              </div>
              <div>
                  <MainLogIn />
