@@ -7,6 +7,6 @@ const AdminSchema = mongoose.Schema({
   email: email,
 });
 
-const Admin = mongoose.model("Admin", AdminSchema, "admin");
+const Admin = mongoose.model("admin", AdminSchema, "admins");
 
 module.exports = Admin;

@@ -8,6 +8,6 @@ const PhdCordSchema = mongoose.Schema({
   department: departmentField,
 });
 
-const PhdCord = mongoose.model("phdCord", PhdCordSchema, "phdCord");
+const PhdCord = mongoose.model("phdCord", PhdCordSchema, "phdCords");
 
 module.exports = PhdCord;
