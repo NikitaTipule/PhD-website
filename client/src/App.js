@@ -4,6 +4,7 @@ import coForm from './pages/coForm';
 import Home from "./pages/Home"
 import StickyHeadTable from './pages/coHome';
 import Register from './pages/Register';
+import LogIn from './pages/LogIn';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
           <Route path="/" component={Home} exact></Route>
           <Route path="/co-home" component={StickyHeadTable} exact></Route>
           <Route path="/coform" component={coForm} exact></Route>
-          <Route path="/Register" component={Register} exact></Route>
+          <Route path="/register" component={Register} exact></Route>
+          <Route path="/login" component={LogIn} exact></Route>
         </Switch>
       </Router>
 

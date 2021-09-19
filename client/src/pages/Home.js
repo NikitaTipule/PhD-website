@@ -10,7 +10,7 @@ class Home extends Component {
                 homepage
              </div>
              <div>
-                 <LogIn />
+                 {/* <LogIn /> */}
              </div>
             </>
         );
