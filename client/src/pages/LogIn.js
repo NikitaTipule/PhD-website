@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NavBar from '../components/Navbar/Navbar';
 const theme = createTheme();
 
 export default function LogIn() {
@@ -23,6 +24,8 @@ export default function LogIn() {
   };
 
   return (
+    <>
+    <NavBar />
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -81,5 +84,6 @@ export default function LogIn() {
         </Box>
       </Container>
     </ThemeProvider>
+    </>
   );
 }
