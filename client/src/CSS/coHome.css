@@ -1,32 +1,39 @@
-.table-container {
-    margin: auto;
-    width: auto;
-
+.textBetween {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center;
+  align-items: center; */
+  width: 80%;
+  font-weight: 600;
+}
+.textBetween:before, .textBetween:after{
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid;
+  
+  margin: auto;
+}
+.textBetween:before {
+  margin-right: 10px;
+  /* margin-left: 140px; */
+}
+.textBetween:after {
+  margin-left: 10px
+}
+.info {
+  width: "80%";
+  display:'flex'; 
+  justify-content:'center'; 
+  align-items:'center';
+  min-height: '200px';
+  border: "0.5px solid #D3E2DA";
+  border-radius:"25px";
 }
 
-.outer {
-    /* margin: 100px; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: auto;
+@media screen and (max-width: 550px) {
+  .textBetween {
+    width: 100%;
+    font-size: medium;
+  }
+
 }
-
-/* constructor(props) {
-    super(props);
-    this.state = {
-      studentData = [],
-      logout = false,
-      page= 0,
-      rowsPerPage = 10,
-    }
-  }
-
-  handleChangePage = (event, newPage) => {
-    this.setState ({
-      page = newPage
-    })
-  }
-  handleChangeRowsPerPage = () => {
-
-  } */
