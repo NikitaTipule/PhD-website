@@ -24,7 +24,9 @@ class NavBar extends Component {
                 <div>
                     <h1>PhD Admission Portal - College of Engineering, Pune</h1>
                 </div>
-
+                {/* <div>
+                    <h3></h3>
+                </div> */}
             </nav>
         );
     }

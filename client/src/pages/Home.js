@@ -10,7 +10,11 @@ class Home extends Component {
                 homepage
              </div>
              <div>
+<<<<<<< HEAD
                  <MainLogIn />
+=======
+                 {/* <LogIn /> */}
+>>>>>>> upstream/main
              </div>
             </>
         );

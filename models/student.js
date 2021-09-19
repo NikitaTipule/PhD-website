@@ -8,7 +8,6 @@ const {
 } = require("./schemaFields");
 
 const personalInfo = {
-  name: reqString,
   mobile: reqString,
   nationality: reqString,
   category: reqString,
@@ -63,10 +62,17 @@ const academicsPG = {
   entranceDetails: entranceDetailsPG,
 };
 
+const verificationField = {
+  type: String,
+  default: "pending",
+  enum: ["pending", "verified", "modifications required"],
+};
+
 const docUploaded = {
   type: reqString,
   filename: reqString,
   originalName: reqString,
+  verification: verificationField,
 };
 
 const feeDetails = {
@@ -90,13 +96,16 @@ footerDataSchema = Schema(footerData);
 // TODO : How to store verification data ? (need more info about requirements)
 const StudentSchema = Schema(
   {
+    name: reqString,
     email: email,
     password: reqString,
+    verification: verificationField,
     personalInfo: personalInfoSchema,
     academicsUG: academicsUGSchema,
     academicsPG: academicsPGSchema,
     feeDetails: feeDetailsSchema,
     documentsUploaded: [docUploaded],
+    remarks: { type: String },
     footerData: footerDataSchema,
   },
   { timestamps: true }
