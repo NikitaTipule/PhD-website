@@ -12,11 +12,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NavBar from '../components/Navbar/Navbar';
 const theme = createTheme();
 
-export default function LogIn() {
+export default function StudentLogIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
     console.log({
       email: data.get('email'),
       password: data.get('password'),
@@ -25,8 +24,9 @@ export default function LogIn() {
 
   return (
     <>
-    <NavBar />
+    {/* <NavBar /> */}
     <ThemeProvider theme={theme}>
+      <NavBar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -71,8 +71,11 @@ export default function LogIn() {
             >
               Sign In
             </Button>
-            <Grid container>
+            <Grid container spacing={0}>
               <Grid item xs>
+              <Link href="/" variant="body2">
+                  {"Home Page"}
+                </Link>
               </Grid>
               <Grid item>
                 <Link href="/Register" variant="body2">

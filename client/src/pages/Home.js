@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import NavBar from '../components/Navbar/Navbar';
-import LogIn from './LogIn';
+import MainLogIn from './MainLogin';
 class Home extends Component {
     render() {
         return(
             <>
              <div>
                 <NavBar />
-                homepage
              </div>
              <div>
+                 <MainLogIn />
                  {/* <LogIn /> */}
              </div>
             </>
