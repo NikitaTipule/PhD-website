@@ -113,6 +113,6 @@ const StudentSchema = Schema(
 
 StudentSchema.pre("save", preSaveHashPassword);
 
-const Student = model("student", StudentSchema, "student");
+const Student = model("student", StudentSchema, "students");
 
 module.exports = Student;
