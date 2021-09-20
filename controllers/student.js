@@ -51,3 +51,67 @@ exports.getStudentsByDept = (req, res) => {
     }
   );
 };
+
+// ignore changes made to verification data by user and mark updates documents as unverified
+const maintainVerification = (newDocs, origDocs) => {
+  if (!newDocs) {
+    return newDocs;
+  }
+  origMap = origDocs.reduce((map, obj) => {
+    map[obj.type] = obj;
+  }, {});
+  for (let i = 0; i < newDocs.length; i++) {
+    const orig = origMap[newDocs[i].type];
+    const isSame = orig && newDocs[i].filename == orig.filename;
+    newDocs[i].verification = isSame ? orig.verification : "pending";
+  }
+  return newDocs;
+};
+
+exports.editStudentDocs = async (req, res) => {
+  if (req.userRole != "student") {
+    res.status(403).json({ error: "only student can update his info" });
+  }
+  try {
+    const user = await Student.findById(req.userId).exec();
+    user.documentsUploaded = maintainVerification(
+      req.body.documentsUploaded,
+      user.documentsUploaded
+    );
+    user.save();
+  } catch (error) {
+    res.status(400).json({ error: "request body contains invalid data" });
+  }
+};
+
+exports.editStudentFeeDetails = async (req, res) => {
+  if (req.userRole != "student") {
+    res.status(403).json({ error: "only student can update his info" });
+  }
+  try {
+    const user = await Student.findById(req.userId).exec();
+    user.feeDetails = req.body.feeDetails;
+    user.feeDetails.verification = "pending";
+    user.save();
+  } catch (error) {
+    res.status(400).json({ error: "request body contains invalid data" });
+  }
+};
+
+exports.editStudentInfo = async (req, res) => {
+  if (req.userRole != "student") {
+    res.status(403).json({ error: "only student can update his info" });
+  }
+  // user can edit any of these fields using this route
+  let fields = ["personalInfo", "academicsUG", "academicsPG", "footerData"];
+  fields = fields.filter((field) => field in req.body);
+  try {
+    const user = await Student.findById(req.userId).exec();
+    for (const field of fields) {
+      user[field] = req.body[field];
+    }
+    user.save();
+  } catch (error) {
+    res.status(400).json({ error: "request body contains invalid data" });
+  }
+};
