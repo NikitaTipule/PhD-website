@@ -28,17 +28,29 @@ const storage = new GridFsStorage({
 const uploadFileGrid = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-});
+}).single("file");
+
+exports.uploadFile = (req, res) => {
+  if (req.userRole != "student") {
+    res.status(403).json({ error: "only students can upload documents" });
+  }
+  uploadFileGrid(req, res, (err) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    return res.status(200).json({ filename: req.file.filename });
+  });
+};
 
 //had to downgrade mongoose to 5.13.7 because of incompatible gridFS stream package
 
-const getFileGrid = (req, res) => {
+exports.getFileGrid = (req, res) => {
   console.log(gfs.mongo);
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     if (err | !file || file.length === 0) {
       return res.status(404).send({ err: "File doesn't exist" });
     }
-    const readstream = gfs.createReadStream(file.filename);
+    exports.readstream = gfs.createReadStream(file.filename);
     res.header({ "Content-type": file.contentType });
     readstream.on("error", (err) => {
       return res.status(404).send({ err: "Error getting the file" });
@@ -50,7 +62,10 @@ const getFileGrid = (req, res) => {
   });
 };
 
-const removeFileGrid = (req, res) => {
+exports.removeFileGrid = (req, res) => {
+  if (req.userRole != "student") {
+    res.status(403).json({ error: "only students can delete documents" });
+  }
   gfs.files.remove({ filename: req.params.filename }, (err, file) => {
     if (!file || file.length === 0 || err !== null) {
       return res.status(404).send({ err: "Error removing file" });
@@ -58,5 +73,3 @@ const removeFileGrid = (req, res) => {
     return res.json({ success: true });
   });
 };
-
-module.exports = { uploadFileGrid, getFileGrid, removeFileGrid };
