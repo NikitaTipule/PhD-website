@@ -30,10 +30,44 @@
   border-radius:"25px";
 }
 
+.box {
+  width: 80%;
+  border: 0.5px solid #D3E2DA;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 110px;
+
+}
+
+.container-box {
+  padding-left: 120px;
+}
+
+
+
 @media screen and (max-width: 550px) {
   .textBetween {
     width: 100%;
     font-size: medium;
   }
-
+  .box {
+    width: 100%;
+    min-height: 200px;
+  }
+  .container-box {
+    padding-left: 10px;
+  }
+  .grid-item {
+    padding: 0px;
+    margin: 0px;
+  }
+  .grid-item p {
+    font-size: 15px;
+    padding: 0px;
+    margin: 5px;
+  }
 }
+
+

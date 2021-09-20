@@ -8,6 +8,8 @@ import StudentLogIn from "./pages/StudentLogIn";
 import FacLogIn from "./pages/FacLogIn";
 import admissionForm from "./pages/admissionForm";
 import Admin from "./pages/Admin";
+import AccountHome from "./pages/AccountHome";
+import StudentHome from "./pages/StudentHome";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/register" component={Register} exact></Route>
         <Route path="/admissionForm" component={admissionForm} />
         <Route path="/admin" component={Admin} exact></Route>
+        <Route path="/account" component={AccountHome} exact></Route>
+        <Route path="/studenthome" component={StudentHome} exact></Route>
       </Switch>
     </Router>
   );

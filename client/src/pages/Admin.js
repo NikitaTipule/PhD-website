@@ -37,58 +37,58 @@ class Admin extends Component {
  rows = [
   {
     id: 1,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 1", 
     department: "Computer and IT"
   },
   {
     id:2,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 2", 
     department: "Electronics and Telecommunication"
   },
   {
     id:3,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 3", 
     department: "Electrical"
   },
   {
     id:4,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 4", 
     department: "Civil"
   },
   {
     id:5,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 5", 
     department: "Production"
   },
   {
     id:6,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 6", 
     department: "Instrumentation"
   },
 
   {
     id:7,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 7", 
     department: "mechanical"
   },
   {
     id:8,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 8", 
     department: "Verified"
   },
   {
     id:9,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 9", 
     department: "Verified"
   },
   {
     id:10,
-    coname : "nikita sopan Tipule", 
+    coname : "Co-Ordinator 10", 
     department: "Verified"
   },
   {
     id:11,
-    coname : "nikita sopan Tipule", 
+    coname : "Account Section COordiantor", 
     department: "Account Section"
   },
  
@@ -111,63 +111,46 @@ class Admin extends Component {
       <NavBar />
       <div>
         <div>
-          <div style={{display:'block', justifyContent:'center', alignItems:'center'}}>
-          <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <h1 className="textBetween">
-              Admin Information
-            </h1>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                <h1 className="textBetween">
+                Admin Information
+                </h1>
             </div>
             <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <Grid 
-              container
-              style={{
-                border: "0.5px solid #D3E2DA",
-                borderRadius:"25px",
-                width: "80%",
-                display: 'flex',
-                // alignSelf:'center',
-                alignItems:'center',
-                justifyContent:'center',
-                minHeight: '90px',
-                // paddingTop: '10px',
-                paddingLeft: '120px',
-                // paddingRight: '10px',
-                // paddingBottom: '30px'
-              }}
-            >
-              <Grid item xs={6}>
+            <div className="box">
+            <Grid container className="container-box">
+            <Grid item xs={12} md={6} className="grid-item">
                 <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Name : </b>
-                  {'   '}
-                  Nikita Sopan Tipule
+                <b style={{fontWeight:600}}>Name : </b>
+                {'   '}
+                admin name
                 </p>
-              </Grid>
-              <Grid item xs={6}>
+            </Grid>
+            <Grid item xs={12} md={6} className="grid-item">
                 <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Email : </b>
-                  {'   '}
+                <b style={{fontWeight:600}}>Email : </b>
+                {'   '}
                     faculty@gamil.com
                 </p>
                 </Grid>
-              <Grid item xs={6}>
+            <Grid item xs={12} md={6} className="grid-item">
                 <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Mis : </b>
-                  {'   '}
+                <b style={{fontWeight:600}}>Mis : </b>
+                {'   '}
                     11111111111
                 </p>
                 </Grid>
-              <Grid item xs={6}>
+            <Grid item xs={12} md={6} className="grid-item">
                 <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Role: </b>
-                  {'   '}
-                    Administrator
+                <b style={{fontWeight:600}}>Role: </b>
+                {'   '}
+                  Administrator
                 </p>
                 </Grid>
             </Grid>
             </div>
-          </div>
-          
-        </div>
+            </div>
+            </div>
         {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>
             <h1 className="textBetween">
               List of All Students
@@ -201,7 +184,7 @@ class Admin extends Component {
                             const value = row[column.id];
                             return (
                               <TableCell key={column.id} align='center'>
-                                <Link to={{pathname: '/'}} style={{textDecoration: 'none', color: 'black'}} >
+                                <Link to={{pathname: '/co-home'}} style={{textDecoration: 'none', color: 'black'}} >
                                 {value}
                                 </Link>
                               </TableCell>
