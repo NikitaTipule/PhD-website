@@ -65,7 +65,7 @@ const academicsPG = {
 const verificationField = {
   type: String,
   default: "pending",
-  enum: ["pending", "verified", "modifications required"],
+  enum: ["pending", "verified", "mod-req"],
 };
 
 const docUploaded = {
@@ -80,7 +80,12 @@ const feeDetails = {
   amount: reqString,
   transactionTime: { type: Date },
   bank: reqString,
-  docUploaded: docUploaded,
+  verification: verificationField,
+  docUploaded: {
+    type: reqString,
+    filename: reqString,
+    originalName: reqString,
+  },
 };
 
 const footerData = {
@@ -105,7 +110,7 @@ const StudentSchema = Schema(
     academicsPG: academicsPGSchema,
     feeDetails: feeDetailsSchema,
     documentsUploaded: [docUploaded],
-    remarks: { type: String },
+    remarks: { type: String, default: "" },
     footerData: footerDataSchema,
   },
   { timestamps: true }
