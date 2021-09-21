@@ -1,14 +1,9 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardContent,
-  TextField,
-  MenuItem,
-  Button,
-  Typography,
-} from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
+import Button from "@mui/material/Button";
 import DatePicker from "react-date-picker";
 import DropDown from "react-dropdown";
+import SweetAlert from "react-bootstrap-sweetalert";
 import "react-dropdown/style.css";
 
 export default class PersonalDetails extends Component {
@@ -19,6 +14,7 @@ export default class PersonalDetails extends Component {
       middleName: "",
       gender: "",
       dob: "",
+      splitAt: "",
       email: "",
       mobile: "",
       nationality: "",
@@ -27,6 +23,7 @@ export default class PersonalDetails extends Component {
       address: "",
       physicallyDisabled: "",
       department: "",
+      confirmAlert: false,
     };
   }
 
@@ -65,9 +62,15 @@ export default class PersonalDetails extends Component {
   };
 
   onSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    // event.persist();
+    this.setState({ confirmAlert: !this.state.confirmAlert });
+  };
+
+  confirmData = (event) => {
+    // event.preventDefault();
+    // event.persist();
     this.props.nextStep();
-    event.persist();
     const personalData = {
       name: this.state.name,
       middleName: this.state.middleName,
@@ -83,6 +86,14 @@ export default class PersonalDetails extends Component {
       department: this.state.department,
     };
     console.log(personalData);
+  };
+
+  onCancel = () => {
+    this.setState({
+      confirmAlert: !this.state.confirmAlert,
+    });
+    console.log(this.props);
+    // this.props.props.history.goBack();
   };
 
   render() {
@@ -105,6 +116,135 @@ export default class PersonalDetails extends Component {
           margin: "30px 10% 0 10%",
         }}
       >
+        {/* Confirmation Alert */}
+        <div>
+          <SweetAlert
+            title={"Personal Details"}
+            show={this.state.confirmAlert}
+            onConfirm={this.confirmData}
+            onCancel={this.onCancel}
+            customButtons={
+              <React.Fragment>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => {
+                    this.onCancel();
+                  }}
+                  style={{ marginRight: "10px" }}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="large"
+                  onClick={() => {
+                    this.confirmData();
+                  }}
+                >
+                  Confirm
+                </Button>
+              </React.Fragment>
+            }
+          >
+            {() => (
+              <div style={{ alignItems: "left", textAlign: "left" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignContent: "left",
+                  }}
+                >
+                  <div>
+                    <Typography>Name : </Typography>
+                  </div>
+                  <div>{this.state.name}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Father/Husband's Name :</Typography>
+                  </div>
+                  <div>{this.state.middleName}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Gender :</Typography>
+                  </div>
+                  <div>{this.state.gender}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>DOB :</Typography>
+                  </div>
+                  <div>{this.state.dob.toLocaleString().slice(0, 10)}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Email :</Typography>
+                  </div>
+                  <div>{this.state.email}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Mobile No :</Typography>
+                  </div>
+                  <div>{this.state.mobile}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Nationality :</Typography>
+                  </div>
+                  <div>{this.state.nationality}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Category :</Typography>
+                  </div>
+                  <div>{this.state.category}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Aadhar Card Number :</Typography>
+                  </div>
+                  <div>{this.state.aadhar}</div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignContent: "left",
+                  }}
+                >
+                  <div style={{ alignContent: "left" }}>
+                    <Typography style={{ alignContent: "left" }}>
+                      Permanent Address :
+                    </Typography>
+                  </div>
+                  <div>{this.state.address}</div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <div>
+                    <Typography>Physically Disable :</Typography>
+                  </div>
+                  <div>{this.state.physicallyDisabled}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Applying to department :</Typography>
+                  </div>
+                  <div>{this.state.department}</div>
+                </div>
+              </div>
+            )}
+          </SweetAlert>
+        </div>
         <div
           style={{ fontSize: "28px", fontWeight: "700", marginBottom: "10px" }}
         >
@@ -129,7 +269,7 @@ export default class PersonalDetails extends Component {
             </div>
             {/* 2. Father's Name/Husband's name  */}
             <div style={{ marginBottom: "12px" }}>
-              <Typography>Middle Name</Typography>
+              <Typography>Father/Husband's Name</Typography>
               <TextField
                 className="mb-3"
                 fullWidth

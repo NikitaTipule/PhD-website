@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardContent,
-  TextField,
-  MenuItem,
-  Button,
-  Typography,
-} from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
+import Button from "@mui/material/Button";
 import DatePicker from "react-date-picker";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
@@ -21,6 +16,7 @@ export default class AdmissionDetailsUG extends Component {
       cgpa: "",
       percentage: "",
       dateOfDeclaration: "",
+      confirmAlert: false,
     };
   }
 
@@ -33,9 +29,15 @@ export default class AdmissionDetailsUG extends Component {
   };
 
   onSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    // event.persist();
+    this.setState({ confirmAlert: !this.state.confirmAlert });
+  };
+
+  confirmData = (event) => {
+    // event.preventDefault();
     this.props.nextStep();
-    event.persist();
+    // event.persist();
     const UGData = {
       university: this.state.university,
       nomanclaure: this.state.nomanclaure,
@@ -49,6 +51,14 @@ export default class AdmissionDetailsUG extends Component {
     console.log(UGData);
   };
 
+  onCancel = () => {
+    this.setState({
+      confirmAlert: !this.state.confirmAlert,
+    });
+    console.log(this.props);
+    // this.props.props.history.goBack();
+  };
+
   render() {
     return (
       <div
@@ -58,6 +68,100 @@ export default class AdmissionDetailsUG extends Component {
           margin: "30px 10% 0 10%",
         }}
       >
+        {/* Confirmation Alert */}
+        <div>
+          <SweetAlert
+            title={"Admission Details - PG"}
+            show={this.state.confirmAlert}
+            onConfirm={this.confirmData}
+            onCancel={this.onCancel}
+            customButtons={
+              <React.Fragment>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => {
+                    this.onCancel();
+                  }}
+                  style={{ marginRight: "10px" }}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="large"
+                  onClick={() => {
+                    this.confirmData();
+                  }}
+                >
+                  Confirm
+                </Button>
+              </React.Fragment>
+            }
+          >
+            {() => (
+              <div style={{ alignItems: "left", textAlign: "left" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignContent: "left",
+                  }}
+                >
+                  <div>
+                    <Typography>University/Institute : </Typography>
+                  </div>
+                  <div>{this.state.university}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Nomanclaure of Degree :</Typography>
+                  </div>
+                  <div>{this.state.nomanclaure}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Specialization :</Typography>
+                  </div>
+                  <div>{this.state.specialization}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Marks Obtained :</Typography>
+                  </div>
+                  <div>{this.state.marksObtained}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Total Marks :</Typography>
+                  </div>
+                  <div>{this.state.totalMarks}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>CGPA :</Typography>
+                  </div>
+                  <div>{this.state.cgpa}</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Percentage :</Typography>
+                  </div>
+                  <div>{this.state.percentage}%</div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <Typography>Date of Declaration :</Typography>
+                  </div>
+                  <div>
+                    {this.state.dateOfDeclaration.toLocaleString().slice(0, 10)}
+                  </div>
+                </div>
+              </div>
+            )}
+          </SweetAlert>
+        </div>
         <div
           style={{ fontSize: "28px", fontWeight: "700", marginBottom: "10px" }}
         >

@@ -4,6 +4,7 @@ import AdmissionDetailsUG from "../components/Form/AdmissionDetailsUG";
 import Documents from "../components/Form/Documents";
 import NavBar from "../components/Navbar/Navbar";
 import PersonalDetails from "../components/Form/PersonalDetails";
+import AccountsDetails from "../components/Form/AccountsDetails";
 
 export default class admissionForm extends Component {
   state = {
@@ -56,7 +57,14 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar />
-            <Documents />
+            <Documents nextStep={this.nextStep} />
+          </div>
+        );
+      case 5:
+        return (
+          <div>
+            <NavBar />
+            <AccountsDetails />
           </div>
         );
     }

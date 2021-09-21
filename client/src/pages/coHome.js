@@ -13,21 +13,10 @@ import { Link } from 'react-router-dom'
 import Grid from '@mui/material/Grid';
 import "../CSS/coHome.css"
 import { borderRadius } from '@mui/system';
-
+ 
 
 
 class StickyHeadTable extends Component {
-  // const [page, setPage] = React.useState(0);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (event) => {
-  //   setRowsPerPage(+event.target.value);
-  //   setPage(0);
-  // };
 
   constructor(props) {
     super(props);
@@ -36,8 +25,7 @@ class StickyHeadTable extends Component {
       logout: false,
       page: 0,
       rowsPerPage: 10,
-      // handleChangePage(),
-      // handleChangeRowsPerPage(),
+
     }
   };
  columns = [
@@ -50,63 +38,63 @@ class StickyHeadTable extends Component {
  rows = [
   {
     id: 1,
-    name : "nikita sopan Tipule", 
+    name : "Student 1", 
     status: "Verified"
   },
   {
     id:2,
-    name : "nikita sopan Tipule", 
+    name : "Student 2", 
     status: "Verified"
   },
   {
     id:3,
-    name : "nikita sopan Tipule", 
+    name : "Student 3", 
     status: "Verified"
   },
   {
     id:4,
-    name : "nikita sopan Tipule", 
+    name : "Student 4", 
     status: "Not Verified"
   },
   {
     id:5,
-    name : "nikita sopan Tipule", 
+    name : "Student 5", 
     status: "Verified"
   },
   {
     id:6,
-    name : "nikita sopan Tipule", 
+    name : "Student 6", 
     status: "Modification needed"
   },
 
   {
     id:7,
-    name : "nikita sopan Tipule", 
+    name : "Student 7", 
     status: "Verified"
   },
   {
     id:8,
-    name : "nikita sopan Tipule", 
+    name : "Student 8", 
     status: "Verified"
   },
   {
     id:9,
-    name : "nikita sopan Tipule", 
+    name : "Student 9", 
     status: "Verified"
   },
   {
     id:10,
-    name : "nikita sopan Tipule", 
+    name : "Student 10", 
     status: "Verified"
   },
   {
     id:11,
-    name : "nikita sopan Tipule", 
+    name : "Student 11", 
     status: "Verified"
   },
   {
     id:12,
-    name : "nikita sopan Tipule", 
+    name : "Student 12", 
     status: "Verified"
   },
   {
@@ -210,64 +198,47 @@ class StickyHeadTable extends Component {
     <>
       <NavBar />
       <div>
-        <div>
-          <div style={{display:'block', justifyContent:'center', alignItems:'center'}}>
-          <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <h1 className="textBetween">
-              Co-Ordinator Information
-            </h1>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <Grid 
-              container
-              style={{
-                border: "0.5px solid #D3E2DA",
-                borderRadius:"25px",
-                width: "80%",
-                display: 'flex',
-                // alignSelf:'center',
-                alignItems:'center',
-                justifyContent:'center',
-                minHeight: '90px',
-                // paddingTop: '10px',
-                paddingLeft: '120px',
-                // paddingRight: '10px',
-                // paddingBottom: '30px'
-              }}
-            >
-              <Grid item xs={6}>
-                <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Name : </b>
-                  {'   '}
-                  Nikita Sopan Tipule
-                </p>
-              </Grid>
-              <Grid item xs={6}>
-                <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Email : </b>
-                  {'   '}
-                    faculty@gamil.com
-                </p>
-                </Grid>
-              <Grid item xs={6}>
-                <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Mis : </b>
-                  {'   '}
-                    11111111111
-                </p>
-                </Grid>
-              <Grid item xs={6}>
-                <p style={{fontSize: '20px'}}>
-                  <b style={{fontWeight:600}}>Department: </b>
-                  {'   '}
-                    Computer Engineering
-                </p>
-                </Grid>
-            </Grid>
-            </div>
-          </div>
-          
-        </div>
+      <div>
+                        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                            <h1 className="textBetween">
+                             Co-Ordinator Information
+                            </h1>
+                        </div>
+                        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                        <div className="box">
+                        <Grid container className="container-box">
+                        <Grid item xs={12} md={6} className="grid-item">
+                            <p style={{fontSize: '20px'}}>
+                            <b style={{fontWeight:600}}>Name : </b>
+                            {'   '}
+                            Coordinator name
+                            </p>
+                        </Grid>
+                        <Grid item xs={12} md={6} className="grid-item">
+                            <p style={{fontSize: '20px'}}>
+                            <b style={{fontWeight:600}}>Email : </b>
+                            {'   '}
+                                faculty@gamil.com
+                            </p>
+                            </Grid>
+                        <Grid item xs={12} md={6} className="grid-item">
+                            <p style={{fontSize: '20px'}}>
+                            <b style={{fontWeight:600}}>Mis : </b>
+                            {'   '}
+                                11111111111
+                            </p>
+                            </Grid>
+                        <Grid item xs={12} md={6} className="grid-item">
+                            <p style={{fontSize: '20px'}}>
+                            <b style={{fontWeight:600}}>Department: </b>
+                            {'   '}
+                                Computer Engineering
+                            </p>
+                            </Grid>
+                        </Grid>
+                        </div>
+                        </div>
+                    </div>
         {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>
             <h1 className="textBetween">
               List of All Students
@@ -321,7 +292,7 @@ class StickyHeadTable extends Component {
                                   ):(
                                     <div>
                                       {/* to do Link part */}
-                                      <Link to={{pathname: '/'}} style={{textDecoration: 'none', color: 'black'}} >
+                                      <Link to={{pathname: '/coform'}} style={{textDecoration: 'none', color: 'black'}} >
                                       {value}
                                       </Link>
                                     </div>

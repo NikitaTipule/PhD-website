@@ -1,5 +1,6 @@
 import { Component } from "react"
 import React from "react"
+import NavBar from "../components/Navbar/Navbar";
 
 class coForm extends Component {
     constructor(props) {
@@ -13,7 +14,8 @@ class coForm extends Component {
     render() {
         return (
             <div>
-                {this.data.name}
+                <NavBar />
+                <h1>Form filled by student</h1>
             </div>
         );
     }
