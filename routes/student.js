@@ -8,6 +8,8 @@ const {
   editStudentDocs,
   editStudentFeeDetails,
   editStudentInfo,
+  verifyFeeDetails,
+  verifyStudent,
 } = require("../controllers/student");
 
 const router = express.Router();
@@ -19,8 +21,11 @@ router.get("/me", [auth, myProfileStudent]);
 router.get("/:userId", [auth, getStudentInfo]);
 router.get("/department/:department", [auth, getStudentsByDept]);
 
-router.post("/edit/docs", editStudentDocs);
-router.post("/edit/fee", editStudentFeeDetails);
-router.post("/edit/info", editStudentInfo);
+router.post("/edit/docs", auth, editStudentDocs);
+router.post("/edit/fee", auth, editStudentFeeDetails);
+router.post("/edit/info", auth, editStudentInfo);
+
+router.post("/verify/fee", auth, verifyFeeDetails);
+router.post("/verify", auth, verifyStudent);
 
 module.exports = router;
