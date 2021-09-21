@@ -89,6 +89,7 @@ export default function StudentLogIn() {
                         error={errors.email}
                       />
                      <Input 
+                        type="password"
                         name="password"
                         label="Password*"
                         value={values.password}
@@ -106,11 +107,17 @@ export default function StudentLogIn() {
                         SIGN IN
                       </Button>
                       </Grid>
-                     
+                      <Grid container spacing={13}>
+                      <Grid item xs>
+                       <Link href="/" variant="body2">
+                         {"Home Page"}
+                       </Link>
+                       </Grid>
                        <Grid item xs>
                        <Link href="/Register" variant="body2">
                          {"Don't have an account? Register"}
                        </Link>
+                       </Grid>
                        </Grid>
                       </Grid>
                     </Grid>
