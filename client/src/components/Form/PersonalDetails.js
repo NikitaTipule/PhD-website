@@ -14,7 +14,6 @@ export default class PersonalDetails extends Component {
       middleName: "",
       gender: "",
       dob: "",
-      splitAt: "",
       email: "",
       mobile: "",
       nationality: "",
@@ -263,7 +262,7 @@ export default class PersonalDetails extends Component {
                 name="name"
                 label="Name"
                 variant="outlined"
-                required
+                required="true"
                 style={{ marginTop: "8px" }}
               />
             </div>
