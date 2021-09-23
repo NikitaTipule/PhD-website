@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Divider from "@mui/material/Divider";
 import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
 import { TextField, Typography } from "@material-ui/core";
+import Button from "@mui/material/Button";
 
 const styles = (theme) => ({
   field: {
@@ -130,8 +131,8 @@ class DisplayData extends Component {
         "SPPU ET 2021",
       ],
 
-      DUINumber: "",
-      amount: "",
+      DUINumber: "DU9813891",
+      amount: "1000",
       open: false,
       confirmAlert: false,
     };
@@ -144,7 +145,7 @@ class DisplayData extends Component {
         style={{
           alignItems: "center",
           textAlign: "left",
-          margin: "30px 10% 0 10%",
+          margin: "30px 10% 30px 10%",
         }}
       >
         {/* Personal Details  */}
@@ -394,6 +395,44 @@ class DisplayData extends Component {
         </div>
 
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
+
+        {/* PG Details    */}
+        <div className={classes.title}>Accounts Details</div>
+
+        <div style={{ alignItems: "left", textAlign: "left" }}>
+          <div className={classes.field}>
+            <div className={classes.fieldName}>Amount Paid :</div>
+            <div>{this.state.amount}/-</div>
+          </div>
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>UTR/DU Number:</div>
+            <div>{this.state.DUINumber}</div>
+          </div>
+
+          <div className={classes.field}>
+            <div className={classes.fieldName}>Payment Receipt :</div>
+            <div>casteCertificate</div>
+            <div className={classes.icon}>
+              <div>
+                <ArrowCircleDown />
+              </div>
+              <div>
+                <VerificationComponent />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
+
+        <Button
+          variant="contained"
+          size="large"
+          style={{ alignSelf: "center" }}
+        >
+          Done
+        </Button>
       </div>
     );
   }

@@ -98,7 +98,7 @@ export default class AccountsDetails extends Component {
             value={this.state.amount}
             variant="outlined"
             name="amount"
-            label="Amount Payed"
+            label="Amount Paid"
             style={{ marginTop: "8px" }}
           />
         </div>
