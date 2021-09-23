@@ -396,7 +396,7 @@ class DisplayData extends Component {
 
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
-        {/* PG Details    */}
+        {/* PG Details   
         <div className={classes.title}>Accounts Details</div>
 
         <div style={{ alignItems: "left", textAlign: "left" }}>
@@ -422,7 +422,7 @@ class DisplayData extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
