@@ -5,6 +5,8 @@ import Documents from "../components/Form/Documents";
 import NavBar from "../components/Navbar/Navbar";
 import PersonalDetails from "../components/Form/PersonalDetails";
 import AccountsDetails from "../components/Form/AccountsDetails";
+import StudentHome from "../pages/StudentHome";
+import { Redirect } from "react-router-dom";
 
 export default class admissionForm extends Component {
   state = {
@@ -64,9 +66,11 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar />
-            <AccountsDetails />
+            <AccountsDetails nextStep={this.nextStep} />
           </div>
         );
+      default:
+        return <Redirect to="/studenthome" />;
     }
   }
 }

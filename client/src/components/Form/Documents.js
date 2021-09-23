@@ -14,19 +14,23 @@ export default class Documents extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      personal: [
+      general: [
         { name: "Photo", id: 1 },
         { name: "Signature", id: 2 },
+        { name: "UG Marksheet", id: 3 },
+        { name: "PG Marksheet", id: 4 },
       ],
-      UG: [{ name: "UG MarkSheet", id: 1 }],
-      OBC: [
+      gate: [{ name: "Gate/PET Score Card", id: 1 }],
+      caste: [
         { name: "Caste Certificate", id: 1 },
         { name: "Caste Validity", id: 2 },
+        { name: "EWS Certificate", id: 3 },
       ],
 
-      personalData: true,
-      ugData: true,
-      obcData: true,
+      generalData: true,
+      gateData: true,
+      casteData: true,
+
       open: false,
     };
   }
@@ -104,9 +108,9 @@ export default class Documents extends Component {
         <Table>
           <TableBody>
             {/*________condition PERSONAL_____ */}
-            {this.state.personalData && (
+            {this.state.generalData && (
               <div>
-                {this.state.personal.map((str) => (
+                {this.state.general.map((str) => (
                   <>
                     <TableRow>
                       <TableCell style={{ width: "80%", fontSize: "18px" }}>
@@ -121,22 +125,22 @@ export default class Documents extends Component {
                           />
                         </div>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <div>
                           <Avatar>
                             <PreviewRounded />
                           </Avatar>
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   </>
                 ))}
               </div>
             )}
             {/*________condition UG Details_____ */}
-            {this.state.ugData && (
+            {this.state.gateData && (
               <div>
-                {this.state.UG.map((str) => (
+                {this.state.gate.map((str) => (
                   <>
                     <TableRow>
                       <TableCell style={{ width: "80%", fontSize: "18px" }}>
@@ -151,22 +155,22 @@ export default class Documents extends Component {
                           />
                         </div>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <div>
                           <Avatar>
                             <PreviewRounded />
                           </Avatar>
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   </>
                 ))}
               </div>
             )}
             {/*________condition PERSONAL_____ */}
-            {this.state.obcData && (
+            {this.state.casteData && (
               <div>
-                {this.state.OBC.map((str) => (
+                {this.state.caste.map((str) => (
                   <>
                     <TableRow>
                       <TableCell style={{ width: "80%", fontSize: "18px" }}>
@@ -181,13 +185,13 @@ export default class Documents extends Component {
                           />
                         </div>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <div>
                           <Avatar>
                             <PreviewRounded />
                           </Avatar>
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   </>
                 ))}
