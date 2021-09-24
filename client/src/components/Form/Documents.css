@@ -1,0 +1,29 @@
+.docContainer{
+    align-items: left;
+    text-align: left;
+    margin: 30px 18% 0 18%; 
+}
+.field{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 10px 10px 10px;
+}
+
+@media only screen and (max-width: 952px){
+    .docContainer{
+        margin: 30px 10% 0 10%;
+    }
+}
+
+@media only screen and (max-width: 730px){
+    .docContainer{
+        margin: 30px 5% 0 5%;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .field{
+        display: block;
+    }
+}

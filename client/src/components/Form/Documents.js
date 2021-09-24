@@ -1,14 +1,9 @@
 import React, { Component } from "react";
-import {
-  Avatar,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@material-ui/core";
+import { Table, TableBody, TableRow, TableCell } from "@material-ui/core";
+import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
-import PreviewRounded from "@mui/icons-material/PreviewRounded";
 import SweetAlert from "react-bootstrap-sweetalert";
+import "./Documents.css";
 
 export default class Documents extends Component {
   constructor(props) {
@@ -60,13 +55,7 @@ export default class Documents extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          alignItems: "center",
-          textAlign: "left",
-          margin: "30px 18% 0 18%",
-        }}
-      >
+      <div className="docContainer">
         {/* Popup on Success */}
         <div>
           <SweetAlert
@@ -112,27 +101,17 @@ export default class Documents extends Component {
               <div>
                 {this.state.general.map((str) => (
                   <>
-                    <TableRow>
-                      <TableCell style={{ width: "80%", fontSize: "18px" }}>
-                        {str.name}
-                      </TableCell>
-                      <TableCell style={{ width: "20%" }}>
-                        <div>
-                          <input
-                            type="file"
-                            name="file"
-                            onChange={this.onChange}
-                          />
-                        </div>
-                      </TableCell>
-                      {/* <TableCell>
-                        <div>
-                          <Avatar>
-                            <PreviewRounded />
-                          </Avatar>
-                        </div>
-                      </TableCell> */}
-                    </TableRow>
+                    <div className="field">
+                      <div>{str.name}</div>
+                      <div>
+                        <input
+                          type="file"
+                          name="file"
+                          onChange={this.onChange}
+                        />
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
                   </>
                 ))}
               </div>
@@ -142,27 +121,17 @@ export default class Documents extends Component {
               <div>
                 {this.state.gate.map((str) => (
                   <>
-                    <TableRow>
-                      <TableCell style={{ width: "80%", fontSize: "18px" }}>
-                        {str.name}
-                      </TableCell>
-                      <TableCell style={{ width: "20%" }}>
-                        <div>
-                          <input
-                            type="file"
-                            name="file"
-                            onChange={this.onChange}
-                          />
-                        </div>
-                      </TableCell>
-                      {/* <TableCell>
-                        <div>
-                          <Avatar>
-                            <PreviewRounded />
-                          </Avatar>
-                        </div>
-                      </TableCell> */}
-                    </TableRow>
+                    <div className="field">
+                      <div>{str.name}</div>
+                      <div>
+                        <input
+                          type="file"
+                          name="file"
+                          onChange={this.onChange}
+                        />
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
                   </>
                 ))}
               </div>
@@ -172,27 +141,17 @@ export default class Documents extends Component {
               <div>
                 {this.state.caste.map((str) => (
                   <>
-                    <TableRow>
-                      <TableCell style={{ width: "80%", fontSize: "18px" }}>
-                        {str.name}
-                      </TableCell>
-                      <TableCell style={{ width: "20%" }}>
-                        <div>
-                          <input
-                            type="file"
-                            name="file"
-                            onChange={this.onChange}
-                          />
-                        </div>
-                      </TableCell>
-                      {/* <TableCell>
-                        <div>
-                          <Avatar>
-                            <PreviewRounded />
-                          </Avatar>
-                        </div>
-                      </TableCell> */}
-                    </TableRow>
+                    <div className="field">
+                      <div>{str.name}</div>
+                      <div>
+                        <input
+                          type="file"
+                          name="file"
+                          onChange={this.onChange}
+                        />
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
                   </>
                 ))}
               </div>
