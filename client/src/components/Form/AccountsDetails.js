@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Button from "@mui/material/Button";
 import DatePicker from "react-date-picker";
 import SweetAlert from "react-bootstrap-sweetalert";
+import "./Documents.css";
 
 // import { browserHistory } from "react-router";
 
@@ -50,13 +51,7 @@ export default class AccountsDetails extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          alignItems: "center",
-          textAlign: "left",
-          margin: "30px 18% 0 18%",
-        }}
-      >
+      <div className="accountsContainer">
         {/* Popup on Success */}
         <div>
           <SweetAlert
@@ -109,7 +104,7 @@ export default class AccountsDetails extends Component {
             style={{ marginTop: "8px" }}
           />
         </div>
-        
+
         <div style={{ marginTop: "10px" }}>
           <Typography>UTR/DU Number</Typography>
           <TextField
@@ -125,16 +120,16 @@ export default class AccountsDetails extends Component {
           />
         </div>
         <div style={{ marginTop: "10px" }}>
-              <Typography>Date of Payment</Typography>
-              <DatePicker
-                onChange={(e) => this.onChangeDate(e)}
-                value={this.state.dateOfPayment}
-                format={"dd-MM-y"}
-                dayPlaceholder="dd"
-                monthPlaceholder="mm"
-                yearPlaceholder="yyyy"
-              ></DatePicker>
-            </div>
+          <Typography>Date of Payment</Typography>
+          <DatePicker
+            onChange={(e) => this.onChangeDate(e)}
+            value={this.state.dateOfPayment}
+            format={"dd-MM-y"}
+            dayPlaceholder="dd"
+            monthPlaceholder="mm"
+            yearPlaceholder="yyyy"
+          ></DatePicker>
+        </div>
         <div style={{ marginTop: "10px" }}>
           <Typography>Payment Receipt</Typography>
           <div>

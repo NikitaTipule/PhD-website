@@ -268,6 +268,7 @@ export default class AdmissionDetailsPG extends Component {
                 options={this.state.options}
                 onSelect={(selectedList, selectedItem) => {
                   this.state.optionsSelected = selectedList;
+                  console.log(this.state.optionsSelected);
                 }}
                 placeholder="Details regarded extrance exams..."
                 displayValue="name"
@@ -284,6 +285,16 @@ export default class AdmissionDetailsPG extends Component {
                   },
                 }}
               />
+            </div>
+            <div>
+              {this.state.optionsSelected.map(
+                (str) =>
+                  str.id === 2 && (
+                    <div>
+                      <TextField label="score" />
+                    </div>
+                  )
+              )}
             </div>
           </form>
 

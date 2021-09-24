@@ -67,6 +67,9 @@
     .popUpField{
         display: block;
     }
+    .container{
+        margin: 30px 3% 0 3%
+    }
 }
 
 /* Responsive for form  */
