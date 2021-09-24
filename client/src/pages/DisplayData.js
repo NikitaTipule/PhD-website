@@ -1,90 +1,55 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Divider from "@mui/material/Divider";
 import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
-import { TextField, Typography } from "@material-ui/core";
 import Button from "@mui/material/Button";
-
-const styles = (theme) => ({
-  field: {
-    marginTop: "8px",
-    display: "flex",
-    flexDirection: "row",
-    fontSize: "18px",
-    alignItems: "center",
-    width: "100%",
-  },
-  fieldName: {
-    fontSize: "20px",
-    fontWeight: "500",
-    width: "40%",
-  },
-  title: {
-    fontSize: "28px",
-    fontWeight: "700",
-    marginBottom: "10px",
-  },
-  icon: {
-    marginLeft: "10px",
-    flexDirection: "row",
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-});
+import "./DisplayData.css";
 
 class VerificationComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      middleName: "",
-      gender: "",
-      dob: "",
-      email: "",
-      mobile: "",
+      verify: "",
     };
   }
 
   render() {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
+      <div className="verify">
         <div style={{ width: "100%" }}>
-          <div style={{ marginTop: "4px" }}>
-            <input
-              type="radio"
-              value="Male"
-              name="gender"
-              checked={this.state.gender === "Male"}
-              onChange={this.onChangeGender}
-              style={{ marginLeft: "20px" }}
-            />
-            Pending
-            <input
-              type="radio"
-              value="Female"
-              name="gender"
-              checked={this.state.gender === "Female"}
-              onChange={this.onChangeGender}
-              style={{ marginLeft: "30px" }}
-            />{" "}
-            Modification-Required
-            <input
-              type="radio"
-              value="Other"
-              name="gender"
-              checked={this.state.gender === "Other"}
-              onChange={this.onChangeGender}
-              style={{ marginLeft: "30px" }}
-            />{" "}
-            Verified
+          <div className="radios">
+            <div>
+              <input
+                type="radio"
+                value="Pending"
+                name="verify"
+                checked={this.state.verify === "Pending"}
+                onChange={this.onChangeGender}
+                className="radio"
+              />
+              Pending
+            </div>
+            <div>
+              <input
+                type="radio"
+                value="Modification-Required"
+                name="verify"
+                checked={this.state.verify === "Modification-Required"}
+                onChange={this.onChangeGender}
+                className="radio"
+              />{" "}
+              Modification-Required
+            </div>
+            <div>
+              <input
+                type="radio"
+                value="Verified"
+                name="verify"
+                checked={this.state.verify === "Verified"}
+                onChange={this.onChangeGender}
+                className="radio"
+              />{" "}
+              Verified
+            </div>
           </div>
         </div>
       </div>
@@ -139,7 +104,6 @@ class DisplayData extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div
         style={{
@@ -149,66 +113,66 @@ class DisplayData extends Component {
         }}
       >
         {/* Personal Details  */}
-        <div className={classes.title}>Personal Details</div>
+        <div className="title">Personal Details</div>
 
         <div style={{ alignItems: "left", textAlign: "left" }}>
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Name :</div>
+          <div className="field">
+            <div className="fieldName">Name :</div>
             <div>{this.state.name}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Father/Husband's Name :</div>
+          <div className="field">
+            <div className="fieldName">Father/Husband's Name :</div>
             <div>{this.state.middleName}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Gender :</div>
+          <div className="field">
+            <div className="fieldName">Gender :</div>
             <div>{this.state.gender}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>DOB :</div>
+          <div className="field">
+            <div className="fieldName">DOB :</div>
             <div>{this.state.dob.toLocaleString().slice(0, 10)}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Email :</div>
+          <div className="field">
+            <div className="fieldName">Email :</div>
             <div>{this.state.email}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Mobile No :</div>
+          <div className="field">
+            <div className="fieldName">Mobile No :</div>
             <div>{this.state.mobile}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Nationality :</div>
+          <div className="field">
+            <div className="fieldName">Nationality :</div>
             <div>{this.state.nationality}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Category :</div>
+          <div className="field">
+            <div className="fieldName">Category :</div>
             <div>{this.state.category}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Aadhar Card Number :</div>
+          <div className="field">
+            <div className="fieldName">Aadhar Card Number :</div>
             <div>{this.state.aadhar}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Permanent Address :</div>
+          <div className="field">
+            <div className="fieldName">Permanent Address :</div>
             <div>{this.state.address}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Physically Disable :</div>
+          <div className="field">
+            <div className="fieldName">Physically Disable :</div>
             <div>{this.state.physicallyDisabled}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Applying to department :</div>
+          <div className="field">
+            <div className="fieldName">Applying to department :</div>
             <div>{this.state.department}</div>
           </div>
         </div>
@@ -216,46 +180,46 @@ class DisplayData extends Component {
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
         {/* UG Details  */}
-        <div className={classes.title}>UG Details</div>
+        <div className="title">UG Details</div>
 
         <div style={{ alignItems: "left", textAlign: "left" }}>
-          <div className={classes.field}>
-            <div className={classes.fieldName}>University/Institute :</div>
+          <div className="field">
+            <div className="fieldName">University/Institute :</div>
             <div>{this.state.university}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Nomanclaure of Degree :</div>
+          <div className="field">
+            <div className="fieldName">Nomanclaure of Degree :</div>
             <div>{this.state.nomanclaure}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Specialization :</div>
+          <div className="field">
+            <div className="fieldName">Specialization :</div>
             <div>{this.state.specialization}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Marks Obtained :</div>
+          <div className="field">
+            <div className="fieldName">Marks Obtained :</div>
             <div>{this.state.marksObtained}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Total Marks :</div>
+          <div className="field">
+            <div className="fieldName">Total Marks :</div>
             <div>{this.state.totalMarks}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>CGPA :</div>
+          <div className="field">
+            <div className="fieldName">CGPA :</div>
             <div>{this.state.cgpa}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Percentage :</div>
+          <div className="field">
+            <div className="fieldName">Percentage :</div>
             <div>{this.state.percentage}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Date of Declaration :</div>
+          <div className="field">
+            <div className="fieldName">Date of Declaration :</div>
             <div>{this.state.dateOfDeclaration}</div>
           </div>
         </div>
@@ -263,43 +227,41 @@ class DisplayData extends Component {
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
         {/* PG Details    */}
-        <div className={classes.title}>PG Details</div>
+        <div className="title">PG Details</div>
 
         <div style={{ alignItems: "left", textAlign: "left" }}>
-          <div className={classes.field}>
-            <div className={classes.fieldName}>University/Institute :</div>
+          <div className="field">
+            <div className="fieldName">University/Institute :</div>
             <div>{this.state.pguniversity}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Nomanclaure of Degree :</div>
+          <div className="field">
+            <div className="fieldName">Nomanclaure of Degree :</div>
             <div>{this.state.pgnomanclaure}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Marks Obtained :</div>
+          <div className="field">
+            <div className="fieldName">Marks Obtained :</div>
             <div>{this.state.pgmarksObtained}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Total Marks :</div>
+          <div className="field">
+            <div className="fieldName">Total Marks :</div>
             <div>{this.state.pgtotalMarks}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>CGPA :</div>
+          <div className="field">
+            <div className="fieldName">CGPA :</div>
             <div>{this.state.pgcgpa}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Percentage :</div>
+          <div className="field">
+            <div className="fieldName">Percentage :</div>
             <div>{this.state.pgpercentage}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>
-              Details Regarding Entrance Exams :
-            </div>
+          <div className="field">
+            <div className="fieldName">Details Regarding Entrance Exams :</div>
             <div>
               {this.state.optionsSelected.map((str) => (
                 <div style={{ padding: "0 0 0 25", fontSize: "17px" }}>
@@ -312,81 +274,105 @@ class DisplayData extends Component {
 
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
-        <div className={classes.title}>Documents Uploaded</div>
+        <div className="title">Documents Uploaded</div>
 
         <div style={{ alignItems: "left", textAlign: "left" }}>
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Photo :</div>
-            <div>photo.png</div>
-            <div className={classes.icon}>
-              <div>
-                <ArrowCircleDown />
+          <div className="field">
+            <div className="documents">
+              <div className="docFieldName">Photo :</div>
+              <div className="iconMobile">
+                <div>photo.png</div>
+                <div>
+                  <ArrowCircleDown />
+                </div>
               </div>
+            </div>
+            <div className="icon">
               <div>
                 <VerificationComponent />
               </div>
             </div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Signature :</div>
-            <div>signature.pdf</div>
-            <div className={classes.icon}>
-              <div>
-                <ArrowCircleDown />
+          <div className="field">
+            <div className="documents">
+              <div className="docFieldName">Signature :</div>
+              <div className="iconMobile">
+                <div>signature.pdf</div>
+                <div>
+                  <ArrowCircleDown />
+                </div>
               </div>
+            </div>
+            <div className="icon">
               <div>
                 <VerificationComponent />
               </div>
             </div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>UG Marksheet :</div>
-            <div>ugMarksheet</div>
-            <div className={classes.icon}>
-              <div>
-                <ArrowCircleDown />
+          <div className="field">
+            <div className="documents">
+              <div className="docFieldName">UG Marksheet :</div>
+              <div className="iconMobile">
+                <div>ugMarksheet</div>
+                <div>
+                  <ArrowCircleDown />
+                </div>
               </div>
+            </div>
+            <div className="icon">
               <div>
                 <VerificationComponent />
               </div>
             </div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>PG Marksheet :</div>
-            <div>pgMarksheet</div>
-            <div className={classes.icon}>
-              <div>
-                <ArrowCircleDown />
+          <div className="field">
+            <div className="documents">
+              <div className="docFieldName">PG Marksheet :</div>
+              <div className="iconMobile">
+                <div>pgMarksheet</div>
+                <div>
+                  <ArrowCircleDown />
+                </div>
               </div>
+            </div>
+            <div className="icon">
               <div>
                 <VerificationComponent />
               </div>
             </div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Caste Validity :</div>
-            <div>casteValidity</div>
-            <div className={classes.icon}>
-              <div>
-                <ArrowCircleDown />
+          <div className="field">
+            <div className="documents">
+              <div className="docFieldName">Caste Validity :</div>
+              <div className="iconMobile">
+                <div>casteValidity</div>
+                <div>
+                  <ArrowCircleDown />
+                </div>
               </div>
+            </div>
+            <div className="icon">
               <div>
                 <VerificationComponent />
               </div>
             </div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Caste Certificate :</div>
-            <div>casteCertificate</div>
-            <div className={classes.icon}>
-              <div>
-                <ArrowCircleDown />
+          <div className="field">
+            <div className="documents">
+              <div className="docFieldName">Caste Certificate :</div>
+              <div className="iconMobile">
+                <div>casteCertificate</div>
+                <div>
+                  <ArrowCircleDown />
+                </div>
               </div>
+            </div>
+            <div className="icon">
               <div>
                 <VerificationComponent />
               </div>
@@ -397,23 +383,23 @@ class DisplayData extends Component {
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
         {/* PG Details   
-        <div className={classes.title}>Accounts Details</div>
+        <div className="title">Accounts Details</div>
 
         <div style={{ alignItems: "left", textAlign: "left" }}>
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Amount Paid :</div>
+          <div className="field">
+            <div className="fieldName">Amount Paid :</div>
             <div>{this.state.amount}/-</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>UTR/DU Number:</div>
+          <div className="field">
+            <div className="fieldName">UTR/DU Number:</div>
             <div>{this.state.DUINumber}</div>
           </div>
 
-          <div className={classes.field}>
-            <div className={classes.fieldName}>Payment Receipt :</div>
+          <div className="field">
+            <div className="fieldName">Payment Receipt :</div>
             <div>casteCertificate</div>
-            <div className={classes.icon}>
+            <div className="icon">
               <div>
                 <ArrowCircleDown />
               </div>
@@ -438,4 +424,4 @@ class DisplayData extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(DisplayData);
+export default DisplayData;
