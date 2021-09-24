@@ -1,0 +1,94 @@
+.container{
+    align-items: center;
+    text-align: left;
+    margin: 30px 10% 0 10%;
+}
+
+/* PopUp Styles  */
+.backBtn{
+    margin-right: 10px;
+}
+.popUpContainer{
+    align-items: left;
+    text-align: left;
+}
+.popUpField{
+    display: flex;
+    flex-direction: row;
+}
+
+/* Form Styles  */
+.formContainer{
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.formField{
+    margin-bottom: 12px;
+}
+.formGenderDob{
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.formGender{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.radios{
+    margin-top: 4px;
+}
+.formDob{
+    width: 100%;
+    margin-left: 4%;
+}
+.maleRadio{
+    margin-left: 20px;
+}
+.femaleOtherRadio{
+    margin-left: 30px;
+}
+.formEmailNumber{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.formNumber{
+    margin-left: 4%;
+    width: 100%;
+}
+
+@media only screen and (max-width: 450px){
+    .popUpField{
+        display: block;
+    }
+}
+
+/* Responsive for form  */
+@media only screen and (max-width: 692px){
+    .formGenderDob{
+        display: block;
+    }
+    .formDob{
+        margin-left: 0;
+        margin-top: 12px;
+    }
+    .formDatePicker{
+        margin-left: 20px;
+    }
+    .femaleOtherRadio{
+        margin-left: 10px;
+    }
+    .formEmailNumber{
+        display: block;
+    }
+    .formNumber{
+        margin-left: 0;
+        margin-top: 12px;
+    }
+}

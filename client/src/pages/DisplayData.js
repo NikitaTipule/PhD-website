@@ -3,6 +3,8 @@ import Divider from "@mui/material/Divider";
 import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
 import Button from "@mui/material/Button";
 import "./DisplayData.css";
+import { TextField } from "@mui/material";
+import { Redirect } from "react-router";
 
 class VerificationComponent extends Component {
   constructor(props) {
@@ -100,10 +102,30 @@ class DisplayData extends Component {
       amount: "1000",
       open: false,
       confirmAlert: false,
+
+      message: "",
+      redirect: false,
     };
   }
 
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSubmit = (event) => {
+    this.setState({
+      message: this.state.message,
+    });
+    console.log(this.state.message);
+    this.setState({
+      redirect: !this.state.redirect,
+    });
+  };
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/co-home" />;
+    }
     return (
       <div
         style={{
@@ -409,6 +431,17 @@ class DisplayData extends Component {
             </div>
           </div>
         </div> */}
+        <TextField
+          onChange={this.handleChange}
+          value={this.state.message}
+          variant="outlined"
+          multiline
+          minRows={3}
+          type="text"
+          name="message"
+          label="Remark"
+          fullWidth
+        />
 
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
@@ -416,6 +449,7 @@ class DisplayData extends Component {
           variant="contained"
           size="large"
           style={{ alignSelf: "center" }}
+          onClick={this.handleSubmit}
         >
           Done
         </Button>
