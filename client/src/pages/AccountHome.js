@@ -328,7 +328,7 @@ class AccountHome extends Component {
                                                     ):(
                                                         <div>
                                                         {/* to do Link part */}
-                                                        <Link to={{pathname: '/coform'}} style={{textDecoration: 'none', color: 'black'}} >
+                                                        <Link to={{pathname: '/accountform'}} style={{textDecoration: 'none', color: 'black'}} >
                                                         {value}
                                                         </Link>
                                                         </div>

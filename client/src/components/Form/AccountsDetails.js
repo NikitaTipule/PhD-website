@@ -1,7 +1,9 @@
 import { TextField, Typography } from "@material-ui/core";
 import React, { Component } from "react";
 import Button from "@mui/material/Button";
+import DatePicker from "react-date-picker";
 import SweetAlert from "react-bootstrap-sweetalert";
+
 // import { browserHistory } from "react-router";
 
 export default class AccountsDetails extends Component {
@@ -10,6 +12,7 @@ export default class AccountsDetails extends Component {
     this.state = {
       DUINumber: "",
       amount: "",
+      dateOfPayment: "",
       open: false,
       confirmAlert: false,
     };
@@ -26,6 +29,10 @@ export default class AccountsDetails extends Component {
     reader.onload = (e) => {
       console.log("img data : ", e.target.result);
     };
+  };
+
+  onChangeDate = (event) => {
+    this.setState({ dateOfPayment: event });
   };
 
   onSubmit = (event) => {
@@ -102,6 +109,7 @@ export default class AccountsDetails extends Component {
             style={{ marginTop: "8px" }}
           />
         </div>
+        
         <div style={{ marginTop: "10px" }}>
           <Typography>UTR/DU Number</Typography>
           <TextField
@@ -116,6 +124,17 @@ export default class AccountsDetails extends Component {
             style={{ marginTop: "8px" }}
           />
         </div>
+        <div style={{ marginTop: "10px" }}>
+              <Typography>Date of Payment</Typography>
+              <DatePicker
+                onChange={(e) => this.onChangeDate(e)}
+                value={this.state.dateOfPayment}
+                format={"dd-MM-y"}
+                dayPlaceholder="dd"
+                monthPlaceholder="mm"
+                yearPlaceholder="yyyy"
+              ></DatePicker>
+            </div>
         <div style={{ marginTop: "10px" }}>
           <Typography>Payment Receipt</Typography>
           <div>
