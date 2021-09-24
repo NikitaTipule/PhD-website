@@ -10,6 +10,8 @@ import admissionForm from "./pages/admissionForm";
 import Admin from "./pages/Admin";
 import AccountHome from "./pages/AccountHome";
 import StudentHome from "./pages/StudentHome";
+import AccountForm from "./pages/AccountForm";
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
         <Route path="/admin" component={Admin} exact></Route>
         <Route path="/account" component={AccountHome} exact></Route>
         <Route path="/studenthome" component={StudentHome} exact></Route>
+        <Route path="/accountform" component={AccountForm} exact></Route>
       </Switch>
     </Router>
   );
