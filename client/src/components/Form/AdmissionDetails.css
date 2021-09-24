@@ -1,0 +1,41 @@
+.container{
+    align-items: center;
+    text-align: left;
+    margin: 30px 10% 0 10%;
+}
+.marksContainer{
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.totalMarks{
+    margin-left: 30px;
+}
+.title{
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.popUpField{
+    display: flex;
+    flex-direction: row;
+    align-content: left;
+}
+
+@media only screen and (max-width: 470px){
+    .marksContainer{
+        display: block;
+    }
+    .totalMarks{
+        margin: 12px 0 0 0 ;
+    }
+    .popUpField{
+        display: block
+    }
+    .title{
+        font-size: 24px;
+        font-weight: 600;
+    }
+}

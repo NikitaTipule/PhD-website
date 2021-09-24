@@ -3,6 +3,7 @@ import { TextField, Typography } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import DatePicker from "react-date-picker";
 import SweetAlert from "react-bootstrap-sweetalert";
+import "./AdmissionDetails.css";
 
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
@@ -61,17 +62,11 @@ export default class AdmissionDetailsUG extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          alignItems: "center",
-          textAlign: "left",
-          margin: "30px 10% 0 10%",
-        }}
-      >
+      <div className="container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
-            title={"Admission Details - PG"}
+            title={"Admission Details - UG"}
             show={this.state.confirmAlert}
             onConfirm={this.confirmData}
             onCancel={this.onCancel}
@@ -102,55 +97,49 @@ export default class AdmissionDetailsUG extends Component {
           >
             {() => (
               <div style={{ alignItems: "left", textAlign: "left" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "left",
-                  }}
-                >
+                <div className="popUpField">
                   <div>
                     <Typography>University/Institute : </Typography>
                   </div>
                   <div>{this.state.university}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Nomanclaure of Degree :</Typography>
                   </div>
                   <div>{this.state.nomanclaure}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Specialization :</Typography>
                   </div>
                   <div>{this.state.specialization}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Marks Obtained :</Typography>
                   </div>
                   <div>{this.state.marksObtained}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Total Marks :</Typography>
                   </div>
                   <div>{this.state.totalMarks}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>CGPA :</Typography>
                   </div>
                   <div>{this.state.cgpa}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Percentage :</Typography>
                   </div>
                   <div>{this.state.percentage}%</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Date of Declaration :</Typography>
                   </div>
@@ -162,11 +151,7 @@ export default class AdmissionDetailsUG extends Component {
             )}
           </SweetAlert>
         </div>
-        <div
-          style={{ fontSize: "28px", fontWeight: "700", marginBottom: "10px" }}
-        >
-          Academic Details - UG
-        </div>
+        <div className="title">Academic Details - UG</div>
         <div className={"Form"}>
           <form onSubmit={this.onSubmit}>
             {/* 1. University/Institute of UG  */}
@@ -218,14 +203,7 @@ export default class AdmissionDetailsUG extends Component {
              * 4. Marks Obtained
              * 5. Total Marks
              */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
+            <div className="marksContainer">
               <div>
                 <Typography>Marks Obtained</Typography>
                 <TextField
@@ -240,7 +218,7 @@ export default class AdmissionDetailsUG extends Component {
                   style={{ marginTop: "8px" }}
                 />
               </div>
-              <div style={{ marginLeft: "30px" }}>
+              <div className="totalMarks">
                 <Typography>Total Marks</Typography>
                 <TextField
                   className="mb-3"
@@ -259,14 +237,7 @@ export default class AdmissionDetailsUG extends Component {
              *   6. CGPA
              *   7. Percentage of Marks
              */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                marginTop: "10px",
-              }}
-            >
+            <div className="marksContainer">
               <div>
                 <Typography>CGPA</Typography>
                 <TextField
@@ -281,7 +252,7 @@ export default class AdmissionDetailsUG extends Component {
                   style={{ marginTop: "8px" }}
                 />
               </div>
-              <div style={{ marginLeft: "30px" }}>
+              <div className="totalMarks">
                 <Typography>Percentage</Typography>
                 <TextField
                   className="mb-3"
