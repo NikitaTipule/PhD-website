@@ -3,6 +3,7 @@ import { TextField, Typography } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import Multiselect from "multiselect-react-dropdown";
 import SweetAlert from "react-bootstrap-sweetalert";
+import "./AdmissionDetails.css";
 
 export default class AdmissionDetailsPG extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class AdmissionDetailsPG extends Component {
       optionsSelected: [],
       options: [
         {
-          name: "Want to appear for COEP's Reasearch Program Eligibility Test (RPET)",
+          name: "Want to appear for COEP's Reasearch \nProgram Eligibility Test (RPET)",
           id: 1,
         },
         {
@@ -73,13 +74,7 @@ export default class AdmissionDetailsPG extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          alignItems: "center",
-          textAlign: "left",
-          margin: "30px 10% 0 10%",
-        }}
-      >
+      <div className="container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
@@ -114,43 +109,37 @@ export default class AdmissionDetailsPG extends Component {
           >
             {() => (
               <div style={{ alignItems: "left", textAlign: "left" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "left",
-                  }}
-                >
+                <div className="popUpField">
                   <div>
                     <Typography>University/Institute : </Typography>
                   </div>
                   <div>{this.state.university}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Nomanclaure of Degree :</Typography>
                   </div>
                   <div>{this.state.nomanclaure}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Marks Obtained :</Typography>
                   </div>
                   <div>{this.state.marksObtained}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Total Marks :</Typography>
                   </div>
                   <div>{this.state.totalMarks}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>CGPA :</Typography>
                   </div>
                   <div>{this.state.cgpa}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Percentage :</Typography>
                   </div>
@@ -172,11 +161,7 @@ export default class AdmissionDetailsPG extends Component {
             )}
           </SweetAlert>
         </div>
-        <div
-          style={{ fontSize: "28px", fontWeight: "700", marginBottom: "10px" }}
-        >
-          Academic Details - PG
-        </div>
+        <div className="title">Academic Details - PG</div>
         <div className={"Form"}>
           <form onSubmit={this.onSubmit}>
             {/* 1. University/Institute of PG  */}
@@ -213,14 +198,7 @@ export default class AdmissionDetailsPG extends Component {
              * 4. Marks Obtained
              * 5. Total Marks
              */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
+            <div className="marksContainer">
               <div>
                 <Typography>Marks Obtained</Typography>
                 <TextField
@@ -235,7 +213,7 @@ export default class AdmissionDetailsPG extends Component {
                   style={{ marginTop: "8px" }}
                 />
               </div>
-              <div style={{ marginLeft: "30px" }}>
+              <div className="totalMarks">
                 <Typography>Total Marks</Typography>
                 <TextField
                   className="mb-3"
@@ -254,14 +232,7 @@ export default class AdmissionDetailsPG extends Component {
              *   6. CGPA
              *   7. Percentage of Marks
              */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                marginTop: "10px",
-              }}
-            >
+            <div className="marksContainer">
               <div>
                 <Typography>CGPA</Typography>
                 <TextField
@@ -276,7 +247,7 @@ export default class AdmissionDetailsPG extends Component {
                   style={{ marginTop: "8px" }}
                 />
               </div>
-              <div style={{ marginLeft: "30px" }}>
+              <div className="totalMarks">
                 <Typography>Percentage</Typography>
                 <TextField
                   className="mb-3"
@@ -297,13 +268,33 @@ export default class AdmissionDetailsPG extends Component {
                 options={this.state.options}
                 onSelect={(selectedList, selectedItem) => {
                   this.state.optionsSelected = selectedList;
+                  console.log(this.state.optionsSelected);
                 }}
                 placeholder="Details regarded extrance exams..."
                 displayValue="name"
                 style={{
-                  searchBox: { minHeight: "50px", padding: "10px" },
+                  searchBox: {
+                    minHeight: "50px",
+                    padding: "10px",
+                  },
+                  multiselectContainer: {
+                    width: "100%",
+                  },
+                  chips: {
+                    whiteSpace: "normal",
+                  },
                 }}
               />
+            </div>
+            <div>
+              {this.state.optionsSelected.map(
+                (str) =>
+                  str.id === 2 && (
+                    <div>
+                      <TextField label="score" />
+                    </div>
+                  )
+              )}
             </div>
           </form>
 

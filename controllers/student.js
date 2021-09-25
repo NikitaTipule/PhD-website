@@ -58,14 +58,14 @@ const maintainVerification = (newDocs, origDocs) => {
     return newDocs;
   }
   origMap = origDocs.reduce((map, obj) => {
-    map[obj.type] = obj;
+    map[obj.filename] = obj;
   }, {});
-  for (let i = 0; i < newDocs.length; i++) {
-    const orig = origMap[newDocs[i].type];
-    const isSame = orig && newDocs[i].filename == orig.filename;
-    newDocs[i].verification = isSame ? orig.verification : "pending";
-  }
-  return newDocs;
+  return newDocs.map((doc) => {
+    const orig = origMap[doc.filename];
+    const isSame = orig && doc.type == orig.type;
+    doc.verification = isSame ? orig.verification : "pending";
+    return doc;
+  });
 };
 
 exports.editStudentDocs = async (req, res) => {
@@ -78,7 +78,8 @@ exports.editStudentDocs = async (req, res) => {
       req.body.documentsUploaded,
       user.documentsUploaded
     );
-    user.save();
+    await user.save();
+    res.json({ success: "true" });
   } catch (error) {
     res.status(400).json({ error: "request body contains invalid data" });
   }
@@ -92,7 +93,8 @@ exports.editStudentFeeDetails = async (req, res) => {
     const user = await Student.findById(req.userId).exec();
     user.feeDetails = req.body.feeDetails;
     user.feeDetails.verification = "pending";
-    user.save();
+    await user.save();
+    res.json({ success: "true" });
   } catch (error) {
     res.status(400).json({ error: "request body contains invalid data" });
   }
@@ -110,7 +112,92 @@ exports.editStudentInfo = async (req, res) => {
     for (const field of fields) {
       user[field] = req.body[field];
     }
-    user.save();
+    await user.save();
+    res.json({ success: "true" });
+  } catch (error) {
+    res.status(400).json({ error: "request body contains invalid data" });
+  }
+};
+
+exports.verifyFeeDetails = async (req, res) => {
+  if (req.userRole != "accountSec") {
+    res
+      .status(403)
+      .json({ error: "only account section can update fee verification" });
+  }
+  const { studentId, verification, remarks } = req.body;
+  if (!(studentId && verification)) {
+    res
+      .status(403)
+      .json({ error: "studentId or verification status is missing" });
+  }
+  try {
+    await Student.updateOne(
+      { _id: studentId },
+      {
+        $set: {
+          "feeDetails.verification": verification,
+          "feeDetails.remarks": remarks,
+        },
+      }
+    );
+    res.json({ success: "true" });
+  } catch (error) {
+    res.status(403).json({ error: "invalid request" });
+  }
+};
+
+// // detect docs changes except verification
+// const didDocsChange = (oldDocs, newDocs) => {
+//   if (oldDocs.length != newDocs.length) {
+//     return true;
+//   }
+//   for (let i = 0; i < oldDocs.length; i++) {
+//     if (oldDocs[i].type != newDocs[i].type) return true;
+//     if (oldDocs[i].filename != newDocs[i].filename) return true;
+//   }
+//   return false;
+// };
+
+const applyVerification = (newDocs, origDocs) => {
+  const newMap = newDocs.reduce((map, obj) => {
+    map[obj.filename] = obj.verification;
+  }, {});
+  return origDocs.map((doc) => {
+    const newDoc = newMap[doc.filename];
+    if (newDoc) {
+      doc.verification = newDoc.verification;
+    }
+    return doc;
+  });
+};
+
+exports.verifyStudent = async (req, res) => {
+  if (!(req.userRole == "phdCord" || req.userRole == "phdCord")) {
+    res.status(403).json({ error: "you don't have access" });
+  }
+  const { studentId, verification, documentsUploaded, remarks } = req.body;
+  try {
+    const user = await Student.findById(studentId).exec();
+    user.verification = verification;
+    user.remarks = remarks;
+
+    user.documentsUploaded = applyVerification(
+      documentsUploaded,
+      user.documentsUploaded
+    );
+
+    // //we can avoid above complicated logic by imposing restriction that request should not change document array
+    // //except verification status
+    // if (didDocsChange(user.documentsUploaded, documentsUploaded)) {
+    //   res
+    //     .status(400)
+    //     .json({ error: "docs should not change except verification" });
+    // }
+    // user.documentsUploaded = documentsUploaded;
+
+    await user.save();
+    res.json({ success: "true" });
   } catch (error) {
     res.status(400).json({ error: "request body contains invalid data" });
   }

@@ -5,6 +5,7 @@ import DatePicker from "react-date-picker";
 import DropDown from "react-dropdown";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "react-dropdown/style.css";
+import "./PersonalDetails.css";
 
 export default class PersonalDetails extends Component {
   constructor(props) {
@@ -14,7 +15,6 @@ export default class PersonalDetails extends Component {
       middleName: "",
       gender: "",
       dob: "",
-      splitAt: "",
       email: "",
       mobile: "",
       nationality: "",
@@ -109,13 +109,7 @@ export default class PersonalDetails extends Component {
     ];
 
     return (
-      <div
-        style={{
-          alignItems: "center",
-          textAlign: "left",
-          margin: "30px 10% 0 10%",
-        }}
-      >
+      <div className="container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
@@ -149,93 +143,85 @@ export default class PersonalDetails extends Component {
             }
           >
             {() => (
-              <div style={{ alignItems: "left", textAlign: "left" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "left",
-                  }}
-                >
+              <div className="popUpContainer">
+                <div className="popUpField">
                   <div>
                     <Typography>Name : </Typography>
                   </div>
                   <div>{this.state.name}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Father/Husband's Name :</Typography>
                   </div>
                   <div>{this.state.middleName}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Gender :</Typography>
                   </div>
                   <div>{this.state.gender}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>DOB :</Typography>
                   </div>
                   <div>{this.state.dob.toLocaleString().slice(0, 10)}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Email :</Typography>
                   </div>
                   <div>{this.state.email}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Mobile No :</Typography>
                   </div>
                   <div>{this.state.mobile}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Nationality :</Typography>
                   </div>
                   <div>{this.state.nationality}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Category :</Typography>
                   </div>
                   <div>{this.state.category}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Aadhar Card Number :</Typography>
                   </div>
                   <div>{this.state.aadhar}</div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "left",
-                  }}
-                >
-                  <div style={{ alignContent: "left" }}>
-                    <Typography style={{ alignContent: "left" }}>
-                      Permanent Address :
-                    </Typography>
+                {this.state.address.length >= 45 && (
+                  <div>
+                    <div>
+                      <Typography>Permanent Address :</Typography>
+                    </div>
+                    <div>{this.state.address}</div>
                   </div>
-                  <div>{this.state.address}</div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
+                )}
+                {console.log(this.state.address.length)}
+                {this.state.address.length < 45 && (
+                  <div className="popUpField">
+                    <div>
+                      <Typography>Permanent Address :</Typography>
+                    </div>
+                    <div>{this.state.address}</div>
+                  </div>
+                )}
+                <div className="popUpField">
                   <div>
                     <Typography>Physically Disable :</Typography>
                   </div>
                   <div>{this.state.physicallyDisabled}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="popUpField">
                   <div>
                     <Typography>Applying to department :</Typography>
                   </div>
@@ -245,15 +231,11 @@ export default class PersonalDetails extends Component {
             )}
           </SweetAlert>
         </div>
-        <div
-          style={{ fontSize: "28px", fontWeight: "700", marginBottom: "10px" }}
-        >
-          Personal Details
-        </div>
+        <div className="formContainer">Personal Details</div>
         <div className={"Form"}>
           <form onSubmit={this.onSubmit}>
             {/* 1. Name  */}
-            <div style={{ marginBottom: "12px" }}>
+            <div className="formField">
               <Typography>Name</Typography>
               <TextField
                 className="mb-3"
@@ -263,12 +245,12 @@ export default class PersonalDetails extends Component {
                 name="name"
                 label="Name"
                 variant="outlined"
-                required
+                required="true"
                 style={{ marginTop: "8px" }}
               />
             </div>
             {/* 2. Father's Name/Husband's name  */}
-            <div style={{ marginBottom: "12px" }}>
+            <div className="formField">
               <Typography>Father/Husband's Name</Typography>
               <TextField
                 className="mb-3"
@@ -286,32 +268,18 @@ export default class PersonalDetails extends Component {
              * 3. Gender
              * 4. DOB
              */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
+            <div className="formGenderDob">
+              <div className="formGender">
                 <div style={{ width: "100%" }}>
                   <Typography>Gender</Typography>
-                  <div style={{ marginTop: "4px" }}>
+                  <div className="radios">
                     <input
                       type="radio"
                       value="Male"
                       name="gender"
                       checked={this.state.gender === "Male"}
                       onChange={this.onChangeGender}
-                      style={{ marginLeft: "20px" }}
+                      className="maleRadio"
                     />
                     Male
                     <input
@@ -320,7 +288,7 @@ export default class PersonalDetails extends Component {
                       name="gender"
                       checked={this.state.gender === "Female"}
                       onChange={this.onChangeGender}
-                      style={{ marginLeft: "30px" }}
+                      className="femaleOtherRadio"
                     />{" "}
                     Female
                     <input
@@ -329,13 +297,13 @@ export default class PersonalDetails extends Component {
                       name="gender"
                       checked={this.state.gender === "Other"}
                       onChange={this.onChangeGender}
-                      style={{ marginLeft: "30px" }}
+                      className="femaleOtherRadio"
                     />{" "}
                     Other
                   </div>
                 </div>
               </div>
-              <div style={{ width: "100%", marginLeft: "4%" }}>
+              <div className="formDob">
                 <Typography>DOB</Typography>
                 <DatePicker
                   onChange={(e) => this.onChangeDate(e)}
@@ -344,6 +312,7 @@ export default class PersonalDetails extends Component {
                   dayPlaceholder="dd"
                   monthPlaceholder="mm"
                   yearPlaceholder="yyyy"
+                  className="formDatePicker"
                 ></DatePicker>
               </div>
             </div>
@@ -351,15 +320,7 @@ export default class PersonalDetails extends Component {
              *   5. Email
              *   6. Mobile Number
              */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                justifyContent: "space-between",
-                marginTop: "10px",
-              }}
-            >
+            <div className="formEmailNumber">
               <div style={{ width: "100%" }}>
                 <Typography>Email</Typography>
                 <TextField
@@ -374,7 +335,7 @@ export default class PersonalDetails extends Component {
                   style={{ marginTop: "8px" }}
                 />
               </div>
-              <div style={{ width: "100%", marginLeft: "4%" }}>
+              <div className="formNumber">
                 <Typography>Mobile Number</Typography>
                 <TextField
                   className="mb-3"
@@ -393,15 +354,7 @@ export default class PersonalDetails extends Component {
              * 7. Nationality
              * 8. Category
              */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                justifyContent: "space-between",
-                marginTop: "10px",
-              }}
-            >
+            <div className="formEmailNumber">
               <div style={{ width: "100%" }}>
                 <Typography>Nationality</Typography>
                 <TextField
@@ -416,7 +369,7 @@ export default class PersonalDetails extends Component {
                   style={{ marginTop: "8px" }}
                 />
               </div>
-              <div style={{ width: "100%", marginLeft: "4%" }}>
+              <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
                   Category
                 </Typography>
@@ -430,7 +383,7 @@ export default class PersonalDetails extends Component {
             {/*
              * 9. Aadhar Number
              */}
-            <div style={{ marginTop: "10px" }}>
+            <div style={{ marginTop: "13px" }}>
               <Typography style={{ marginBottom: "4px" }}>
                 Aadhar Card Number
               </Typography>
@@ -470,13 +423,14 @@ export default class PersonalDetails extends Component {
              * 12. Application in which department
              */}
             <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-                justifyContent: "center",
-              }}
+              // style={{
+              //   display: "flex",
+              //   flexDirection: "row",
+              //   paddingTop: "10px",
+              //   paddingBottom: "10px",
+              //   justifyContent: "center",
+              // }}
+              className="formEmailNumber"
             >
               <div
                 style={{
@@ -510,7 +464,7 @@ export default class PersonalDetails extends Component {
                   </div>
                 </div>
               </div>
-              <div style={{ width: "100%", marginLeft: "4%" }}>
+              <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
                   Application in which Department
                 </Typography>
