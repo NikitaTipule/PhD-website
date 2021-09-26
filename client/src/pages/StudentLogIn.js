@@ -107,14 +107,14 @@ export default function StudentLogIn() {
                         SIGN IN
                       </Button>
                       </Grid>
-                      <Grid container spacing={13}>
+                      <Grid container spacing={20}>
                       <Grid item xs>
                        <Link href="/" variant="body2">
                          {"Home Page"}
                        </Link>
                        </Grid>
                        <Grid item xs>
-                       <Link href="/Register" variant="body2">
+                      <Link href="/Register" variant="body2">
                          {"Don't have an account? Register"}
                        </Link>
                        </Grid>
