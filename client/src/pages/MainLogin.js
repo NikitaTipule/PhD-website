@@ -47,7 +47,7 @@ export default function MainLogIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2}}
             >
-              Student Login
+             Candidate Login
             </Button>
             </Grid>
             <Grid item xs={6}>
