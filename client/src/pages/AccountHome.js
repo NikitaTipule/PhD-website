@@ -16,6 +16,61 @@ import DropDown from "react-dropdown";
 import "react-dropdown/style.css";
 import {Typography} from "@material-ui/core"
 import { Button } from 'bootstrap';
+import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
+class VerificationComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      verify: "",
+    };
+  }
+
+  render() {
+    return (
+      <div className="verify">
+        <div style={{ width: "100%" }}>
+          <div className="radios">
+            <div>
+              <input
+                type="radio"
+                value="Pending"
+                name="verify"
+                checked={this.state.verify === "Pending"}
+                onChange={this.onChangeGender}
+                className="radio"
+              />
+              Pending
+            </div>
+            <div>
+              <input
+                type="radio"
+                value="Modification-Required"
+                name="verify"
+                checked={this.state.verify === "Modification-Required"}
+                onChange={this.onChangeGender}
+                className="radio"
+              />{" "}
+              Modification-Required
+            </div>
+            <div>
+              <input
+                type="radio"
+                value="Verified"
+                name="verify"
+                checked={this.state.verify === "Verified"}
+                onChange={this.onChangeGender}
+                className="radio"
+              />{" "}
+              Verified
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+
 class AccountHome extends Component {
   constructor(props) {
         super(props);
@@ -28,141 +83,286 @@ class AccountHome extends Component {
             page: 0,
             rowsPerPage: 10,
             allStudents: [],
-            status: "",
+            tableData:'Not Verified'
         };
 
     }
-    statusColumns=[
-      {id:'id', label:'No.',minWidth:30},
-      {id:'status', label:'Status', minWidth:120},
-      {id:'totalstudents',label:'Total Students', minWidth:70},
+    upperColumns = [
+      {id: 'id', label: 'Total Candidates'},
+      {id: 'verified', label: 'Verified'},
+      {id: 'not_verified', label: 'Not Verified'},
+      {id: 'Modification needed', label: 'Modification Needed'}
     ]
     columns = [
         { id: 'id', label:'Serial Number', minwidth:30},
-        { id: 'name', label: 'Name', minWidth: 120 },
-        { id: 'status', label: 'Verification Status', minWidth: 70 },
+        { id: 'name', label: 'Name', minWidth: 100 },
+        { id: 'status', label: 'Verification Status', minWidth: 50 },
+        { id: 'category', label: 'Category', minwidth:50},
+        { id: 'amount', label: 'Amount Paid', minWidth:50},
+        { id: 'utrnumber', label: 'UTR/DU Number', minWidth:50},
+        { id: 'date', label:'Date', minwidth:50},
+        { id: 'reciept', label:'Payment Reciept', minWidth:50},
+        { id: 'remarks', label:'Remarks',minWidth:70 }
       
       ];
       
-       rows = [
-        { 
+      rows = [
+        {
+          id: 1,
           name : "Student 1", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9813891',
+          date: '07/10/2021',
         },
         {
+          id:2,
           name : "Student 2", 
-          status: "Verified"
+          status: "Verified",
+          category: 'NT',
+          amount: '100/-',
+          utrnumber: 'DU9813888',
+          date: '07/10/2021'
         },
         {
+          id:3,
           name : "Student 3", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:4,
           name : "Student 4", 
-          status: "Not Verified"
+          status: "Not Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:5,
           name : "Student 5", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:6,
           name : "Student 6", 
-          status: "Modification needed"
+          status: "Modification needed",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
       
         {
+          id:7,
           name : "Student 7", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:8,
           name : "Student 8", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:9,
           name : "Student 9", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:10,
           name : "Student 10", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:11,
           name : "Student 11", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:12,
           name : "Student 12", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:13,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:14,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:15,
           name : "nikita sopan Tipule", 
-          status: "Not Verified"
+          status: "Not Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
-    
+          id:16,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:17,
           name : "nikita sopan Tipule", 
-          status: "Modification needed"
+          status: "Modification needed",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
       
         {
+          id:18,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:19,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:20,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:21,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:22,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
        
         {
+          id:23,
           name : "nikita sopan Tipule", 
-          status: "Modification needed"
+          status: "Modification needed",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
       
         {
+          id:24,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified", category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:25,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:26,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:27,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
         {
+          id:28,
           name : "nikita sopan Tipule", 
-          status: "Verified"
+          status: "Verified",
+          category: 'General',
+          amount: '1000/-',
+          utrnumber: 'DU9812891',
+          date: '07/10/2021'
         },
-       ]
+      ]
       
       statusRows =[
         {id : 1,
@@ -192,6 +392,29 @@ class AccountHome extends Component {
             department : event.value,
         });
         // console.log(this);
+    }
+    handleclick1 = (event) => {
+      this.setState({
+        tableData: "Not Verified"
+      });
+    }
+  
+    handleclick2 = (event) => {
+      this.setState({
+        tableData: "Verified"
+      });
+    }
+  
+    handleclick3 = (event) => {
+      this.setState({
+        tableData: "Not Verified"
+      });
+    }
+  
+    handleclick4 = (event) => {
+      this.setState({
+        tableData: "Modification needed"
+      });
     }
     render() {
 
@@ -267,141 +490,119 @@ class AccountHome extends Component {
                     </div>
                     {this.state.department === "" ? "" : (
                       <>
-                      <div>
-                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', marginBottom: '50px'}}>
-                        <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '80%'}, overflow: 'hidden'}}>
-                        <TableContainer sx={{ maxHeight: 500 }}>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead >
-                                    <TableRow>
-                                        {this.statusColumns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align='center'
-                                            style={{ minWidth: column.minWidth, backgroundColor: 'ButtonHighlight', color:'black' }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                        ))}
-                                    </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                          
-                                    {this.statusRows
-                                        .map((row) => {
-                                        
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {this.statusColumns.map((column) => {
-                                                const value = row[column.id];
-                                               
-                                                return (
-                                                <TableCell key={column.id} align='center'>
-                                                   {column.id === 'status'? (
-                                                    <div>
-                                                    {column.id === 'status' && value === 'Verified'
-                                                    ? (
-                                                        <div style={{color:'green'}}>
-                                                      
-                                                        
-                                                        {value}
-                                                        
-                                                       
-                                                        </div>
-                                                    ):(
-                                                        <div style={{color:'red'}}>
-                                                        {column.id === 'status' && value === 'Not Verified'
-                                                        ? (
-                                                        <div>
-                                                          {value}
-                                                         </div>
-                                                        ):(
-                                                          <div style={{color:'blue'}}>
-                                                          {value}
-                                                           </div>
-                                                        )
-                                                        }
-                                                        </div>    
-                                                    )}
-                                                    </div>
-                                                    ):
-                                                    <div>
-                                                        {value}
-                                                       
-                                                    </div>
-                                                     }
-                                                </TableCell>
-                                                );
-                                            })}
-                                            
-                                            </TableRow>
-                                        );
-                                        })}
-                                    </TableBody>
-                                </Table>
-                        </TableContainer>
-
-                                
-                        </Paper>
-                        </div>
-                      </div>
-                        
-
-
-
-
-
-                        <div id='table'>
-                            {/* {this.state.department} */}
-                            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', marginBottom: '50px'}}>
+                       <div>
+                       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', marginBottom: '50px'}}>
           
-                            <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '80%'}, overflow: 'hidden'}}>
-                                <TableContainer sx={{ maxHeight: 500 }} hide='True'>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead >
-                                    <TableRow>
-                                        {this.columns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align='center'
-                                            style={{ minWidth: column.minWidth, backgroundColor: 'ButtonHighlight', color:'black' }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                        ))}
-                                    </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                    {this.rows.map((item, sno=0) => {
-                                       if (item.status==='Not Verified') {
-                                        newData.push({id: sno + 1, ...item});
-                                       }
-                                 
-                                   })}
-                                    {newData
-                                        .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                        .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code} hide='True'>
-                                            {this.columns.map((column) => {
-                                                const value = row[column.id]
-                                                return (
-                                                
-                                                <TableCell align='center'>
-                                                  <div>
-                                                    <Link to={{pathname: '/accountform'}} style={{textDecoration:'none', color:'black'}}>
-                                                     {value}
-                                                    </Link>
-                                                  </div>
-                                                </TableCell>
-                                                );
-                                            })}
-                                            
-                                            </TableRow>
-                                        );
-                                        })}
-                                    </TableBody>
-                                </Table>
+                       <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '80%'}, overflow: 'hidden'}}>
+                         <TableContainer sx={{ maxHeight: 500 }}>
+                            <Table stickyHeader aria-label="sticky table">
+                            <TableHead >
+                            <TableRow>
+                               {this.upperColumns.map((column) => (
+                                 <TableCell
+                                   key={column.id}
+                                   align='center'
+                                  style={{ minWidth: column.minWidth, backgroundColor: 'ButtonHighlight', color:'black' }}
+                                  >
+                                  {column.label}
+                                  </TableCell>
+                                ))}
+                            </TableRow>
+                            </TableHead>
+                            <TableBody>
+                  
+                            <TableRow hover role="checkbox" tabIndex={-1}>
+                              <TableCell align='center'
+                                  value="Not Verified"
+                                  onClick = {() => {this.handleclick1()}}
+                                  className= "tablecell"
+                              >28</TableCell>
+                              <TableCell align='center'
+                                  value="Verified"
+                                  onClick = {() => {this.handleclick2()}}
+                                  className= "tablecell"
+                              >23</TableCell>
+                              <TableCell align='center'
+                                 value="Not Verified"
+                                 onClick = {() => {this.handleclick3()}}
+                                 className= "tablecell"
+                              >2</TableCell>
+                              <TableCell align='center'
+                                 value="Modification needed"
+                                 onClick = {() => {this.handleclick4()}}
+                                 className= "tablecell"
+                              >3</TableCell>
+                            </TableRow>
+                             </TableBody>
+                             </Table>
+                          </TableContainer>
+                       </Paper>
+                      </div>
+                      </div>
+
+
+                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', marginBottom: '50px'}}>
+          
+                       <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '80%'}, overflow: 'hidden'}}>
+                        <TableContainer sx={{ maxHeight: 500 }}>
+                          <Table stickyHeader aria-label="sticky table">
+                          <TableHead >
+                          <TableRow>
+                              {this.columns.map((column) => (
+                                 <TableCell
+                                   key={column.id}
+                                   align='center'
+                                   style={{ minWidth: column.minWidth, backgroundColor: 'ButtonHighlight', color:'black' }}
+                                 >
+                                 {column.label}
+                                 </TableCell>
+                                 ))}
+                          </TableRow>
+                          </TableHead>
+                          <TableBody>
+                             {this.rows
+                             .filter(student => student.status === this.state.tableData)
+                             .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                             .map((row) => {
+                             return (
+                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                             {this.columns.map((column) => {
+                             const value = row[column.id];
+                            return (
+                              <TableCell key={column.id} align='center'>
+                                {column.id==='reciept' ? (<ArrowCircleDown/>) : <></>}
+                                {column.id==='remarks' ? (<VerificationComponent />) : <></>}
+                                {column.id === 'status'? (
+                                <div>
+                                {column.id === 'status' && value === 'Verified'
+                                  ? (
+                                    <div style = {{color: 'green'}}>{value}</div>
+                                  ):(
+                                    <div>
+                                    {column.id === 'status' && value === 'Not Verified'
+                                    ? (
+                                      <div style = {{color: 'red'}}>{value}</div>
+                                    ):(
+                                      <div style = {{color: 'blue'}}>{value}</div>
+                                    )
+                                    }
+                                    </div>    
+                                  )}
+                                  </div>
+                                  ):(
+                                    <div>
+                                      {value}
+                                    </div>
+                                  )}
+                              </TableCell>
+                            );
+                          })}
+                        
+                               </TableRow>
+                               );
+                               })}
+                              </TableBody>
+                              </Table>
                                 </TableContainer>
                                 <TablePagination
                                 rowsPerPageOptions={[10, 25, 100]}
@@ -414,7 +615,6 @@ class AccountHome extends Component {
                                 />
                             </Paper>
                             </div>
-                        </div>
                         </>
                     )}
                 </div>
