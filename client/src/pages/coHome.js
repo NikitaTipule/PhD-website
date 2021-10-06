@@ -286,10 +286,10 @@ class StickyHeadTable extends Component {
                   <TableRow>
                       <TableCell align='center'
                         onClick = {this.handleclick}
-                      >hello</TableCell>
-                      <TableCell align='center'>sdlkjf</TableCell>
-                      <TableCell align='center'>kshdf</TableCell>
-                      <TableCell align='center'>ldkf</TableCell>
+                      >60</TableCell>
+                      <TableCell align='center'>10</TableCell>
+                      <TableCell align='center'>20</TableCell>
+                      <TableCell align='center'>30</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
