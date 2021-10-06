@@ -70,4 +70,6 @@
   }
 }
 
-
+.tablecell .hover {
+  background-color: #D3E2DA;
+}

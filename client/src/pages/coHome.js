@@ -25,7 +25,7 @@ class StickyHeadTable extends Component {
       logout: false,
       page: 0,
       rowsPerPage: 10,
-
+      tableData: "Not Verified",
     }
   };
 
@@ -205,10 +205,28 @@ class StickyHeadTable extends Component {
     })
   };
 
-  handleclick = (event) => {
+  handleclick1 = (event) => {
     this.setState({
+      tableData: "Not Verified"
+    });
+  }
 
-    })
+  handleclick2 = (event) => {
+    this.setState({
+      tableData: "Verified"
+    });
+  }
+
+  handleclick3 = (event) => {
+    this.setState({
+      tableData: "Not Verified"
+    });
+  }
+
+  handleclick4 = (event) => {
+    this.setState({
+      tableData: "Modification needed"
+    });
   }
 
   render() {
@@ -283,13 +301,28 @@ class StickyHeadTable extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
+                  
+                  <TableRow hover role="checkbox" tabIndex={-1}>
                       <TableCell align='center'
-                        onClick = {this.handleclick}
+                        value="Not Verified"
+                        onClick = {() => {this.handleclick1()}}
+                        className= "tablecell"
                       >60</TableCell>
-                      <TableCell align='center'>10</TableCell>
-                      <TableCell align='center'>20</TableCell>
-                      <TableCell align='center'>30</TableCell>
+                      <TableCell align='center'
+                        value="Verified"
+                        onClick = {() => {this.handleclick2()}}
+                        className= "tablecell"
+                      >10</TableCell>
+                      <TableCell align='center'
+                        value="Not Verified"
+                        onClick = {() => {this.handleclick3()}}
+                        className= "tablecell"
+                      >20</TableCell>
+                      <TableCell align='center'
+                        value="Modification needed"
+                        onClick = {() => {this.handleclick4()}}
+                        className= "tablecell"
+                      >30</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -319,6 +352,7 @@ class StickyHeadTable extends Component {
                 </TableHead>
                 <TableBody>
                   {this.rows
+                    .filter(student => student.status === this.state.tableData)
                     .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
                     .map((row) => {
                       return (
