@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 const theme = createTheme();
 
 export default function MainLogIn() {
@@ -24,6 +24,7 @@ export default function MainLogIn() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <div>
         <Box
           sx={{
             marginTop: 8,
@@ -35,7 +36,7 @@ export default function MainLogIn() {
           <Avatar sx={{ m: 1, bgcolor: 'cadetblue' }}>
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            <b>Sign in </b>
           </Typography>
           <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -46,7 +47,7 @@ export default function MainLogIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2}}
             >
-              Student Login
+             Candidate Login
             </Button>
             </Grid>
             <Grid item xs={6}>
@@ -62,6 +63,7 @@ export default function MainLogIn() {
             </Grid>
             </Grid>
           </Box>
+          </div>
       </Container>
     </ThemeProvider>
   );

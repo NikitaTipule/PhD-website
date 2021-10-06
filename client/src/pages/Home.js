@@ -5,13 +5,12 @@ class Home extends Component {
     render() {
         return(
             <>
-             <div>
+             <div >
                 <NavBar />
              </div>
-             <div>
-                 <MainLogIn />
-                 {/* <LogIn /> */}
-             </div>
+                 <div>
+                 <MainLogIn/>
+                 </div>
             </>
         );
     }
