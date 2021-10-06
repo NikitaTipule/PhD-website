@@ -28,6 +28,17 @@ class StickyHeadTable extends Component {
 
     }
   };
+
+
+  upperColumns = [
+    {id: 'id', label: 'Total Candidates'},
+    {id: 'verified', label: 'Verified'},
+    {id: 'not_verified', label: 'Not Verified'},
+    {id: 'Modification needed', label: 'Modification Needed'}
+  ]
+
+
+
  columns = [
   {id: 'id', label:'No.', minWidth: 30},
   { id: 'name', label: 'Name', minWidth: 120 },
@@ -193,57 +204,101 @@ class StickyHeadTable extends Component {
       page: 0
     })
   };
+
+  handleclick = (event) => {
+    this.setState({
+
+    })
+  }
+
   render() {
   return (
     <>
       <NavBar />
       <div>
       <div>
-                        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                            <h1 className="textBetween">
-                             Co-Ordinator Information
-                            </h1>
-                        </div>
-                        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                        <div className="box">
-                        <Grid container className="container-box">
-                        <Grid item xs={12} md={6} className="grid-item">
-                            <p style={{fontSize: '20px'}}>
-                            <b style={{fontWeight:600}}>Name : </b>
-                            {'   '}
-                            Coordinator name
-                            </p>
-                        </Grid>
-                        <Grid item xs={12} md={6} className="grid-item">
-                            <p style={{fontSize: '20px'}}>
-                            <b style={{fontWeight:600}}>Email : </b>
-                            {'   '}
-                                faculty@gamil.com
-                            </p>
-                            </Grid>
-                        <Grid item xs={12} md={6} className="grid-item">
-                            <p style={{fontSize: '20px'}}>
-                            <b style={{fontWeight:600}}>Mis : </b>
-                            {'   '}
-                                11111111111
-                            </p>
-                            </Grid>
-                        <Grid item xs={12} md={6} className="grid-item">
-                            <p style={{fontSize: '20px'}}>
-                            <b style={{fontWeight:600}}>Department: </b>
-                            {'   '}
-                                Computer Engineering
-                            </p>
-                            </Grid>
-                        </Grid>
-                        </div>
-                        </div>
-                    </div>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                <h1 className="textBetween">
+                  Co-Ordinator Information
+                </h1>
+            </div>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+            <div className="box">
+            <Grid container className="container-box">
+            <Grid item xs={12} md={6} className="grid-item">
+                <p style={{fontSize: '20px'}}>
+                <b style={{fontWeight:600}}>Name : </b>
+                {'   '}
+                Coordinator name
+                </p>
+            </Grid>
+            <Grid item xs={12} md={6} className="grid-item">
+                <p style={{fontSize: '20px'}}>
+                <b style={{fontWeight:600}}>Email : </b>
+                {'   '}
+                    faculty@gamil.com
+                </p>
+                </Grid>
+            <Grid item xs={12} md={6} className="grid-item">
+                <p style={{fontSize: '20px'}}>
+                <b style={{fontWeight:600}}>Mis : </b>
+                {'   '}
+                    11111111111
+                </p>
+                </Grid>
+            <Grid item xs={12} md={6} className="grid-item">
+                <p style={{fontSize: '20px'}}>
+                <b style={{fontWeight:600}}>Department: </b>
+                {'   '}
+                    Computer Engineering
+                </p>
+                </Grid>
+            </Grid>
+            </div>
+            </div>
+          </div>
         {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>
             <h1 className="textBetween">
               List of All Students
             </h1>
             </div> */}
+
+        <div>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', marginBottom: '50px'}}>
+          
+          <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '80%'}, overflow: 'hidden'}}>
+            <TableContainer sx={{ maxHeight: 500 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead >
+                  <TableRow>
+                    {this.upperColumns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align='center'
+                        style={{ minWidth: column.minWidth, backgroundColor: 'ButtonHighlight', color:'black' }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                      <TableCell align='center'
+                        onClick = {this.handleclick}
+                      >hello</TableCell>
+                      <TableCell align='center'>sdlkjf</TableCell>
+                      <TableCell align='center'>kshdf</TableCell>
+                      <TableCell align='center'>ldkf</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </div>
+        </div>
+
+
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', marginBottom: '50px'}}>
           
           <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '80%'}, overflow: 'hidden'}}>

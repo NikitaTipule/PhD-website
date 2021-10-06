@@ -21,6 +21,7 @@ export default function MainLogIn() {
       }
 
   return (
+    <div>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -64,5 +65,6 @@ export default function MainLogIn() {
           </Box>
       </Container>
     </ThemeProvider>
+    </div>
   );
 }

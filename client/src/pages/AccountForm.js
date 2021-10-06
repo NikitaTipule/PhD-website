@@ -133,7 +133,7 @@ class AccountForm extends Component {
                   <div>{this.state.DateOfPayment}</div>
                 </div>
 
-                <div className="field" style={{marginTop:"40px"}}>
+                <div className="field" style={{marginTop:"0px"}}>
                   <div className="documents">
                     <div className="docFieldName">Payment Reciept: </div>
                     <div className="iconMobile">
