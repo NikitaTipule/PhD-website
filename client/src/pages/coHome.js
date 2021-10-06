@@ -229,7 +229,24 @@ class StickyHeadTable extends Component {
     });
   }
 
+
   render() {
+    let counterTotal = 0;
+    let counterVerified = 0;
+    let counterNotVerified = 0;
+    let counterModification = 0;
+    for (const obj of this.rows) {
+      counterTotal++;
+      if(obj.status === "Verified") {
+        counterVerified++;
+      }
+      else if (obj.status === "Not Verified") {
+        counterNotVerified++;
+      }
+      else if (obj.status === "Modification needed") {
+        counterModification++;
+      }
+    }
   return (
     <>
       <NavBar />
@@ -307,22 +324,22 @@ class StickyHeadTable extends Component {
                         value="Not Verified"
                         onClick = {() => {this.handleclick1()}}
                         className= "tablecell"
-                      >60</TableCell>
+                      >{counterTotal}</TableCell>
                       <TableCell align='center'
                         value="Verified"
                         onClick = {() => {this.handleclick2()}}
                         className= "tablecell"
-                      >10</TableCell>
+                      >{counterVerified}</TableCell>
                       <TableCell align='center'
                         value="Not Verified"
                         onClick = {() => {this.handleclick3()}}
                         className= "tablecell"
-                      >20</TableCell>
+                      >{counterNotVerified}</TableCell>
                       <TableCell align='center'
                         value="Modification needed"
                         onClick = {() => {this.handleclick4()}}
                         className= "tablecell"
-                      >30</TableCell>
+                      >{counterModification}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
