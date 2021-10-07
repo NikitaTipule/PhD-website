@@ -34,6 +34,8 @@ export default class AdmissionDetailsPG extends Component {
           id: 4,
         },
       ],
+
+      gateScore: "",
       confirmAlert: false,
     };
   }
@@ -62,6 +64,13 @@ export default class AdmissionDetailsPG extends Component {
       optionsSelected: this.state.optionsSelected,
     };
     console.log(UGData);
+  };
+
+  handleSelect = (selectedList, selectedItem) => {
+    this.setState({
+      optionsSelected: selectedList,
+    });
+    console.log(this.state.optionsSelected);
   };
 
   onCancel = () => {
@@ -266,10 +275,10 @@ export default class AdmissionDetailsPG extends Component {
               <Typography>Details Regarded Extrance Exams</Typography>
               <Multiselect
                 options={this.state.options}
-                onSelect={(selectedList, selectedItem) => {
-                  this.state.optionsSelected = selectedList;
-                  console.log(this.state.optionsSelected);
-                }}
+                // onSelect={(selectedList, selectedItem) => {
+                //   this.state.optionsSelected = selectedList;
+                // }}
+                onSelect={this.handleSelect}
                 placeholder="Details regarded extrance exams..."
                 displayValue="name"
                 style={{
@@ -287,14 +296,23 @@ export default class AdmissionDetailsPG extends Component {
               />
             </div>
             <div>
-              {this.state.optionsSelected.map(
-                (str) =>
-                  str.id === 2 && (
-                    <div>
-                      <TextField label="score" />
+              {this.state.optionsSelected.map(function (str) {
+                if (str.id === 2) {
+                  return (
+                    <div style={{ marginTop: "10px" }}>
+                      <Typography>GATE Details</Typography>
+                      <TextField
+                        variant="outlined"
+                        label="Gate Score"
+                        onChange={console.log("change")}
+                        value={""}
+                        name="gate"
+                        required
+                      />
                     </div>
-                  )
-              )}
+                  );
+                }
+              })}
             </div>
           </form>
 
