@@ -3,9 +3,13 @@ const {
   reqString,
   departmentField,
   email,
-  reqNumber,
   preSaveHashPassword,
 } = require("./schemaFields");
+
+reqNumber = {
+  type: Number,
+  required: true,
+};
 
 const personalInfo = {
   mobile: reqString,
@@ -35,8 +39,8 @@ const academicsUG = {
   dateOfDeclaration: { type: Date },
 };
 
-const entranceDetailsPG = {
-  entranceExamObtained: reqString,
+const entranceDetails = {
+  entranceExamObtained: { type: String },
   isInterestedCoepRPET: { type: Boolean },
   isInterestedCoepEntrance: { type: Boolean },
   GATE: {
@@ -59,7 +63,6 @@ const academicsPG = {
   cgpa10: reqNumber,
   percentageMarks: reqNumber,
   dateOfDeclaration: { type: Date },
-  entranceDetails: entranceDetailsPG,
 };
 
 const verificationField = {
@@ -81,6 +84,7 @@ const feeDetails = {
   transactionTime: { type: Date },
   bank: reqString,
   verification: verificationField,
+  remarks: { type: String, default: "" },
   docUploaded: {
     type: reqString,
     filename: reqString,
@@ -112,6 +116,12 @@ const StudentSchema = Schema(
     documentsUploaded: [docUploaded],
     remarks: { type: String, default: "" },
     footerData: footerDataSchema,
+    entranceDetails: entranceDetails,
+    mailVerified: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
   },
   { timestamps: true }
 );

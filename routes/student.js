@@ -1,5 +1,9 @@
 const express = require("express");
-const { loginStudent, registerStudent } = require("../controllers/auth");
+const {
+  loginStudent,
+  registerStudent,
+  verifyMail,
+} = require("../controllers/auth");
 const { auth } = require("../middleware/auth");
 const {
   myProfileStudent,
@@ -16,6 +20,7 @@ const router = express.Router();
 
 router.post("/login", loginStudent);
 router.post("/register", registerStudent);
+router.get("/verifymail/:userId/:token", verifyMail);
 
 router.get("/me", [auth, myProfileStudent]);
 router.get("/:userId", [auth, getStudentInfo]);
