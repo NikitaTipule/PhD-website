@@ -11,7 +11,9 @@ import Admin from "./pages/Admin";
 import AccountHome from "./pages/AccountHome";
 import StudentHome from "./pages/StudentHome";
 import AccountForm from "./pages/AccountForm";
-
+import AddCordForm from "./pages/AddCordForm";
+import RemoveStaffForm from "./pages/RemoveStaffForm";
+import AddAccountForm from "./pages/AddAccountForm.js";
 
 function App() {
   return (
@@ -29,6 +31,13 @@ function App() {
         <Route path="/account" component={AccountHome} exact></Route>
         <Route path="/studenthome" component={StudentHome} exact></Route>
         <Route path="/accountform" component={AccountForm} exact></Route>
+        <Route path="/addcord" component={AddCordForm} exact></Route>
+        <Route path="/removestaff" component={RemoveStaffForm} exact></Route>
+        <Route
+          path="/add-account-section"
+          component={AddAccountForm}
+          exact
+        ></Route>
       </Switch>
     </Router>
   );
