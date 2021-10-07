@@ -25,8 +25,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
     "multer-gridfs-storage": "^5.0.1",
-    "nodemailer": "^6.6.3",
-    "otp-generator": "^2.0.1"
+    "nodemailer": "^6.6.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
