@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 
 exports.reqString = {
   type: String,
-  // required: true,
+  required: true,
 };
 
 exports.email = {
@@ -10,7 +10,7 @@ exports.email = {
   trim: true,
   lowercase: true,
   unique: true,
-  // required: "Email address is required",
+  required: "Email address is required",
   match: [
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
     "Please fill a valid email address",
@@ -20,13 +20,16 @@ exports.email = {
 exports.departmentField = {
   type: String,
   required: true,
-  enum: ["computer", "electrical"],
-  // TODO : add all the departments here
-};
-
-exports.reqNumber = {
-  type: Number,
-  // required: true,
+  enum: [
+    "Civil Engineering",
+    "Computer Engineering",
+    "Electrical Engineering",
+    "Electronics & Telecommunication Engineering",
+    "Instrumentation & Control Engineering",
+    "Mechanical Engineering",
+    "Metallurgical Engineering",
+    "Production Engineering",
+  ],
 };
 
 exports.preSaveHashPassword = function (next) {
