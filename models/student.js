@@ -63,7 +63,7 @@ const academicsPG = {
 const verificationField = {
   type: String,
   default: "pending",
-  enum: ["pending", "verified", "mod-req"],
+  enum: ["pending", "verified", "mod_req"],
 };
 
 const docUploaded = {

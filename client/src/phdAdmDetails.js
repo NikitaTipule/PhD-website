@@ -23,7 +23,7 @@ export const departmentNamesList = [
 export const verification_options = {
   pending: "pending",
   verified: "verified",
-  modReq: "mod-req",
+  mod_req: "mod_req",
 };
 
 export const roles = {
