@@ -14,6 +14,7 @@ import AccountForm from "./pages/AccountForm";
 import AddCordForm from "./pages/AddCordForm";
 import RemoveStaffForm from "./pages/RemoveStaffForm";
 import AddAccountForm from "./pages/AddAccountForm.js";
+import ProtectedRouteStudent from "./components/ProtectedRouteStudent"
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         <Route path="/admissionForm" component={admissionForm} />
         <Route path="/admin" component={Admin} exact></Route>
         <Route path="/account" component={AccountHome} exact></Route>
-        <Route path="/studenthome" component={StudentHome} exact></Route>
+        <ProtectedRouteStudent path="/studenthome" component={StudentHome} exact></ProtectedRouteStudent>
         <Route path="/accountform" component={AccountForm} exact></Route>
         <Route path="/addcord" component={AddCordForm} exact></Route>
         <Route path="/removestaff" component={RemoveStaffForm} exact></Route>
