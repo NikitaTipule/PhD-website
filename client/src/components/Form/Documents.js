@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, TableBody, TableRow, TableCell } from "@material-ui/core";
+import { Table, TableBody } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -21,18 +21,12 @@ export default class Documents extends Component {
         { name: "Caste Validity", id: 2 },
         { name: "EWS Certificate", id: 3 },
       ],
-
       generalData: true,
-      gateData: true,
-      casteData: true,
-
       open: false,
     };
   }
 
   onSubmit = (event) => {
-    // event.preventDefault();
-    // event.persist();
     this.setState({ open: !this.state.open });
   };
 
@@ -117,7 +111,7 @@ export default class Documents extends Component {
               </div>
             )}
             {/*________condition UG Details_____ */}
-            {this.state.gateData && (
+            {this.props.data.gate && (
               <div>
                 {this.state.gate.map((str) => (
                   <>
@@ -137,7 +131,7 @@ export default class Documents extends Component {
               </div>
             )}
             {/*________condition PERSONAL_____ */}
-            {this.state.casteData && (
+            {this.props.data.category==="OBC" || this.props.data. && (
               <div>
                 {this.state.caste.map((str) => (
                   <>

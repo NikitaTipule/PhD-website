@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { TextField, Typography } from "@material-ui/core";
 import Button from "@mui/material/Button";
-import Multiselect from "multiselect-react-dropdown";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./AdmissionDetails.css";
 
@@ -15,27 +14,6 @@ export default class AdmissionDetailsPG extends Component {
       totalMarks: "",
       cgpa: "",
       percentage: "",
-      optionsSelected: [],
-      options: [
-        {
-          name: "Want to appear for COEP's Reasearch \nProgram Eligibility Test (RPET)",
-          id: 1,
-        },
-        {
-          name: "Gate",
-          id: 2,
-        },
-        {
-          name: "Want to appear for COEP entrance exam",
-          id: 3,
-        },
-        {
-          name: "SPPU ET 2021",
-          id: 4,
-        },
-      ],
-
-      gateScore: "",
       confirmAlert: false,
     };
   }
@@ -45,40 +23,24 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onSubmit = (event) => {
-    // event.preventDefault();
-    // event.persist();
     this.setState({ confirmAlert: !this.state.confirmAlert });
+    this.props.data.pgUniversity = this.state.university;
+    this.props.data.pgNomanclaure = this.state.nomanclaure;
+    this.props.data.pgMarksObtained = this.state.marksObtained;
+    this.props.data.pgTotalMarks = this.state.totalMarks;
+    this.props.data.pgCGPA = this.state.cgpa;
+    this.props.data.pgPercentage = this.state.percentage;
   };
 
   confirmData = (event) => {
-    // event.preventDefault();
     this.props.nextStep();
-    // event.persist();
-    const UGData = {
-      university: this.state.university,
-      nomanclaure: this.state.nomanclaure,
-      marksObtained: this.state.marksObtained,
-      totalMarks: this.state.totalMarks,
-      cgpa: this.state.cgpa,
-      percentage: this.state.percentage,
-      optionsSelected: this.state.optionsSelected,
-    };
-    console.log(UGData);
-  };
-
-  handleSelect = (selectedList, selectedItem) => {
-    this.setState({
-      optionsSelected: selectedList,
-    });
-    console.log(this.state.optionsSelected);
+    console.log(this.props.data);
   };
 
   onCancel = () => {
     this.setState({
       confirmAlert: !this.state.confirmAlert,
     });
-    console.log(this.props);
-    // this.props.props.history.goBack();
   };
 
   render() {
@@ -153,18 +115,6 @@ export default class AdmissionDetailsPG extends Component {
                     <Typography>Percentage :</Typography>
                   </div>
                   <div>{this.state.percentage}%</div>
-                </div>
-                <div>
-                  <div>
-                    <Typography>Details Regarding Entrance Exams :</Typography>
-                  </div>
-                  <div style={{ paddingLeft: "25px" }}>
-                    {this.state.optionsSelected.map((str) => (
-                      <div style={{ padding: "0 0 0 25", fontSize: "17px" }}>
-                        {str.name}
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </div>
             )}
@@ -270,49 +220,6 @@ export default class AdmissionDetailsPG extends Component {
                   style={{ marginTop: "8px" }}
                 />
               </div>
-            </div>
-            <div style={{ marginTop: "30px" }}>
-              <Typography>Details Regarded Extrance Exams</Typography>
-              <Multiselect
-                options={this.state.options}
-                // onSelect={(selectedList, selectedItem) => {
-                //   this.state.optionsSelected = selectedList;
-                // }}
-                onSelect={this.handleSelect}
-                placeholder="Details regarded extrance exams..."
-                displayValue="name"
-                style={{
-                  searchBox: {
-                    minHeight: "50px",
-                    padding: "10px",
-                  },
-                  multiselectContainer: {
-                    width: "100%",
-                  },
-                  chips: {
-                    whiteSpace: "normal",
-                  },
-                }}
-              />
-            </div>
-            <div>
-              {this.state.optionsSelected.map(function (str) {
-                if (str.id === 2) {
-                  return (
-                    <div style={{ marginTop: "10px" }}>
-                      <Typography>GATE Details</Typography>
-                      <TextField
-                        variant="outlined"
-                        label="Gate Score"
-                        onChange={console.log("change")}
-                        value={""}
-                        name="gate"
-                        required
-                      />
-                    </div>
-                  );
-                }
-              })}
             </div>
           </form>
 

@@ -1,17 +1,51 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import AdmissionDetailsPG from "../components/Form/AdmissionDetailsPG";
 import AdmissionDetailsUG from "../components/Form/AdmissionDetailsUG";
 import Documents from "../components/Form/Documents";
 import NavBar from "../components/Navbar/Navbar";
 import PersonalDetails from "../components/Form/PersonalDetails";
 import AccountsDetails from "../components/Form/AccountsDetails";
-import StudentHome from "../pages/StudentHome";
 import { Redirect } from "react-router-dom";
 import EntranceExamDetails from "../components/Form/EntranceExamDetails";
 
 export default class admissionForm extends Component {
   state = {
     step: 1,
+    data: {
+      name: "",
+      middleName: "",
+      gender: "",
+      dob: "",
+      email: "",
+      mobile: "",
+      nationality: "",
+      category: "",
+      aadhar: "",
+      address: "",
+      physicallyDisabled: "",
+      department: "",
+
+      ugUniversity: "",
+      ugNomanclaure: "",
+      ugSpecialization: "",
+      ugMarksObtained: "",
+      ugTotalMarks: "",
+      ugCGPA: "",
+      ugPercentage: "",
+      ugDOD: "",
+
+      pgUniversity: "",
+      pgNomanclaure: "",
+      pgMarksObtained: "",
+      pgTotalMarks: "",
+      pgCGPA: "",
+      pgPercentage: "",
+
+      entranceOptions: [],
+      gate: false,
+      gateScore: "",
+      gateDOV: "",
+    },
   };
 
   nextStep = () => {
@@ -36,7 +70,7 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar />
-            <PersonalDetails nextStep={this.nextStep} />
+            <PersonalDetails nextStep={this.nextStep} data={this.state.data} />
           </div>
         );
       case 2:
@@ -45,6 +79,7 @@ export default class admissionForm extends Component {
             <NavBar />
             <AdmissionDetailsUG
               nextStep={this.nextStep}
+              data={this.state.data}
               // prevStep={this.prevStep}
             />
           </div>
@@ -53,28 +88,34 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar />
-            <AdmissionDetailsPG nextStep={this.nextStep} />
+            <AdmissionDetailsPG
+              nextStep={this.nextStep}
+              data={this.state.data}
+            />
           </div>
         );
       case 4:
         return (
           <div>
             <NavBar />
-            <EntranceExamDetails nextStep={this.nextStep} />
+            <EntranceExamDetails
+              nextStep={this.nextStep}
+              data={this.state.data}
+            />
           </div>
         );
       case 5:
         return (
           <div>
             <NavBar />
-            <Documents nextStep={this.nextStep} />
+            <Documents nextStep={this.nextStep} data={this.state.data} />
           </div>
         );
       case 6:
         return (
           <div>
             <NavBar />
-            <AccountsDetails nextStep={this.nextStep} />
+            <AccountsDetails nextStep={this.nextStep} data={this.state.data} />
           </div>
         );
       default:

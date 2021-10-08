@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Multiselect from "multiselect-react-dropdown";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Divider from "@mui/material/Divider";
+import DatePicker from "react-date-picker";
 import "./AdmissionDetails.css";
 
 export default class EntranceExamDetails extends Component {
@@ -31,6 +32,9 @@ export default class EntranceExamDetails extends Component {
       ],
 
       gateScore: "",
+      gateDOV: "",
+      gate: false,
+
       confirmAlert: false,
     };
   }
@@ -39,21 +43,23 @@ export default class EntranceExamDetails extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  onChangeDate = (event) => {
+    this.setState({
+      gateDOV: event,
+    });
+  };
+
   onSubmit = (event) => {
-    // event.preventDefault();
-    // event.persist();
     this.setState({ confirmAlert: !this.state.confirmAlert });
+    this.props.data.entranceOption = this.state.optionsSelected;
+    this.props.data.gateScore = this.state.gateScore;
+    this.props.data.gateDOV = this.state.gateDOV;
+    this.props.data.gate = this.state.gate;
   };
 
   confirmData = (event) => {
-    // event.preventDefault();
     this.props.nextStep();
-    // event.persist();
-    const EntranceData = {
-      optionsSelected: this.state.optionsSelected,
-      gateScore: this.state.gateScore,
-    };
-    console.log(EntranceData);
+    console.log(this.props.data);
   };
 
   handleSelect = (selectedList, selectedItem) => {
@@ -188,37 +194,35 @@ export default class EntranceExamDetails extends Component {
                 />
               </div>
               <div>
-                {/* {this.state.optionsSelected.map(function (str) {
-                  if (str.id === 2) {
-                    return (
-                      <div style={{ marginTop: "10px" }}>
-                        <Typography>GATE Details</Typography>
-                        <TextField
-                          variant="outlined"
-                          label="Gate Score"
-                          onChange={console.log("change")}
-                          value={""}
-                          name="gate"
-                          required
-                        />
-                      </div>
-                    );
-                  }
-                })} */}
                 {this.state.optionsSelected.map((str) => (
                   <div>
                     {str.id === 2 ? (
-                      <div style={{ marginTop: "10px" }}>
-                        <Typography>GATE Details</Typography>
-                        <TextField
-                          className="mb-3"
-                          variant="outlined"
-                          label="Gate Score"
-                          onChange={this.handleChange}
-                          value={this.state.gateScore}
-                          name="gateScore"
-                          required
-                        />
+                      <div>
+                        {(this.state.gate = true)}
+                        <div style={{ marginTop: "10px" }}>
+                          <Typography>GATE Details</Typography>
+                          <TextField
+                            className="mb-3"
+                            variant="outlined"
+                            label="Gate Score"
+                            onChange={this.handleChange}
+                            value={this.state.gateScore}
+                            name="gateScore"
+                            required
+                          />
+                        </div>
+                        <div style={{ marginTop: "10px" }}>
+                          <Typography>Date of Validation</Typography>
+                          <DatePicker
+                            onChange={(e) => this.onChangeDate(e)}
+                            value={this.state.gateDOV}
+                            format={"dd-MM-y"}
+                            dayPlaceholder="dd"
+                            monthPlaceholder="mm"
+                            yearPlaceholder="yyyy"
+                            className="formDatePicker"
+                          ></DatePicker>
+                        </div>
                       </div>
                     ) : (
                       " "

@@ -11,6 +11,7 @@ export default class PersonalDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      confirmAlert: false,
       name: "",
       middleName: "",
       gender: "",
@@ -23,7 +24,6 @@ export default class PersonalDetails extends Component {
       address: "",
       physicallyDisabled: "",
       department: "",
-      confirmAlert: false,
     };
   }
 
@@ -62,38 +62,31 @@ export default class PersonalDetails extends Component {
   };
 
   onSubmit = (event) => {
-    // event.preventDefault();
+    event.preventDefault();
     // event.persist();
     this.setState({ confirmAlert: !this.state.confirmAlert });
+    this.props.data.name = this.state.name;
+    this.props.data.middleName = this.state.middleName;
+    this.props.data.gender = this.state.gender;
+    this.props.data.dob = this.state.dob;
+    this.props.data.email = this.state.email;
+    this.props.data.nationality = this.state.nationality;
+    this.props.data.category = this.state.category;
+    this.props.data.aadhar = this.state.aadhar;
+    this.props.data.address = this.state.address;
+    this.props.data.physicallyDisabled = this.state.physicallyDisabled;
+    this.props.data.department = this.state.department;
   };
 
   confirmData = (event) => {
-    // event.preventDefault();
-    // event.persist();
     this.props.nextStep();
-    const personalData = {
-      name: this.state.name,
-      middleName: this.state.middleName,
-      gender: this.state.gender,
-      dob: this.state.dob,
-      email: this.state.email,
-      mobile: this.state.mobile,
-      nationality: this.state.nationality,
-      category: this.state.category,
-      aadhar: this.state.aadhar,
-      address: this.state.address,
-      physicallyDisabled: this.state.physicallyDisabled,
-      department: this.state.department,
-    };
-    console.log(personalData);
   };
 
-  onCancel = () => {
+  onCancel = (event) => {
+    // event.preventDefault();
     this.setState({
       confirmAlert: !this.state.confirmAlert,
     });
-    console.log(this.props);
-    // this.props.props.history.goBack();
   };
 
   render() {
@@ -206,7 +199,6 @@ export default class PersonalDetails extends Component {
                     <div>{this.state.address}</div>
                   </div>
                 )}
-                {console.log(this.state.address.length)}
                 {this.state.address.length < 45 && (
                   <div className="popUpField">
                     <div>
