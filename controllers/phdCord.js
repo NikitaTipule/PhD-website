@@ -1,4 +1,5 @@
 const PhdCord = require("../models/phdCord");
+const Student = require("../models/student");
 
 exports.getPhdCordInfo = (req, res) => {
   if (!req.userRole == "admin") {
@@ -12,6 +13,41 @@ exports.getPhdCordInfo = (req, res) => {
     }
     res.json({ user });
   });
+};
+
+exports.getAllCords = async (req, res) => {
+  try {
+    if (!req.userRole == "admin") {
+      return res.status(403).json("error : user don't have access to resource");
+    }
+    var agg = [
+      {
+        $group: {
+          _id: {
+            department: "$personalInfo.department",
+            verification: "$verification",
+          },
+          total: { $sum: 1 },
+        },
+      },
+    ];
+
+    const result = await Student.aggregate(agg);
+    const vf = {};
+    for (const curr of result) {
+      const { department, verification } = curr._id;
+      if (!vf[department]) vf[department] = {};
+      vf[department][verification] = curr.total;
+    }
+    let cords = await PhdCord.find({}, "name department").lean().exec();
+    for (let i = 0; i < cords.length; i++) {
+      cords[i].status = vf[cords[i].department];
+    }
+    return res.json(cords);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "internal server error" });
+  }
 };
 
 exports.addPhdCord = (req, res) => {
