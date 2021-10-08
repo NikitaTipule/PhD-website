@@ -20,7 +20,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" component={Home} exact></Route>
-        <Route path="/co-home" component={StickyHeadTable} exact></Route>
+        <Route path="/coordinator" component={StickyHeadTable} exact></Route>
         <Route path="/coform" component={coForm} exact></Route>
         <Route path="/Register" component={Register} exact></Route>
         <Route path="/StudentLogIn" component={StudentLogIn} exact></Route>
