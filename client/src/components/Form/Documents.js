@@ -131,7 +131,7 @@ export default class Documents extends Component {
               </div>
             )}
             {/*________condition PERSONAL_____ */}
-            {this.props.data.category==="OBC" || this.props.data. && (
+            {this.props.data.category === "OBC" ? (
               <div>
                 {this.state.caste.map((str) => (
                   <>
@@ -149,6 +149,8 @@ export default class Documents extends Component {
                   </>
                 ))}
               </div>
+            ) : (
+              " "
             )}
           </TableBody>
         </Table>

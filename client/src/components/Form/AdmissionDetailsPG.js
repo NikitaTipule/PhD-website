@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { TextField, Typography } from "@material-ui/core";
+import axios from "axios";
+// import { ldapAuthUrl } from "../../../../config/configKeys";
 import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./AdmissionDetails.css";
@@ -15,6 +17,9 @@ export default class AdmissionDetailsPG extends Component {
       cgpa: "",
       percentage: "",
       confirmAlert: false,
+      headers: {
+        token: localStorage.getItem("token"),
+      },
     };
   }
 
@@ -24,17 +29,22 @@ export default class AdmissionDetailsPG extends Component {
 
   onSubmit = (event) => {
     this.setState({ confirmAlert: !this.state.confirmAlert });
-    this.props.data.pgUniversity = this.state.university;
-    this.props.data.pgNomanclaure = this.state.nomanclaure;
-    this.props.data.pgMarksObtained = this.state.marksObtained;
-    this.props.data.pgTotalMarks = this.state.totalMarks;
-    this.props.data.pgCGPA = this.state.cgpa;
-    this.props.data.pgPercentage = this.state.percentage;
+    this.props.data.academicsPG.pgUniversity = this.state.university;
+    this.props.data.academicsPG.pgNomanclaure = this.state.nomanclaure;
+    this.props.data.academicsPG.pgMarksObtained = this.state.marksObtained;
+    this.props.data.academicsPG.pgTotalMarks = this.state.totalMarks;
+    this.props.data.academicsPG.pgCGPA = this.state.cgpa;
+    this.props.data.academicsPG.pgPercentage = this.state.percentage;
   };
 
   confirmData = (event) => {
     this.props.nextStep();
     console.log(this.props.data);
+    const StudentSchema = {
+      personalInfo: this.props.data.personalInfo,
+      academicsUG: this.props.data.academicsUG,
+      academicsPG: this.props.data.academicsPG,
+    };
   };
 
   onCancel = () => {

@@ -24,6 +24,10 @@ export default class PersonalDetails extends Component {
       address: "",
       physicallyDisabled: "",
       department: "",
+      errorName: false,
+      errorMiddleName: false,
+      errorGender: false,
+      errorDob: false,
     };
   }
 
@@ -61,21 +65,48 @@ export default class PersonalDetails extends Component {
     });
   };
 
-  onSubmit = (event) => {
-    event.preventDefault();
+  validateData = () => {
+    this.state.name.length < 1
+      ? this.setState({ errorName: true })
+      : this.setState({ errorName: false });
+
+    this.state.middleName.length < 1
+      ? this.setState({ errorMiddleName: true })
+      : this.setState({ errorMiddleName: false });
+
+    this.state.gender === ""
+      ? this.setState({ errorGender: true })
+      : this.setState({ errorGender: false });
+
+    this.state.dob === ""
+      ? this.setState({ errorDob: true })
+      : this.setState({ errorDob: false });
+  };
+
+  onSubmit = async (event) => {
+    // event.preventDefault();
     // event.persist();
-    this.setState({ confirmAlert: !this.state.confirmAlert });
-    this.props.data.name = this.state.name;
-    this.props.data.middleName = this.state.middleName;
-    this.props.data.gender = this.state.gender;
-    this.props.data.dob = this.state.dob;
-    this.props.data.email = this.state.email;
-    this.props.data.nationality = this.state.nationality;
-    this.props.data.category = this.state.category;
-    this.props.data.aadhar = this.state.aadhar;
-    this.props.data.address = this.state.address;
-    this.props.data.physicallyDisabled = this.state.physicallyDisabled;
-    this.props.data.department = this.state.department;
+    await this.validateData();
+
+    if (
+      this.state.errorName === false &&
+      this.state.errorMiddleName === false &&
+      this.state.errorGender === false
+    ) {
+      this.setState({ confirmAlert: !this.state.confirmAlert });
+      this.props.data.personalInfo.name = this.state.name;
+      this.props.data.personalInfo.middleName = this.state.middleName;
+      this.props.data.personalInfo.gender = this.state.gender;
+      this.props.data.personalInfo.dob = this.state.dob;
+      this.props.data.personalInfo.email = this.state.email;
+      this.props.data.personalInfo.nationality = this.state.nationality;
+      this.props.data.personalInfo.category = this.state.category;
+      this.props.data.personalInfo.aadhar = this.state.aadhar;
+      this.props.data.personalInfo.address = this.state.address;
+      this.props.data.personalInfo.physicallyDisabled =
+        this.state.physicallyDisabled;
+      this.props.data.personalInfo.department = this.state.department;
+    }
   };
 
   confirmData = (event) => {
@@ -240,6 +271,11 @@ export default class PersonalDetails extends Component {
                 required="true"
                 style={{ marginTop: "8px" }}
               />
+              {this.state.errorName && (
+                <div style={{ color: "red" }}>
+                  <Typography>Name is required field</Typography>
+                </div>
+              )}
             </div>
             {/* 2. Father's Name/Husband's name  */}
             <div className="formField">
@@ -255,6 +291,11 @@ export default class PersonalDetails extends Component {
                 required
                 style={{ marginTop: "8px" }}
               />
+              {this.state.errorMiddleName && (
+                <div style={{ color: "red" }}>
+                  <Typography>Middle Name is required field</Typography>
+                </div>
+              )}
             </div>
             {/*
              * 3. Gender
@@ -293,8 +334,14 @@ export default class PersonalDetails extends Component {
                     />{" "}
                     Other
                   </div>
+                  {this.state.errorGender && (
+                    <div style={{ color: "red" }}>
+                      <Typography>Please select Gender</Typography>
+                    </div>
+                  )}
                 </div>
               </div>
+
               <div className="formDob">
                 <Typography>DOB</Typography>
                 <DatePicker
@@ -306,6 +353,11 @@ export default class PersonalDetails extends Component {
                   yearPlaceholder="yyyy"
                   className="formDatePicker"
                 ></DatePicker>
+                {this.state.errorGender && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select date of birth</Typography>
+                  </div>
+                )}
               </div>
             </div>
             {/*

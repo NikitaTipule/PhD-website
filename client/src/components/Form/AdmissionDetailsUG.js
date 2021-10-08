@@ -33,14 +33,14 @@ export default class AdmissionDetailsUG extends Component {
     // event.preventDefault();
     // event.persist();
     this.setState({ confirmAlert: !this.state.confirmAlert });
-    this.props.data.ugUniversity = this.state.university;
-    this.props.data.ugNomanclaure = this.state.nomanclaure;
-    this.props.data.ugSpecilization = this.state.specialization;
-    this.props.data.ugMarksObtained = this.state.marksObtained;
-    this.props.data.ugTotalMarks = this.state.totalMarks;
-    this.props.data.ugCGPA = this.state.cgpa;
-    this.props.data.ugPercentage = this.state.percentage;
-    this.props.data.ugDOD = this.state.dateOfDeclaration;
+    this.props.data.academicsUG.ugUniversity = this.state.university;
+    this.props.data.academicsUG.ugNomanclaure = this.state.nomanclaure;
+    this.props.data.academicsUG.ugSpecilization = this.state.specialization;
+    this.props.data.academicsUG.ugMarksObtained = this.state.marksObtained;
+    this.props.data.academicsUG.ugTotalMarks = this.state.totalMarks;
+    this.props.data.academicsUG.ugCGPA = this.state.cgpa;
+    this.props.data.academicsUG.ugPercentage = this.state.percentage;
+    this.props.data.academicsUG.ugDOD = this.state.dateOfDeclaration;
   };
 
   confirmData = (event) => {
