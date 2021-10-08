@@ -6,16 +6,11 @@ const {
   preSaveHashPassword,
 } = require("./schemaFields");
 
-reqNumber = {
-  type: Number,
-  required: true,
-};
-
 const personalInfo = {
-  mobile: reqString,
-  nationality: reqString,
-  category: reqString,
-  aadhar: reqString,
+  mobile: { type: String },
+  nationality: { type: String },
+  category: { type: String },
+  aadhar: { type: String },
   dob: { type: Date },
   ageYears: { type: Number },
   physcialDisability: {
@@ -23,19 +18,19 @@ const personalInfo = {
     required: true,
   },
   department: departmentField,
-  adressPermenant: reqString,
-  adressCorrespondance: reqString,
+  adressPermenant: { type: String },
+  adressCorrespondance: { type: String },
 };
 
 const academicsUG = {
-  institute: reqString,
-  degree: reqString,
-  specialization: reqString,
-  marksFinalYear: reqNumber,
-  totalAggregate: reqNumber,
-  totalMarks: reqNumber,
-  cgpa10: reqNumber,
-  percentageMarks: reqNumber,
+  institute: { type: String },
+  degree: { type: String },
+  specialization: { type: String },
+  marksFinalYear: { type: Number },
+  totalAggregate: { type: Number },
+  totalMarks: { type: Number },
+  cgpa10: { type: Number },
+  percentageMarks: { type: Number },
   dateOfDeclaration: { type: Date },
 };
 
@@ -54,14 +49,14 @@ const entranceDetails = {
 };
 
 const academicsPG = {
-  institute: reqString,
-  degree: reqString,
-  specialization: reqString,
-  marksFinalYear: reqNumber,
-  totalAggregate: reqNumber,
-  totalMarks: reqNumber,
-  cgpa10: reqNumber,
-  percentageMarks: reqNumber,
+  institute: { type: String },
+  degree: { type: String },
+  specialization: { type: String },
+  marksFinalYear: { type: Number },
+  totalAggregate: { type: Number },
+  totalMarks: { type: Number },
+  cgpa10: { type: Number },
+  percentageMarks: { type: Number },
   dateOfDeclaration: { type: Date },
 };
 
@@ -72,35 +67,30 @@ const verificationField = {
 };
 
 const docUploaded = {
-  type: reqString,
-  filename: reqString,
-  originalName: reqString,
+  type: { type: String },
+  filename: { type: String },
+  originalName: { type: String },
   verification: verificationField,
 };
 
 const feeDetails = {
-  utrDuNumber: reqString,
-  amount: reqString,
+  utrDuNumber: { type: String },
+  amount: { type: String },
   transactionTime: { type: Date },
-  bank: reqString,
+  bank: { type: String },
   verification: verificationField,
   remarks: { type: String, default: "" },
   docUploaded: {
-    type: reqString,
-    filename: reqString,
-    originalName: reqString,
+    type: { type: String },
+    filename: { type: String },
+    originalName: { type: String },
   },
 };
 
 const footerData = {
   date: { type: Date },
-  place: reqString,
+  place: { type: String },
 };
-personalInfoSchema = Schema(personalInfo);
-academicsUGSchema = Schema(academicsUG);
-academicsPGSchema = Schema(academicsPG);
-feeDetailsSchema = Schema(feeDetails);
-footerDataSchema = Schema(footerData);
 
 // TODO : How to store verification data ? (need more info about requirements)
 const StudentSchema = Schema(
@@ -109,13 +99,13 @@ const StudentSchema = Schema(
     email: email,
     password: reqString,
     verification: verificationField,
-    personalInfo: personalInfoSchema,
-    academicsUG: academicsUGSchema,
-    academicsPG: academicsPGSchema,
-    feeDetails: feeDetailsSchema,
+    personalInfo: personalInfo,
+    academicsUG: academicsUG,
+    academicsPG: academicsPG,
+    feeDetails: feeDetails,
     documentsUploaded: [docUploaded],
     remarks: { type: String, default: "" },
-    footerData: footerDataSchema,
+    footerData: footerData,
     entranceDetails: entranceDetails,
     mailVerified: {
       type: Boolean,

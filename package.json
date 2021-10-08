@@ -28,6 +28,7 @@
     "nodemailer": "^6.6.3"
   },
   "devDependencies": {
+    "mongoose-dummy": "^1.0.8",
     "nodemon": "^2.0.12"
   }
 }
