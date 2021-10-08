@@ -19,3 +19,16 @@ export const departmentNamesList = [
   "Metallurgical Engineering",
   "Production Engineering",
 ];
+
+export const verification_options = {
+  pending: "pending",
+  verified: "verified",
+  modReq: "mod-req",
+};
+
+export const roles = {
+  phdCord: "phdCord",
+  admin: "admin",
+  accountSec: "accountSec",
+  student: "student",
+};
