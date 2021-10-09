@@ -40,18 +40,28 @@ exports.registerStudent = (req, res) => {
           .json({ error: "User Already Exist. Please Login" });
       }
       const newStudent = new Student({ name, email, password });
-      newStudent.save().then((user) => {
-        const token = new MailToken({
-          userId: user._id,
-          token: crypto.randomBytes(32).toString("hex"),
-        });
-        token.save().then((token) => {
-          const message = `${baseURL}/students/verifymail/${token.userId}/${token.token}`;
-          console.log(message);
-          sendEmail(user.email, message);
-          res.send("An Email sent to your account. Pleasse verify");
-        });
-      });
+      newStudent
+        .save()
+        .then((user) => {
+          const token = new MailToken({
+            userId: user._id,
+            token: crypto.randomBytes(32).toString("hex"),
+          });
+          token
+            .save()
+            .then((token) => {
+              const message = `${baseURL}/students/verifymail/${token.userId}/${token.token}`;
+              console.log(message);
+              // sendEmail(user.email, message);
+              res.send("An Email sent to your account. Please verify");
+            })
+            .catch((err) =>
+              res.status(500).json({ error: "internal server error" })
+            );
+        })
+        .catch((err) =>
+          res.status(400).json({ error: "could not create user" })
+        );
     })
     .catch((err) => {
       console.log(err);
