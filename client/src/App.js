@@ -15,13 +15,14 @@ import AddCordForm from "./pages/AddCordForm";
 import RemoveStaffForm from "./pages/RemoveStaffForm";
 import AddAccountForm from "./pages/AddAccountForm.js";
 import ProtectedRouteStudent from "./components/ProtectedRouteStudent";
+import ProtectedRouteCoordinator from "./components/ProtectedRouteCoordinator"
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/" component={Home} exact></Route>
-        <Route path="/coordinator" component={PhdCordHome} exact></Route>
+        <ProtectedRouteCoordinator path="/coordinator" component={PhdCordHome} exact></ProtectedRouteCoordinator>
         <Route path="/coform" component={phdCordForm} exact></Route>
         <Route path="/register" component={Register} exact></Route>
         <Route path="/login/candidate" component={StudentLogIn} exact></Route>
