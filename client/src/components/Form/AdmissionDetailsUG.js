@@ -18,6 +18,15 @@ export default class AdmissionDetailsUG extends Component {
       percentage: "",
       dateOfDeclaration: "",
       confirmAlert: false,
+
+      errorUniversity: false,
+      errorNomanclaure: false,
+      errorSpecialization: false,
+      errorMarksObtained: false,
+      errorTotalMarks: false,
+      errorCGPA: false,
+      errorPercentage: false,
+      errorDod: false,
     };
   }
 
@@ -29,18 +38,74 @@ export default class AdmissionDetailsUG extends Component {
     this.setState({ dateOfDeclaration: event });
   };
 
-  onSubmit = (event) => {
+  validateData = () => {
+    var s = this.state.university.replace(/ /g, "");
+    s === ""
+      ? this.setState({ errorUniversity: true })
+      : this.setState({ errorUniversity: false });
+
+    var s = this.state.nomanclaure.replace(/ /g, "");
+    s === ""
+      ? this.setState({ errorNomanclaure: true })
+      : this.setState({ errorNomanclaure: false });
+
+    var s = this.state.specialization.replace(/ /g, "");
+    s === ""
+      ? this.setState({ errorSpecialization: true })
+      : this.setState({ errorSpecialization: false });
+
+    /^\d+$/.test(this.state.marksObtained) &&
+    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+      ? this.setState({ errorMarksObtained: false }, console.log("in true"))
+      : this.setState({ errorMarksObtained: true });
+
+    /^\d+$/.test(this.state.totalMarks) &&
+    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+      ? this.setState({ errorTotalMarks: false })
+      : this.setState({ errorTotalMarks: true });
+
+    !isNaN(parseFloat(this.state.cgpa)) &&
+    isFinite(this.state.cgpa) &&
+    parseInt(this.state.cgpa) < 10
+      ? this.setState({ errorCGPA: false })
+      : this.setState({ errorCGPA: true });
+
+    !isNaN(parseFloat(this.state.percentage)) &&
+    isFinite(this.state.percentage) &&
+    parseInt(this.state.percentage) < 100
+      ? this.setState({ errorPercentage: false })
+      : this.setState({ errorPercentage: true });
+
+    this.state.dateOfDeclaration === ""
+      ? this.setState({ errorDod: true })
+      : this.setState({ errorDod: false });
+  };
+
+  onSubmit = async (event) => {
     // event.preventDefault();
     // event.persist();
-    this.setState({ confirmAlert: !this.state.confirmAlert });
-    this.props.data.academicsUG.ugUniversity = this.state.university;
-    this.props.data.academicsUG.ugNomanclaure = this.state.nomanclaure;
-    this.props.data.academicsUG.ugSpecilization = this.state.specialization;
-    this.props.data.academicsUG.ugMarksObtained = this.state.marksObtained;
-    this.props.data.academicsUG.ugTotalMarks = this.state.totalMarks;
-    this.props.data.academicsUG.ugCGPA = this.state.cgpa;
-    this.props.data.academicsUG.ugPercentage = this.state.percentage;
-    this.props.data.academicsUG.ugDOD = this.state.dateOfDeclaration;
+    await this.validateData();
+
+    if (
+      this.state.errorUniversity === false &&
+      this.state.errorNomanclaure === false &&
+      this.state.errorSpecialization === false &&
+      this.state.errorMarksObtained === false &&
+      this.state.errorTotalMarks === false &&
+      this.state.errorCGPA === false &&
+      this.state.errorPercentage === false &&
+      this.state.errorDod === false
+    ) {
+      this.setState({ confirmAlert: !this.state.confirmAlert });
+      this.props.data.academicsUG.ugUniversity = this.state.university;
+      this.props.data.academicsUG.ugNomanclaure = this.state.nomanclaure;
+      this.props.data.academicsUG.ugSpecilization = this.state.specialization;
+      this.props.data.academicsUG.ugMarksObtained = this.state.marksObtained;
+      this.props.data.academicsUG.ugTotalMarks = this.state.totalMarks;
+      this.props.data.academicsUG.ugCGPA = this.state.cgpa;
+      this.props.data.academicsUG.ugPercentage = this.state.percentage;
+      this.props.data.academicsUG.ugDOD = this.state.dateOfDeclaration;
+    }
   };
 
   confirmData = (event) => {
@@ -162,6 +227,13 @@ export default class AdmissionDetailsUG extends Component {
                 required
                 style={{ marginTop: "8px" }}
               />
+              {this.state.errorUniversity && (
+                <div style={{ color: "red" }}>
+                  <Typography>
+                    University/Institute is required field
+                  </Typography>
+                </div>
+              )}
             </div>
             {/* 2. Nomanclaure of Degree  */}
             <div style={{ marginBottom: "12px" }}>
@@ -177,6 +249,13 @@ export default class AdmissionDetailsUG extends Component {
                 required
                 style={{ marginTop: "8px" }}
               />
+              {this.state.errorNomanclaure && (
+                <div style={{ color: "red" }}>
+                  <Typography>
+                    Nomanclaure of degree is required field
+                  </Typography>
+                </div>
+              )}
             </div>
             {/* 3. Specialization Branch  */}
             <div style={{ marginBottom: "12px" }}>
@@ -192,6 +271,11 @@ export default class AdmissionDetailsUG extends Component {
                 required
                 style={{ marginTop: "8px" }}
               />
+              {this.state.errorSpecialization && (
+                <div style={{ color: "red" }}>
+                  <Typography>Specialization is required field</Typography>
+                </div>
+              )}
             </div>
             {/*
              * 4. Marks Obtained
@@ -211,6 +295,11 @@ export default class AdmissionDetailsUG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorMarksObtained && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Invalid entry</Typography>
+                  </div>
+                )}
               </div>
               <div className="totalMarks">
                 <Typography>Total Marks</Typography>
@@ -225,6 +314,11 @@ export default class AdmissionDetailsUG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorTotalMarks && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Invalid entry</Typography>
+                  </div>
+                )}
               </div>
             </div>
             {/*
@@ -245,6 +339,11 @@ export default class AdmissionDetailsUG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorCGPA && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please enter valid CGPA</Typography>
+                  </div>
+                )}
               </div>
               <div className="totalMarks">
                 <Typography>Percentage</Typography>
@@ -259,6 +358,11 @@ export default class AdmissionDetailsUG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorPercentage && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please enter valid percentage</Typography>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -272,6 +376,11 @@ export default class AdmissionDetailsUG extends Component {
                 monthPlaceholder="mm"
                 yearPlaceholder="yyyy"
               ></DatePicker>
+              {this.state.errorDod && (
+                <div style={{ color: "red" }}>
+                  <Typography>Please select the Date of Declaration</Typography>
+                </div>
+              )}
             </div>
           </form>
 

@@ -17,6 +17,14 @@ export default class AdmissionDetailsPG extends Component {
       cgpa: "",
       percentage: "",
       confirmAlert: false,
+
+      errorUniversity: false,
+      errorNomanclaure: false,
+      errorMarksObtained: false,
+      errorTotalMarks: false,
+      errorCGPA: false,
+      errorPercentage: false,
+
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -27,14 +35,57 @@ export default class AdmissionDetailsPG extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onSubmit = (event) => {
-    this.setState({ confirmAlert: !this.state.confirmAlert });
-    this.props.data.academicsPG.pgUniversity = this.state.university;
-    this.props.data.academicsPG.pgNomanclaure = this.state.nomanclaure;
-    this.props.data.academicsPG.pgMarksObtained = this.state.marksObtained;
-    this.props.data.academicsPG.pgTotalMarks = this.state.totalMarks;
-    this.props.data.academicsPG.pgCGPA = this.state.cgpa;
-    this.props.data.academicsPG.pgPercentage = this.state.percentage;
+  validateData = () => {
+    this.state.university.replace(/ /g, "") === ""
+      ? this.setState({ errorUniversity: true })
+      : this.setState({ errorUniversity: false });
+
+    this.state.nomanclaure.replace(/ /g, "") === ""
+      ? this.setState({ errorNomanclaure: true })
+      : this.setState({ errorNomanclaure: false });
+
+    /^\d+$/.test(this.state.marksObtained) &&
+    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+      ? this.setState({ errorMarksObtained: false })
+      : this.setState({ errorMarksObtained: true });
+
+    /^\d+$/.test(this.state.totalMarks) &&
+    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+      ? this.setState({ errorTotalMarks: false })
+      : this.setState({ errorTotalMarks: true });
+
+    !isNaN(parseFloat(this.state.cgpa)) &&
+    isFinite(this.state.cgpa) &&
+    parseInt(this.state.cgpa) < 10
+      ? this.setState({ errorCGPA: false })
+      : this.setState({ errorCGPA: true });
+
+    !isNaN(parseFloat(this.state.percentage)) &&
+    isFinite(this.state.percentage) &&
+    parseInt(this.state.percentage) < 100
+      ? this.setState({ errorPercentage: false })
+      : this.setState({ errorPercentage: true });
+  };
+
+  onSubmit = async (event) => {
+    await this.validateData();
+
+    if (
+      this.state.errorUniversity === false &&
+      this.state.errorNomanclaure === false &&
+      this.state.errorMarksObtained === false &&
+      this.state.errorTotalMarks === false &&
+      this.state.errorCGPA === false &&
+      this.state.errorPercentage === false
+    ) {
+      this.setState({ confirmAlert: !this.state.confirmAlert });
+      this.props.data.academicsPG.pgUniversity = this.state.university;
+      this.props.data.academicsPG.pgNomanclaure = this.state.nomanclaure;
+      this.props.data.academicsPG.pgMarksObtained = this.state.marksObtained;
+      this.props.data.academicsPG.pgTotalMarks = this.state.totalMarks;
+      this.props.data.academicsPG.pgCGPA = this.state.cgpa;
+      this.props.data.academicsPG.pgPercentage = this.state.percentage;
+    }
   };
 
   confirmData = (event) => {
@@ -147,6 +198,13 @@ export default class AdmissionDetailsPG extends Component {
                 required
                 style={{ marginTop: "8px" }}
               />
+              {this.state.errorUniversity && (
+                <div style={{ color: "red" }}>
+                  <Typography>
+                    University/Institute is required field
+                  </Typography>
+                </div>
+              )}
             </div>
             {/* 2. Nomanclaure of Degree  */}
             <div style={{ marginBottom: "12px" }}>
@@ -162,6 +220,13 @@ export default class AdmissionDetailsPG extends Component {
                 required
                 style={{ marginTop: "8px" }}
               />
+              {this.state.errorNomanclaure && (
+                <div style={{ color: "red" }}>
+                  <Typography>
+                    Nomanclaure of degree is required field
+                  </Typography>
+                </div>
+              )}
             </div>
             {/*
              * 4. Marks Obtained
@@ -181,6 +246,11 @@ export default class AdmissionDetailsPG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorMarksObtained && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Invalid entry</Typography>
+                  </div>
+                )}
               </div>
               <div className="totalMarks">
                 <Typography>Total Marks</Typography>
@@ -195,6 +265,11 @@ export default class AdmissionDetailsPG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorTotalMarks && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Invalid entry</Typography>
+                  </div>
+                )}
               </div>
             </div>
             {/*
@@ -215,6 +290,11 @@ export default class AdmissionDetailsPG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorCGPA && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please enter valid CGPA</Typography>
+                  </div>
+                )}
               </div>
               <div className="totalMarks">
                 <Typography>Percentage</Typography>
@@ -229,6 +309,11 @@ export default class AdmissionDetailsPG extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorPercentage && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please enter valid percentage</Typography>
+                  </div>
+                )}
               </div>
             </div>
           </form>

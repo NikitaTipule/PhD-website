@@ -24,10 +24,19 @@ export default class PersonalDetails extends Component {
       address: "",
       physicallyDisabled: "",
       department: "",
+
       errorName: false,
       errorMiddleName: false,
       errorGender: false,
       errorDob: false,
+      errorEmail: false,
+      errorMobile: false,
+      errorNationality: false,
+      errorCategory: false,
+      errorAadhar: false,
+      errorAddress: false,
+      errorPhysicallyDisabled: false,
+      errorDepartment: false,
     };
   }
 
@@ -81,6 +90,42 @@ export default class PersonalDetails extends Component {
     this.state.dob === ""
       ? this.setState({ errorDob: true })
       : this.setState({ errorDob: false });
+
+    this.state.email.length < 10 ||
+    this.state.email.indexOf("@") > this.state.email.indexOf(".") ||
+    this.state.email.indexOf("@") < 1
+      ? (this.state.errorEmail = true)
+      : (this.state.errorEmail = false);
+
+    this.state.mobile.length === 10 && /^\d+$/.test(this.state.mobile)
+      ? (this.state.errorMobile = false)
+      : (this.state.errorMobile = true);
+
+    var n = this.state.nationality.replace(/ /g, "");
+    n === ""
+      ? (this.state.errorNationality = true)
+      : (this.state.errorNationality = false);
+
+    this.state.category === ""
+      ? (this.state.errorCategory = true)
+      : (this.state.errorCategory = false);
+
+    this.state.aadhar.length === 12 && /^\d+$/.test(this.state.aadhar)
+      ? (this.state.errorAadhar = false)
+      : (this.state.errorAadhar = true);
+
+    var a = this.state.address.replace(/ /g, "");
+    a === ""
+      ? (this.state.errorAddress = true)
+      : (this.state.errorAddress = false);
+
+    this.state.physicallyDisabled === ""
+      ? (this.state.errorPhysicallyDisabled = true)
+      : (this.state.errorPhysicallyDisabled = false);
+
+    this.state.department === ""
+      ? (this.state.errorDepartment = true)
+      : (this.state.errorDepartment = false);
   };
 
   onSubmit = async (event) => {
@@ -91,7 +136,15 @@ export default class PersonalDetails extends Component {
     if (
       this.state.errorName === false &&
       this.state.errorMiddleName === false &&
-      this.state.errorGender === false
+      this.state.errorGender === false &&
+      this.state.errorEmail === false &&
+      this.state.errorMobile === false &&
+      this.state.errorNationality === false &&
+      this.state.errorCategory === false &&
+      this.state.errorAadhar === false &&
+      this.state.errorAddress === false &&
+      this.state.errorPhysicallyDisabled === false &&
+      this.state.errorDepartment === false
     ) {
       this.setState({ confirmAlert: !this.state.confirmAlert });
       this.props.data.personalInfo.name = this.state.name;
@@ -378,6 +431,11 @@ export default class PersonalDetails extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorEmail && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Invalid Email Id</Typography>
+                  </div>
+                )}
               </div>
               <div className="formNumber">
                 <Typography>Mobile Number</Typography>
@@ -392,6 +450,13 @@ export default class PersonalDetails extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorMobile && (
+                  <div style={{ color: "red" }}>
+                    <Typography>
+                      Please enter a valid 10 digit mobile number
+                    </Typography>
+                  </div>
+                )}
               </div>
             </div>
             {/*
@@ -412,6 +477,11 @@ export default class PersonalDetails extends Component {
                   required
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorNationality && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Nationality is required field</Typography>
+                  </div>
+                )}
               </div>
               <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
@@ -422,6 +492,11 @@ export default class PersonalDetails extends Component {
                   onChange={this.onChangeCategory}
                   placeholder="Select category"
                 />
+                {this.state.errorCategory && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select category</Typography>
+                  </div>
+                )}
               </div>
             </div>
             {/*
@@ -441,6 +516,11 @@ export default class PersonalDetails extends Component {
                 variant="outlined"
                 required
               />
+              {this.state.errorAadhar && (
+                <div style={{ color: "red" }}>
+                  <Typography>Invalid Aadhar Card Number</Typography>
+                </div>
+              )}
             </div>
             {/*
              * 10. Permanent Address
@@ -461,6 +541,11 @@ export default class PersonalDetails extends Component {
                 minRows={3}
                 required
               />
+              {this.state.errorAddress && (
+                <div style={{ color: "red" }}>
+                  <Typography>Address is required field</Typography>
+                </div>
+              )}
             </div>
             {/*
              * 11. Physically Disable
@@ -506,6 +591,11 @@ export default class PersonalDetails extends Component {
                     />{" "}
                     No
                   </div>
+                  {this.state.errorPhysicallyDisabled && (
+                    <div style={{ color: "red" }}>
+                      <Typography>Please select correct option</Typography>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="formNumber">
@@ -517,6 +607,11 @@ export default class PersonalDetails extends Component {
                   onChange={this.onChangeDepartment}
                   placeholder="Select Department"
                 />
+                {this.state.errorDepartment && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select Department</Typography>
+                  </div>
+                )}
               </div>
             </div>
           </form>
