@@ -19,7 +19,6 @@ exports.email = {
 
 exports.departmentField = {
   type: String,
-  required: true,
   enum: [
     "Civil Engineering",
     "Computer Engineering",

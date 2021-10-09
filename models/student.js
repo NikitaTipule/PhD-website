@@ -13,10 +13,7 @@ const personalInfo = {
   aadhar: { type: String },
   dob: { type: Date },
   ageYears: { type: Number },
-  physcialDisability: {
-    type: Boolean,
-    required: true,
-  },
+  physcialDisability: { type: Boolean },
   department: departmentField,
   adressPermenant: { type: String },
   adressCorrespondance: { type: String },
