@@ -61,8 +61,11 @@ exports.addPhdCord = (req, res) => {
   const user = new PhdCord({ name, mis, email, department });
   user
     .save()
-    .then((res) => res.json(res))
-    .catch((err) => res.status(400).json("invalid data"));
+    .then((user) => res.json(user))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ err: "invalid data" });
+    });
 };
 
 exports.removePhdCord = (req, res) => {

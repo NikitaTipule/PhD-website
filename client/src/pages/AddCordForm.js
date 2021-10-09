@@ -15,6 +15,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import { departmentNamesList } from "../phdAdmDetails";
+import axios from "axios";
 
 const theme = createTheme();
 
@@ -46,9 +47,13 @@ export default function AddCordForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log(values);
+      axios
+        .post("http://localhost:5000/" + "phdCords/add", values)
+        .then((res) => {
+          alert("user added");
+          resetForm();
+        });
     }
-    resetForm();
   };
 
   return (
