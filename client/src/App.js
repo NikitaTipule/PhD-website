@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import coForm from "./pages/coForm";
+import phdCordForm from "./pages/PhdCordForm";
 import Home from "./pages/Home";
-import StickyHeadTable from "./pages/coHome";
+import PhdCordHome from "./pages/PhdCordHome";
 import Register from "./pages/Register";
 import StudentLogIn from "./pages/StudentLogIn";
 import FacLogIn from "./pages/FacLogIn";
@@ -14,23 +14,27 @@ import AccountForm from "./pages/AccountForm";
 import AddCordForm from "./pages/AddCordForm";
 import RemoveStaffForm from "./pages/RemoveStaffForm";
 import AddAccountForm from "./pages/AddAccountForm.js";
-import ProtectedRouteStudent from "./components/ProtectedRouteStudent"
+import ProtectedRouteStudent from "./components/ProtectedRouteStudent";
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/" component={Home} exact></Route>
-        <Route path="/coordinator" component={StickyHeadTable} exact></Route>
-        <Route path="/coform" component={coForm} exact></Route>
-        <Route path="/Register" component={Register} exact></Route>
-        <Route path="/StudentLogIn" component={StudentLogIn} exact></Route>
-        <Route path="/FacLogIn" component={FacLogIn} exact></Route>
+        <Route path="/coordinator" component={PhdCordHome} exact></Route>
+        <Route path="/coform" component={phdCordForm} exact></Route>
+        <Route path="/register" component={Register} exact></Route>
+        <Route path="/login/candidate" component={StudentLogIn} exact></Route>
+        <Route path="/login/staff" component={FacLogIn} exact></Route>
         <Route path="/register" component={Register} exact></Route>
         <Route path="/admissionForm" component={admissionForm} />
         <Route path="/admin" component={Admin} exact></Route>
         <Route path="/account" component={AccountHome} exact></Route>
-        <ProtectedRouteStudent path="/studenthome" component={StudentHome} exact></ProtectedRouteStudent>
+        <ProtectedRouteStudent
+          path="/candidate"
+          component={StudentHome}
+          exact
+        ></ProtectedRouteStudent>
         <Route path="/accountform" component={AccountForm} exact></Route>
         <Route path="/addcord" component={AddCordForm} exact></Route>
         <Route path="/removestaff" component={RemoveStaffForm} exact></Route>
