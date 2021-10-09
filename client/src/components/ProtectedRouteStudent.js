@@ -4,37 +4,37 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Loading from "./Loading";
 const ProtectedRouteStudent = ({ component: Component, ...rest }) => {
-    const [validated, setValidated] = useState(null);
+  const [access, setAccess] = useState("pending");
 
-    const verifyToken = async () => {
-        var token = localStorage.getItem("token");
-        await axios
-            .get(BACKEND_URL + "/student/login", {
-                headers: { token: token }
-            })
-            .then(response => {
-                setValidated(true);
-            })
-            .catch(err => {
-                setValidated(false);
-                console.log(err);
-            });
-    };
+  const verifyToken = async () => {
+    var token = localStorage.getItem("phd-website-jwt");
+    await axios
+      .get(BACKEND_URL + "/staff/getUser", {
+        headers: { "phd-website-jwt": token },
+      })
+      .then((resp) => {
+        console.log(resp.data.userRole);
+        if (resp.data.userRole === "student") setAccess("granted");
+        else setAccess("blocked");
+      })
+      .catch((err) => {
+        setAccess("blocked");
+        console.log(err.response || err);
+      });
+  };
 
-    useEffect(() => {
-        verifyToken();
-    }, []);
-    if (validated != null && validated) {
-        return (
-            <Route
-                {...rest}
-                render={props => <Component {...rest} {...props} />}
-            />
-        );
-    } else if (validated != null && !validated) {
-        return <Redirect to="/" />;
-    } else {
-        return <Loading loading={true} />;
-    }
+  useEffect(() => {
+    verifyToken();
+  }, []);
+
+  if (access === "granted") {
+    return (
+      <Route {...rest} render={(props) => <Component {...rest} {...props} />} />
+    );
+  } else if (access === "blocked") {
+    return <Redirect to="/" />;
+  } else {
+    return <Loading loading={true} />;
+  }
 };
 export default ProtectedRouteStudent;
