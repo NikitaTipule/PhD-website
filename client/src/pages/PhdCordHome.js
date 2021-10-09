@@ -12,9 +12,8 @@ import NavBar from "../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import "../CSS/coHome.css";
-import { borderRadius } from "@mui/system";
 
-class StickyHeadTable extends Component {
+class PhdCordHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -503,4 +502,4 @@ class StickyHeadTable extends Component {
   }
 }
 
-export default StickyHeadTable;
+export default PhdCordHome;

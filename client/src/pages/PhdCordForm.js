@@ -1,9 +1,9 @@
 import { Component } from "react";
 import React from "react";
 import NavBar from "../components/Navbar/Navbar";
-import DisplayData from "../pages/DisplayData";
+import DisplayData from "./DisplayData";
 
-class coForm extends Component {
+class phdCordForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,4 +21,4 @@ class coForm extends Component {
   }
 }
 
-export default coForm;
+export default phdCordForm;
