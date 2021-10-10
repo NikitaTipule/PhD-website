@@ -12,3 +12,19 @@ exports.myProfileStaff = (req, res) => {
     res.json({ user });
   });
 };
+
+exports.removeStaff = (req, res) => {
+  if (req.userRole != "admin") {
+    return res.status(403).json({ error: "only admin can remove staff" });
+  }
+  const mis = req.params && req.params.mis;
+  const role = req.params && req.params.role;
+  if (!(mis && role))
+    return res.status(400).json({ error: "All input is required" });
+  User = roleToModel[role];
+  User.deleteOne({ mis }, (err, doc) => {
+    if (err || !doc || doc.deletedCount == 0)
+      return res.status(404).json({ error: "user not found" });
+    return res.json({ success: "true" });
+  });
+};
