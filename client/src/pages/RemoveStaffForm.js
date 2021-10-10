@@ -13,8 +13,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-
-import { departmentNamesList } from "../phdAdmDetails";
+import { BACKEND_URL } from "../config";
+import axios from "axios";
 
 const theme = createTheme();
 
@@ -28,7 +28,8 @@ export default function RemoveStaffForm() {
       temp.email = "Email is not valid.";
     }
     setErrors(temp);
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const initialData = {
@@ -45,9 +46,16 @@ export default function RemoveStaffForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log(values);
-    }
-    resetForm();
+      axios
+        .delete(BACKEND_URL + `/staff/remove/${values.role}/${values.mis}`)
+        .then((res) => {
+          alert("user removed");
+          resetForm();
+        })
+        .catch((err) => {
+          alert(err.response.data.error || "Invalid details");
+        });
+    } else alert("Invalid details");
   };
 
   return (
