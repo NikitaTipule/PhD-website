@@ -9,6 +9,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NavBar from "../components/Navbar/Navbar";
 import { useForm, Form } from "./Form";
 import Input from "./Input";
+import { BACKEND_URL } from "../config";
+import axios from "axios";
 
 const theme = createTheme();
 
@@ -22,7 +24,8 @@ export default function AddAccountForm() {
       temp.email = "Email is not valid.";
     }
     setErrors(temp);
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const initialData = {
@@ -39,9 +42,16 @@ export default function AddAccountForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log(values);
-    }
-    resetForm();
+      axios
+        .post(BACKEND_URL + "/accountSec/add", values)
+        .then((res) => {
+          alert("user added");
+          resetForm();
+        })
+        .catch((err) => {
+          alert(err.response.data.error || "Invalid details");
+        });
+    } else alert("Invalid details");
   };
 
   return (

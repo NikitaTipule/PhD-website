@@ -13,7 +13,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-
+import { BACKEND_URL } from "../config";
 import { departmentNamesList } from "../phdAdmDetails";
 import axios from "axios";
 
@@ -29,7 +29,8 @@ export default function AddCordForm() {
       temp.email = "Email is not valid.";
     }
     setErrors(temp);
-    if (fieldValues == values) return Object.values(temp).every((x) => x == "");
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const initialData = {
@@ -48,12 +49,15 @@ export default function AddCordForm() {
     e.preventDefault();
     if (validate()) {
       axios
-        .post("http://localhost:5000/" + "phdCords/add", values)
+        .post(BACKEND_URL + "/phdCords/add", values)
         .then((res) => {
           alert("user added");
           resetForm();
+        })
+        .catch((err) => {
+          alert(err.response.data.error || "Invalid details");
         });
-    }
+    } else alert("Invalid details");
   };
 
   return (
