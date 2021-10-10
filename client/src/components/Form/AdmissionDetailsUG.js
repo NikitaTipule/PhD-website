@@ -56,7 +56,7 @@ export default class AdmissionDetailsUG extends Component {
 
     /^\d+$/.test(this.state.marksObtained) &&
     parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
-      ? this.setState({ errorMarksObtained: false }, console.log("in true"))
+      ? this.setState({ errorMarksObtained: false })
       : this.setState({ errorMarksObtained: true });
 
     /^\d+$/.test(this.state.totalMarks) &&
@@ -84,7 +84,7 @@ export default class AdmissionDetailsUG extends Component {
   onSubmit = async (event) => {
     // event.preventDefault();
     // event.persist();
-    await this.validateData();
+    // await this.validateData();
 
     if (
       this.state.errorUniversity === false &&

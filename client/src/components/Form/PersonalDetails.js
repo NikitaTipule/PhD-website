@@ -131,7 +131,7 @@ export default class PersonalDetails extends Component {
   onSubmit = async (event) => {
     // event.preventDefault();
     // event.persist();
-    await this.validateData();
+    // await this.validateData();
 
     if (
       this.state.errorName === false &&
