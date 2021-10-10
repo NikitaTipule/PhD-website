@@ -14,15 +14,20 @@ import AccountForm from "./pages/AccountForm";
 import AddCordForm from "./pages/AddCordForm";
 import RemoveStaffForm from "./pages/RemoveStaffForm";
 import AddAccountForm from "./pages/AddAccountForm.js";
-import ProtectedRouteStudent from "./components/ProtectedRouteStudent";
-import ProtectedRouteCoordinator from "./components/ProtectedRouteCoordinator"
+import ProtectedRoute from "./components/ProtectedRoute";
+import { roles } from "./phdAdmDetails";
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/" component={Home} exact></Route>
-        <ProtectedRouteCoordinator path="/coordinator" component={PhdCordHome} exact></ProtectedRouteCoordinator>
+        <ProtectedRoute
+          allowedRoles={[roles.phdCord, roles.admin]}
+          path="/coordinator"
+          component={PhdCordHome}
+          exact
+        ></ProtectedRoute>
         <Route path="/coform" component={phdCordForm} exact></Route>
         <Route path="/register" component={Register} exact></Route>
         <Route path="/login/candidate" component={StudentLogIn} exact></Route>
@@ -31,11 +36,12 @@ function App() {
         <Route path="/admissionForm" component={admissionForm} />
         <Route path="/admin" component={Admin} exact></Route>
         <Route path="/account" component={AccountHome} exact></Route>
-        <ProtectedRouteStudent
+        <ProtectedRoute
+          allowedRoles={[roles.student]}
           path="/candidate"
           component={StudentHome}
           exact
-        ></ProtectedRouteStudent>
+        ></ProtectedRoute>
         <Route path="/accountform" component={AccountForm} exact></Route>
         <Route path="/addcord" component={AddCordForm} exact></Route>
         <Route path="/removestaff" component={RemoveStaffForm} exact></Route>
