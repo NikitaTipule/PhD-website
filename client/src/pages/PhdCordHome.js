@@ -238,7 +238,7 @@ class PhdCordHome extends Component {
     }
     return (
       <>
-        <NavBar />
+        <NavBar loggedin={true}/>
         <div>
           <div>
             <div

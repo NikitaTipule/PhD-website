@@ -60,7 +60,7 @@ export default function RemoveStaffForm() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavBar />
+      <NavBar loggedin={true}/>
       <Container component="main" maxWidth="xs">
         {/* <CssBaseline /> */}
         <Box

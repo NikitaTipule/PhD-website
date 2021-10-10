@@ -6,7 +6,7 @@ class Home extends Component {
         return(
             <>
              <div >
-                <NavBar />
+                <NavBar loggedin={false}/>
              </div>
                  <div>
                  <MainLogIn/>

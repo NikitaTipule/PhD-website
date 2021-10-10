@@ -14,7 +14,7 @@ class phdCordForm extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar loggedin={true}/>
         <DisplayData />
       </div>
     );

@@ -62,7 +62,7 @@ export default function AddCordForm() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavBar />
+      <NavBar loggedin={true}/>
       <Container component="main" maxWidth="xs">
         {/* <CssBaseline /> */}
         <Box

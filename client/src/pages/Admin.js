@@ -104,7 +104,7 @@ class Admin extends Component {
   render() {
     return (
       <>
-        <NavBar />
+        <NavBar loggedin={true}/>
         <Box
           marginTop="1rem"
           display="flex"

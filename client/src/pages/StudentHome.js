@@ -19,7 +19,7 @@ class StudentHome extends Component {
     render() {
         return(
             <div>
-                <NavBar />
+                <NavBar loggedin={true}/>
                <div>
                     <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                         <h1 className="textBetween">

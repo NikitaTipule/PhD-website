@@ -124,7 +124,7 @@ class DisplayData extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/co-home" />;
+      return <Redirect to="/coordinator" />;
     }
     return (
       <div

@@ -74,7 +74,7 @@ export default function StudentLogIn() {
     <>
       {/* <NavBar /> */}
       <ThemeProvider theme={theme}>
-        <NavBar />
+        <NavBar loggedin={false}/>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box

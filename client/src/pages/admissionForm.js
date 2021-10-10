@@ -75,14 +75,14 @@ export default class admissionForm extends Component {
       case 1:
         return (
           <div>
-            <NavBar />
+            <NavBar loggedin={true}/>
             <PersonalDetails nextStep={this.nextStep} data={this.state.data} />
           </div>
         );
       case 2:
         return (
           <div>
-            <NavBar />
+            <NavBar loggedin={true}/>
             <AdmissionDetailsUG
               nextStep={this.nextStep}
               data={this.state.data}
@@ -93,7 +93,7 @@ export default class admissionForm extends Component {
       case 3:
         return (
           <div>
-            <NavBar />
+            <NavBar loggedin={true}/>
             <AdmissionDetailsPG
               nextStep={this.nextStep}
               data={this.state.data}
@@ -103,7 +103,7 @@ export default class admissionForm extends Component {
       case 4:
         return (
           <div>
-            <NavBar />
+            <NavBar loggedin={true}/>
             <EntranceExamDetails
               nextStep={this.nextStep}
               data={this.state.data}
@@ -113,14 +113,14 @@ export default class admissionForm extends Component {
       case 5:
         return (
           <div>
-            <NavBar />
+            <NavBar loggedin={true}/>
             <Documents nextStep={this.nextStep} data={this.state.data} />
           </div>
         );
       case 6:
         return (
           <div>
-            <NavBar />
+            <NavBar loggedin={true}/>
             <AccountsDetails nextStep={this.nextStep} data={this.state.data} />
           </div>
         );

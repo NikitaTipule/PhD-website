@@ -97,7 +97,7 @@ class AccountForm extends Component {
         }
         return(
           <>
-          <NavBar />
+            <NavBar loggedin={true}/>
             <div
                 style={{
                     alignItems: "center",

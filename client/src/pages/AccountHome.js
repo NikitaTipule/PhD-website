@@ -430,7 +430,7 @@ class AccountHome extends Component {
         let newData=[]
         return(
             <div>
-                <NavBar />
+                <NavBar loggedin={true}/>
                 <div>
                     <div>
                         <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>

@@ -75,7 +75,7 @@ export default function Register() {
   };
   return (
     <ThemeProvider theme={theme}>
-      <NavBar />
+      <NavBar loggedin={false}/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
