@@ -7,10 +7,13 @@ import PersonalDetails from "../components/Form/PersonalDetails";
 import AccountsDetails from "../components/Form/AccountsDetails";
 import { Redirect } from "react-router-dom";
 import EntranceExamDetails from "../components/Form/EntranceExamDetails";
+import { BACKEND_URL } from "../config";
+import axios from "axios";
 
 export default class admissionForm extends Component {
   state = {
     step: 1,
+    token: "",
     data: {
       personalInfo: {
         name: "",
@@ -47,6 +50,8 @@ export default class admissionForm extends Component {
         pgPercentage: "",
       },
 
+      feeDetails: {},
+
       entranceOptions: [],
       gate: false,
       gateScore: "",
@@ -68,6 +73,33 @@ export default class admissionForm extends Component {
     });
   };
 
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt"),
+      });
+      try {
+        console.log(this.state.token);
+        axios
+          .get(BACKEND_URL + "/students/me", {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.setState({
+              personalInfo: res.data.user.personalInfo,
+              academicsUG: res.data.user.academicsUG,
+              academicsPG: res.data.user.academicsPG,
+              feeDetails: res.data.user.feeDetails,
+            });
+            console.log(this.state.data);
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
+
   render() {
     const { step } = this.state;
 
@@ -75,14 +107,14 @@ export default class admissionForm extends Component {
       case 1:
         return (
           <div>
-            <NavBar loggedin={true}/>
+            <NavBar loggedin={true} />
             <PersonalDetails nextStep={this.nextStep} data={this.state.data} />
           </div>
         );
       case 2:
         return (
           <div>
-            <NavBar loggedin={true}/>
+            <NavBar loggedin={true} />
             <AdmissionDetailsUG
               nextStep={this.nextStep}
               data={this.state.data}
@@ -93,7 +125,7 @@ export default class admissionForm extends Component {
       case 3:
         return (
           <div>
-            <NavBar loggedin={true}/>
+            <NavBar loggedin={true} />
             <AdmissionDetailsPG
               nextStep={this.nextStep}
               data={this.state.data}
@@ -103,7 +135,7 @@ export default class admissionForm extends Component {
       case 4:
         return (
           <div>
-            <NavBar loggedin={true}/>
+            <NavBar loggedin={true} />
             <EntranceExamDetails
               nextStep={this.nextStep}
               data={this.state.data}
@@ -113,14 +145,14 @@ export default class admissionForm extends Component {
       case 5:
         return (
           <div>
-            <NavBar loggedin={true}/>
+            <NavBar loggedin={true} />
             <Documents nextStep={this.nextStep} data={this.state.data} />
           </div>
         );
       case 6:
         return (
           <div>
-            <NavBar loggedin={true}/>
+            <NavBar loggedin={true} />
             <AccountsDetails nextStep={this.nextStep} data={this.state.data} />
           </div>
         );

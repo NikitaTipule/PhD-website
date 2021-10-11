@@ -5,6 +5,7 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./AdmissionDetails.css";
+import { BACKEND_URL } from "../../config";
 
 export default class AdmissionDetailsPG extends Component {
   constructor(props) {
@@ -25,9 +26,7 @@ export default class AdmissionDetailsPG extends Component {
       errorCGPA: false,
       errorPercentage: false,
 
-      headers: {
-        token: localStorage.getItem("token"),
-      },
+      token: localStorage.getItem("phd-website-jwt"),
     };
   }
 
@@ -68,7 +67,7 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onSubmit = async (event) => {
-    await this.validateData();
+    // await this.validateData();
 
     if (
       this.state.errorUniversity === false &&
@@ -96,6 +95,34 @@ export default class AdmissionDetailsPG extends Component {
       academicsUG: this.props.data.academicsUG,
       academicsPG: this.props.data.academicsPG,
     };
+
+    const personalInfo = {
+      mobile: "999",
+      nationality: "i",
+      category: "jh",
+      aadhar: "gsjdg",
+      dob: {
+        $date: "2021-10-08T02:28:36.000Z",
+      },
+      ageYears: "91082",
+      physcialDisability: true,
+      department: "Computer Engineering",
+      adressPermenant: "addd",
+      adressCorrespondance: "skhk",
+    };
+
+    try {
+      console.log(this.state.token);
+      axios
+        .post(BACKEND_URL + "/students/edit/info", personalInfo, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   onCancel = () => {
