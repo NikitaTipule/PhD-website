@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core"
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Helmet from 'react-helmet'
 import logo from "./logo_trans.png"
 import { useHistory } from "react-router-dom";
@@ -12,6 +12,14 @@ export default function NavBar(props) {
     let history = useHistory();
     const [loggedIn, setLoggedIn] = useState(props.loggedin)
 
+    useEffect(() => {
+        if (localStorage.getItem("phd-website-jwt")) {
+            setLoggedIn(true);
+        }
+        else {
+            setLoggedIn(false);
+        }
+    });
 
     const toggle = (event) => {
         if (loggedIn) {

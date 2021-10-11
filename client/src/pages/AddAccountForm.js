@@ -56,7 +56,7 @@ export default function AddAccountForm() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavBar />
+      <NavBar loggedin={true}/>
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
