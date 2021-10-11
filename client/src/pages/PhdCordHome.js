@@ -12,17 +12,64 @@ import NavBar from "../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import "../CSS/coHome.css";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 class PhdCordHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
+      email: "",
+      mis: "",
       studentData: [],
+      allStudent: [],
       logout: false,
       page: 0,
       rowsPerPage: 10,
-      tableData: "Not Verified",
+      tableData: "pending",
+      loading: true,
+      success: false,
+      department: "",
+      token: "",
+      length: 0
     };
+  }
+
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+          token: localStorage.getItem("phd-website-jwt") 
+      });
+      try {
+        axios
+          .get(BACKEND_URL + "/staff/me", { headers: { "phd-website-jwt": this.state.token } })
+          .then((res) => {
+            this.setState({
+              name: res.data.user.name,
+              email: res.data.user.email,
+              mis: res.data.user.mis,
+              department: res.data.user.department
+            })
+            try {
+              axios
+                .get(BACKEND_URL + "/students/department/" + this.state.department, { headers: { "phd-website-jwt": this.state.token } })
+                .then((response) => {
+                  this.setState({
+                    studentData: response.data,
+                    length:response.data.length
+                  })
+                  console.log(response.data)
+                })
+      
+            } catch (err) {
+              console.log(err.message)
+            }
+          });
+      } catch (error) {
+        console.log(error.message)
+      }
+    } 
   }
 
   upperColumns = [
@@ -35,7 +82,7 @@ class PhdCordHome extends Component {
   columns = [
     { id: "id", label: "No.", minWidth: 30 },
     { id: "name", label: "Name", minWidth: 120 },
-    { id: "status", label: "Verification Status", minWidth: 70 },
+    { id: "verification", label: "Verification Status", minWidth: 70 },
   ];
 
   rows = [
@@ -199,40 +246,46 @@ class PhdCordHome extends Component {
 
   handleclick1 = (event) => {
     this.setState({
-      tableData: "Not Verified",
+      tableData: "pending",
     });
   };
 
   handleclick2 = (event) => {
     this.setState({
-      tableData: "Verified",
+      tableData: "verified",
     });
   };
 
   handleclick3 = (event) => {
     this.setState({
-      tableData: "Not Verified",
+      tableData: "pending",
     });
   };
 
   handleclick4 = (event) => {
     this.setState({
-      tableData: "Modification needed",
+      tableData: "mod-req",
     });
   };
+
+  // oncellClick = (event) => {
+
+  // }
 
   render() {
     let counterTotal = 0;
     let counterVerified = 0;
     let counterNotVerified = 0;
     let counterModification = 0;
-    for (const obj of this.rows) {
+    let count = 0;
+    for (let i = 0; i < this.state.studentData.length; i++) {
+      this.state.allStudent.push(this.state.studentData[i])
       counterTotal++;
-      if (obj.status === "Verified") {
+      if (this.state.studentData[i].verification === "verified") {
         counterVerified++;
-      } else if (obj.status === "Not Verified") {
+      } else if (this.state.studentData[i].verification === "pending") {
         counterNotVerified++;
-      } else if (obj.status === "Modification needed") {
+      } else if (this.state.studentData[i].verification === "mod-req") {
         counterModification++;
       }
     }
@@ -263,28 +316,28 @@ class PhdCordHome extends Component {
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Name : </b>
                       {"   "}
-                      Coordinator name
+                      {this.state.name}
                     </p>
                   </Grid>
                   <Grid item xs={12} md={6} className="grid-item">
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Email : </b>
                       {"   "}
-                      faculty@gamil.com
+                      {this.state.email}
                     </p>
                   </Grid>
                   <Grid item xs={12} md={6} className="grid-item">
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Mis : </b>
                       {"   "}
-                      11111111111
+                      {this.state.mis}
                     </p>
                   </Grid>
                   <Grid item xs={12} md={6} className="grid-item">
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Department: </b>
                       {"   "}
-                      Computer Engineering
+                      {this.state.department}
                     </p>
                   </Grid>
                 </Grid>
@@ -419,9 +472,9 @@ class PhdCordHome extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {this.rows
+                    {this.state.studentData
                       .filter(
-                        (student) => student.status === this.state.tableData
+                        (student) => student.verification === this.state.tableData
                       )
                       .slice(
                         this.state.page * this.state.rowsPerPage,
@@ -435,6 +488,7 @@ class PhdCordHome extends Component {
                             role="checkbox"
                             tabIndex={-1}
                             key={row.code}
+                            // onClick={(e) => {this.oncellClick()}}
                           >
                             {this.columns.map((column) => {
                               const value = row[column.id];
@@ -443,14 +497,14 @@ class PhdCordHome extends Component {
                                   {column.id === "status" ? (
                                     <div>
                                       {column.id === "status" &&
-                                      value === "Verified" ? (
+                                      value === "verified" ? (
                                         <div style={{ color: "green" }}>
                                           {value}
                                         </div>
                                       ) : (
                                         <div>
                                           {column.id === "status" &&
-                                          value === "Not Verified" ? (
+                                          value === "pending" ? (
                                             <div style={{ color: "red" }}>
                                               {value}
                                             </div>
@@ -463,8 +517,15 @@ class PhdCordHome extends Component {
                                       )}
                                     </div>
                                   ) : (
-                                    <div>
-                                      {/* to do Link part */}
+                                      
+                                      <div>
+                                        {column.id === "id" ? (
+                                          <div>
+                                            {++count}
+                                          </div>
+                                        ):(
+                                          
+                                        <div>
                                       <Link
                                         to={{ pathname: "/coform" }}
                                         style={{
@@ -473,7 +534,9 @@ class PhdCordHome extends Component {
                                         }}
                                       >
                                         {value}
-                                      </Link>
+                                        </Link>
+                                        </div>
+                                        )}
                                     </div>
                                   )}
                                 </TableCell>
