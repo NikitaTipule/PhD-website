@@ -155,7 +155,7 @@ export default class admissionForm extends Component {
           </div>
         );
       default:
-        return <Redirect to="/studenthome" />;
+        return <Redirect to="/candidate" />;
     }
   }
 }

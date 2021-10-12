@@ -42,8 +42,8 @@ export default function NavBar(props) {
                     <meta name="title" content="COEP PhD Admission Portal"></meta>
                 </Helmet>
                 
-                <ul>
-                    <li>
+                <ul className="ul-class">
+                    <li className="li-class">
                         <a href="/">
                             <img
                                 src = {logo}
@@ -53,20 +53,27 @@ export default function NavBar(props) {
                             </img>
                         </a>
                     </li>
-                    <li>
+                    <li className="li-class">
                         <a href="/">
                             <h1 id="big-screen">PhD Admission Portal - College of Engineering, Pune</h1>
                             <h1 id="small-screen">PhD Admission Portal - COEP</h1>
                         </a>
                     </li>
-                <li style={{ float: "right", marginRight: '10px' }}>
+                
+                    <li className="li-class" style={{ float: "right", marginRight: '10px' }}>
                     <div>
                         <h3>
                             <Button color="light" onClick={toggle} value={btnTxt}>{btnTxt}</Button>
                         </h3>
                     </div>
                     </li>
-                    
+                    <li className="li-class" style={{ float: "right", marginRight: '10px' }}>
+                        <div>
+                            <h3>
+                                <Button color="light">Home</Button>
+                            </h3>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         );

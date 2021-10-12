@@ -14,8 +14,9 @@ class phdCordForm extends Component {
   render() {
     return (
       <div>
-        <NavBar loggedin={true}/>
-        <DisplayData />
+        <NavBar loggedin={true} />
+        {/* {console.log(this.props.location.state.details)} */}
+        <DisplayData id={this.props.location.state.details}/>
       </div>
     );
   }

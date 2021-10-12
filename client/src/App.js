@@ -28,28 +28,46 @@ function App() {
           component={PhdCordHome}
           exact
         ></ProtectedRoute>
-        <Route path="/coform" component={phdCordForm} exact></Route>
+        <ProtectedRoute path="/coform" component={phdCordForm} exact></ProtectedRoute>
         <Route path="/register" component={Register} exact></Route>
         <Route path="/login/candidate" component={StudentLogIn} exact></Route>
         <Route path="/login/staff" component={FacLogIn} exact></Route>
-        <Route path="/register" component={Register} exact></Route>
-        <Route path="/admissionForm" component={admissionForm} />
-        <Route path="/admin" component={Admin} exact></Route>
-        <Route path="/account" component={AccountHome} exact></Route>
+        {/* <Route path="/register" component={Register} exact></Route> */}
+        <ProtectedRoute
+          path="/admissionForm"
+          component={admissionForm} />
+        <ProtectedRoute
+          allowedRoles={[roles.admin]}
+          path="/admin"
+          component={Admin}
+          exact></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.accountSec, roles.admin]}
+          path="/account"
+          component={AccountHome}
+          exact></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.student]}
           path="/candidate"
           component={StudentHome}
           exact
         ></ProtectedRoute>
-        <Route path="/accountform" component={AccountForm} exact></Route>
-        <Route path="/addcord" component={AddCordForm} exact></Route>
-        <Route path="/removestaff" component={RemoveStaffForm} exact></Route>
-        <Route
+        <ProtectedRoute path="/accountform" component={AccountForm} exact></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.admin]}
+          path="/addcord"
+          component={AddCordForm}
+          exact></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.admin]}
+          path="/removestaff"
+          component={RemoveStaffForm}
+          exact></ProtectedRoute>
+        <ProtectedRoute
           path="/add-account-section"
           component={AddAccountForm}
           exact
-        ></Route>
+        ></ProtectedRoute>
       </Switch>
     </Router>
   );

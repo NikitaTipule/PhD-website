@@ -14,81 +14,70 @@ import { Button } from "@mui/material";
 import "../CSS/coHome.css";
 import { Box } from "@mui/system";
 import { Menu, MenuItem } from "@mui/material";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      studentData: [],
+      AllPhdcords: [],
       logout: false,
       page: 0,
       rowsPerPage: 10,
+      name: "",
+      email: "",
+      mis: 0,
+      length:0,
     };
   }
+
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+          token: localStorage.getItem("phd-website-jwt") 
+      });
+      try {
+        axios
+          .get(BACKEND_URL + "/staff/me", { headers: { "phd-website-jwt": this.state.token } })
+          .then((res) => {
+            this.setState({
+              name: res.data.user.name,
+              email: res.data.user.email,
+              mis: res.data.user.mis,
+            })
+            try {
+              axios
+                .get(BACKEND_URL + "/phdCords/" , { headers: { "phd-website-jwt": this.state.token } })
+                .then((response) => {
+                  this.setState({
+                    AllPhdcords: response.data,
+                    length:response.data.length
+                  })
+                  // console.log(response.data)
+                })
+      
+            } catch (err) {
+              console.log(err.message)
+            }
+          });
+      } catch (error) {
+        console.log(error.message)
+      }
+    } 
+  }
+
   columns = [
     { id: "id", label: "No.", minWidth: 30 },
-    { id: "coname", label: "Co-ordinator Name", minWidth: 120 },
+    { id: "name", label: "Co-ordinator Name", minWidth: 120 },
     { id: "department", label: "Department", minWidth: 120 },
+    { id: "total", label: "Total", minWidth: 120 },
+    { id: "verified", label: "Verified", minWidth: 120 },
+    { id: "pending", label: "Not Verified", minWidth: 120 },
+    { id: "mod-req", label: "Modification Required", minWidth: 120 },
   ];
 
-  rows = [
-    {
-      id: 1,
-      coname: "Co-Ordinator 1",
-      department: "Computer and IT",
-    },
-    {
-      id: 2,
-      coname: "Co-Ordinator 2",
-      department: "Electronics and Telecommunication",
-    },
-    {
-      id: 3,
-      coname: "Co-Ordinator 3",
-      department: "Electrical",
-    },
-    {
-      id: 4,
-      coname: "Co-Ordinator 4",
-      department: "Civil",
-    },
-    {
-      id: 5,
-      coname: "Co-Ordinator 5",
-      department: "Production",
-    },
-    {
-      id: 6,
-      coname: "Co-Ordinator 6",
-      department: "Instrumentation",
-    },
-
-    {
-      id: 7,
-      coname: "Co-Ordinator 7",
-      department: "mechanical",
-    },
-    {
-      id: 8,
-      coname: "Co-Ordinator 8",
-      department: "Verified",
-    },
-    {
-      id: 9,
-      coname: "Co-Ordinator 9",
-      department: "Verified",
-    },
-    {
-      id: 10,
-      coname: "Co-Ordinator 10",
-      department: "Verified",
-    },
-    {
-      id: 11,
-      coname: "Account Section COordiantor",
-      department: "Account Section",
-    },
-  ];
+ 
 
   handleChangePage = (event, newPage) => {
     this.setState({
@@ -101,7 +90,19 @@ class Admin extends Component {
       page: 0,
     });
   };
+
+  oncellClick(id) {
+    console.log(id)
+    this.props.history.push({
+      pathname: '/coordinator',
+      // search: `/${id}`,
+      state: { details: id}
+    })
+  }
+
+
   render() {
+    let count = 0;
     return (
       <>
         <NavBar loggedin={true}/>
@@ -148,21 +149,21 @@ class Admin extends Component {
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Name : </b>
                       {"   "}
-                      admin name
+                      {this.state.name}
                     </p>
                   </Grid>
                   <Grid item xs={12} md={6} className="grid-item">
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Email : </b>
                       {"   "}
-                      faculty@gamil.com
+                      {this.state.email}
                     </p>
                   </Grid>
                   <Grid item xs={12} md={6} className="grid-item">
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Mis : </b>
                       {"   "}
-                      11111111111
+                      {this.state.mis}
                     </p>
                   </Grid>
                   <Grid item xs={12} md={6} className="grid-item">
@@ -217,7 +218,7 @@ class Admin extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {this.rows
+                    {this.state.AllPhdcords
                       .slice(
                         this.state.page * this.state.rowsPerPage,
                         this.state.page * this.state.rowsPerPage +
@@ -230,13 +231,14 @@ class Admin extends Component {
                             role="checkbox"
                             tabIndex={-1}
                             key={row.code}
+                            onClick={() => {this.oncellClick(row._id)}}
                           >
-                            {this.columns.map((column) => {
+                            {/* {this.columns.map((column) => {
                               const value = row[column.id];
                               return (
                                 <TableCell key={column.id} align="center">
                                   <Link
-                                    to={{ pathname: "/co-home" }}
+                                    to={{ pathname: "/coordinator" }}
                                     style={{
                                       textDecoration: "none",
                                       color: "black",
@@ -246,7 +248,85 @@ class Admin extends Component {
                                   </Link>
                                 </TableCell>
                               );
-                            })}
+                            })} */}
+                            <TableCell align="center">
+                                  <Link
+                                    to={{ pathname: "/coordinator" }}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                {++count}
+                                  </Link>
+                            </TableCell>
+                            <TableCell align="center">
+                                  <Link
+                                    to={{ pathname: "/coordinator" }}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                    {row.name}
+                                  </Link>
+                            </TableCell>
+                            <TableCell align="center">
+                                  <Link
+                                    to={{ pathname: "/coordinator" }}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                    {row.department}
+                                  </Link>
+                            </TableCell>
+                            <TableCell align="center">
+                                  <Link
+                                    to={{ pathname: "/coordinator" }}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                    {row.status.verified + row.status.pending+row.status["mod-req"]}
+                                  </Link>
+                                </TableCell>
+                            <TableCell align="center">
+                                  <Link
+                                    to={{ pathname: "/coordinator" }}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                    {row.status.verified}
+                                  </Link>
+                            </TableCell>
+                            <TableCell align="center">
+                                  <Link
+                                    to={{ pathname: "/coordinator" }}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                {row.status.pending}
+                                  </Link>
+                            </TableCell>
+                            <TableCell align="center">
+                                  <Link
+                                    to={{ pathname: "/coordinator" }}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                    {row.status["mod-req"]}
+                                  </Link>
+                            </TableCell>
+                            
                           </TableRow>
                         );
                       })}
@@ -256,7 +336,7 @@ class Admin extends Component {
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={this.rows.length}
+                count={this.state.AllPhdcords.length}
                 rowsPerPage={this.state.rowsPerPage}
                 page={this.state.page}
                 onPageChange={this.handleChangePage}

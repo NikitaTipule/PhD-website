@@ -35,8 +35,9 @@ exports.uploadFile = (req, res) => {
     res.status(403).json({ error: "only students can upload documents" });
   }
   uploadFileGrid(req, res, (err) => {
-    if (err) {
-      return res.status(500).json(err);
+    if (err || !req.file) {
+      console.log(err);
+      return res.status(500).json({ error: "couldn't upload file" });
     }
     return res.status(200).json({ filename: req.file.filename });
   });
@@ -45,12 +46,18 @@ exports.uploadFile = (req, res) => {
 //had to downgrade mongoose to 5.13.7 because of incompatible gridFS stream package
 
 exports.getFileGrid = (req, res) => {
-  console.log(gfs.mongo);
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+  if (req.userRole != "student") {
+    res.status(403).json({ error: "only students can delete documents" });
+  }
+  const filename = req.params && req.params.filename;
+  if (!filename) {
+    return res.status(400).send({ err: " missing file name" });
+  }
+  gfs.files.findOne({ filename }, (err, file) => {
     if (err | !file || file.length === 0) {
       return res.status(404).send({ err: "File doesn't exist" });
     }
-    exports.readstream = gfs.createReadStream(file.filename);
+    const readstream = gfs.createReadStream(file.filename);
     res.header({ "Content-type": file.contentType });
     readstream.on("error", (err) => {
       return res.status(404).send({ err: "Error getting the file" });
@@ -66,7 +73,11 @@ exports.removeFileGrid = (req, res) => {
   if (req.userRole != "student") {
     res.status(403).json({ error: "only students can delete documents" });
   }
-  gfs.files.remove({ filename: req.params.filename }, (err, file) => {
+  const filename = req.params && req.params.filename;
+  if (!filename) {
+    return res.status(400).send({ err: " missing file name" });
+  }
+  gfs.files.remove({ filename }, (err, file) => {
     if (!file || file.length === 0 || err !== null) {
       return res.status(404).send({ err: "Error removing file" });
     }

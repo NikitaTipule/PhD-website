@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import "./DisplayData.css";
 import { TextField } from "@mui/material";
 import { Redirect } from "react-router";
+import { BACKEND_URL } from "../config";
+import axios from "axios";
 
 class VerificationComponent extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class VerificationComponent extends Component {
       verify: "",
     };
   }
+
 
   render() {
     return (
@@ -105,7 +108,68 @@ class DisplayData extends Component {
 
       message: "",
       redirect: false,
+      token: "",
+      verification: ""
     };
+  }
+
+  
+  async componentDidMount() {
+    console.log(this.props.id)
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt")
+      });
+      try {
+        axios
+          .get(BACKEND_URL + "/students/" + this.props.id, { headers: { "phd-website-jwt": this.state.token } })
+          .then((res) => {
+            console.log(res.data)
+            this.setState({
+              name: res.data.user.name,
+              middleName: "Ajeetkumar",
+              gender: "Female",
+              dob: res.data.user.personalInfo.dob,
+              email: res.data.user.email,
+              mobile: res.data.user.personalInfo.mobile,
+              nationality: res.data.user.personalInfo.nationality,
+              category: res.data.user.personalInfo.category,
+              aadhar: res.data.user.personalInfo.aadhar,
+              address: res.data.user.personalInfo.adressPermenant,
+              physicallyDisabled: res.data.user.personalInfo.physicalDisability,
+              department: res.data.user.personalInfo.department,
+
+              university: res.data.user.academicsUG.institute,
+              nomanclaure: res.data.user.academicsUG.degree,
+              specialization: res.data.user.academicsUG.specialization,
+              marksObtained: res.data.user.academicsUG.totalMarks,
+              totalMarks: res.data.user.academicsUG.totalAggregate,
+              cgpa: res.data.user.academicsUG.cgpa10,
+              percentage: res.data.user.academicsUG.percentageMarks,
+              dateOfDeclaration: res.data.user.academicsUG.dateOfDeclaration,
+
+              pguniversity: res.data.user.academicsPG.institute,
+              pgnomanclaure: res.data.user.academicsPG.degree,
+              pgmarksObtained: res.data.user.academicsPG.totalMarks,
+              pgtotalMarks: res.data.user.academicsPG.totalAggregate,
+              pgcgpa: res.data.user.academicsPG.cgpa10,
+              pgpercentage: res.data.user.academicsPG.percentageMarks,
+              // optionsSelected: res.data.user.extranceDetails,
+              
+              // verification: res.data.user.verification,
+              
+              DUINumber: "DU9813891",
+              amount: "1000",
+              open: false,
+              confirmAlert: false,
+
+              message: res.data.user.remarks,
+            })
+          });
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
   }
 
   handleChange = (event) => {

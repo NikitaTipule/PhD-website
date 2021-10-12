@@ -85,152 +85,6 @@ class PhdCordHome extends Component {
     { id: "verification", label: "Verification Status", minWidth: 70 },
   ];
 
-  rows = [
-    {
-      id: 1,
-      name: "Student 1",
-      status: "Verified",
-    },
-    {
-      id: 2,
-      name: "Student 2",
-      status: "Verified",
-    },
-    {
-      id: 3,
-      name: "Student 3",
-      status: "Verified",
-    },
-    {
-      id: 4,
-      name: "Student 4",
-      status: "Not Verified",
-    },
-    {
-      id: 5,
-      name: "Student 5",
-      status: "Verified",
-    },
-    {
-      id: 6,
-      name: "Student 6",
-      status: "Modification needed",
-    },
-
-    {
-      id: 7,
-      name: "Student 7",
-      status: "Verified",
-    },
-    {
-      id: 8,
-      name: "Student 8",
-      status: "Verified",
-    },
-    {
-      id: 9,
-      name: "Student 9",
-      status: "Verified",
-    },
-    {
-      id: 10,
-      name: "Student 10",
-      status: "Verified",
-    },
-    {
-      id: 11,
-      name: "Student 11",
-      status: "Verified",
-    },
-    {
-      id: 12,
-      name: "Student 12",
-      status: "Verified",
-    },
-    {
-      id: 13,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 14,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 15,
-      name: "nikita sopan Tipule",
-      status: "Not Verified",
-    },
-    {
-      id: 16,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 17,
-      name: "nikita sopan Tipule",
-      status: "Modification needed",
-    },
-
-    {
-      id: 18,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 19,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 20,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 21,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 22,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-
-    {
-      id: 23,
-      name: "nikita sopan Tipule",
-      status: "Modification needed",
-    },
-
-    {
-      id: 24,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 25,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 26,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 27,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-    {
-      id: 28,
-      name: "nikita sopan Tipule",
-      status: "Verified",
-    },
-  ];
 
   handleChangePage = (event, newPage) => {
     this.setState({
@@ -268,9 +122,14 @@ class PhdCordHome extends Component {
     });
   };
 
-  // oncellClick = (event) => {
-
-  // }
+  oncellClick(id) {
+    console.log(id)
+    this.props.history.push({
+      pathname: '/coform',
+      // search: `/${id}`,
+      state: { details: id}
+    })
+  }
 
   render() {
     let counterTotal = 0;
@@ -405,6 +264,7 @@ class PhdCordHome extends Component {
                             this.handleclick2();
                           }}
                           className="tablecell"
+                          // style ={{border: "2px"}}
                         >
                           {counterVerified}
                         </TableCell>
@@ -488,7 +348,8 @@ class PhdCordHome extends Component {
                             role="checkbox"
                             tabIndex={-1}
                             key={row.code}
-                            // onClick={(e) => {this.oncellClick()}}
+                            value = {row.id}
+                            onClick={() => {this.oncellClick(row._id)}}
                           >
                             {this.columns.map((column) => {
                               const value = row[column.id];
@@ -551,7 +412,7 @@ class PhdCordHome extends Component {
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={this.rows.length}
+                count={this.state.length}
                 rowsPerPage={this.state.rowsPerPage}
                 page={this.state.page}
                 onPageChange={this.handleChangePage}
