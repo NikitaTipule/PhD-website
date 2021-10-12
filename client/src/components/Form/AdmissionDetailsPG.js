@@ -97,22 +97,11 @@ export default class AdmissionDetailsPG extends Component {
     };
 
     const personalInfo = {
-      mobile: "999",
-      nationality: "i",
-      category: "jh",
-      aadhar: "gsjdg",
-      dob: {
-        $date: "2021-10-08T02:28:36.000Z",
-      },
-      ageYears: "91082",
-      physcialDisability: true,
-      department: "Computer Engineering",
-      adressPermenant: "addd",
-      adressCorrespondance: "skhk",
+      personalInfo: this.props.data.personalInfo,
     };
 
     try {
-      console.log(this.state.token);
+      console.log(personalInfo);
       axios
         .post(BACKEND_URL + "/students/edit/info", personalInfo, {
           headers: { "phd-website-jwt": this.state.token },
@@ -123,6 +112,14 @@ export default class AdmissionDetailsPG extends Component {
     } catch (err) {
       console.log(err);
     }
+
+    axios
+      .get(BACKEND_URL + "/students/me", {
+        headers: { "phd-website-jwt": this.state.token },
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
   };
 
   onCancel = () => {

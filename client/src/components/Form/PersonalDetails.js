@@ -176,13 +176,14 @@ export default class PersonalDetails extends Component {
   render() {
     const dropdown_options = ["General", "OBC", "ST", "SC", "NT"];
     const department_options = [
-      "Computer Science",
-      "Electrical",
-      "ENTC",
-      "Mechanical",
-      "Civil",
-      "Production",
-      "Metallergy",
+      "Civil Engineering",
+      "Computer Engineering",
+      "Electrical Engineering",
+      "Electronics & Telecommunication Engineering",
+      "Instrumentation & Control Engineering",
+      "Mechanical Engineering",
+      "Metallurgical Engineering",
+      "Production Engineering",
     ];
 
     return (

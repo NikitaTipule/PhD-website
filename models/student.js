@@ -7,15 +7,20 @@ const {
 } = require("./schemaFields");
 
 const personalInfo = {
+  name: { type: String },
+  middleName: { type: String },
+  email: { type: String },
+  gender: { type: String },
   mobile: { type: String },
   nationality: { type: String },
   category: { type: String },
   aadhar: { type: String },
   dob: { type: Date },
+  // dob: { type: String },
   ageYears: { type: Number },
-  physcialDisability: { type: Boolean },
+  physicallyDisabled: { type: String },
   department: departmentField,
-  adressPermenant: { type: String },
+  address: { type: String },
   adressCorrespondance: { type: String },
 };
 
