@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./AdmissionDetails.css";
 import { BACKEND_URL } from "../../config";
+import PersonalDetails from "./PersonalDetails";
 
 export default class AdmissionDetailsPG extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onSubmit = async (event) => {
-    // await this.validateData();
+    await this.validateData();
 
     if (
       this.state.errorUniversity === false &&
@@ -78,48 +79,33 @@ export default class AdmissionDetailsPG extends Component {
       this.state.errorPercentage === false
     ) {
       this.setState({ confirmAlert: !this.state.confirmAlert });
-      this.props.data.academicsPG.pgUniversity = this.state.university;
-      this.props.data.academicsPG.pgNomanclaure = this.state.nomanclaure;
-      this.props.data.academicsPG.pgMarksObtained = this.state.marksObtained;
-      this.props.data.academicsPG.pgTotalMarks = this.state.totalMarks;
-      this.props.data.academicsPG.pgCGPA = this.state.cgpa;
-      this.props.data.academicsPG.pgPercentage = this.state.percentage;
+      this.props.data.academicsPG.institute = this.state.university;
+      this.props.data.academicsPG.degree = this.state.nomanclaure;
+      this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
+      this.props.data.academicsPG.totalMarks = this.state.totalMarks;
+      this.props.data.academicsPG.cgpa10 = this.state.cgpa;
+      this.props.data.academicsPG.percentageMarks = this.state.percentage;
     }
   };
 
   confirmData = (event) => {
     this.props.nextStep();
-    console.log(this.props.data);
-    const StudentSchema = {
-      personalInfo: this.props.data.personalInfo,
-      academicsUG: this.props.data.academicsUG,
+
+    const academicsPG = {
       academicsPG: this.props.data.academicsPG,
     };
 
-    const personalInfo = {
-      personalInfo: this.props.data.personalInfo,
-    };
-
     try {
-      console.log(personalInfo);
       axios
-        .post(BACKEND_URL + "/students/edit/info", personalInfo, {
+        .post(BACKEND_URL + "/students/edit/info", academicsPG, {
           headers: { "phd-website-jwt": this.state.token },
         })
         .then((res) => {
-          console.log(res);
+          console.log("PG Data Added");
         });
     } catch (err) {
       console.log(err);
     }
-
-    axios
-      .get(BACKEND_URL + "/students/me", {
-        headers: { "phd-website-jwt": this.state.token },
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
   };
 
   onCancel = () => {

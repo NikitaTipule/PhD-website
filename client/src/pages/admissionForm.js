@@ -31,23 +31,24 @@ export default class admissionForm extends Component {
       },
 
       academicsUG: {
-        ugUniversity: "",
-        ugNomanclaure: "",
-        ugSpecialization: "",
-        ugMarksObtained: "",
-        ugTotalMarks: "",
-        ugCGPA: "",
-        ugPercentage: "",
-        ugDOD: "",
+        institute: "",
+        degree: "",
+        specialization: "",
+        marksFinalYear: "",
+        totalAggregate: "",
+        cgpa10: "",
+        percentageMarks: "",
+        dateofDeclaration: "",
       },
 
       academicsPG: {
-        pgUniversity: "",
-        pgNomanclaure: "",
-        pgMarksObtained: "",
-        pgTotalMarks: "",
-        pgCGPA: "",
-        pgPercentage: "",
+        institute: "",
+        degree: "",
+        totalAggregate: "",
+        totalMarks: "",
+        cgpa10: "",
+        percentageMarks: "",
+        dateofDeclaration: "",
       },
 
       feeDetails: {},
@@ -79,20 +80,17 @@ export default class admissionForm extends Component {
         token: localStorage.getItem("phd-website-jwt"),
       });
       try {
-        console.log(this.state.token);
         axios
           .get(BACKEND_URL + "/students/me", {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            console.log(res.data);
             this.setState({
               personalInfo: res.data.user.personalInfo,
               academicsUG: res.data.user.academicsUG,
               academicsPG: res.data.user.academicsPG,
               feeDetails: res.data.user.feeDetails,
             });
-            console.log(this.state.data);
           });
       } catch (error) {
         console.log(error.message);

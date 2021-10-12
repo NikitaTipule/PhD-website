@@ -16,7 +16,6 @@ const personalInfo = {
   category: { type: String },
   aadhar: { type: String },
   dob: { type: Date },
-  // dob: { type: String },
   ageYears: { type: Number },
   physicallyDisabled: { type: String },
   department: departmentField,
@@ -28,7 +27,19 @@ const academicsUG = {
   institute: { type: String },
   degree: { type: String },
   specialization: { type: String },
-  marksFinalYear: { type: Number },
+  // marksFinalYear: { type: Number },
+  totalAggregate: { type: Number },
+  totalMarks: { type: Number },
+  cgpa10: { type: Number },
+  percentageMarks: { type: Number },
+  dateOfDeclaration: { type: Date },
+};
+
+const academicsPG = {
+  institute: { type: String },
+  degree: { type: String },
+  // specialization: { type: String },
+  // marksFinalYear: { type: Number },
   totalAggregate: { type: Number },
   totalMarks: { type: Number },
   cgpa10: { type: Number },
@@ -48,18 +59,6 @@ const entranceDetails = {
     details: { type: String },
     year: { type: String },
   },
-};
-
-const academicsPG = {
-  institute: { type: String },
-  degree: { type: String },
-  specialization: { type: String },
-  marksFinalYear: { type: Number },
-  totalAggregate: { type: Number },
-  totalMarks: { type: Number },
-  cgpa10: { type: Number },
-  percentageMarks: { type: Number },
-  dateOfDeclaration: { type: Date },
 };
 
 const verificationField = {

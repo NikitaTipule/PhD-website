@@ -6,6 +6,8 @@ import DropDown from "react-dropdown";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "react-dropdown/style.css";
 import "./PersonalDetails.css";
+import { BACKEND_URL } from "../../config";
+import axios from "axios";
 
 export default class PersonalDetails extends Component {
   constructor(props) {
@@ -37,6 +39,8 @@ export default class PersonalDetails extends Component {
       errorAddress: false,
       errorPhysicallyDisabled: false,
       errorDepartment: false,
+
+      token: localStorage.getItem("phd-website-jwt"),
     };
   }
 
@@ -94,44 +98,42 @@ export default class PersonalDetails extends Component {
     this.state.email.length < 10 ||
     this.state.email.indexOf("@") > this.state.email.indexOf(".") ||
     this.state.email.indexOf("@") < 1
-      ? (this.state.errorEmail = true)
-      : (this.state.errorEmail = false);
+      ? this.setState({ errorEmail: true })
+      : this.setState({ errorEmail: false });
 
     this.state.mobile.length === 10 && /^\d+$/.test(this.state.mobile)
-      ? (this.state.errorMobile = false)
-      : (this.state.errorMobile = true);
+      ? this.setState({ errorMobile: false })
+      : this.setState({ errorMobile: true });
 
     var n = this.state.nationality.replace(/ /g, "");
     n === ""
-      ? (this.state.errorNationality = true)
-      : (this.state.errorNationality = false);
+      ? this.setState({ errorNationality: true })
+      : this.setState({ errorNationality: false });
 
     this.state.category === ""
-      ? (this.state.errorCategory = true)
-      : (this.state.errorCategory = false);
+      ? this.setState({ errorCategory: true })
+      : this.setState({ errorCategory: false });
 
     this.state.aadhar.length === 12 && /^\d+$/.test(this.state.aadhar)
-      ? (this.state.errorAadhar = false)
-      : (this.state.errorAadhar = true);
+      ? this.setState({ errorAadhar: false })
+      : this.setState({ errorAadhar: true });
 
     var a = this.state.address.replace(/ /g, "");
     a === ""
-      ? (this.state.errorAddress = true)
-      : (this.state.errorAddress = false);
+      ? this.setState({ errorAddress: true })
+      : this.setState({ errorAddress: false });
 
     this.state.physicallyDisabled === ""
-      ? (this.state.errorPhysicallyDisabled = true)
-      : (this.state.errorPhysicallyDisabled = false);
+      ? this.setState({ errorPhysicallyDisabled: true })
+      : this.setState({ errorPhysicallyDisabled: false });
 
     this.state.department === ""
-      ? (this.state.errorDepartment = true)
-      : (this.state.errorDepartment = false);
+      ? this.setState({ errorDepartment: true })
+      : this.setState({ errorDepartment: false });
   };
 
   onSubmit = async (event) => {
-    // event.preventDefault();
-    // event.persist();
-    // await this.validateData();
+    await this.validateData();
 
     if (
       this.state.errorName === false &&
@@ -152,6 +154,7 @@ export default class PersonalDetails extends Component {
       this.props.data.personalInfo.gender = this.state.gender;
       this.props.data.personalInfo.dob = this.state.dob;
       this.props.data.personalInfo.email = this.state.email;
+      this.props.data.personalInfo.mobile = this.state.mobile;
       this.props.data.personalInfo.nationality = this.state.nationality;
       this.props.data.personalInfo.category = this.state.category;
       this.props.data.personalInfo.aadhar = this.state.aadhar;
@@ -163,11 +166,27 @@ export default class PersonalDetails extends Component {
   };
 
   confirmData = (event) => {
+    const personalInfo = {
+      personalInfo: this.props.data.personalInfo,
+    };
+
+    try {
+      console.log(personalInfo);
+      axios
+        .post(BACKEND_URL + "/students/edit/info", personalInfo, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log("Personal Info Added");
+        });
+    } catch (err) {
+      console.log(err);
+    }
+
     this.props.nextStep();
   };
 
   onCancel = (event) => {
-    // event.preventDefault();
     this.setState({
       confirmAlert: !this.state.confirmAlert,
     });

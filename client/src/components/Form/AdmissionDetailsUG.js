@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import DatePicker from "react-date-picker";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./AdmissionDetails.css";
+import { BACKEND_URL } from "../../config";
+import axios from "axios";
 
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
@@ -27,6 +29,8 @@ export default class AdmissionDetailsUG extends Component {
       errorCGPA: false,
       errorPercentage: false,
       errorDod: false,
+
+      token: localStorage.getItem("phd-website-jwt"),
     };
   }
 
@@ -82,9 +86,7 @@ export default class AdmissionDetailsUG extends Component {
   };
 
   onSubmit = async (event) => {
-    // event.preventDefault();
-    // event.persist();
-    // await this.validateData();
+    await this.validateData();
 
     if (
       this.state.errorUniversity === false &&
@@ -97,20 +99,36 @@ export default class AdmissionDetailsUG extends Component {
       this.state.errorDod === false
     ) {
       this.setState({ confirmAlert: !this.state.confirmAlert });
-      this.props.data.academicsUG.ugUniversity = this.state.university;
-      this.props.data.academicsUG.ugNomanclaure = this.state.nomanclaure;
-      this.props.data.academicsUG.ugSpecilization = this.state.specialization;
-      this.props.data.academicsUG.ugMarksObtained = this.state.marksObtained;
-      this.props.data.academicsUG.ugTotalMarks = this.state.totalMarks;
-      this.props.data.academicsUG.ugCGPA = this.state.cgpa;
-      this.props.data.academicsUG.ugPercentage = this.state.percentage;
-      this.props.data.academicsUG.ugDOD = this.state.dateOfDeclaration;
+      this.props.data.academicsUG.institute = this.state.university;
+      this.props.data.academicsUG.degree = this.state.nomanclaure;
+      this.props.data.academicsUG.specialization = this.state.specialization;
+      this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
+      this.props.data.academicsUG.totalMarks = this.state.totalMarks;
+      this.props.data.academicsUG.cgpa10 = this.state.cgpa;
+      this.props.data.academicsUG.percentageMarks = this.state.percentage;
+      this.props.data.academicsUG.dateOfDeclaration =
+        this.state.dateOfDeclaration;
     }
   };
 
   confirmData = (event) => {
     this.props.nextStep();
-    console.log(this.props.data);
+
+    const academicsUG = {
+      academicsUG: this.props.data.academicsUG,
+    };
+
+    try {
+      axios
+        .post(BACKEND_URL + "/students/edit/info", academicsUG, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log("UG Data Added");
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   onCancel = () => {
