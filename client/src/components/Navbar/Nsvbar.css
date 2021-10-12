@@ -26,7 +26,7 @@
   transform: scale(1);
 } */
 
-ul {
+.ul-class {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -34,7 +34,7 @@ ul {
   background-color: cadetblue;
 }
 
-li {
+.li-class {
   float: left;
 }
 
