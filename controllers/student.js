@@ -112,7 +112,10 @@ exports.editStudentInfo = async (req, res) => {
     for (const field of fields) {
       user[field] = req.body[field];
     }
-    await user.save();
+    await user.save().catch((err) => {
+      console.log(err);
+      return res.json({ error: "couldn't update record" });
+    });
     res.json({ success: "true" });
   } catch (error) {
     res.status(400).json({ error: "request body contains invalid data" });

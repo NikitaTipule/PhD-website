@@ -167,15 +167,12 @@ export default class EntranceExamDetails extends Component {
         </div>
         <div>
           <div className="title">Entrance Exam Details</div>
-          <div className={"Form"}>
+          <div>
             <form onSubmit={this.onSubmit}>
               <div style={{ marginTop: "30px" }}>
                 <Typography>Details Regarded Extrance Exams</Typography>
                 <Multiselect
                   options={this.state.options}
-                  // onSelect={(selectedList, selectedItem) => {
-                  //   this.state.optionsSelected = selectedList;
-                  // }}
                   onSelect={this.handleSelect}
                   placeholder="Details regarded extrance exams..."
                   displayValue="name"
@@ -194,7 +191,7 @@ export default class EntranceExamDetails extends Component {
                 />
               </div>
               <div>
-                {this.state.optionsSelected.map((str) => (
+                {/* {this.state.optionsSelected.map((str) => (
                   <div>
                     {str.id === 2 ? (
                       <div>
@@ -228,7 +225,7 @@ export default class EntranceExamDetails extends Component {
                       " "
                     )}
                   </div>
-                ))}
+                ))} */}
               </div>
             </form>
             <button
