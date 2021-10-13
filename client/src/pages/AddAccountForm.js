@@ -43,7 +43,7 @@ export default function AddAccountForm() {
     e.preventDefault();
     if (validate()) {
       axios
-        .post(BACKEND_URL + "/accountSec/add", values)
+        .post(BACKEND_URL + "/staff/add-account-section", values)
         .then((res) => {
           alert("user added");
           resetForm();
@@ -56,7 +56,7 @@ export default function AddAccountForm() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavBar loggedin={true}/>
+      <NavBar loggedin={true} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
