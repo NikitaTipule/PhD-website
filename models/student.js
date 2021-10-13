@@ -48,11 +48,12 @@ const academicsPG = {
 };
 
 const entranceDetails = {
-  entranceExamObtained: { type: String },
+  givenGate: { type: Boolean },
+  givenPet: { type: Boolean },
   isInterestedCoepRPET: { type: Boolean },
   isInterestedCoepEntrance: { type: Boolean },
-  GATE: {
-    score: { type: Number },
+  Gate: {
+    score: { type: String },
     lastDateOfValidation: { type: Date },
   },
   sppuPet: {

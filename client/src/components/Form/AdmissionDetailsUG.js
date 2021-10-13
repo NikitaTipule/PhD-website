@@ -6,6 +6,7 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import "./AdmissionDetails.css";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
@@ -85,6 +86,10 @@ export default class AdmissionDetailsUG extends Component {
       : this.setState({ errorDod: false });
   };
 
+  onBack = (event) => {
+    this.props.prevStep();
+  };
+
   onSubmit = async (event) => {
     await this.validateData();
 
@@ -137,7 +142,51 @@ export default class AdmissionDetailsUG extends Component {
     });
   };
 
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt"),
+      });
+      try {
+        await axios
+          .get(BACKEND_URL + "/students/me", {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            this.setState({
+              university: res.data.user.academicsUG.institute,
+              nomanclaure: res.data.user.academicsUG.degree,
+              specialization: res.data.user.academicsUG.specialization,
+              marksObtained: res.data.user.academicsUG.totalAggregate,
+              totalMarks: res.data.user.academicsUG.totalMarks,
+              cgpa: res.data.user.academicsUG.cgpa10,
+              percentage: res.data.user.academicsUG.percentageMarks,
+              dateOfDeclaration: res.data.user.academicsUG.dateOfDeclaration,
+            });
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
+
   render() {
+    const theme = createTheme({
+      status: {
+        danger: "#e53e3e",
+      },
+      palette: {
+        primary: {
+          main: "#0971f1",
+          darker: "#053e85",
+        },
+        neutral: {
+          main: "#64748B",
+          contrastText: "#fff",
+        },
+      },
+    });
+
     return (
       <div className="container">
         {/* Confirmation Alert */}
@@ -149,16 +198,19 @@ export default class AdmissionDetailsUG extends Component {
             onCancel={this.onCancel}
             customButtons={
               <React.Fragment>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={() => {
-                    this.onCancel();
-                  }}
-                  style={{ marginRight: "10px" }}
-                >
-                  Back
-                </Button>
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    color="neutral"
+                    onClick={() => {
+                      this.onCancel();
+                    }}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Back
+                  </Button>
+                </ThemeProvider>
                 <Button
                   variant="contained"
                   color="success"
@@ -384,7 +436,7 @@ export default class AdmissionDetailsUG extends Component {
               </div>
             </div>
 
-            <div style={{ marginTop: "10px" }}>
+            <div style={{ marginTop: "10px", marginBottom: "30px" }}>
               <Typography>Date of Declaration</Typography>
               <DatePicker
                 onChange={(e) => this.onChangeDate(e)}
@@ -402,23 +454,33 @@ export default class AdmissionDetailsUG extends Component {
             </div>
           </form>
 
-          <button
-            style={{
-              marginTop: "20px",
-              marginBottom: "30px",
-              padding: "5px",
-              width: "100px",
-              height: "40px",
-              fontSize: "20px",
-              backgroundColor: "cadetblue",
-              color: "white",
-              borderRadius: "10px",
-            }}
-            onClick={this.onSubmit}
-          >
-            {" "}
-            Next
-          </button>
+          <div style={{ marginBottom: "30px" }}>
+            <React.Fragment>
+              <ThemeProvider theme={theme}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="neutral"
+                  onClick={() => {
+                    this.onBack();
+                  }}
+                  style={{ marginRight: "10px" }}
+                >
+                  Back
+                </Button>
+              </ThemeProvider>
+              <Button
+                variant="contained"
+                color="success"
+                size="large"
+                onClick={() => {
+                  this.onSubmit();
+                }}
+              >
+                Next
+              </Button>
+            </React.Fragment>
+          </div>
         </div>
       </div>
     );

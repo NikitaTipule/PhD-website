@@ -6,6 +6,9 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import Divider from "@mui/material/Divider";
 import DatePicker from "react-date-picker";
 import "./AdmissionDetails.css";
+import { BACKEND_URL } from "../../config";
+import axios from "axios";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default class EntranceExamDetails extends Component {
   constructor(props) {
@@ -31,11 +34,25 @@ export default class EntranceExamDetails extends Component {
         },
       ],
 
+      givenGate: false,
+      givenPet: false,
+      isInterestedCoepRPET: false,
+      isInterestedCoepEntrance: false,
       gateScore: "",
-      gateDOV: "",
-      gate: false,
+      gateDate: "",
+      petDetails: "",
+      petYear: "",
 
+      errorGateScore: false,
+      errorGateDate: false,
+      errorPetDetails: false,
+      errorPetYear: false,
+      errorOptionsSelected: false,
+
+      next: false,
       confirmAlert: false,
+
+      token: localStorage.getItem("phd-website-jwt"),
     };
   }
 
@@ -45,41 +62,198 @@ export default class EntranceExamDetails extends Component {
 
   onChangeDate = (event) => {
     this.setState({
-      gateDOV: event,
+      gateDate: event,
     });
   };
 
-  onSubmit = (event) => {
-    this.setState({ confirmAlert: !this.state.confirmAlert });
-    this.props.data.entranceOption = this.state.optionsSelected;
-    this.props.data.gateScore = this.state.gateScore;
-    this.props.data.gateDOV = this.state.gateDOV;
-    this.props.data.gate = this.state.gate;
+  validateData = () => {
+    this.state.givenGate &&
+      (/^\d+$/.test(this.state.gateScore) && parseInt(this.state.gateScore)
+        ? this.setState({ errorGateScore: false })
+        : this.setState({ errorGateScore: true }));
+
+    this.state.givenGate &&
+      (this.state.gateDate === ""
+        ? this.setState({ errorGateDate: true })
+        : this.setState({ errorGateDate: false }));
+
+    this.state.givenPet &&
+      (this.state.petDetails === ""
+        ? this.setState({ errorPetDetails: true })
+        : this.setState({ errorPetDetails: false }));
+
+    this.state.givenPet &&
+      (this.state.petYear.length === 4 && /^\d+$/.test(this.state.petYear)
+        ? this.setState({ errorPetYear: false })
+        : this.setState({ errorPetYear: true }));
+
+    this.state.optionsSelected.length < 1
+      ? this.setState({ errorOptionsSelected: true })
+      : this.setState({ errorOptionsSelected: false });
+  };
+
+  onSubmit = async (event) => {
+    var l = this.state.optionsSelected.length;
+    for (var i = 0; i < l; i++) {
+      if (this.state.optionsSelected[i].id === 1) {
+        this.state.isInterestedCoepRPET = true;
+      }
+      if (this.state.optionsSelected[i].id === 2) {
+        this.state.givenGate = true;
+      }
+      if (this.state.optionsSelected[i].id === 3) {
+        this.state.isInterestedCoepEntrance = true;
+      }
+      if (this.state.optionsSelected[i].id === 4) {
+        this.state.givenPet = true;
+      }
+    }
+
+    await this.validateData();
+
+    if (
+      this.state.errorGateScore === false &&
+      this.state.errorGateDate === false &&
+      this.state.errorPetDetails === false &&
+      this.state.errorPetYear === false &&
+      this.state.errorOptionsSelected === false
+    ) {
+      this.setState({ confirmAlert: !this.state.confirmAlert });
+      this.props.data.entranceDetails.isInterestedCoepRPET =
+        this.state.isInterestedCoepRPET;
+      this.props.data.entranceDetails.isInterestedCoepEntrance =
+        this.state.isInterestedCoepEntrance;
+      this.props.data.entranceDetails.givenPet = this.state.givenPet;
+      this.props.data.entranceDetails.givenGate = this.state.givenGate;
+      this.props.data.entranceDetails.Gate.score = this.state.gateScore;
+      this.props.data.entranceDetails.Gate.lastDateOfValidation =
+        this.state.gateDate;
+      this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
+      this.props.data.entranceDetails.sppuPet.year = this.state.petYear;
+    }
   };
 
   confirmData = (event) => {
     this.props.nextStep();
-    console.log(this.props.data);
+
+    const entranceDetails = {
+      entranceDetails: this.props.data.entranceDetails,
+    };
+
+    try {
+      axios
+        .post(BACKEND_URL + "/students/edit/info", entranceDetails, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log("Entrance Details Info Added");
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   handleSelect = (selectedList, selectedItem) => {
     this.setState({
       optionsSelected: selectedList,
     });
-    console.log(this.state.optionsSelected);
   };
 
   onCancel = () => {
     this.setState({
       confirmAlert: !this.state.confirmAlert,
     });
-    console.log(this.props);
-    // this.props.props.history.goBack();
   };
 
+  onBack = (event) => {
+    this.props.prevStep();
+  };
+
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt"),
+      });
+      try {
+        await axios
+          .get(BACKEND_URL + "/students/me", {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            res.data.user.entranceDetails &&
+              this.setState({
+                givenGate: res.data.user.entranceDetails.givenGate,
+                givenPet: res.data.user.entranceDetails.givenPet,
+                isInterestedCoepRPET:
+                  res.data.user.entranceDetails.isInterestedCoepRPET,
+                isInterestedCoepEntrance:
+                  res.data.user.entranceDetails.isInterestedCoepEntrance,
+                gateScore: res.data.user.entranceDetails.Gate.score,
+                gateDate:
+                  res.data.user.entranceDetails.Gate.lastDateOfValidation,
+                petDetails: res.data.user.entranceDetails.sppuPet.details,
+                petYear: res.data.user.entranceDetails.sppuPet.year,
+              });
+
+            if (this.state.givenGate) {
+              this.setState((previousState) => ({
+                optionsSelected: [
+                  ...previousState.optionsSelected,
+                  this.state.options[1],
+                ],
+              }));
+            }
+            if (this.state.isInterestedCoepRPET) {
+              this.setState((previousState) => ({
+                optionsSelected: [
+                  ...previousState.optionsSelected,
+                  this.state.options[0],
+                ],
+              }));
+            }
+            if (this.state.isInterestedCoepEntrance) {
+              this.setState((previousState) => ({
+                optionsSelected: [
+                  ...previousState.optionsSelected,
+                  this.state.options[2],
+                ],
+              }));
+            }
+            if (this.state.givenPet) {
+              this.setState((previousState) => ({
+                optionsSelected: [
+                  ...previousState.optionsSelected,
+                  this.state.options[3],
+                ],
+              }));
+            }
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
+
   render() {
+    const theme = createTheme({
+      status: {
+        danger: "#e53e3e",
+      },
+      palette: {
+        primary: {
+          main: "#0971f1",
+          darker: "#053e85",
+        },
+        neutral: {
+          main: "#64748B",
+          contrastText: "#fff",
+        },
+      },
+    });
+
     return (
       <div className="container">
+        {/**PopUp here */}
         <div>
           <SweetAlert
             title={"Entrance Exam Details"}
@@ -88,16 +262,19 @@ export default class EntranceExamDetails extends Component {
             onCancel={this.onCancel}
             customButtons={
               <React.Fragment>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={() => {
-                    this.onCancel();
-                  }}
-                  style={{ marginRight: "10px" }}
-                >
-                  Back
-                </Button>
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    color="neutral"
+                    onClick={() => {
+                      this.onCancel();
+                    }}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Back
+                  </Button>
+                </ThemeProvider>
                 <Button
                   variant="contained"
                   color="success"
@@ -111,60 +288,157 @@ export default class EntranceExamDetails extends Component {
               </React.Fragment>
             }
           >
-            {() => (
-              <div style={{ alignItems: "left", textAlign: "left" }}>
-                <div className="popUpField">
-                  <div>
-                    <Divider
-                      sx={{
-                        marginTop: "20px",
-                        marginBottom: "20px",
-                        width: "100%",
-                      }}
-                    />
-                    {this.state.optionsSelected.map((str) => (
-                      <div>
-                        <div>{str.name}</div>
-                        <div style={{ marginTop: "0px" }}>
-                          {str.id === 2 ? (
+            <div style={{ alignItems: "left", textAlign: "left" }}>
+              <div className="popUpField">
+                <div>
+                  <Divider
+                    sx={{
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      width: "100%",
+                    }}
+                  />
+                  {this.state.isInterestedCoepRPET && (
+                    <div>
+                      <div>{this.state.options[0].name}</div>
+                      <Divider
+                        sx={{
+                          marginTop: "20px",
+                          marginBottom: "20px",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  )}
+                  {this.state.givenGate && (
+                    <div>
+                      <div>{this.state.options[1].name}</div>
+                      <div style={{ marginTop: "0px" }}>
+                        <div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
                             <div
-                              style={{ display: "flex", flexDirection: "row" }}
+                              style={{
+                                marginLeft: "20px",
+                                fontWeight: "400",
+                              }}
                             >
-                              <div
-                                style={{
-                                  marginLeft: "20px",
-                                  fontWeight: "600",
-                                }}
-                              >
-                                Score :{" "}
-                              </div>
-                              <div
-                                style={{
-                                  marginLeft: "20px",
-                                }}
-                              >
-                                {this.state.gateScore}
-                              </div>
+                              Score :{" "}
                             </div>
-                          ) : (
-                            " "
-                          )}
-                          <Divider
-                            sx={{
-                              marginTop: "20px",
-                              marginBottom: "20px",
-                              width: "100%",
-                            }}
-                          />
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                            >
+                              {this.state.gateScore}
+                            </div>
+                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              Last Date of Validation :{" "}
+                            </div>
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                            >
+                              {this.state.gateDate
+                                .toLocaleString()
+                                .slice(0, 10)}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                      <Divider
+                        sx={{
+                          marginTop: "20px",
+                          marginBottom: "20px",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  )}
+                  {this.state.isInterestedCoepEntrance && (
+                    <div>
+                      <div>{this.state.options[2].name}</div>
+                      <Divider
+                        sx={{
+                          marginTop: "20px",
+                          marginBottom: "20px",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  )}
+                  {this.state.givenPet && (
+                    <div>
+                      <div>{this.state.options[3].name}</div>
+                      <div style={{ marginTop: "0px" }}>
+                        <div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              Details :{" "}
+                            </div>
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                            >
+                              {this.state.petDetails}
+                            </div>
+                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              Year :{" "}
+                            </div>
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                            >
+                              {this.state.petYear}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <Divider
+                        sx={{
+                          marginTop: "20px",
+                          marginBottom: "20px",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
-            )}
+            </div>
           </SweetAlert>
         </div>
+
+        {/**Form Starts here */}
         <div>
           <div className="title">Entrance Exam Details</div>
           <div>
@@ -176,6 +450,7 @@ export default class EntranceExamDetails extends Component {
                   onSelect={this.handleSelect}
                   placeholder="Details regarded extrance exams..."
                   displayValue="name"
+                  selectedValues={this.state.optionsSelected}
                   style={{
                     searchBox: {
                       minHeight: "50px",
@@ -189,62 +464,151 @@ export default class EntranceExamDetails extends Component {
                     },
                   }}
                 />
+                {this.state.errorOptionsSelected && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select something</Typography>
+                  </div>
+                )}
               </div>
+
               <div>
-                {/* {this.state.optionsSelected.map((str) => (
+                {this.state.optionsSelected.map((str, id) => (
                   <div>
                     {str.id === 2 ? (
-                      <div>
-                        {(this.state.gate = true)}
-                        <div style={{ marginTop: "10px" }}>
-                          <Typography>GATE Details</Typography>
-                          <TextField
-                            className="mb-3"
-                            variant="outlined"
-                            label="Gate Score"
-                            onChange={this.handleChange}
-                            value={this.state.gateScore}
-                            name="gateScore"
-                            required
-                          />
+                      <div style={{ marginTop: "30px" }}>
+                        <Typography
+                          style={{ fontWeight: 500, fontSize: "17px" }}
+                        >
+                          GATE
+                        </Typography>
+                        <div style={{ marginLeft: "20px" }}>
+                          <div style={{ marginTop: "3px" }}>
+                            <Typography>GATE Score</Typography>
+                            <TextField
+                              className="mb-3"
+                              variant="outlined"
+                              label="Gate Score"
+                              onChange={this.handleChange}
+                              value={this.state.gateScore}
+                              name="gateScore"
+                              style={{ marginTop: "10px" }}
+                              required
+                            />
+                            {this.state.errorGateScore && (
+                              <div style={{ color: "red" }}>
+                                <Typography>Invalid score entered</Typography>
+                              </div>
+                            )}
+                          </div>
+                          <div style={{ marginTop: "10px" }}>
+                            <Typography>Date of Validation</Typography>
+                            <DatePicker
+                              onChange={(e) => this.onChangeDate(e)}
+                              value={this.state.gateDate}
+                              format={"dd-MM-y"}
+                              dayPlaceholder="dd"
+                              monthPlaceholder="mm"
+                              yearPlaceholder="yyyy"
+                              className="formDatePicker"
+                            ></DatePicker>
+                            {this.state.errorGateDate && (
+                              <div style={{ color: "red" }}>
+                                <Typography>
+                                  Please select date of validation
+                                </Typography>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div style={{ marginTop: "10px" }}>
-                          <Typography>Date of Validation</Typography>
-                          <DatePicker
-                            onChange={(e) => this.onChangeDate(e)}
-                            value={this.state.gateDOV}
-                            format={"dd-MM-y"}
-                            dayPlaceholder="dd"
-                            monthPlaceholder="mm"
-                            yearPlaceholder="yyyy"
-                            className="formDatePicker"
-                          ></DatePicker>
+                      </div>
+                    ) : (
+                      " "
+                    )}
+
+                    {str.id === 4 ? (
+                      <div>
+                        <div style={{ marginTop: "30px" }}>
+                          <Typography
+                            style={{ fontWeight: 500, fontSize: "17px" }}
+                          >
+                            SPPU PET
+                          </Typography>
+                          <div style={{ marginLeft: "20px" }}>
+                            <div style={{ marginTop: "3px" }}>
+                              <Typography>Details</Typography>
+                              <TextField
+                                className="mb-3"
+                                variant="outlined"
+                                label="SPPU PET Details"
+                                onChange={this.handleChange}
+                                value={this.state.petDetails}
+                                name="petDetails"
+                                style={{ marginTop: "10px" }}
+                                required
+                              />
+                              {this.state.errorPetDetails && (
+                                <div style={{ color: "red" }}>
+                                  <Typography>Details required</Typography>
+                                </div>
+                              )}
+                            </div>
+
+                            <div style={{ marginTop: "8px" }}>
+                              <Typography>Year</Typography>
+                              <TextField
+                                className="mb-3"
+                                variant="outlined"
+                                label="Year"
+                                onChange={this.handleChange}
+                                value={this.state.petYear}
+                                name="petYear"
+                                style={{ marginTop: "8px" }}
+                                required
+                              />
+                              {this.state.errorPetYear && (
+                                <div style={{ color: "red" }}>
+                                  <Typography>Invalid year</Typography>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ) : (
                       " "
                     )}
                   </div>
-                ))} */}
+                ))}
               </div>
             </form>
-            <button
-              style={{
-                marginTop: "20px",
-                marginBottom: "30px",
-                padding: "5px",
-                width: "100px",
-                height: "40px",
-                fontSize: "20px",
-                backgroundColor: "cadetblue",
-                color: "white",
-                borderRadius: "10px",
-              }}
-              onClick={this.onSubmit}
-            >
-              {" "}
-              Next
-            </button>
+
+            <div style={{ margin: "20px 0 20px 0" }}>
+              <React.Fragment>
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    color="neutral"
+                    onClick={() => {
+                      this.onBack();
+                    }}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Back
+                  </Button>
+                </ThemeProvider>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={() => {
+                    this.onSubmit();
+                  }}
+                >
+                  Next
+                </Button>
+              </React.Fragment>
+            </div>
           </div>
         </div>
       </div>

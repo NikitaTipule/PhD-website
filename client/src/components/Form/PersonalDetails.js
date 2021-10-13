@@ -8,24 +8,26 @@ import "react-dropdown/style.css";
 import "./PersonalDetails.css";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default class PersonalDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
       confirmAlert: false,
-      name: "",
-      middleName: "",
-      gender: "",
-      dob: "",
-      email: "",
-      mobile: "",
-      nationality: "",
-      category: "",
-      aadhar: "",
-      address: "",
-      physicallyDisabled: "",
-      department: "",
+
+      name: this.props.data.personalInfo.name,
+      middleName: this.props.data.personalInfo.middleName,
+      gender: this.props.data.personalInfo.gender,
+      dob: this.props.data.personalInfo.dob,
+      email: this.props.data.personalInfo.email,
+      mobile: this.props.data.personalInfo.mobile,
+      nationality: this.props.data.personalInfo.nationality,
+      category: this.props.data.personalInfo.category,
+      aadhar: this.props.data.personalInfo.aadhar,
+      address: this.props.data.personalInfo.address,
+      physicallyDisabled: this.props.data.personalInfo.physicallyDisabled,
+      department: this.props.data.personalInfo.department,
 
       errorName: false,
       errorMiddleName: false,
@@ -171,7 +173,6 @@ export default class PersonalDetails extends Component {
     };
 
     try {
-      console.log(personalInfo);
       axios
         .post(BACKEND_URL + "/students/edit/info", personalInfo, {
           headers: { "phd-website-jwt": this.state.token },
@@ -192,6 +193,38 @@ export default class PersonalDetails extends Component {
     });
   };
 
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt"),
+      });
+      try {
+        await axios
+          .get(BACKEND_URL + "/students/me", {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            this.setState({
+              name: res.data.user.personalInfo.name,
+              middleName: res.data.user.personalInfo.middleName,
+              email: res.data.user.personalInfo.email,
+              gender: res.data.user.personalInfo.gender,
+              mobile: res.data.user.personalInfo.mobile,
+              nationality: res.data.user.personalInfo.nationality,
+              category: res.data.user.personalInfo.category,
+              aadhar: res.data.user.personalInfo.aadhar,
+              dob: res.data.user.personalInfo.dob,
+              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled,
+              department: res.data.user.personalInfo.department,
+              address: res.data.user.personalInfo.address,
+            });
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
+
   render() {
     const dropdown_options = ["General", "OBC", "ST", "SC", "NT"];
     const department_options = [
@@ -205,6 +238,22 @@ export default class PersonalDetails extends Component {
       "Production Engineering",
     ];
 
+    const theme = createTheme({
+      status: {
+        danger: "#e53e3e",
+      },
+      palette: {
+        primary: {
+          main: "#0971f1",
+          darker: "#053e85",
+        },
+        neutral: {
+          main: "#64748B",
+          contrastText: "#fff",
+        },
+      },
+    });
+
     return (
       <div className="container">
         {/* Confirmation Alert */}
@@ -216,16 +265,19 @@ export default class PersonalDetails extends Component {
             onCancel={this.onCancel}
             customButtons={
               <React.Fragment>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={() => {
-                    this.onCancel();
-                  }}
-                  style={{ marginRight: "10px" }}
-                >
-                  Back
-                </Button>
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    color="neutral"
+                    size="large"
+                    onClick={() => {
+                      this.onCancel();
+                    }}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Back
+                  </Button>
+                </ThemeProvider>
                 <Button
                   variant="contained"
                   color="success"
@@ -509,6 +561,7 @@ export default class PersonalDetails extends Component {
                 </Typography>
                 <DropDown
                   options={dropdown_options}
+                  value={this.state.category}
                   onChange={this.onChangeCategory}
                   placeholder="Select category"
                 />
@@ -571,16 +624,7 @@ export default class PersonalDetails extends Component {
              * 11. Physically Disable
              * 12. Application in which department
              */}
-            <div
-              // style={{
-              //   display: "flex",
-              //   flexDirection: "row",
-              //   paddingTop: "10px",
-              //   paddingBottom: "10px",
-              //   justifyContent: "center",
-              // }}
-              className="formEmailNumber"
-            >
+            <div className="formEmailNumber">
               <div
                 style={{
                   display: "flex",
@@ -624,6 +668,7 @@ export default class PersonalDetails extends Component {
                 </Typography>
                 <DropDown
                   options={department_options}
+                  value={this.state.department}
                   onChange={this.onChangeDepartment}
                   placeholder="Select Department"
                 />
@@ -636,23 +681,20 @@ export default class PersonalDetails extends Component {
             </div>
           </form>
 
-          <button
-            style={{
-              marginTop: "20px",
-              marginBottom: "30px",
-              padding: "5px",
-              width: "100px",
-              height: "40px",
-              fontSize: "20px",
-              backgroundColor: "cadetblue",
-              color: "white",
-              borderRadius: "10px",
-            }}
-            onClick={this.onSubmit}
-          >
-            {" "}
-            Next
-          </button>
+          <div style={{ marginBottom: "30px", marginTop: "30px" }}>
+            <React.Fragment>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => {
+                  this.onSubmit();
+                }}
+              >
+                Next
+              </Button>
+            </React.Fragment>
+          </div>
         </div>
       </div>
     );

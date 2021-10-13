@@ -105,7 +105,13 @@ exports.editStudentInfo = async (req, res) => {
     res.status(403).json({ error: "only student can update his info" });
   }
   // user can edit any of these fields using this route
-  let fields = ["personalInfo", "academicsUG", "academicsPG", "footerData"];
+  let fields = [
+    "personalInfo",
+    "academicsUG",
+    "academicsPG",
+    "entranceDetails",
+    "footerData",
+  ];
   fields = fields.filter((field) => field in req.body);
   try {
     const user = await Student.findById(req.userId).exec();

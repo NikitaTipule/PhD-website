@@ -7,8 +7,6 @@ import PersonalDetails from "../components/Form/PersonalDetails";
 import AccountsDetails from "../components/Form/AccountsDetails";
 import { Redirect } from "react-router-dom";
 import EntranceExamDetails from "../components/Form/EntranceExamDetails";
-import { BACKEND_URL } from "../config";
-import axios from "axios";
 
 export default class admissionForm extends Component {
   state = {
@@ -51,12 +49,32 @@ export default class admissionForm extends Component {
         dateofDeclaration: "",
       },
 
-      feeDetails: {},
+      entranceDetails: {
+        givenGate: "",
+        givenPet: "",
+        isInterestedCoepRPET: "",
+        isInterestedCoepEntrance: "",
+        Gate: {
+          score: "",
+          lastDateOfValidation: "",
+        },
+        sppuPet: {
+          details: "",
+          year: "",
+        },
+      },
 
-      entranceOptions: [],
-      gate: false,
-      gateScore: "",
-      gateDOV: "",
+      feeDetails: {
+        utrDuNumber: "",
+        amount: "",
+        transactionTime: "",
+        bank: "",
+        docUploaded: {
+          type: "",
+          filename: "",
+          originalName: "",
+        },
+      },
     },
   };
 
@@ -73,30 +91,6 @@ export default class admissionForm extends Component {
       step: step - 1,
     });
   };
-
-  async componentDidMount() {
-    if (localStorage.getItem("phd-website-jwt")) {
-      await this.setState({
-        token: localStorage.getItem("phd-website-jwt"),
-      });
-      try {
-        axios
-          .get(BACKEND_URL + "/students/me", {
-            headers: { "phd-website-jwt": this.state.token },
-          })
-          .then((res) => {
-            this.setState({
-              personalInfo: res.data.user.personalInfo,
-              academicsUG: res.data.user.academicsUG,
-              academicsPG: res.data.user.academicsPG,
-              feeDetails: res.data.user.feeDetails,
-            });
-          });
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-  }
 
   render() {
     const { step } = this.state;
@@ -116,7 +110,7 @@ export default class admissionForm extends Component {
             <AdmissionDetailsUG
               nextStep={this.nextStep}
               data={this.state.data}
-              // prevStep={this.prevStep}
+              prevStep={this.prevStep}
             />
           </div>
         );
@@ -127,6 +121,7 @@ export default class admissionForm extends Component {
             <AdmissionDetailsPG
               nextStep={this.nextStep}
               data={this.state.data}
+              prevStep={this.prevStep}
             />
           </div>
         );
@@ -137,6 +132,7 @@ export default class admissionForm extends Component {
             <EntranceExamDetails
               nextStep={this.nextStep}
               data={this.state.data}
+              prevStep={this.prevStep}
             />
           </div>
         );
@@ -144,14 +140,22 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <Documents nextStep={this.nextStep} data={this.state.data} />
+            <Documents
+              nextStep={this.nextStep}
+              data={this.state.data}
+              prevStep={this.prevStep}
+            />
           </div>
         );
       case 6:
         return (
           <div>
             <NavBar loggedin={true} />
-            <AccountsDetails nextStep={this.nextStep} data={this.state.data} />
+            <AccountsDetails
+              nextStep={this.nextStep}
+              data={this.state.data}
+              prevStep={this.prevStep}
+            />
           </div>
         );
       default:

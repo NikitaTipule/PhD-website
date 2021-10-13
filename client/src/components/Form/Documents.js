@@ -4,6 +4,7 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./Documents.css";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default class Documents extends Component {
   constructor(props) {
@@ -43,11 +44,37 @@ export default class Documents extends Component {
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = (e) => {
-      console.log("img data : ", e.target.result);
+      console.log("img data : ", e.target);
     };
   };
 
+  onBack = (event) => {
+    this.props.prevStep();
+  };
+
+  onCancel = () => {
+    this.setState({
+      open: !this.state.open,
+    });
+  };
+
   render() {
+    const theme = createTheme({
+      status: {
+        danger: "#e53e3e",
+      },
+      palette: {
+        primary: {
+          main: "#0971f1",
+          darker: "#053e85",
+        },
+        neutral: {
+          main: "#64748B",
+          contrastText: "#fff",
+        },
+      },
+    });
+
     return (
       <div className="docContainer">
         {/* Popup on Success */}
@@ -57,17 +84,22 @@ export default class Documents extends Component {
             show={this.state.open}
             title="Documents Uploaded Successfully"
             onConfirm={this.handleAlertCanel}
+            onCancel={this.onCancel}
             customButtons={
               <React.Fragment>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={() => {
-                    this.handleAlertCanel();
-                  }}
-                >
-                  Back
-                </Button>
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    color="neutral"
+                    onClick={() => {
+                      this.onCancel();
+                    }}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Back
+                  </Button>
+                </ThemeProvider>
                 <Button
                   variant="contained"
                   size="large"
@@ -155,23 +187,33 @@ export default class Documents extends Component {
           </TableBody>
         </Table>
 
-        <button
-          style={{
-            marginTop: "20px",
-            marginBottom: "30px",
-            padding: "5px",
-            width: "100px",
-            height: "40px",
-            fontSize: "20px",
-            backgroundColor: "cadetblue",
-            color: "white",
-            borderRadius: "10px",
-          }}
-          onClick={this.onSubmit}
-        >
-          {" "}
-          Next
-        </button>
+        <div style={{ margin: "20px 0 20px 0" }}>
+          <React.Fragment>
+            <ThemeProvider theme={theme}>
+              <Button
+                variant="contained"
+                size="large"
+                color="neutral"
+                onClick={() => {
+                  this.onBack();
+                }}
+                style={{ marginRight: "10px" }}
+              >
+                Back
+              </Button>
+            </ThemeProvider>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => {
+                this.onSubmit();
+              }}
+            >
+              Next
+            </Button>
+          </React.Fragment>
+        </div>
       </div>
     );
   }
