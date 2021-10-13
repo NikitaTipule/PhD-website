@@ -48,8 +48,8 @@ exports.uploadFile = (req, res) => {
 //had to downgrade mongoose to 5.13.7 because of incompatible gridFS stream package
 
 exports.getFileGrid = (req, res) => {
-  if (req.userRole != "student") {
-    res.status(403).json({ error: "only students can delete documents" });
+  if (!req.userRole) {
+    res.status(403).json({ error: "only users can access documents" });
   }
   const filename = req.params && req.params.filename;
   if (!filename) {
