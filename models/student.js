@@ -86,6 +86,7 @@ const feeDetails = {
     type: { type: String },
     filename: { type: String },
     originalName: { type: String },
+    contentType: { type: String },
   },
 };
 
