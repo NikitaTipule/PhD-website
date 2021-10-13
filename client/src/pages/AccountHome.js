@@ -17,6 +17,9 @@ import "react-dropdown/style.css";
 import {Typography} from "@material-ui/core"
 import { Button } from 'bootstrap';
 import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
+import axios from 'axios';
+import { BACKEND_URL } from "../config";
+
 class VerificationComponent extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +38,7 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Pending"
                 name="verify"
-                checked={this.state.verify === "Pending"}
+                // checked={this.state.verify === "Pending"}
                 onChange={this.onChangeGender}
                 className="radio"
               />
@@ -46,7 +49,7 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Modification-Required"
                 name="verify"
-                checked={this.state.verify === "Modification-Required"}
+                // checked={this.state.verify === "Modification-Required"}
                 onChange={this.onChangeGender}
                 className="radio"
               />{" "}
@@ -57,7 +60,7 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Verified"
                 name="verify"
-                checked={this.state.verify === "Verified"}
+                // checked={this.state.verify === "Verified"}
                 onChange={this.onChangeGender}
                 className="radio"
               />{" "}
@@ -73,20 +76,46 @@ class VerificationComponent extends Component {
 
 class AccountHome extends Component {
   constructor(props) {
-        super(props);
-        this.state = {
-            name: "",
-            email: "",
-            mis: "",
-            role: "",
-            department: "",
-            page: 0,
-            rowsPerPage: 10,
-            allStudents: [],
-            tableData:'Not Verified'
-        };
+    super(props);
+    this.state = {
+      name: "",
+      email: "",
+      mis: "",
+      role: "",
+      department: "",
+      page: 0,
+      rowsPerPage: 10,
+      allStudents: [],
+      tableData: 'pending',
+      token: "",
+        
+    };
 
+  }
+  
+  async componentDidMount() {
+
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt")
+      });
+      try {
+        axios
+          .get(BACKEND_URL + "/staff/me", { headers: { "phd-website-jwt": this.state.token } })
+          .then((res) => {
+            console.log(res.data)
+            this.setState({
+              name: res.data.user.name,
+              email: res.data.user.email,
+              mis: res.data.user.mis,
+            });
+          })
+      } catch (error) {
+        console.log(error.message)
+        }
     }
+  }
+
     upperColumns = [
       {id: 'id', label: 'Total Candidates'},
       {id: 'verified', label: 'Verified'},
@@ -94,275 +123,18 @@ class AccountHome extends Component {
       {id: 'Modification needed', label: 'Modification Needed'}
     ]
     columns = [
-        { id: 'id', label:'Serial Number', minwidth:30},
-        { id: 'name', label: 'Name', minWidth: 100 },
-        { id: 'status', label: 'Verification Status', minWidth: 50 },
-        { id: 'category', label: 'Category', minwidth:50},
-        { id: 'amount', label: 'Amount Paid', minWidth:50},
-        { id: 'utrnumber', label: 'UTR/DU Number', minWidth:50},
-        { id: 'date', label:'Date', minwidth:50},
-        { id: 'reciept', label:'Payment Reciept', minWidth:50},
-        { id: 'remarks', label:'Remarks',minWidth:70 }
+      { id: 'id', label:'No.', minwidth:20},
+      { id: 'name', label: 'Name', minWidth: 100 },
+      { id: 'status', label: 'Verification Status', minWidth: 50 },
+      { id: 'category', label: 'Category', minwidth:50},
+      { id: 'amount', label: 'Amount Paid', minWidth:50},
+      { id: 'utrnumber', label: 'UTR/DU Number', minWidth:50},
+      { id: 'date', label:'Date', minwidth:50},
+      { id: 'reciept', label:'Payment Reciept', minWidth:50},
+      { id: 'verification', label: 'Verification', minWidth: 70 },
+      { id: 'remarks', label: 'Remarks', minWidth: 50},
       
       ];
-      
-      rows = [
-        {
-          id: 1,
-          name : "Student 1", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9813891',
-          date: '07/10/2021',
-        },
-        {
-          id:2,
-          name : "Student 2", 
-          status: "Verified",
-          category: 'NT',
-          amount: '100/-',
-          utrnumber: 'DU9813888',
-          date: '07/10/2021'
-        },
-        {
-          id:3,
-          name : "Student 3", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:4,
-          name : "Student 4", 
-          status: "Not Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:5,
-          name : "Student 5", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:6,
-          name : "Student 6", 
-          status: "Modification needed",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-      
-        {
-          id:7,
-          name : "Student 7", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:8,
-          name : "Student 8", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:9,
-          name : "Student 9", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:10,
-          name : "Student 10", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:11,
-          name : "Student 11", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:12,
-          name : "Student 12", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:13,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:14,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:15,
-          name : "nikita sopan Tipule", 
-          status: "Not Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:16,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:17,
-          name : "nikita sopan Tipule", 
-          status: "Modification needed",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-      
-        {
-          id:18,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:19,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:20,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:21,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:22,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-       
-        {
-          id:23,
-          name : "nikita sopan Tipule", 
-          status: "Modification needed",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-      
-        {
-          id:24,
-          name : "nikita sopan Tipule", 
-          status: "Verified", category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:25,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:26,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:27,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-        {
-          id:28,
-          name : "nikita sopan Tipule", 
-          status: "Verified",
-          category: 'General',
-          amount: '1000/-',
-          utrnumber: 'DU9812891',
-          date: '07/10/2021'
-        },
-      ]
       
       statusRows =[
         {id : 1,
@@ -388,46 +160,90 @@ class AccountHome extends Component {
         }
 
     onChangeDepartment = (event) => {
-        this.setState ({
-            department : event.value,
-        });
+      // console.log(this.state.department)
         // console.log(this);
+      let dept = event.value;
+      console.log(dept)
+        if (dept) {
+          if (localStorage.getItem("phd-website-jwt")) {
+            this.setState({
+              token: localStorage.getItem("phd-website-jwt")
+            });
+            try {
+              axios
+              .get(BACKEND_URL + "/students/department/" + dept , { headers: { "phd-website-jwt": this.state.token } })
+                .then((res) => {
+                  console.log(res.data)
+                  this.setState({
+                    allStudents: res.data,
+                    length: res.data.length,
+                  })
+                  
+                  // console.log(this.state.allStudents[0].feeDetails.verification)
+                })
+            } catch (error) {
+              console.log(error.message)
+            }
+          }
+      }
+      this.setState ({
+        department : event.value,
+      });
+      
     }
     handleclick1 = (event) => {
       this.setState({
-        tableData: "Not Verified"
+        tableData: "pending"
       });
     }
   
     handleclick2 = (event) => {
       this.setState({
-        tableData: "Verified"
+        tableData: "verified"
       });
     }
   
     handleclick3 = (event) => {
       this.setState({
-        tableData: "Not Verified"
+        tableData: "pending"
       });
     }
   
     handleclick4 = (event) => {
       this.setState({
-        tableData: "Modification needed"
+        tableData: "mod-req"
       });
     }
     render() {
 
         const department_options = [
-            "Computer Science",
-            "Electrical",
-            "ENTC",
-            "Mechanical",
-            "Civil",
-            "Production",
-            "Metallergy",
-        ];
-        let newData=[]
+          "Civil Engineering",
+          "Computer Engineering",
+          "Electrical Engineering",
+          "Electronics & Telecommunication Engineering",
+          "Instrumentation & Control Engineering",
+          "Mechanical Engineering",
+          "Metallurgical Engineering",
+          "Production Engineering",
+      ];
+        let counterTotal = 0;
+        let counterVerified = 0;
+        let counterNotVerified = 0;
+        let counterModification = 0;
+        let count = 0;
+      if (this.state.department != "") {
+        for (let i = 0; i < this.state.length; i++) {
+          counterTotal++;
+          if (this.state.allStudents[i].feeDetails.verification === "verified") {
+            counterVerified++;
+          } else if (this.state.allStudents[i].feeDetails.verification === "pending") {
+            counterNotVerified++;
+          } else if (this.state.allStudents[i].feeDetails.verification === "mod-req") {
+            counterModification++;
+          }
+        }
+      }
+
         return(
             <div>
                 <NavBar loggedin={true}/>
@@ -445,28 +261,28 @@ class AccountHome extends Component {
                             <p style={{fontSize: '20px'}}>
                             <b style={{fontWeight:600}}>Name : </b>
                             {'   '}
-                            Coordinator name
+                            {this.state.name}
                             </p>
                         </Grid>
                         <Grid item xs={12} md={6} className="grid-item">
                             <p style={{fontSize: '20px'}}>
                             <b style={{fontWeight:600}}>Email : </b>
                             {'   '}
-                                faculty@gamil.com
+                              {this.state.email}
                             </p>
                             </Grid>
                         <Grid item xs={12} md={6} className="grid-item">
                             <p style={{fontSize: '20px'}}>
                             <b style={{fontWeight:600}}>Mis : </b>
                             {'   '}
-                                11111111111
+                                {this.state.mis}
                             </p>
                             </Grid>
                         <Grid item xs={12} md={6} className="grid-item">
                             <p style={{fontSize: '20px'}}>
                             <b style={{fontWeight:600}}>Departments: </b>
                             {'   '}
-                              All
+                              ALL
                             </p>
                             </Grid>
                         </Grid>
@@ -516,22 +332,22 @@ class AccountHome extends Component {
                                   value="Not Verified"
                                   onClick = {() => {this.handleclick1()}}
                                   className= "tablecell"
-                              >28</TableCell>
+                                >{ counterTotal}</TableCell>
                               <TableCell align='center'
                                   value="Verified"
                                   onClick = {() => {this.handleclick2()}}
                                   className= "tablecell"
-                              >23</TableCell>
+                                >{ counterVerified}</TableCell>
                               <TableCell align='center'
                                  value="Not Verified"
                                  onClick = {() => {this.handleclick3()}}
                                  className= "tablecell"
-                              >2</TableCell>
+                                >{ counterNotVerified}</TableCell>
                               <TableCell align='center'
                                  value="Modification needed"
                                  onClick = {() => {this.handleclick4()}}
                                  className= "tablecell"
-                              >3</TableCell>
+                                >{ counterModification}</TableCell>
                             </TableRow>
                              </TableBody>
                              </Table>
@@ -543,12 +359,12 @@ class AccountHome extends Component {
 
                      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px', marginBottom: '50px'}}>
           
-                       <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '80%'}, overflow: 'hidden'}}>
-                        <TableContainer sx={{ maxHeight: 500 }}>
+                       <Paper sx = {{width: '100%','@media screen and (min-width: 40em)': {width: '95%'}, overflow: 'hidden'}}>
+                        <TableContainer sx={{ maxHeight: 650 }}>
                           <Table stickyHeader aria-label="sticky table">
                           <TableHead >
                           <TableRow>
-                              {this.columns.map((column) => (
+                              {this.columns.map((column, key) => (
                                  <TableCell
                                    key={column.id}
                                    align='center'
@@ -560,16 +376,17 @@ class AccountHome extends Component {
                           </TableRow>
                           </TableHead>
                           <TableBody>
-                             {this.rows
-                             .filter(student => student.status === this.state.tableData)
+                             {this.state.allStudents
+                             .filter(student => student.feeDetails.verification === this.state.tableData)
                              .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                             .map((row) => {
+                             .map((row, key) => {
                              return (
                              <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                             {this.columns.map((column) => {
+                             {/* {this.columns.map((column, key) => {
                              const value = row[column.id];
                             return (
                               <TableCell key={column.id} align='center'>
+                               
                                 {column.id==='reciept' ? (<ArrowCircleDown/>) : <></>}
                                 {column.id==='remarks' ? (<VerificationComponent />) : <></>}
                                 {column.id === 'status'? (
@@ -589,15 +406,68 @@ class AccountHome extends Component {
                                     </div>    
                                   )}
                                   </div>
-                                  ):(
+                                ) : (
+                                    
                                     <div>
+                                       {column.id === "id" ? (<>{++count}</>): <>{value}</>}
                                       {value}
                                     </div>
                                   )}
                               </TableCell>
                             );
                           })}
-                        
+                         */}
+                                 <TableCell align='center'>
+                                    {++count}
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                    {row.name}
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                   {row.feeDetails.verification === "pending" ? (
+                                     <div style={{color: "red"}}>
+                                       Pending
+                                      </div>
+                                   ) : (
+                                       <div>
+                                         {row.feeDetails.verification === "verified" ? (
+                                           <div style={{color:"green"}}>
+                                             Verified
+                                           </div>
+                                         ) : (
+                                             <div style={{color: "blue"}}>
+                                               Modification Required
+                                             </div>
+                                         )}
+                                       </div>
+                                    )}
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                    {row.personalInfo.category}
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                    {row.feeDetails.amount}
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                    {row.feeDetails.utrDuNumber}
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                    {row.feeDetails.transactionTime}
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                    <ArrowCircleDown />
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                   <VerificationComponent state={row.feeDetails.verification} />
+                                 </TableCell>
+                                 <TableCell align='center'>
+                                 {/* <textarea id="w3review" name="w3review" rows="4" cols="50">
+                                  At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+                                  </textarea> */}
+                                   <textarea type="text" onChange={this.handleChange}>
+                                     {row.feeDetails.remarks}
+                                   </textarea>
+                                 </TableCell>
                                </TableRow>
                                );
                                })}
@@ -607,7 +477,7 @@ class AccountHome extends Component {
                                 <TablePagination
                                 rowsPerPageOptions={[10, 25, 100]}
                                 component="div"
-                                count={this.rows.length}
+                                count={this.state.length}
                                 rowsPerPage={this.state.rowsPerPage}
                                 page={this.state.page}
                                 onPageChange={this.handleChangePage}
