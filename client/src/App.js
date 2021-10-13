@@ -16,6 +16,21 @@ import RemoveStaffForm from "./pages/RemoveStaffForm";
 import AddAccountForm from "./pages/AddAccountForm.js";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { roles } from "./phdAdmDetails";
+import axios from "axios";
+import DocViewer from "./pages/DocViewer";
+
+function setToken() {
+  const token = localStorage.getItem("phd-website-jwt");
+  if (token) {
+    axios.defaults.headers.common["phd-website-jwt"] = token;
+  } else {
+    axios.defaults.headers.common["phd-website-jwt"] = null;
+    /*if setting null does not remove `Authorization` header then try     
+        delete axios.defaults.headers.common['Authorization'];
+      */
+  }
+}
+setToken();
 
 function App() {
   return (
@@ -28,46 +43,70 @@ function App() {
           component={PhdCordHome}
           exact
         ></ProtectedRoute>
-        <ProtectedRoute path="/coform" component={phdCordForm} exact></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.phdCord, roles.admin]}
+          path="/coform"
+          component={phdCordForm}
+          exact
+        ></ProtectedRoute>
         <Route path="/register" component={Register} exact></Route>
         <Route path="/login/candidate" component={StudentLogIn} exact></Route>
         <Route path="/login/staff" component={FacLogIn} exact></Route>
         {/* <Route path="/register" component={Register} exact></Route> */}
-        <ProtectedRoute
-          path="/admissionForm"
-          component={admissionForm} />
+        <ProtectedRoute path="/admissionForm" component={admissionForm} />
         <ProtectedRoute
           allowedRoles={[roles.admin]}
           path="/admin"
           component={Admin}
-          exact></ProtectedRoute>
+          exact
+        ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.accountSec, roles.admin]}
           path="/account"
           component={AccountHome}
-          exact></ProtectedRoute>
+          exact
+        ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.student]}
           path="/candidate"
           component={StudentHome}
           exact
         ></ProtectedRoute>
-        <ProtectedRoute path="/accountform" component={AccountForm} exact></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.accountSec]}
+          path="/accountform"
+          component={AccountForm}
+          exact
+        ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.admin]}
           path="/addcord"
           component={AddCordForm}
-          exact></ProtectedRoute>
+          exact
+        ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.admin]}
           path="/removestaff"
           component={RemoveStaffForm}
-          exact></ProtectedRoute>
+          exact
+        ></ProtectedRoute>
         <ProtectedRoute
+          allowedRoles={[roles.admin]}
           path="/add-account-section"
           component={AddAccountForm}
           exact
         ></ProtectedRoute>
+        <Route
+          path="/doc"
+          component={() => (
+            <DocViewer
+              filename="407e5ec9a35239d9e93b17f7dc5af51c1634111043524.pdf"
+              contentType="application/pdf"
+              onClose={() => {}}
+            />
+          )}
+          exact
+        ></Route>
       </Switch>
     </Router>
   );
