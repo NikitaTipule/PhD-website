@@ -32,42 +32,87 @@ class PhdCordHome extends Component {
       success: false,
       department: "",
       token: "",
-      length: 0
+      length: 0,
+      flag: true,
+      id:""
     };
   }
 
   async componentDidMount() {
+    try {
+      this.setState({
+        id: this.props.location.state.details
+      })
+      console.log(this.state.id)
+    } catch (error) {
+      console.log(error.message)
+      this.setState({
+        flag: false
+      })
+    }
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
-          token: localStorage.getItem("phd-website-jwt") 
+        token: localStorage.getItem("phd-website-jwt")
       });
-      try {
-        axios
-          .get(BACKEND_URL + "/staff/me", { headers: { "phd-website-jwt": this.state.token } })
-          .then((res) => {
-            this.setState({
-              name: res.data.user.name,
-              email: res.data.user.email,
-              mis: res.data.user.mis,
-              department: res.data.user.department
-            })
-            try {
-              axios
-                .get(BACKEND_URL + "/students/department/" + this.state.department, { headers: { "phd-website-jwt": this.state.token } })
-                .then((response) => {
-                  this.setState({
-                    studentData: response.data,
-                    length:response.data.length
+      // console.log(this.state.token)
+      if (this.state.flag) {
+        try {
+          axios
+            .get(BACKEND_URL + "/phdCords/" + this.state.id, { headers: { "phd-website-jwt": this.state.token } })
+            .then((res) => {
+              this.setState({
+                name: res.data.user.name,
+                email: res.data.user.email,
+                mis: res.data.user.mis,
+                department: res.data.user.department
+              })
+              try {
+                axios
+                  .get(BACKEND_URL + "/students/department/" + this.state.department, { headers: { "phd-website-jwt": this.state.token } })
+                  .then((response) => {
+                    this.setState({
+                      studentData: response.data,
+                      length: response.data.length
+                    })
+                    console.log(response.data)
                   })
-                  console.log(response.data)
-                })
       
-            } catch (err) {
-              console.log(err.message)
-            }
-          });
-      } catch (error) {
-        console.log(error.message)
+              } catch (err) {
+                console.log(err.message)
+              }
+            });
+        } catch (error) {
+          console.log(error.message)
+        }
+      } else {
+        try {
+          axios
+            .get(BACKEND_URL + "/staff/me", { headers: { "phd-website-jwt": this.state.token } })
+            .then((res) => {
+              this.setState({
+                name: res.data.user.name,
+                email: res.data.user.email,
+                mis: res.data.user.mis,
+                department: res.data.user.department
+              })
+              try {
+                axios
+                  .get(BACKEND_URL + "/students/department/" + this.state.department, { headers: { "phd-website-jwt": this.state.token } })
+                  .then((response) => {
+                    this.setState({
+                      studentData: response.data,
+                      length: response.data.length
+                    })
+                    console.log(response.data)
+                  })
+      
+              } catch (err) {
+                console.log(err.message)
+              }
+            });
+        } catch (error) {
+          console.log(error.message)
+        }
       }
     } 
   }
@@ -238,6 +283,7 @@ class PhdCordHome extends Component {
                               minWidth: column.minWidth,
                               backgroundColor: "ButtonHighlight",
                               color: "black",
+                              border: "1px",
                             }}
                           >
                             {column.label}
@@ -355,23 +401,23 @@ class PhdCordHome extends Component {
                               const value = row[column.id];
                               return (
                                 <TableCell key={column.id} align="center">
-                                  {column.id === "status" ? (
+                                  {column.id === "verification" ? (
                                     <div>
-                                      {column.id === "status" &&
+                                      {column.id === "verification" &&
                                       value === "verified" ? (
                                         <div style={{ color: "green" }}>
                                           {value}
                                         </div>
                                       ) : (
                                         <div>
-                                          {column.id === "status" &&
+                                          {column.id === "verification" &&
                                           value === "pending" ? (
                                             <div style={{ color: "red" }}>
                                               {value}
                                             </div>
                                           ) : (
                                             <div style={{ color: "blue" }}>
-                                              {value}
+                                              Modification Required
                                             </div>
                                           )}
                                         </div>
