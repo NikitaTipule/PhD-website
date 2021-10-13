@@ -61,6 +61,7 @@ export default function StudentLogIn() {
           setLoading(false);
           console.log(res.data.token);
           localStorage.setItem("phd-website-jwt", res.data.token);
+          localStorage.setItem("phd-website-role", "student");
           history.push("/candidate");
         })
         .catch((err) => {
@@ -74,7 +75,7 @@ export default function StudentLogIn() {
     <>
       {/* <NavBar /> */}
       <ThemeProvider theme={theme}>
-        <NavBar loggedin={false}/>
+        <NavBar loggedin={false} />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box

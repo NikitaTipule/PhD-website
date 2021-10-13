@@ -127,8 +127,8 @@ class DisplayData extends Component {
             console.log(res.data)
             this.setState({
               name: res.data.user.name,
-              middleName: "Ajeetkumar",
-              gender: "Female",
+              middleName: res.data.user.middleName,
+              gender: res.data.user.gender,
               dob: res.data.user.personalInfo.dob,
               email: res.data.user.email,
               mobile: res.data.user.personalInfo.mobile,

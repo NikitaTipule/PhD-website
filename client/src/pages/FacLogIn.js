@@ -40,6 +40,7 @@ export default function FacLogIn() {
       .then((res) => {
         setLoading(false);
         localStorage.setItem("phd-website-jwt", res.data.token);
+        localStorage.setItem("phd-website-role", state.role);
         if (state.role === "phdCord") history.push("/coordinator");
         else if (state.role === "admin") history.push("/admin");
         else history.push("/account");
@@ -60,7 +61,7 @@ export default function FacLogIn() {
   };
   return (
     <ThemeProvider theme={theme}>
-      <NavBar loggedin={false}/>
+      <NavBar loggedin={false} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
