@@ -1,41 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import axios from "axios";
-import { BACKEND_URL } from "../config";
-import Loading from "./Loading";
 
 const ProtectedRoute = ({ component: Component, allowedRoles, ...rest }) => {
-  const [access, setAccess] = useState("pending");
-
-  const verifyToken = async () => {
-    var token = localStorage.getItem("phd-website-jwt");
-    await axios
-      .get(BACKEND_URL + "/staff/getUser", {
-        headers: { "phd-website-jwt": token },
-      })
-      .then((resp) => {
-        console.log(resp.data.userRole);
-        if (allowedRoles.includes(resp.data.userRole)) setAccess("granted");
-        else setAccess("blocked");
-      })
-      .catch((err) => {
-        setAccess("blocked");
-        console.log(err.response || err);
-      });
-  };
-
-  useEffect(() => {
-    verifyToken();
-  }, []);
-
-  if (access === "granted") {
-    return (
-      <Route {...rest} render={(props) => <Component {...rest} {...props} />} />
-    );
-  } else if (access === "blocked") {
+  let token = localStorage.getItem("phd-website-jwt");
+  const role = localStorage.getItem("phd-website-role");
+  if (!(allowedRoles.includes(role) && token)) {
+    localStorage.clear();
     return <Redirect to="/" />;
-  } else {
-    return <Loading loading={true} />;
   }
+  return (
+    <Route {...rest} render={(props) => <Component {...rest} {...props} />} />
+  );
 };
+
 export default ProtectedRoute;
