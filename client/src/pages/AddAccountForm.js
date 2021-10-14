@@ -30,7 +30,6 @@ export default function AddAccountForm() {
 
   const initialData = {
     name: "",
-    mis: "",
     email: "",
   };
   const { values, errors, setErrors, handleInputChange, resetForm } = useForm(
@@ -43,12 +42,13 @@ export default function AddAccountForm() {
     e.preventDefault();
     if (validate()) {
       axios
-        .post(BACKEND_URL + "/staff/add-account-section", values)
+        .post(BACKEND_URL + "/account-section/add", values)
         .then((res) => {
           alert("user added");
           resetForm();
         })
         .catch((err) => {
+          console.log(err.response);
           alert(err.response.data.error || "Invalid details");
         });
     } else alert("Invalid details");
@@ -86,13 +86,6 @@ export default function AddAccountForm() {
                   value={values.email}
                   onChange={handleInputChange}
                   error={errors.email}
-                />
-                <Input
-                  name="mis"
-                  label="MIS*"
-                  value={values.mis}
-                  onChange={handleInputChange}
-                  error={errors.mis}
                 />
                 <Grid item xs={12}>
                   <Button
