@@ -190,7 +190,12 @@ class phdCordForm extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/coordinator" />;
+      // return <Redirect to="/coordinator" />;
+      this.props.history.push({
+        pathname: '/coordinator',
+        // search: `/${id}`,
+        state: { details: this.props.location.state.cordId }
+      })
     }
     return (
       <>

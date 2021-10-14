@@ -172,7 +172,7 @@ class PhdCordHome extends Component {
     this.props.history.push({
       pathname: '/coform',
       // search: `/${id}`,
-      state: { details: id}
+      state: { details: id, cordId: this.state.id}
     })
   }
 
