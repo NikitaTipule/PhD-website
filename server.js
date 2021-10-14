@@ -6,6 +6,7 @@ const studentRouter = require("./routes/student");
 const phdCordRouter = require("./routes/phdCord");
 const staffRouter = require("./routes/staff");
 const fileRouter = require("./routes/files");
+const accountRouter = require("./routes/accountSec");
 
 const app = express();
 // app.use(morgan("combined"));
@@ -15,7 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/students", studentRouter);
-app.use("/phdcords", phdCordRouter);
+app.use("/phdCords", phdCordRouter);
+app.use("/account-section", accountRouter);
 app.use("/files", fileRouter);
 app.use("/staff", staffRouter);
 
