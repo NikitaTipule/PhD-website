@@ -65,20 +65,18 @@ export default class AccountsDetails extends Component {
 
     const formData = new FormData();
     formData.append("file", this.state.selectedFile);
-
-    console.log(formData);
-
-    try {
-      axios
-        .post(BACKEND_URL + "/files/upload", formData, {
-          headers: { "phd-website-jwt": this.state.token },
-        })
-        .then((res) => {
-          console.log("File Added", console.log(res));
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    axios
+      .post(BACKEND_URL + "/files/upload", formData, {
+        headers: {
+          "phd-website-jwt": this.state.token,
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log("File Added");
+        console.log(res);
+      })
+      .catch((err) => console.log(err.response.data.error || "error"));
   };
 
   validateData = () => {
