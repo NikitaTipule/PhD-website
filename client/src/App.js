@@ -53,7 +53,11 @@ function App() {
         <Route path="/login/candidate" component={StudentLogIn} exact></Route>
         <Route path="/login/staff" component={FacLogIn} exact></Route>
         {/* <Route path="/register" component={Register} exact></Route> */}
-        <ProtectedRoute path="/admissionForm" component={admissionForm} />
+        <ProtectedRoute
+          allowedRoles={[roles.student]}
+          path="/admissionForm"
+          component={admissionForm}
+        />
         <ProtectedRoute
           allowedRoles={[roles.admin]}
           path="/admin"

@@ -21,6 +21,7 @@ const personalInfo = {
   department: departmentField,
   address: { type: String },
   adressCorrespondance: { type: String },
+  status: { type: String },
 };
 
 const academicsUG = {

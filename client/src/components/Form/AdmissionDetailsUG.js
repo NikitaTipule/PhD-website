@@ -49,13 +49,13 @@ export default class AdmissionDetailsUG extends Component {
       ? this.setState({ errorUniversity: true })
       : this.setState({ errorUniversity: false });
 
-    var s = this.state.nomanclaure.replace(/ /g, "");
-    s === ""
+    var n = this.state.nomanclaure.replace(/ /g, "");
+    n === ""
       ? this.setState({ errorNomanclaure: true })
       : this.setState({ errorNomanclaure: false });
 
-    var s = this.state.specialization.replace(/ /g, "");
-    s === ""
+    var sp = this.state.specialization.replace(/ /g, "");
+    sp === ""
       ? this.setState({ errorSpecialization: true })
       : this.setState({ errorSpecialization: false });
 

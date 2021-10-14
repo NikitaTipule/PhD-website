@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import AdmissionDetailsPG from "../components/Form/AdmissionDetailsPG";
 import AdmissionDetailsUG from "../components/Form/AdmissionDetailsUG";
 import Documents from "../components/Form/Documents";

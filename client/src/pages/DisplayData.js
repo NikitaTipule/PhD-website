@@ -16,7 +16,6 @@ class VerificationComponent extends Component {
     };
   }
 
-
   render() {
     return (
       <div className="verify">
@@ -66,65 +65,29 @@ class DisplayData extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Pragati Narote",
-      middleName: "Ajeetkumar",
-      gender: "Female",
-      dob: "11-09-2001",
-      email: "pragatinarote@gmail.com",
-      mobile: "8888888888",
-      nationality: "Indian",
-      category: "NT",
-      aadhar: "8979 8798 9864",
-      address: "Kalewadi, Pune",
-      physicallyDisabled: "No",
-      department: "Electrical",
-
-      university: "COEP",
-      nomanclaure: "BTECH",
-      specialization: "Electrical",
-      marksObtained: "600",
-      totalMarks: "1000",
-      cgpa: "8.3",
-      percentage: "78",
-      dateOfDeclaration: "22-09-2010",
-
-      pguniversity: "COEP",
-      pgnomanclaure: "MTech",
-      pgmarksObtained: "700",
-      pgtotalMarks: "1000",
-      pgcgpa: "8.2",
-      pgpercentage: "82",
-      optionsSelected: [
-        "Want to appear for COEP's Reasearch Program Eligibility Test (RPET)",
-        "Gate",
-        "Want to appear for COEP entrance exam",
-        "SPPU ET 2021",
-      ],
-
-      DUINumber: "DU9813891",
-      amount: "1000",
-      open: false,
-      confirmAlert: false,
+      details: {},
 
       message: "",
       redirect: false,
       token: "",
-      verification: ""
+      verification: "",
     };
   }
 
-  
   async componentDidMount() {
-    console.log(this.props.id)
+    console.log(this.props.id);
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
-        token: localStorage.getItem("phd-website-jwt")
+        token: localStorage.getItem("phd-website-jwt"),
       });
       try {
         axios
-          .get(BACKEND_URL + "/students/" + this.props.id, { headers: { "phd-website-jwt": this.state.token } })
+          .get(BACKEND_URL + "/students/" + this.props.id, {
+            headers: { "phd-website-jwt": this.state.token },
+          })
           .then((res) => {
-            console.log(res.data)
+            console.log(res.data);
+            const details = res.data.user;
             this.setState({
               name: res.data.user.name,
               middleName: res.data.user.middleName,
@@ -155,19 +118,19 @@ class DisplayData extends Component {
               pgcgpa: res.data.user.academicsPG.cgpa10,
               pgpercentage: res.data.user.academicsPG.percentageMarks,
               // optionsSelected: res.data.user.extranceDetails,
-              
+
               // verification: res.data.user.verification,
-              
+
               DUINumber: "DU9813891",
               amount: "1000",
               open: false,
               confirmAlert: false,
 
               message: res.data.user.remarks,
-            })
+            });
           });
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     }
   }

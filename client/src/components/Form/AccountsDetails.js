@@ -32,6 +32,8 @@ export default class AccountsDetails extends Component {
       open: false,
       confirmAlert: false,
 
+      selectedFile: null,
+
       token: localStorage.getItem("phd-website-jwt"),
     };
   }
@@ -51,6 +53,32 @@ export default class AccountsDetails extends Component {
     reader.onload = (e) => {
       console.log("img data : ", e.target.result);
     };
+  };
+
+  onFileChange = (event) => {
+    console.log(event.target.files[0]);
+    this.setState({ selectedFile: event.target.files[0] });
+  };
+
+  onFileUpload = async (event) => {
+    console.log(this.state.selectedFile);
+
+    const formData = new FormData();
+    formData.append("file", this.state.selectedFile);
+
+    console.log(formData);
+
+    try {
+      axios
+        .post(BACKEND_URL + "/files/upload", formData, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log("File Added", console.log(res));
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   validateData = () => {
@@ -346,7 +374,8 @@ export default class AccountsDetails extends Component {
         <div style={{ marginTop: "10px" }}>
           <Typography>Payment Receipt</Typography>
           <div>
-            <input type="file" name="file" onChange={this.onChange} />
+            <input type="file" name="file" onChange={this.onFileChange} />
+            <button onClick={this.onFileUpload}>Upload</button>
           </div>
         </div>
 

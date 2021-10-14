@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { TextField, Typography } from "@material-ui/core";
 import axios from "axios";
-// import { ldapAuthUrl } from "../../../../config/configKeys";
 import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./AdmissionDetails.css";
 import { BACKEND_URL } from "../../config";
-import PersonalDetails from "./PersonalDetails";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default class AdmissionDetailsPG extends Component {
