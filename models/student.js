@@ -6,6 +6,12 @@ const {
   preSaveHashPassword,
 } = require("./schemaFields");
 
+const verificationField = {
+  type: String,
+  default: "pending",
+  enum: ["pending", "verified", "mod_req"],
+};
+
 const personalInfo = {
   name: { type: String },
   middleName: { type: String },
@@ -21,6 +27,8 @@ const personalInfo = {
   department: departmentField,
   address: { type: String },
   adressCorrespondance: { type: String },
+  verification: verificationField,
+  remarks: { type: String, default: "" },
 };
 
 const academicsUG = {
@@ -33,6 +41,8 @@ const academicsUG = {
   cgpa10: { type: Number },
   percentageMarks: { type: Number },
   dateOfDeclaration: { type: Date },
+  verification: verificationField,
+  remarks: { type: String, default: "" },
 };
 
 const academicsPG = {
@@ -45,6 +55,8 @@ const academicsPG = {
   cgpa10: { type: Number },
   percentageMarks: { type: Number },
   dateOfDeclaration: { type: Date },
+  verification: verificationField,
+  remarks: { type: String, default: "" },
 };
 
 const entranceDetails = {
@@ -60,12 +72,8 @@ const entranceDetails = {
     details: { type: String },
     year: { type: String },
   },
-};
-
-const verificationField = {
-  type: String,
-  default: "pending",
-  enum: ["pending", "verified", "mod_req"],
+  verification: verificationField,
+  remarks: { type: String, default: "" },
 };
 
 const docUploaded = {
@@ -107,6 +115,7 @@ const StudentSchema = Schema(
     academicsUG: academicsUG,
     academicsPG: academicsPG,
     feeDetails: feeDetails,
+    infoVerified: { type: String },
     documentsUploaded: [docUploaded],
     remarks: { type: String, default: "" },
     footerData: footerData,
@@ -114,6 +123,16 @@ const StudentSchema = Schema(
     mailVerified: {
       type: Boolean,
       default: false,
+      required: true,
+    },
+    mobileVerified: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
       required: true,
     },
   },
