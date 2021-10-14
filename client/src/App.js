@@ -12,8 +12,9 @@ import AccountHome from "./pages/AccountHome";
 import StudentHome from "./pages/StudentHome";
 import AccountForm from "./pages/AccountForm";
 import AddCordForm from "./pages/AddCordForm";
-import RemoveStaffForm from "./pages/RemoveStaffForm";
-import AddAccountForm from "./pages/AddAccountForm.js";
+import RemoveCordForm from "./pages/RemoveCordForm";
+import RemoveAccountForm from "./pages/RemoveAccountForm";
+import AddAccountForm from "./pages/AddAccountForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { roles } from "./phdAdmDetails";
 import axios from "axios";
@@ -86,14 +87,20 @@ function App() {
         ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.admin]}
-          path="/removestaff"
-          component={RemoveStaffForm}
+          path="/removecord"
+          component={RemoveCordForm}
           exact
         ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.admin]}
           path="/add-account-section"
           component={AddAccountForm}
+          exact
+        ></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.admin]}
+          path="/remove-account-section"
+          component={RemoveAccountForm}
           exact
         ></ProtectedRoute>
         <Route

@@ -13,7 +13,6 @@ import Grid from "@mui/material/Grid";
 import { Button } from "@mui/material";
 import "../CSS/coHome.css";
 import { Box } from "@mui/system";
-import { Menu, MenuItem } from "@mui/material";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
@@ -28,43 +27,46 @@ class Admin extends Component {
       name: "",
       email: "",
       mis: 0,
-      length:0,
+      length: 0,
     };
   }
 
   async componentDidMount() {
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
-          token: localStorage.getItem("phd-website-jwt") 
+        token: localStorage.getItem("phd-website-jwt"),
       });
       try {
         axios
-          .get(BACKEND_URL + "/staff/me", { headers: { "phd-website-jwt": this.state.token } })
+          .get(BACKEND_URL + "/staff/me", {
+            headers: { "phd-website-jwt": this.state.token },
+          })
           .then((res) => {
             this.setState({
               name: res.data.user.name,
               email: res.data.user.email,
               mis: res.data.user.mis,
-            })
+            });
             try {
               axios
-                .get(BACKEND_URL + "/phdCords/" , { headers: { "phd-website-jwt": this.state.token } })
+                .get(BACKEND_URL + "/phdCords/", {
+                  headers: { "phd-website-jwt": this.state.token },
+                })
                 .then((response) => {
                   this.setState({
                     AllPhdcords: response.data,
-                    length:response.data.length
-                  })
+                    length: response.data.length,
+                  });
                   // console.log(response.data)
-                })
-      
+                });
             } catch (err) {
-              console.log(err.message)
+              console.log(err.message);
             }
           });
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
-    } 
+    }
   }
 
   columns = [
@@ -76,8 +78,6 @@ class Admin extends Component {
     { id: "pending", label: "Not Verified", minWidth: 120 },
     { id: "mod-req", label: "Modification Required", minWidth: 120 },
   ];
-
- 
 
   handleChangePage = (event, newPage) => {
     this.setState({
@@ -92,20 +92,19 @@ class Admin extends Component {
   };
 
   oncellClick(id) {
-    console.log(id)
+    console.log(id);
     this.props.history.push({
-      pathname: '/coordinator',
+      pathname: "/coordinator",
       // search: `/${id}`,
-      state: { details: id}
-    })
+      state: { details: id },
+    });
   }
-
 
   render() {
     let count = 0;
     return (
       <>
-        <NavBar loggedin={true}/>
+        <NavBar loggedin={true} />
         <Box
           marginTop="1rem"
           display="flex"
@@ -121,8 +120,11 @@ class Admin extends Component {
             <Button variant="outlined">Add Account Section</Button>
           </Link>
 
-          <Link to="/removestaff" style={{ textDecoration: "none" }}>
-            <Button variant="outlined">Remove Staff</Button>
+          <Link to="/removecord" style={{ textDecoration: "none" }}>
+            <Button variant="outlined">Remove Coordinator</Button>
+          </Link>
+          <Link to="/remove-account-section" style={{ textDecoration: "none" }}>
+            <Button variant="outlined">Remove Account Section</Button>
           </Link>
         </Box>
         <div>
@@ -218,22 +220,22 @@ class Admin extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {this.state.AllPhdcords
-                      .slice(
-                        this.state.page * this.state.rowsPerPage,
-                        this.state.page * this.state.rowsPerPage +
-                          this.state.rowsPerPage
-                      )
-                      .map((row) => {
-                        return (
-                          <TableRow
-                            hover
-                            role="checkbox"
-                            tabIndex={-1}
-                            key={row.code}
-                            onClick={() => {this.oncellClick(row._id)}}
-                          >
-                            {/* {this.columns.map((column) => {
+                    {this.state.AllPhdcords.slice(
+                      this.state.page * this.state.rowsPerPage,
+                      this.state.page * this.state.rowsPerPage +
+                        this.state.rowsPerPage
+                    ).map((row) => {
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row.code}
+                          onClick={() => {
+                            this.oncellClick(row._id);
+                          }}
+                        >
+                          {/* {this.columns.map((column) => {
                               const value = row[column.id];
                               return (
                                 <TableCell key={column.id} align="center">
@@ -249,87 +251,88 @@ class Admin extends Component {
                                 </TableCell>
                               );
                             })} */}
-                            <TableCell align="center">
-                                  <Link
-                                    to={{ pathname: "/coordinator" }}
-                                    style={{
-                                      textDecoration: "none",
-                                      color: "black",
-                                    }}
-                                  >
-                                {++count}
-                                  </Link>
-                            </TableCell>
-                            <TableCell align="center">
-                                  <Link
-                                    to={{ pathname: "/coordinator" }}
-                                    style={{
-                                      textDecoration: "none",
-                                      color: "black",
-                                    }}
-                                  >
-                                    {row.name}
-                                  </Link>
-                            </TableCell>
-                            <TableCell align="center">
-                                  <Link
-                                    to={{ pathname: "/coordinator" }}
-                                    style={{
-                                      textDecoration: "none",
-                                      color: "black",
-                                    }}
-                                  >
-                                    {row.department}
-                                  </Link>
-                            </TableCell>
-                            <TableCell align="center">
-                                  <Link
-                                    to={{ pathname: "/coordinator" }}
-                                    style={{
-                                      textDecoration: "none",
-                                      color: "black",
-                                    }}
-                                  >
-                                    {row.status.verified + row.status.pending+row.status["mod-req"]}
-                                  </Link>
-                                </TableCell>
-                            <TableCell align="center">
-                                  <Link
-                                    to={{ pathname: "/coordinator" }}
-                                    style={{
-                                      textDecoration: "none",
-                                      color: "black",
-                                    }}
-                                  >
-                                    {row.status.verified}
-                                  </Link>
-                            </TableCell>
-                            <TableCell align="center">
-                                  <Link
-                                    to={{ pathname: "/coordinator" }}
-                                    style={{
-                                      textDecoration: "none",
-                                      color: "black",
-                                    }}
-                                  >
-                                {row.status.pending}
-                                  </Link>
-                            </TableCell>
-                            <TableCell align="center">
-                                  <Link
-                                    to={{ pathname: "/coordinator" }}
-                                    style={{
-                                      textDecoration: "none",
-                                      color: "black",
-                                    }}
-                                  >
-                                    {row.status["mod-req"]}
-                                  </Link>
-                            </TableCell>
-                            
-                          </TableRow>
-                        );
-                      })}
+                          <TableCell align="center">
+                            <Link
+                              to={{ pathname: "/coordinator" }}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              {++count}
+                            </Link>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Link
+                              to={{ pathname: "/coordinator" }}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              {row.name}
+                            </Link>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Link
+                              to={{ pathname: "/coordinator" }}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              {row.department}
+                            </Link>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Link
+                              to={{ pathname: "/coordinator" }}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              {row.status.verified +
+                                row.status.pending +
+                                row.status["mod-req"]}
+                            </Link>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Link
+                              to={{ pathname: "/coordinator" }}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              {row.status.verified}
+                            </Link>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Link
+                              to={{ pathname: "/coordinator" }}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              {row.status.pending}
+                            </Link>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Link
+                              to={{ pathname: "/coordinator" }}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              {row.status["mod-req"]}
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
