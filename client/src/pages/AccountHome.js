@@ -22,12 +22,8 @@ import viewDoc from "./DocViewer";
 import { BACKEND_URL } from "../config";
 
 class VerificationComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      verify: "",
-    };
-  }
+  onChangeVerify = (event) => {};
+
 
   render() {
     return (
@@ -39,8 +35,8 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Pending"
                 name="verify"
-                // checked={this.state.verify === "Pending"}
-                onChange={this.onChangeGender}
+                checked={this.props.status === "pending"}
+                onChange={this.onChangeVerify}
                 className="radio"
               />
               Pending
@@ -50,8 +46,8 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Modification-Required"
                 name="verify"
-                // checked={this.state.verify === "Modification-Required"}
-                onChange={this.onChangeGender}
+                checked={this.props.status === "mod-req"}
+                onChange={this.onChangeVerify}
                 className="radio"
               />{" "}
               Modification-Required
@@ -61,8 +57,8 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Verified"
                 name="verify"
-                // checked={this.state.verify === "Verified"}
-                onChange={this.onChangeGender}
+                checked={this.props.status === "verified"}
+                onChange={this.onChangeVerify}
                 className="radio"
               />{" "}
               Verified
@@ -172,7 +168,7 @@ class AccountHome extends Component {
                 allStudents: res.data,
                 length: res.data.length,
               });
-
+              console.log(this.state.allStudents)
               // console.log(this.state.allStudents[0].feeDetails.verification)
             });
         } catch (error) {
@@ -207,6 +203,15 @@ class AccountHome extends Component {
       tableData: "mod-req",
     });
   };
+
+  onChangeVerify = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+    // this.setState({
+    //   row.feeDetails.verification: 
+    // })
+  };
+
+
   render() {
     const department_options = [
       "Civil Engineering",
@@ -558,9 +563,67 @@ class AccountHome extends Component {
                                   />
                                 </TableCell>
                                 <TableCell align="center">
-                                  <VerificationComponent
+                                  {/* <VerificationComponent
                                     state={row.feeDetails.verification}
-                                  />
+                                  /> */}
+                                  <div className="icon">
+                                      <div>
+                                        <div className="verify">
+                                          <div style={{ width: "100%" }}>
+                                            <div className="radios">
+                                              <div>
+                                                <input
+                                                  type="radio"
+                                                  value="pending"
+                                                  name="row.feedetails.verification"
+                                                  checked={
+                                                    row.feeDetails.verification === "pending"
+                                                  }
+                                                onChange={() => {
+                                                    row.feeDetails.verification= "pending"
+                                                  }}
+                                                  className="radio"
+                                                />
+                                                Pending
+                                              </div>
+                                              <div>
+                                                <input
+                                                  type="radio"
+                                                  value="mod-req"
+                                                  name="row.feedetails.verification"
+                                                  checked={
+                                                    row.feeDetails.verification ===
+                                                    "mod-req"
+                                                  }
+                                                  onChange={() => {
+                                                    row.feeDetails.verification= "mod-req"
+                                                  }}
+                                                  className="radio"
+                                                />{" "}
+                                                Modification-Required
+                                              </div>
+                                              <div>
+                                                <input
+                                                  type="radio"
+                                                  value="verified"
+                                                  name="row.feedetails.verification"
+                                                  checked={
+                                                    row.feeDetails.verification === "verified"
+                                                  }
+                                                onChange={() => {
+                                                    row.feeDetails.verification = "verified"
+                                                  }}
+                                                  className="radio"
+                                                />{" "}
+                                                Verified
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                              
+                                
                                 </TableCell>
                                 <TableCell align="center">
                                   {/* <textarea id="w3review" name="w3review" rows="4" cols="50">
