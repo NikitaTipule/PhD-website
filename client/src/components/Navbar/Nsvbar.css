@@ -81,7 +81,7 @@ li a p {
     margin-right: 20px;
   } */
 
-  ul {
+  .ul-class {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -90,7 +90,7 @@ li a p {
     align-items: center;
   }
 
-  li {
+  .li-class {
     float: left;
     height: 70px;
   }

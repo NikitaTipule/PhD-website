@@ -14,6 +14,6 @@ router.get("/", auth, getAllCords);
 
 router.post("/add", auth, addPhdCord);
 
-router.delete("/remove/:cordId", auth, removePhdCord);
+router.post("/remove", auth, removePhdCord);
 
 module.exports = router;

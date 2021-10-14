@@ -58,26 +58,35 @@ exports.addPhdCord = (req, res) => {
   if (!(name && mis && email && department)) {
     res.status(400).json({ error: "missing data" });
   }
-  const user = new PhdCord({ name, mis, email, department });
-  user
-    .save()
-    .then((user) => res.json(user))
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json({ err: "invalid data" });
-    });
+  PhdCord.findOne({ mis }).then((oldUser) => {
+    if (oldUser) {
+      return res
+        .status(409)
+        .json({ error: "User Already Exist. Please ask to Login" });
+    }
+    const user = new PhdCord({ name, mis, email, department });
+    user
+      .save()
+      .then((user) => res.json({ email }))
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ err: "invalid data" });
+      });
+  });
 };
 
 exports.removePhdCord = (req, res) => {
   if (req.userRole != "admin") {
     res.status(403).json({ error: "only admin can remove phdCord" });
   }
-  const cordId = req.params && req.params.cordId;
-  if (!cordId) {
+  const mis = req.body.mis;
+  if (!mis) {
     return res.status(400).json({ error: "missing paramters" });
   }
-  PhdCord.findByIdAndDelete(cordId, (err, doc) => {
-    if (err || !doc) return res.status(404).json({ error: "user not found" });
+  PhdCord.deleteOne(mis, (err, doc) => {
+    if (err || !doc || doc.deletedCount == 0) {
+      return res.status(404).json({ error: "user not found" });
+    }
     return res.json({ success: "true" });
   });
 };

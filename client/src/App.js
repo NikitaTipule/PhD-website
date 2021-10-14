@@ -12,9 +12,11 @@ import AccountHome from "./pages/AccountHome";
 import StudentHome from "./pages/StudentHome";
 import AccountForm from "./pages/AccountForm";
 import AddCordForm from "./pages/AddCordForm";
-import RemoveStaffForm from "./pages/RemoveStaffForm";
-import AddAccountForm from "./pages/AddAccountForm.js";
+import RemoveCordForm from "./pages/RemoveCordForm";
+import RemoveAccountForm from "./pages/RemoveAccountForm";
+import AddAccountForm from "./pages/AddAccountForm";
 import ProtectedRoute from "./components/ProtectedRoute";
+import LoginAccountSection from "./pages/LoginAccountSection";
 import { roles } from "./phdAdmDetails";
 import axios from "axios";
 import DocViewer from "./pages/DocViewer";
@@ -52,6 +54,11 @@ function App() {
         <Route path="/register" component={Register} exact></Route>
         <Route path="/login/candidate" component={StudentLogIn} exact></Route>
         <Route path="/login/staff" component={FacLogIn} exact></Route>
+        <Route
+          path="/login/account-section"
+          component={LoginAccountSection}
+          exact
+        ></Route>
         {/* <Route path="/register" component={Register} exact></Route> */}
         <ProtectedRoute
           allowedRoles={[roles.student]}
@@ -90,14 +97,20 @@ function App() {
         ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.admin]}
-          path="/removestaff"
-          component={RemoveStaffForm}
+          path="/removecord"
+          component={RemoveCordForm}
           exact
         ></ProtectedRoute>
         <ProtectedRoute
           allowedRoles={[roles.admin]}
           path="/add-account-section"
           component={AddAccountForm}
+          exact
+        ></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.admin]}
+          path="/remove-account-section"
+          component={RemoveAccountForm}
           exact
         ></ProtectedRoute>
         <Route

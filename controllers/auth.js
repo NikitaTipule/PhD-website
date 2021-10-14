@@ -7,6 +7,7 @@ const roleToModel = require("./roles");
 const sendEmail = require("./email");
 const Student = require("../models/student");
 const MailToken = require("../models/token");
+const AccountSec = require("../models/accountSec");
 
 const generateToken = (user) => {
   // Create token
@@ -111,6 +112,33 @@ exports.loginStudent = (req, res) => {
       const isMatch = await compare(password, user.password);
       if (isMatch) {
         user.role = Student.modelName;
+        const token = generateToken(user);
+        return res.json(token);
+      } else {
+        return res.status(400).json({ error: "Invalid Credentials" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ error: "Invalid Credentials" });
+    });
+};
+
+exports.loginAccountSec = (req, res) => {
+  const { email, password } = req.body;
+  // Validate user input
+  if (!(email && password)) {
+    return res.status(400).json({ error: "All input is required" });
+  }
+  // check if user exists
+  AccountSec.findOne({ email })
+    .then(async (user) => {
+      if (!user) {
+        return res.status(404).json({ error: "Email not found" });
+      }
+      const isMatch = await compare(password, user.password);
+      if (isMatch) {
+        user.role = AccountSec.modelName;
         const token = generateToken(user);
         return res.json(token);
       } else {

@@ -23,7 +23,7 @@ export default function NavBar(props) {
 
     const toggle = (event) => {
         if (loggedIn) {
-            localStorage.removeItem("phd-website-jwt");
+            localStorage.clear();
             history.push("/");
             setLoggedIn(!loggedIn)
         }
@@ -31,6 +31,26 @@ export default function NavBar(props) {
             history.push("/")
         }
         
+    }
+
+    const homeClick = (event) => {
+        if (loggedIn) {
+            let role = localStorage.getItem("phd-website-role");
+            console.log(localStorage.getItem("phd-website-role"))
+            console.log(localStorage)
+            if (role === "admin") {
+                history.push("/admin")
+            }
+            else if (role === "phdCord") {
+                history.push("/coordinator")
+            }
+            else if (role === "accountSec") {
+                history.push("/account")
+            }
+            else if (role === "student") {
+                history.push("/candidate")
+            }
+        }
     }
     
 
@@ -67,7 +87,7 @@ export default function NavBar(props) {
                         </h3>
                     </div>
                     </li>
-                    <li className="li-class" style={{ float: "right", marginRight: '10px' }}>
+                    <li className="li-class" onClick={homeClick} style={{ float: "right", marginRight: '10px' }}>
                         <div>
                             <h3>
                                 <Button color="light">Home</Button>
