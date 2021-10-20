@@ -6,63 +6,169 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import "./Documents.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import axios from "axios";
+import { BACKEND_URL } from "../../config";
+import { docType } from "../../phdAdmDetails";
+
 export default class Documents extends Component {
   constructor(props) {
     super(props);
     this.state = {
       general: [
-        { name: "Photo", id: 1 },
-        { name: "Signature", id: 2 },
-        { name: "UG Marksheet", id: 3 },
-        { name: "PG Marksheet", id: 4 },
+        { name: docType.photo, id: 1 },
+        { name: docType.sign, id: 2 },
+        { name: docType.ug, id: 3 },
+        { name: docType.pg, id: 4 },
       ],
-      gate: [{ name: "Gate/PET Score Card", id: 1 }],
-      caste: [
+      OBC: [
         { name: "Caste Certificate", id: 1 },
         { name: "Caste Validity", id: 2 },
-        { name: "EWS Certificate", id: 3 },
       ],
+      NT: [
+        { name: "Caste Certificate", id: 1 },
+        { name: "Caste Validity", id: 2 },
+      ],
+      ST: [
+        { name: "Caste Certificate", id: 1 },
+        { name: "Caste Validity", id: 2 },
+      ],
+      gate: [{ name: "Gate/PET Score Card", id: 1 }],
+
       generalData: true,
+      OBCData: false,
+      NTData: false,
+      STData: false,
+
+      documentsUploaded: [],
+
+      selectedFile: null,
+
       open: false,
+
+      token: localStorage.getItem("phd-website-jwt"),
     };
   }
 
-  onSubmit = (event) => {
-    this.setState({ open: !this.state.open });
+  // FUNCTIONS FOR FILE DATA
+  onFileChange = async (event) => {
+    await this.setState({ selectedFile: event.target.files[0] });
+
+    const formData = new FormData();
+    formData.append("file", this.state.selectedFile);
+
+    const i = await this.state.documentsUploaded
+      .map((e) => e.type)
+      .indexOf(event.target.name);
+
+    axios
+      .post(BACKEND_URL + "/files/upload", formData, {
+        headers: {
+          "phd-website-jwt": this.state.token,
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        const docUploaded = {
+          type: event.target.name,
+          filename: res.data.filename,
+          contentType: res.data.contentType,
+          originalName: res.data.originalname,
+          verification: "pending",
+        };
+
+        if (i === -1) {
+          this.setState((prevState) => ({
+            documentsUploaded: [...prevState.documentsUploaded, docUploaded],
+          }));
+        } else {
+          this.state.documentsUploaded[i] = docUploaded;
+        }
+
+        // this.setState((prevState) => ({
+        //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
+        // }));
+
+        console.log(this.state.documentsUploaded);
+      })
+      .catch((err) => console.log(err.response || "error"));
   };
 
+  // Handle alert cancels
   handleAlertCanel = () => {
     this.setState({ open: !this.state.open });
   };
-
-  handleNext = () => {
-    this.props.nextStep();
-  };
-
-  onChange = (e) => {
-    let files = e.target.files;
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    reader.onload = (e) => {
-      console.log("img data : ", e.target);
-    };
-  };
-
-  onBack = (event) => {
-    this.props.prevStep();
-  };
-
   onCancel = () => {
     this.setState({
       open: !this.state.open,
     });
   };
 
+  // Handle back and next navigation
+  handleNext = () => {
+    this.props.nextStep();
+  };
+  onBack = (event) => {
+    this.props.prevStep();
+  };
+
+  // Handle when clicked "Next"
+  onNext = (event) => {
+    const documentsUploaded = {
+      documentsUploaded: this.state.documentsUploaded,
+    };
+    console.log("before posting: ", documentsUploaded);
+    try {
+      axios
+        .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log("Documents Added");
+        });
+    } catch (err) {
+      console.log(err.res);
+    }
+    this.setState({ open: !this.state.open });
+  };
+
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt"),
+      });
+      try {
+        await axios
+          .get(BACKEND_URL + "/students/me", {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            this.setState({
+              documentsUploaded: res.data.user.documentsUploaded,
+            });
+            // for (var i = 0; i < res.data.user.documentsUploaded.length; i++) {
+            //   const docUploaded = {
+            //     type: res.data.user.documentsUploaded[i].type,
+            //     filename: res.data.user.documentsUploaded[i].filename,
+            //     contentType: res.data.user.documentsUploaded[i].contentType,
+            //     originalName: res.data.user.documentsUploaded[i].originalName,
+            //     verification: res.data.user.documentsUploaded[i].verification,
+            //   };
+            //   this.setState((prevState) => ({
+            //     documentsUploaded: [
+            //       ...prevState.documentsUploaded,
+            //       docUploaded,
+            //     ],
+            //   }));
+            // }
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
+
   render() {
     const theme = createTheme({
-      status: {
-        danger: "#e53e3e",
-      },
       palette: {
         primary: {
           main: "#0971f1",
@@ -115,14 +221,10 @@ export default class Documents extends Component {
           ></SweetAlert>
         </div>
 
-        <div
-          style={{ fontSize: "28px", fontWeight: "700", marginBottom: "10px" }}
-        >
-          Documents
-        </div>
+        <div className="docTitle">Documents</div>
         <Table>
           <TableBody>
-            {/*________condition PERSONAL_____ */}
+            {/*________condition GENERAL_____ */}
             {this.state.generalData && (
               <div>
                 {this.state.general.map((str) => (
@@ -132,8 +234,8 @@ export default class Documents extends Component {
                       <div>
                         <input
                           type="file"
-                          name="file"
-                          onChange={this.onChange}
+                          name={str.name}
+                          onChange={this.onFileChange}
                         />
                       </div>
                     </div>
@@ -152,8 +254,8 @@ export default class Documents extends Component {
                       <div>
                         <input
                           type="file"
-                          name="file"
-                          onChange={this.onChange}
+                          name={str.name}
+                          onChange={this.onFileChange}
                         />
                       </div>
                     </div>
@@ -162,7 +264,7 @@ export default class Documents extends Component {
                 ))}
               </div>
             )}
-            {/*________condition PERSONAL_____ */}
+            {/*________condition CASTE_____ */}
             {this.props.data.category === "OBC" ? (
               <div>
                 {this.state.caste.map((str) => (
@@ -172,7 +274,7 @@ export default class Documents extends Component {
                       <div>
                         <input
                           type="file"
-                          name="file"
+                          name={str.name}
                           onChange={this.onChange}
                         />
                       </div>
@@ -187,6 +289,7 @@ export default class Documents extends Component {
           </TableBody>
         </Table>
 
+        {/* Back and Next button   */}
         <div style={{ margin: "20px 0 20px 0" }}>
           <React.Fragment>
             <ThemeProvider theme={theme}>
@@ -207,7 +310,7 @@ export default class Documents extends Component {
               color="primary"
               size="large"
               onClick={() => {
-                this.onSubmit();
+                this.onNext();
               }}
             >
               Next

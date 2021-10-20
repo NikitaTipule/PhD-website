@@ -3,12 +3,15 @@ import React, { Component } from "react";
 import Button from "@mui/material/Button";
 import DatePicker from "react-date-picker";
 import SweetAlert from "react-bootstrap-sweetalert";
-import "./Documents.css";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 // import { browserHistory } from "react-router";
+
+import "./Documents.css";
+import viewDoc from "../../pages/DocViewer";
 
 export default class AccountsDetails extends Component {
   constructor(props) {
@@ -18,11 +21,7 @@ export default class AccountsDetails extends Component {
       amount: "",
       transactionTime: "",
       bank: "",
-      docUploaded: {
-        type: "",
-        filename: "",
-        originalName: "",
-      },
+      docUploaded: {},
 
       errorAmount: false,
       errorUtrDuNumber: false,
@@ -38,31 +37,19 @@ export default class AccountsDetails extends Component {
     };
   }
 
+  // ON CHANGE FUNCTIONS
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
-
   onChangeDate = (event) => {
     this.setState({ transactionTime: event });
   };
 
-  onChange = (e) => {
-    let files = e.target.files;
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    reader.onload = (e) => {
-      console.log("img data : ", e.target.result);
-    };
-  };
-
+  // FUNCTIONS FOR FILE DATA
   onFileChange = (event) => {
-    console.log(event.target.files[0]);
     this.setState({ selectedFile: event.target.files[0] });
   };
-
   onFileUpload = async (event) => {
-    console.log(this.state.selectedFile);
-
     const formData = new FormData();
     formData.append("file", this.state.selectedFile);
     axios
@@ -73,12 +60,17 @@ export default class AccountsDetails extends Component {
         },
       })
       .then((res) => {
-        console.log("File Added");
-        console.log(res);
+        const docUploaded = {
+          filename: res.data.filename,
+          contentType: res.data.contentType,
+          originalName: res.data.originalname,
+        };
+        this.setState({ docUploaded: docUploaded });
       })
       .catch((err) => console.log(err.response.data.error || "error"));
   };
 
+  // FUNCTION FOR FORM DATA VALIDATION
   validateData = () => {
     /^\d+$/.test(this.state.amount)
       ? this.setState({ errorAmount: false })
@@ -99,9 +91,9 @@ export default class AccountsDetails extends Component {
       : this.setState({ errorDate: false });
   };
 
-  onSubmit = async (event) => {
+  // ON CLICK - "Next" button
+  onNext = async (event) => {
     await this.validateData();
-
     if (
       this.state.errorAmount === false &&
       this.state.errorUtrDuNumber === false &&
@@ -117,14 +109,13 @@ export default class AccountsDetails extends Component {
     }
   };
 
-  confirmData = async () => {
+  // ON CLICK - "Confirm" button (Pop-Up)
+  onConfirm = async () => {
     await this.setState({ confirmAlert: !this.state.confirmAlert });
     this.setState({ open: !this.state.open });
-
     const feeDetails = {
       feeDetails: this.props.data.feeDetails,
     };
-
     try {
       axios
         .post(BACKEND_URL + "/students/edit/fee", feeDetails, {
@@ -138,19 +129,19 @@ export default class AccountsDetails extends Component {
     }
   };
 
+  // Handle Pop-up Cancels
   handleAlertCanel = () => {
     this.setState({ open: !this.state.open });
   };
-
-  handleNext = () => {
-    this.props.nextStep();
-  };
-
   onCancel = () => {
     this.setState({ confirmAlert: !this.state.confirmAlert });
   };
 
-  onBack = () => {
+  // Handle next and back navigation
+  handleNext = () => {
+    this.props.nextStep();
+  };
+  handleBack = () => {
     this.props.prevStep();
   };
 
@@ -181,9 +172,6 @@ export default class AccountsDetails extends Component {
 
   render() {
     const theme = createTheme({
-      status: {
-        danger: "#e53e3e",
-      },
       palette: {
         primary: {
           main: "#0971f1",
@@ -227,7 +215,7 @@ export default class AccountsDetails extends Component {
           <SweetAlert
             title={"Payment Details"}
             show={this.state.confirmAlert}
-            onConfirm={this.confirmData}
+            onConfirm={this.onConfirm}
             onCancel={this.onCancel}
             customButtons={
               <React.Fragment>
@@ -249,10 +237,10 @@ export default class AccountsDetails extends Component {
                   color="success"
                   size="large"
                   onClick={() => {
-                    this.confirmData();
+                    this.onConfirm();
                   }}
                 >
-                  Submit
+                  Confirm
                 </Button>
               </React.Fragment>
             }
@@ -290,11 +278,8 @@ export default class AccountsDetails extends Component {
           </SweetAlert>
         </div>
 
-        <div
-          style={{ fontSize: "28px", fontWeight: "700", marginBottom: "10px" }}
-        >
-          Payment Details
-        </div>
+        <div className="paymentsContainer">Payment Details</div>
+        {/* Amount    */}
         <div>
           <Typography>Amount</Typography>
           <TextField
@@ -315,6 +300,7 @@ export default class AccountsDetails extends Component {
           )}
         </div>
 
+        {/* UTR/DU Number    */}
         <div style={{ marginTop: "10px" }}>
           <Typography>UTR/DU Number</Typography>
           <TextField
@@ -334,6 +320,8 @@ export default class AccountsDetails extends Component {
             </div>
           )}
         </div>
+
+        {/* Bank Name    */}
         <div style={{ marginTop: "10px" }}>
           <Typography>Bank Name</Typography>
           <TextField
@@ -353,6 +341,8 @@ export default class AccountsDetails extends Component {
             </div>
           )}
         </div>
+
+        {/* Date of Payment    */}
         <div style={{ marginTop: "10px" }}>
           <Typography>Date of Payment</Typography>
           <DatePicker
@@ -369,14 +359,53 @@ export default class AccountsDetails extends Component {
             </div>
           )}
         </div>
+
+        {/* Payment Receipt    */}
         <div style={{ marginTop: "10px" }}>
           <Typography>Payment Receipt</Typography>
-          <div>
-            <input type="file" name="file" onChange={this.onFileChange} />
-            <button onClick={this.onFileUpload}>Upload</button>
+          <div className="chooseFile">
+            <input
+              type="file"
+              name="file"
+              accept=".pdf"
+              onChange={this.onFileChange}
+            />
+            <div className="uploadIcon" onClick={this.onFileUpload}>
+              <FileUploadIcon />
+            </div>
+            {/* Display if no file is uploaded    */}
+            {!this.state.docUploaded ||
+            Object.keys(this.state.docUploaded).length !== 3 ||
+            this.state.docUploaded.filename === null ||
+            !this.state.docUploaded.filename === "" ? (
+              <div style={{ color: "red" }}>File not uploaded yet</div>
+            ) : (
+              " "
+            )}
+            {/* Display if file is uploaded   */}
+            {this.state.docUploaded &&
+              Object.keys(this.state.docUploaded).length === 3 &&
+              this.state.docUploaded.filename !== "" &&
+              this.state.docUploaded.filename !== null && (
+                <div className="previewFile">
+                  <div style={{ marginRight: "10px" }}>
+                    Current uploaded file:
+                  </div>
+                  <div style={{ marginRight: "10px" }}>
+                    {this.state.docUploaded.originalName}
+                  </div>
+                  <div
+                    className="previewIcon"
+                    onClick={() => viewDoc(this.state.docUploaded)}
+                  >
+                    <VisibilityIcon />
+                  </div>
+                </div>
+              )}
           </div>
         </div>
 
+        {/* Back and Next buttons   */}
         <div style={{ margin: "20px 0 20px 0" }}>
           <React.Fragment>
             <ThemeProvider theme={theme}>
@@ -385,7 +414,7 @@ export default class AccountsDetails extends Component {
                 size="large"
                 color="neutral"
                 onClick={() => {
-                  this.onBack();
+                  this.handleBack();
                 }}
                 style={{ marginRight: "10px" }}
               >
@@ -397,7 +426,7 @@ export default class AccountsDetails extends Component {
               color="primary"
               size="large"
               onClick={() => {
-                this.onSubmit();
+                this.onNext();
               }}
             >
               Next

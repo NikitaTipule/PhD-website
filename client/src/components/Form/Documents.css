@@ -8,11 +8,45 @@
     text-align: left;
     margin: 30px 18% 0 18%; 
 }
+.docTitle{
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 .field{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 10px 10px 10px 10px;
+}
+
+.paymentsContainer{
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.chooseFile{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.uploadIcon {
+    margin-right: 40px;
+}
+
+.uploadIcon:hover{
+    cursor: pointer
+}
+
+.previewFile{
+    display: flex;
+    flex-direction: row;
+}
+
+.previewIcon:hover{
+    cursor: pointer
 }
 
 @media only screen and (max-width: 952px){

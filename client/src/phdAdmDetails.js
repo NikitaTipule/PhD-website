@@ -32,3 +32,12 @@ export const roles = {
   accountSec: "accountSec",
   student: "student",
 };
+
+export const docType = {
+  photo: "Photo",
+  sign: "Signature",
+  ug: "UG Marksheet",
+  pg: "PG Marksheet",
+  c_certificate: "Caste Certificate",
+  c_validity: "Caste Validity",
+};
