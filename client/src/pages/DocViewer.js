@@ -22,7 +22,7 @@ const viewDoc = ({ filename, contentType, originalName }) => {
       };
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.message);
     });
 };
 

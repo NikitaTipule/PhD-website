@@ -8,8 +8,16 @@ import { Redirect } from "react-router";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
+import viewDoc from "./DocViewer";
 
 class VerificationComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      verify: "",
+    };
+  }
+
   onChangeVerify = (event) => {};
 
   render() {
@@ -20,35 +28,41 @@ class VerificationComponent extends Component {
             <div>
               <input
                 type="radio"
-                value="Pending"
+                value="pending"
                 name="verify"
-                checked={this.props.status === "Pending"}
+                checked={this.state.verify === "pending"}
+                onChange={this.onChangeGender}
+                checked={this.props.status === "pending"}
                 onChange={this.onChangeVerify}
                 className="radio"
               />
-              Pending
+              pending
             </div>
             <div>
               <input
                 type="radio"
-                value="Modification-Required"
+                value="mod_req"
                 name="verify"
-                checked={this.props.status === "Modification-Required"}
+                checked={this.state.verify === "mod_req"}
+                onChange={this.onChangeGender}
+                checked={this.props.status === "mod_req"}
                 onChange={this.onChangeVerify}
                 className="radio"
               />{" "}
-              Modification-Required
+              mod_req
             </div>
             <div>
               <input
                 type="radio"
-                value="Verified"
+                value="verified"
                 name="verify"
-                checked={this.props.status === "Verified"}
+                checked={this.state.verify === "verified"}
+                onChange={this.onChangeGender}
+                checked={this.props.status === "verified"}
                 onChange={this.onChangeVerify}
                 className="radio"
               />{" "}
-              Verified
+              verified
             </div>
           </div>
         </div>
@@ -61,51 +75,23 @@ class phdCordForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      middleName: "",
-      gender: "",
-      dob: "",
-      email: "",
-      mobile: "",
-      nationality: "",
-      category: "",
-      aadhar: "",
-      address: "",
-      physicallyDisabled: "",
-      department: "",
-      personalInfoStatus: "Pending",
+      personalInfo: "",
+      personalInfoStatus: "pending",
       personalInfoRemark: "",
 
-      university: "",
-      nomanclaure: "",
-      specialization: "",
-      marksObtained: "",
-      totalMarks: "",
-      cgpa: "",
-      percentage: "",
-      dateOfDeclaration: "",
-      academicsUGStatus: "Pending",
+      academicsUG: "",
+      academicsUGStatus: "pending",
       academicsUGRemark: "",
 
-      pguniversity: "",
-      pgnomanclaure: "",
-      pgmarksObtained: "",
-      pgtotalMarks: "",
-      pgcgpa: "",
-      pgpercentage: "",
-      academicsPGStatus: "Pending",
+      academicsPG: "",
+      academicsPGStatus: "pending",
       academicsPGRemark: "",
 
-      givenGate: false,
-      givenPet: false,
-      isInterestedCoepEntrance: false,
-      isInterestedCoepRPET: false,
-      gateScore: "",
-      gateDate: "",
-      petDetails: "",
-      petYear: "",
-      entranceDetailsStatus: "Pending",
+      entranceDetails: "",
+      entranceDetailsStatus: "pending",
       entranceDetailsRemark: "",
+
+      documentsUploaded: [],
 
       open: false,
       confirmAlert: false,
@@ -131,46 +117,23 @@ class phdCordForm extends Component {
           .then((res) => {
             console.log(res.data);
             this.setState({
-              name: res.data.user.personalInfo.name,
-              middleName: res.data.user.personalInfo.middleName,
-              gender: res.data.user.personalInfo.gender,
-              dob: res.data.user.personalInfo.dob,
-              email: res.data.user.email,
-              mobile: res.data.user.personalInfo.mobile,
-              nationality: res.data.user.personalInfo.nationality,
-              category: res.data.user.personalInfo.category,
-              aadhar: res.data.user.personalInfo.aadhar,
-              address: res.data.user.personalInfo.address,
-              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled,
-              department: res.data.user.personalInfo.department,
+              personalInfo: res.data.user.personalInfo,
+              personalInfoStatus: res.data.user.personalInfo.verification,
+              personalInfoRemark: res.data.user.personalInfo.remarks,
 
-              university: res.data.user.academicsUG.institute,
-              nomanclaure: res.data.user.academicsUG.degree,
-              specialization: res.data.user.academicsUG.specialization,
-              marksObtained: res.data.user.academicsUG.totalAggregate,
-              totalMarks: res.data.user.academicsUG.totalMarks,
-              cgpa: res.data.user.academicsUG.cgpa10,
-              percentage: res.data.user.academicsUG.percentageMarks,
-              dateOfDeclaration: res.data.user.academicsUG.dateOfDeclaration,
+              academicsUG: res.data.user.academicsUG,
+              academicsUGStatus: res.data.user.academicsUG.verification,
+              academicsUGRemark: res.data.user.academicsUG.remarks,
 
-              pguniversity: res.data.user.academicsPG.institute,
-              pgnomanclaure: res.data.user.academicsPG.degree,
-              pgmarksObtained: res.data.user.academicsPG.totalAggregate,
-              pgtotalMarks: res.data.user.academicsPG.totalMarks,
-              pgcgpa: res.data.user.academicsPG.cgpa10,
-              pgpercentage: res.data.user.academicsPG.percentageMarks,
+              academicsPG: res.data.user.academicsPG,
+              academicsPGStatus: res.data.user.academicsPG.verification,
+              academicsPGRemark: res.data.user.academicsPG.remarks,
 
-              givenGate: res.data.user.entranceDetails.givenGate,
-              givenPet: res.data.user.entranceDetails.givenPet,
-              isInterestedCoepEntrance:
-                res.data.user.entranceDetails.isInterestedCoepEntrance,
-              isInterestedCoepRPET:
-                res.data.user.entranceDetails.isInterestedCoepRPET,
+              entranceDetails: res.data.user.entranceDetails,
+              entranceDetailsStatus: res.data.user.entranceDetails.verification,
+              entranceDetailsRemark: res.data.user.entranceDetails.remarks,
 
-              gateScore: res.data.user.entranceDetails.Gate.score,
-              gateDate: res.data.user.entranceDetails.Gate.lastDateOfValidation,
-              petDetails: res.data.user.entranceDetails.sppuPet.details,
-              petYear: res.data.user.entranceDetails.sppuPet.year,
+              documentsUploaded: res.data.user.documentsUploaded,
 
               message: res.data.user.remarks,
             });
@@ -181,11 +144,7 @@ class phdCordForm extends Component {
     }
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     this.setState({
       message: this.state.message,
     });
@@ -193,8 +152,41 @@ class phdCordForm extends Component {
     this.setState({
       redirect: !this.state.redirect,
     });
+
+    this.state.personalInfo.verification = this.state.personalInfoStatus;
+    this.state.personalInfo.remarks = this.state.personalInfoRemark;
+
+    this.state.academicsUG.verification = this.state.academicsUGStatus;
+    this.state.academicsUG.remarks = this.state.academicsUGRemark;
+
+    this.state.academicsPG.verification = this.state.academicsPGStatus;
+    this.state.academicsPG.remarks = this.state.academicsPGRemark;
+
+    this.state.entranceDetails.verification = this.state.entranceDetailsStatus;
+    this.state.entranceDetails.remarks = this.state.entranceDetailsRemark;
+
+    const personalInfo = {
+      personalInfo: this.state.personalInfo,
+    };
+
+    console.log(personalInfo, this.state.personalInfoRemark);
+
+    try {
+      axios
+        .post(BACKEND_URL + "/students/edit/info", personalInfo, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log("UG Data Added");
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
   onChangeVerify = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -203,10 +195,10 @@ class phdCordForm extends Component {
     if (this.state.redirect) {
       // return <Redirect to="/coordinator" />;
       this.props.history.push({
-        pathname: '/coordinator',
+        pathname: "/coordinator",
         // search: `/${id}`,
-        state: { details: this.props.location.state.cordId }
-      })
+        state: { details: this.props.location.state.cordId },
+      });
     }
     return (
       <>
@@ -220,66 +212,54 @@ class phdCordForm extends Component {
         >
           {/* Personal Details  */}
           <div className="title">Personal Details</div>
-
           <div style={{ alignItems: "left", textAlign: "left" }}>
             <div className="field">
               <div className="fieldName">Name :</div>
-              <div>{this.state.name}</div>
+              <div>{this.state.personalInfo.name}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Father/Husband's Name :</div>
-              <div>{this.state.middleName}</div>
+              <div>{this.state.personalInfo.middleName}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Gender :</div>
-              <div>{this.state.gender}</div>
+              <div>{this.state.personalInfo.gender}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">DOB :</div>
-              <div>{this.state.dob.toLocaleString().slice(0, 10)}</div>
+              <div>{("" + this.state.personalInfo.dob).slice(0, 10)}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Email :</div>
-              <div>{this.state.email}</div>
+              <div>{this.state.personalInfo.email}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Mobile No :</div>
-              <div>{this.state.mobile}</div>
+              <div>{this.state.personalInfo.mobile}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Nationality :</div>
-              <div>{this.state.nationality}</div>
+              <div>{this.state.personalInfo.nationality}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Category :</div>
-              <div>{this.state.category}</div>
+              <div>{this.state.personalInfo.category}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Aadhar Card Number :</div>
-              <div>{this.state.aadhar}</div>
+              <div>{this.state.personalInfo.aadhar}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Permanent Address :</div>
-              <div>{this.state.address}</div>
+              <div>{this.state.personalInfo.address}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Physically Disable :</div>
-              <div>{this.state.physicallyDisabled}</div>
+              <div>{this.state.personalInfo.physicallyDisabled}</div>
             </div>
-
             <div className="field">
               <div className="fieldName">Applying to department :</div>
-              <div>{this.state.department}</div>
+              <div>{this.state.personalInfo.department}</div>
             </div>
 
             {/* Verify + Remarks start */}
@@ -293,7 +273,7 @@ class phdCordForm extends Component {
                   multiline
                   minRows={3}
                   type="text"
-                  name="personlInfoRemark"
+                  name="personalInfoRemark"
                   label="Remark"
                   fullWidth
                 ></TextField>
@@ -306,42 +286,41 @@ class phdCordForm extends Component {
                         <div>
                           <input
                             type="radio"
-                            value="Pending"
+                            value="pending"
                             name="personalInfoStatus"
                             checked={
-                              this.state.personalInfoStatus === "Pending"
+                              this.state.personalInfoStatus === "pending"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />
-                          Pending
+                          pending
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Modification-Required"
+                            value="mod_req"
                             name="personalInfoStatus"
                             checked={
-                              this.state.personalInfoStatus ===
-                              "Modification-Required"
+                              this.state.personalInfoStatus === "mod_req"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Modification-Required
+                          mod_req
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Verified"
+                            value="verified"
                             name="personalInfoStatus"
                             checked={
-                              this.state.personalInfoStatus === "Verified"
+                              this.state.personalInfoStatus === "verified"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Verified
+                          verified
                         </div>
                       </div>
                     </div>
@@ -356,46 +335,47 @@ class phdCordForm extends Component {
 
           {/* UG Details  */}
           <div className="title">UG Details</div>
-
           <div style={{ alignItems: "left", textAlign: "left" }}>
             <div className="field">
               <div className="fieldName">University/Institute :</div>
-              <div>{this.state.university}</div>
+              <div>{this.state.academicsUG.institute}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Nomanclaure of Degree :</div>
-              <div>{this.state.nomanclaure}</div>
+              <div>{this.state.academicsUG.degree}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Specialization :</div>
-              <div>{this.state.specialization}</div>
+              <div>{this.state.academicsUG.specialization}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Marks Obtained :</div>
-              <div>{this.state.marksObtained}</div>
+              <div>{this.state.academicsUG.totalAggregate}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Total Marks :</div>
-              <div>{this.state.totalMarks}</div>
+              <div>{this.state.academicsUG.totalMarks}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">CGPA :</div>
-              <div>{this.state.cgpa}</div>
+              <div>{this.state.academicsUG.cgpa10}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Percentage :</div>
-              <div>{this.state.percentage}</div>
+              <div>{this.state.academicsUG.percentageMarks}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Date of Declaration :</div>
-              <div>{this.state.dateOfDeclaration}</div>
+              <div>
+                {("" + this.state.academicsUG.dateOfDeclaration).slice(0, 10)}
+              </div>
             </div>
 
             {/*Verify + Remark Start*/}
@@ -422,40 +402,37 @@ class phdCordForm extends Component {
                         <div>
                           <input
                             type="radio"
-                            value="Pending"
+                            value="pending"
                             name="academicsUGStatus"
-                            checked={this.state.academicsUGStatus === "Pending"}
+                            checked={this.state.academicsUGStatus === "pending"}
                             onChange={this.onChangeVerify}
                             className="radio"
                           />
-                          Pending
+                          pending
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Modification-Required"
+                            value="mod_req"
                             name="academicsUGStatus"
-                            checked={
-                              this.state.academicsUGStatus ===
-                              "Modification-Required"
-                            }
+                            checked={this.state.academicsUGStatus === "mod_req"}
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Modification-Required
+                          mod_req
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Verified"
+                            value="verified"
                             name="academicsUGStatus"
                             checked={
-                              this.state.academicsUGStatus === "Verified"
+                              this.state.academicsUGStatus === "verified"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Verified
+                          verified
                         </div>
                       </div>
                     </div>
@@ -470,36 +447,35 @@ class phdCordForm extends Component {
 
           {/* PG Details    */}
           <div className="title">PG Details</div>
-
           <div style={{ alignItems: "left", textAlign: "left" }}>
             <div className="field">
               <div className="fieldName">University/Institute :</div>
-              <div>{this.state.pguniversity}</div>
+              <div>{this.state.academicsPG.institute}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Nomanclaure of Degree :</div>
-              <div>{this.state.pgnomanclaure}</div>
+              <div>{this.state.academicsPG.degree}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Marks Obtained :</div>
-              <div>{this.state.pgmarksObtained}</div>
+              <div>{this.state.academicsPG.totalAggregate}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Total Marks :</div>
-              <div>{this.state.pgtotalMarks}</div>
+              <div>{this.state.academicsPG.totalMarks}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">CGPA :</div>
-              <div>{this.state.pgcgpa}</div>
+              <div>{this.state.academicsPG.cgpa10}</div>
             </div>
 
             <div className="field">
               <div className="fieldName">Percentage :</div>
-              <div>{this.state.pgpercentage}</div>
+              <div>{this.state.academicsPG.percentageMarks}</div>
             </div>
 
             {/*Verify + Remark Start*/}
@@ -526,40 +502,37 @@ class phdCordForm extends Component {
                         <div>
                           <input
                             type="radio"
-                            value="Pending"
+                            value="pending"
                             name="academicsPGStatus"
-                            checked={this.state.academicsPGStatus === "Pending"}
+                            checked={this.state.academicsPGStatus === "pending"}
                             onChange={this.onChangeVerify}
                             className="radio"
                           />
-                          Pending
+                          pending
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Modification-Required"
+                            value="mod_req"
                             name="academicsPGStatus"
-                            checked={
-                              this.state.academicsPGStatus ===
-                              "Modification-Required"
-                            }
+                            checked={this.state.academicsPGStatus === "mod_req"}
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Modification-Required
+                          mod_req
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Verified"
+                            value="verified"
                             name="academicsPGStatus"
                             checked={
-                              this.state.academicsPGStatus === "Verified"
+                              this.state.academicsPGStatus === "verified"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Verified
+                          verified
                         </div>
                       </div>
                     </div>
@@ -572,9 +545,10 @@ class phdCordForm extends Component {
 
           <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
+          {/*Entrance Exam details*/}
           <div className="title"> Entrance Exam Details</div>
           <div style={{ alignItems: "left", textAlign: "left" }}>
-            {this.state.isInterestedCoepRPET && (
+            {this.state.entranceDetails.isInterestedCoepRPET && (
               <div className="field">
                 <div className="fieldName">
                   Want to appear for COEP's Reasearch Program Eligibility Test
@@ -582,28 +556,32 @@ class phdCordForm extends Component {
                 </div>
               </div>
             )}
-            {this.state.givenGate && (
+            {this.state.entranceDetails.givenGate && (
               <div className="field">
                 <div className="fieldName">Gate</div>
                 <div>
-                  <div>{this.state.gateScore}</div>
-                  <div>{this.state.gateDate}</div>
+                  <div>{this.state.entranceDetails.Gate.score}</div>
+                  <div>
+                    {(
+                      "" + this.state.entranceDetails.Gate.lastDateOfValidation
+                    ).slice(0, 10)}
+                  </div>
                 </div>
               </div>
             )}
-            {this.state.isInterestedCoepEntrance && (
+            {this.state.entranceDetails.isInterestedCoepEntrance && (
               <div className="field">
                 <div className="fieldName">
                   Want to appear for COEP entrance exam
                 </div>
               </div>
             )}
-            {this.state.givenPet && (
+            {this.state.entranceDetails.givenPet && (
               <div className="field">
                 <div className="fieldName">SPPU ET 2021</div>
                 <div>
-                  <div>{this.state.petDetails}</div>
-                  <div>{this.state.petYear}</div>
+                  <div>{this.state.entranceDetails.sppuPet.details}</div>
+                  <div>{this.state.entranceDetails.sppuPet.year}</div>
                 </div>
               </div>
             )}
@@ -632,42 +610,41 @@ class phdCordForm extends Component {
                         <div>
                           <input
                             type="radio"
-                            value="Pending"
+                            value="pending"
                             name="entranceDetailsStatus"
                             checked={
-                              this.state.entranceDetailsStatus === "Pending"
+                              this.state.entranceDetailsStatus === "pending"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />
-                          Pending
+                          pending
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Modification-Required"
+                            value="mod_req"
                             name="entranceDetailsStatus"
                             checked={
-                              this.state.entranceDetailsStatus ===
-                              "Modification-Required"
+                              this.state.entranceDetailsStatus === "mod_req"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Modification-Required
+                          mod_req
                         </div>
                         <div>
                           <input
                             type="radio"
-                            value="Verified"
+                            value="verified"
                             name="entranceDetailsStatus"
                             checked={
-                              this.state.entranceDetailsStatus === "Verified"
+                              this.state.entranceDetailsStatus === "verified"
                             }
                             onChange={this.onChangeVerify}
                             className="radio"
                           />{" "}
-                          Verified
+                          verified
                         </div>
                       </div>
                     </div>
@@ -683,107 +660,33 @@ class phdCordForm extends Component {
           <div className="title">Documents Uploaded</div>
 
           <div style={{ alignItems: "left", textAlign: "left" }}>
-            <div className="field">
-              <div className="documents">
-                <div className="docFieldName">Photo :</div>
-                <div className="iconMobile">
-                  <div>photo.png</div>
+            {this.state.documentsUploaded.map((doc) => (
+              <div className="field">
+                <div className="documents">
+                  <div className="docFieldName">{doc.type + "  :"}</div>
+                  <div className="iconMobile">
+                    {/* <div>{doc.originalName}</div> */}
+                    <div
+                      className="previewIcon"
+                      onClick={() =>
+                        viewDoc({
+                          filename: doc.filename,
+                          contentType: doc.contentType,
+                          originalName: doc.originalName,
+                        })
+                      }
+                    >
+                      <ArrowCircleDown />
+                    </div>
+                  </div>
+                </div>
+                <div className="icon">
                   <div>
-                    <ArrowCircleDown />
+                    <VerificationComponent />
                   </div>
                 </div>
               </div>
-              <div className="icon">
-                <div>
-                  <VerificationComponent />
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="documents">
-                <div className="docFieldName">Signature :</div>
-                <div className="iconMobile">
-                  <div>signature.pdf</div>
-                  <div>
-                    <ArrowCircleDown />
-                  </div>
-                </div>
-              </div>
-              <div className="icon">
-                <div>
-                  <VerificationComponent />
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="documents">
-                <div className="docFieldName">UG Marksheet :</div>
-                <div className="iconMobile">
-                  <div>ugMarksheet</div>
-                  <div>
-                    <ArrowCircleDown />
-                  </div>
-                </div>
-              </div>
-              <div className="icon">
-                <div>
-                  <VerificationComponent />
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="documents">
-                <div className="docFieldName">PG Marksheet :</div>
-                <div className="iconMobile">
-                  <div>pgMarksheet</div>
-                  <div>
-                    <ArrowCircleDown />
-                  </div>
-                </div>
-              </div>
-              <div className="icon">
-                <div>
-                  <VerificationComponent />
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="documents">
-                <div className="docFieldName">Caste Validity :</div>
-                <div className="iconMobile">
-                  <div>casteValidity</div>
-                  <div>
-                    <ArrowCircleDown />
-                  </div>
-                </div>
-              </div>
-              <div className="icon">
-                <div>
-                  <VerificationComponent />
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="documents">
-                <div className="docFieldName">Caste Certificate :</div>
-                <div className="iconMobile">
-                  <div>casteCertificate</div>
-                  <div>
-                    <ArrowCircleDown />
-                  </div>
-                </div>
-              </div>
-              <div className="icon">
-                <div>
-                  <VerificationComponent />
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
           <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
