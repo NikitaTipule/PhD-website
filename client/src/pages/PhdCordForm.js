@@ -3,7 +3,14 @@ import Divider from "@mui/material/Divider";
 import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
 import Button from "@mui/material/Button";
 import "./DisplayData.css";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@mui/material";
 import { Redirect } from "react-router";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
@@ -187,9 +194,13 @@ class phdCordForm extends Component {
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  onChangeVerify = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+
+  onChangeVerify(e, id) {
+    // this.setState({
+    // [this.state.documentsUploaded[e].verification]: event.target.value,
+    // });
+    console.log(e, id);
+  }
 
   render() {
     if (this.state.redirect) {
@@ -660,12 +671,12 @@ class phdCordForm extends Component {
           <div className="title">Documents Uploaded</div>
 
           <div style={{ alignItems: "left", textAlign: "left" }}>
-            {this.state.documentsUploaded.map((doc) => (
-              <div className="field">
+            {this.state.documentsUploaded.map((doc, id) => (
+              <div className="field" key={doc.id}>
                 <div className="documents">
                   <div className="docFieldName">{doc.type + "  :"}</div>
                   <div className="iconMobile">
-                    {/* <div>{doc.originalName}</div> */}
+                    {/* <div>{id}</div> */}
                     <div
                       className="previewIcon"
                       onClick={() =>
@@ -680,9 +691,57 @@ class phdCordForm extends Component {
                     </div>
                   </div>
                 </div>
+
+                {/* Verification of documents   */}
                 <div className="icon">
                   <div>
-                    <VerificationComponent />
+                    <div className="verify">
+                      <div style={{ width: "100%" }}>
+                        <div
+                          className="radios"
+                          onChange={(e) => this.onChangeVerify(e, id)}
+                        >
+                          {doc.verification}
+                          <div>
+                            {console.log(id)}
+                            <input
+                              type="radio"
+                              value="pending"
+                              name={"verification" + id}
+                              defaultChecked={doc.verification === "pending"}
+                              // checked={doc.verification === "pending"}
+                              // onChange={(e) => this.onChangeVerify(id, e)}
+                              className="radio"
+                            />
+                            Pending
+                          </div>
+                          <div>
+                            <input
+                              type="radio"
+                              value="mod_req"
+                              name={"verification" + id}
+                              defaultChecked={doc.verification}
+                              // checked={doc.verification === "mod_req"}
+                              // onChange={this.onChangeVerify(id)}
+                              className="radio"
+                            />{" "}
+                            Mod_req
+                          </div>
+                          <div>
+                            <input
+                              type="radio"
+                              value="verified"
+                              name={"verification" + id}
+                              defaultChecked={doc.verification}
+                              // checked={doc.verification === "verified"}
+                              // onChange={this.onChangeVerify(id)}
+                              className="radio"
+                            />{" "}
+                            Verified
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
