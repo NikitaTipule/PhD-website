@@ -34,87 +34,99 @@ class PhdCordHome extends Component {
       token: "",
       length: 0,
       flag: true,
-      id:""
+      id: "",
     };
   }
 
   async componentDidMount() {
     try {
       this.setState({
-        id: this.props.location.state.details
-      })
-      console.log(this.state.id)
+        id: this.props.location.state.details,
+      });
+      console.log(this.state.id);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       this.setState({
-        flag: false
-      })
+        flag: false,
+      });
     }
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
-        token: localStorage.getItem("phd-website-jwt")
+        token: localStorage.getItem("phd-website-jwt"),
       });
       // console.log(this.state.token)
       if (this.state.flag) {
         try {
           axios
-            .get(BACKEND_URL + "/phdCords/" + this.state.id, { headers: { "phd-website-jwt": this.state.token } })
+            .get(BACKEND_URL + "/phdCords/" + this.state.id, {
+              headers: { "phd-website-jwt": this.state.token },
+            })
             .then((res) => {
               this.setState({
                 name: res.data.user.name,
                 email: res.data.user.email,
                 mis: res.data.user.mis,
-                department: res.data.user.department
-              })
+                department: res.data.user.department,
+              });
               try {
                 axios
-                  .get(BACKEND_URL + "/students/department/" + this.state.department, { headers: { "phd-website-jwt": this.state.token } })
+                  .get(
+                    BACKEND_URL +
+                      "/students/department/" +
+                      this.state.department,
+                    { headers: { "phd-website-jwt": this.state.token } }
+                  )
                   .then((response) => {
                     this.setState({
                       studentData: response.data,
-                      length: response.data.length
-                    })
-                    console.log(response.data)
-                  })
-      
+                      length: response.data.length,
+                    });
+                    console.log(response.data);
+                  });
               } catch (err) {
-                console.log(err.message)
+                console.log(err.message);
               }
             });
         } catch (error) {
-          console.log(error.message)
+          console.log(error.message);
         }
       } else {
         try {
           axios
-            .get(BACKEND_URL + "/staff/me", { headers: { "phd-website-jwt": this.state.token } })
+            .get(BACKEND_URL + "/staff/me", {
+              headers: { "phd-website-jwt": this.state.token },
+            })
             .then((res) => {
               this.setState({
                 name: res.data.user.name,
                 email: res.data.user.email,
                 mis: res.data.user.mis,
-                department: res.data.user.department
-              })
+                department: res.data.user.department,
+              });
               try {
                 axios
-                  .get(BACKEND_URL + "/students/department/" + this.state.department, { headers: { "phd-website-jwt": this.state.token } })
+                  .get(
+                    BACKEND_URL +
+                      "/students/department/" +
+                      this.state.department,
+                    { headers: { "phd-website-jwt": this.state.token } }
+                  )
                   .then((response) => {
                     this.setState({
                       studentData: response.data,
-                      length: response.data.length
-                    })
-                    console.log(response.data)
-                  })
-      
+                      length: response.data.length,
+                    });
+                    console.log(response.data);
+                  });
               } catch (err) {
-                console.log(err.message)
+                console.log(err.message);
               }
             });
         } catch (error) {
-          console.log(error.message)
+          console.log(error.message);
         }
       }
-    } 
+    }
   }
 
   upperColumns = [
@@ -127,9 +139,8 @@ class PhdCordHome extends Component {
   columns = [
     { id: "id", label: "No.", minWidth: 30 },
     { id: "name", label: "Name", minWidth: 120 },
-    { id: "verification", label: "Verification Status", minWidth: 70 },
+    { id: "infoVerified", label: "Verification Status", minWidth: 70 },
   ];
-
 
   handleChangePage = (event, newPage) => {
     this.setState({
@@ -163,17 +174,17 @@ class PhdCordHome extends Component {
 
   handleclick4 = (event) => {
     this.setState({
-      tableData: "mod-req",
+      tableData: "mod_req",
     });
   };
 
   oncellClick(id) {
-    console.log(id)
+    console.log(id);
     this.props.history.push({
-      pathname: '/coform',
+      pathname: "/coform",
       // search: `/${id}`,
-      state: { details: id, cordId: this.state.id}
-    })
+      state: { details: id, cordId: this.state.id },
+    });
   }
 
   render() {
@@ -183,19 +194,19 @@ class PhdCordHome extends Component {
     let counterModification = 0;
     let count = 0;
     for (let i = 0; i < this.state.studentData.length; i++) {
-      this.state.allStudent.push(this.state.studentData[i])
+      this.state.allStudent.push(this.state.studentData[i]);
       counterTotal++;
-      if (this.state.studentData[i].verification === "verified") {
+      if (this.state.studentData[i].infoVerified === "verified") {
         counterVerified++;
-      } else if (this.state.studentData[i].verification === "pending") {
+      } else if (this.state.studentData[i].infoVerified === "pending") {
         counterNotVerified++;
-      } else if (this.state.studentData[i].verification === "mod-req") {
+      } else if (this.state.studentData[i].infoVerified === "mod_req") {
         counterModification++;
       }
     }
     return (
       <>
-        <NavBar loggedin={true}/>
+        <NavBar loggedin={true} />
         <div>
           <div>
             <div
@@ -380,7 +391,8 @@ class PhdCordHome extends Component {
                   <TableBody>
                     {this.state.studentData
                       .filter(
-                        (student) => student.verification === this.state.tableData
+                        (student) =>
+                          student.infoVerified === this.state.tableData
                       )
                       .slice(
                         this.state.page * this.state.rowsPerPage,
@@ -394,23 +406,25 @@ class PhdCordHome extends Component {
                             role="checkbox"
                             tabIndex={-1}
                             key={row.code}
-                            value = {row.id}
-                            onClick={() => {this.oncellClick(row._id)}}
+                            value={row.name}
+                            onClick={() => {
+                              this.oncellClick(row._id);
+                            }}
                           >
                             {this.columns.map((column) => {
                               const value = row[column.id];
                               return (
                                 <TableCell key={column.id} align="center">
-                                  {column.id === "verification" ? (
+                                  {column.id === "infoVerified" ? (
                                     <div>
-                                      {column.id === "verification" &&
+                                      {column.id === "infoVerified" &&
                                       value === "verified" ? (
                                         <div style={{ color: "green" }}>
                                           {value}
                                         </div>
                                       ) : (
                                         <div>
-                                          {column.id === "verification" &&
+                                          {column.id === "infoVerified" &&
                                           value === "pending" ? (
                                             <div style={{ color: "red" }}>
                                               {value}
@@ -424,26 +438,22 @@ class PhdCordHome extends Component {
                                       )}
                                     </div>
                                   ) : (
-                                      
-                                      <div>
-                                        {column.id === "id" ? (
-                                          <div>
-                                            {++count}
-                                          </div>
-                                        ):(
-                                          
+                                    <div>
+                                      {column.id === "id" ? (
+                                        <div>{++count}</div>
+                                      ) : (
                                         <div>
-                                      <Link
-                                        to={{ pathname: "/coform" }}
-                                        style={{
-                                          textDecoration: "none",
-                                          color: "black",
-                                        }}
-                                      >
-                                        {value}
-                                        </Link>
+                                          <Link
+                                            to={{ pathname: "/coform" }}
+                                            style={{
+                                              textDecoration: "none",
+                                              color: "black",
+                                            }}
+                                          >
+                                            {value}
+                                          </Link>
                                         </div>
-                                        )}
+                                      )}
                                     </div>
                                   )}
                                 </TableCell>
