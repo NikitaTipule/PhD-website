@@ -33,21 +33,46 @@ exports.getStudentsByDept = (req, res) => {
 
   let projection = "";
   if (req.userRole == "phdCord" || req.userRole == "admin") {
-    projection = "name verification";
+    projection = "name infoVerified feeDetails.verification";
   } else if (req.userRole == "accountSec") {
     projection = "name personalInfo.category feeDetails";
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
 
-  Student.find(
-    { "personalInfo.department": department },
-    projection,
-    (err, users) => {
-      if (err) {
-        res.status(400).json({ error: "invalid request" });
+  Student.find({ "personalInfo.department": department }, projection)
+    .lean()
+    .exec()
+    .then((users) => {
+      if (req.userRole !== "accountSec") {
+        users = users.map((t) => {
+          t.feeVerified = t.feeDetails.verification;
+          delete t["feeDetails"];
+          return t;
+        });
       }
       return res.json(users);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: "invalid request" });
+    });
+};
+
+exports.lockProfile = (req, res) => {
+  if (req.userRole != "student") {
+    res.status(403).json({ error: "only student can confirm his profile" });
+  }
+  Student.updateOne(
+    { _id: req.userId },
+    {
+      $set: {
+        editable: false,
+      },
+    },
+    (err, ans) => {
+      if (err) return res.status(400).json({ err });
+      consol.log(ans);
+      return { success: "true" };
     }
   );
 };
@@ -59,10 +84,11 @@ const maintainVerification = (newDocs, origDocs) => {
   }
   origMap = origDocs.reduce((map, obj) => {
     map[obj.filename] = obj;
+    return map;
   }, {});
   return newDocs.map((doc) => {
     const orig = origMap[doc.filename];
-    const isSame = orig && doc.type == orig.type;
+    const isSame = orig && doc.type === orig.type;
     doc.verification = isSame ? orig.verification : "pending";
     return doc;
   });
@@ -74,6 +100,9 @@ exports.editStudentDocs = async (req, res) => {
   }
   try {
     const user = await Student.findById(req.userId).exec();
+    if (!user.editable) {
+      return res.status(403).json({ error: "Your profile is locked" });
+    }
     user.documentsUploaded = maintainVerification(
       req.body.documentsUploaded,
       user.documentsUploaded
@@ -81,6 +110,7 @@ exports.editStudentDocs = async (req, res) => {
     await user.save();
     res.json({ success: "true" });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: "request body contains invalid data" });
   }
 };
@@ -91,6 +121,9 @@ exports.editStudentFeeDetails = async (req, res) => {
   }
   try {
     const user = await Student.findById(req.userId).exec();
+    if (!user.editable) {
+      return res.status(403).json({ error: "Your profile is locked" });
+    }
     user.feeDetails = req.body.feeDetails;
     user.feeDetails.verification = "pending";
     await user.save();
@@ -105,16 +138,18 @@ exports.editStudentInfo = async (req, res) => {
     res.status(403).json({ error: "only student can update his info" });
   }
   // user can edit any of these fields using this route
-  let fields = [
+  const field_list = [
     "personalInfo",
     "academicsUG",
     "academicsPG",
     "entranceDetails",
-    "footerData",
   ];
-  fields = fields.filter((field) => field in req.body);
+  const fields = field_list.filter((field) => field in req.body);
   try {
     const user = await Student.findById(req.userId).exec();
+    if (!user.editable) {
+      return res.status(403).json({ error: "Your profile is locked" });
+    }
     for (const field of fields) {
       user[field] = req.body[field];
     }
@@ -147,6 +182,7 @@ exports.verifyFeeDetails = async (req, res) => {
         $set: {
           "feeDetails.verification": verification,
           "feeDetails.remarks": remarks,
+          editable: verification === "mod_req",
         },
       }
     );
@@ -156,21 +192,10 @@ exports.verifyFeeDetails = async (req, res) => {
   }
 };
 
-// // detect docs changes except verification
-// const didDocsChange = (oldDocs, newDocs) => {
-//   if (oldDocs.length != newDocs.length) {
-//     return true;
-//   }
-//   for (let i = 0; i < oldDocs.length; i++) {
-//     if (oldDocs[i].type != newDocs[i].type) return true;
-//     if (oldDocs[i].filename != newDocs[i].filename) return true;
-//   }
-//   return false;
-// };
-
 const applyVerification = (newDocs, origDocs) => {
   const newMap = newDocs.reduce((map, obj) => {
     map[obj.filename] = obj.verification;
+    return map;
   }, {});
   return origDocs.map((doc) => {
     const newDoc = newMap[doc.filename];
@@ -181,33 +206,61 @@ const applyVerification = (newDocs, origDocs) => {
   });
 };
 
-exports.verifyStudent = async (req, res) => {
-  if (!(req.userRole == "phdCord" || req.userRole == "phdCord")) {
+const infoVerifiedStatus = (user) => {
+  const field_list = [
+    "personalInfo",
+    "academicsUG",
+    "academicsPG",
+    "entranceDetails",
+  ];
+  let flag = true;
+  for (let f of field_list) {
+    if (user[f].verification === "mod_req") return "mod_req";
+    if (user[f].verification === "pending") flag = false;
+  }
+  return flag ? "verified" : "pending";
+};
+
+exports.verifyStudentInfo = (req, res) => {
+  if (!(req.userRole == "phdCord" || req.userRole == "admin")) {
     res.status(403).json({ error: "you don't have access" });
   }
-  const { studentId, verification, documentsUploaded, remarks } = req.body;
-  try {
-    const user = await Student.findById(studentId).exec();
-    user.verification = verification;
-    user.remarks = remarks;
-
-    user.documentsUploaded = applyVerification(
-      documentsUploaded,
-      user.documentsUploaded
-    );
-
-    // //we can avoid above complicated logic by imposing restriction that request should not change document array
-    // //except verification status
-    // if (didDocsChange(user.documentsUploaded, documentsUploaded)) {
-    //   res
-    //     .status(400)
-    //     .json({ error: "docs should not change except verification" });
-    // }
-    // user.documentsUploaded = documentsUploaded;
-
-    await user.save();
-    res.json({ success: "true" });
-  } catch (error) {
-    res.status(400).json({ error: "request body contains invalid data" });
+  if (!req.body.studentId) {
+    req.status(400).json({ error: "studentId is not present" });
   }
+  Student.findById(req.body.studentId, (err, user) => {
+    if (err || !user) {
+      return res.status(404).json({ error: "user doesn't exist" });
+    }
+    try {
+      user.personalInfo.verification = req.body.personalInfoStatus;
+      user.personalInfo.remarks = req.body.personalInfoRemark;
+      user.academicsUG.verification = req.body.academicsUGStatus;
+      user.academicsUG.remarks = req.body.academicsUGRemark;
+      user.academicsPG.verification = req.body.academicsPGStatus;
+      user.academicsPG.remarks = req.body.academicsPGRemark;
+      user.entranceDetails.verification = req.body.entranceDetailsStatus;
+      user.entranceDetails.remarks = req.body.entranceDetailsRemark;
+      user.remarks = req.body.remarks;
+
+      user.infoVerified = infoVerifiedStatus(user);
+      if (user.infoVerified === "mod_req") user.editable = true;
+      user.documentsUploaded = applyVerification(
+        req.body.documentsUploaded,
+        user.documentsUploaded
+      );
+      user
+        .save()
+        .then(() => res.json({ success: true }))
+        .catch((err) => {
+          console.log(err);
+          res
+            .status(400)
+            .json({ error: "couldn't save updated record to database" });
+        });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ error: "request body contains invalid data" });
+    }
+  });
 };

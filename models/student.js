@@ -99,26 +99,19 @@ const feeDetails = {
   },
 };
 
-const footerData = {
-  date: { type: Date },
-  place: { type: String },
-};
-
 // TODO : How to store verification data ? (need more info about requirements)
 const StudentSchema = Schema(
   {
     name: reqString,
     email: email,
     password: reqString,
-    verification: verificationField,
     personalInfo: personalInfo,
     academicsUG: academicsUG,
     academicsPG: academicsPG,
     feeDetails: feeDetails,
-    infoVerified: { type: String },
+    infoVerified: verificationField,
     documentsUploaded: [docUploaded],
     remarks: { type: String, default: "" },
-    footerData: footerData,
     entranceDetails: entranceDetails,
     mailVerified: {
       type: Boolean,
