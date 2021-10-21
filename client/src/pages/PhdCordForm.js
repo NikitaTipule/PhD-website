@@ -3,80 +3,11 @@ import Divider from "@mui/material/Divider";
 import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
 import Button from "@mui/material/Button";
 import "./DisplayData.css";
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-} from "@mui/material";
-import { Redirect } from "react-router";
+import { TextField } from "@mui/material";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import viewDoc from "./DocViewer";
-
-class VerificationComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      verify: "",
-    };
-  }
-
-  onChangeVerify = (event) => {};
-
-  render() {
-    return (
-      <div className="verify">
-        <div style={{ width: "100%" }}>
-          <div className="radios">
-            <div>
-              <input
-                type="radio"
-                value="pending"
-                name="verify"
-                checked={this.state.verify === "pending"}
-                onChange={this.onChangeGender}
-                checked={this.props.status === "pending"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />
-              pending
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="mod_req"
-                name="verify"
-                checked={this.state.verify === "mod_req"}
-                onChange={this.onChangeGender}
-                checked={this.props.status === "mod_req"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />{" "}
-              mod_req
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="verified"
-                name="verify"
-                checked={this.state.verify === "verified"}
-                onChange={this.onChangeGender}
-                checked={this.props.status === "verified"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />{" "}
-              verified
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
 
 class phdCordForm extends Component {
   constructor(props) {
@@ -172,6 +103,7 @@ class phdCordForm extends Component {
       documentsUploaded: this.state.documentsUploaded,
       remarks: this.state.remarks,
     };
+    await console.log(data);
     axios
       .post(BACKEND_URL + "/students/verify/info", data, {
         headers: { "phd-website-jwt": this.state.token },
@@ -189,12 +121,9 @@ class phdCordForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onChangeVerify(e, id) {
-    // this.setState({
-    // [this.state.documentsUploaded[e].verification]: event.target.value,
-    // });
-    console.log(e, id);
-  }
+  onChangeVerify = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   render() {
     if (this.state.redirect) {
@@ -697,14 +626,16 @@ class phdCordForm extends Component {
                         >
                           {doc.verification}
                           <div>
-                            {console.log(id)}
                             <input
                               type="radio"
                               value="pending"
                               name={"verification" + id}
                               defaultChecked={doc.verification === "pending"}
-                              // checked={doc.verification === "pending"}
-                              // onChange={(e) => this.onChangeVerify(id, e)}
+                              onChange={() => {
+                                var copy = [...this.state.documentsUploaded];
+                                copy[id].verification = "pending";
+                                this.setState({ documentsUploaded: copy });
+                              }}
                               className="radio"
                             />
                             Pending
@@ -714,9 +645,13 @@ class phdCordForm extends Component {
                               type="radio"
                               value="mod_req"
                               name={"verification" + id}
-                              defaultChecked={doc.verification}
-                              // checked={doc.verification === "mod_req"}
+                              defaultChecked={doc.verification === "mod_req"}
                               // onChange={this.onChangeVerify(id)}
+                              onChange={() => {
+                                var copy = [...this.state.documentsUploaded];
+                                copy[id].verification = "mod_req";
+                                this.setState({ documentsUploaded: copy });
+                              }}
                               className="radio"
                             />{" "}
                             Mod_req
@@ -726,9 +661,14 @@ class phdCordForm extends Component {
                               type="radio"
                               value="verified"
                               name={"verification" + id}
-                              defaultChecked={doc.verification}
+                              defaultChecked={doc.verification === "verified"}
                               // checked={doc.verification === "verified"}
                               // onChange={this.onChangeVerify(id)}
+                              onChange={() => {
+                                var copy = [...this.state.documentsUploaded];
+                                copy[id].verification = "verified";
+                                this.setState({ documentsUploaded: copy });
+                              }}
                               className="radio"
                             />{" "}
                             Verified
