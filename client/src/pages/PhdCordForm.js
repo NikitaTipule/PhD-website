@@ -96,7 +96,7 @@ class phdCordForm extends Component {
       open: false,
       confirmAlert: false,
 
-      message: "",
+      remarks: "",
       redirect: false,
       token: "",
       verification: "",
@@ -135,53 +135,47 @@ class phdCordForm extends Component {
 
               documentsUploaded: res.data.user.documentsUploaded,
 
-              message: res.data.user.remarks,
+              remarks: res.data.user.remarks,
             });
           });
       } catch (error) {
-        console.log(error.message);
+        console.log(error.response);
       }
     }
   }
 
   handleSubmit = async (event) => {
     this.setState({
-      message: this.state.message,
+      remarks: this.state.remarks,
     });
-    console.log(this.state.message);
+    console.log(this.state.remarks);
     this.setState({
       redirect: !this.state.redirect,
     });
-
-    this.state.personalInfo.verification = this.state.personalInfoStatus;
-    this.state.personalInfo.remarks = this.state.personalInfoRemark;
-
-    this.state.academicsUG.verification = this.state.academicsUGStatus;
-    this.state.academicsUG.remarks = this.state.academicsUGRemark;
-
-    this.state.academicsPG.verification = this.state.academicsPGStatus;
-    this.state.academicsPG.remarks = this.state.academicsPGRemark;
-
-    this.state.entranceDetails.verification = this.state.entranceDetailsStatus;
-    this.state.entranceDetails.remarks = this.state.entranceDetailsRemark;
-
-    const personalInfo = {
-      personalInfo: this.state.personalInfo,
+    const data = {
+      studentId: this.props.location.state.details,
+      personalInfoRemark: this.state.personalInfoRemark,
+      personalInfoStatus: this.state.personalInfoStatus,
+      academicsUgRemark: this.state.academicsUgRemark,
+      academicsUgStatus: this.state.academicsUgStatus,
+      academicsPGRemark: this.state.academicsPGRemark,
+      academicsPGStatus: this.state.academicsPGStatus,
+      entranceDetails: this.state.entranceDetails,
+      entranceDetailsStatus: this.state.entranceDetailsStatus,
+      documentsUploaded: this.state.documentsUploaded,
+      remarks: this.state.remarks,
     };
-
-    console.log(personalInfo, this.state.personalInfoRemark);
-
-    try {
-      axios
-        .post(BACKEND_URL + "/students/edit/info", personalInfo, {
-          headers: { "phd-website-jwt": this.state.token },
-        })
-        .then((res) => {
-          console.log("UG Data Added");
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    axios
+      .post(BACKEND_URL + "/students/verify/info", data, {
+        headers: { "phd-website-jwt": this.state.token },
+      })
+      .then((res) => {
+        console.log("verification details submitted");
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert(err.response?.data?.error || "error while submitting");
+      });
   };
 
   handleChange = (event) => {
@@ -693,12 +687,12 @@ class phdCordForm extends Component {
 
           <TextField
             onChange={this.handleChange}
-            value={this.state.message}
+            value={this.state.remarks}
             variant="outlined"
             multiline
             minRows={3}
             type="text"
-            name="message"
+            name="remarks"
             label="Remark"
             fullWidth
           />
