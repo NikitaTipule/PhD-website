@@ -16,18 +16,18 @@ export default class PersonalDetails extends Component {
     this.state = {
       confirmAlert: false,
 
-      name: this.props.data.personalInfo.name,
-      middleName: this.props.data.personalInfo.middleName,
-      gender: this.props.data.personalInfo.gender,
-      dob: this.props.data.personalInfo.dob,
-      email: this.props.data.personalInfo.email,
-      mobile: this.props.data.personalInfo.mobile,
-      nationality: this.props.data.personalInfo.nationality,
-      category: this.props.data.personalInfo.category,
-      aadhar: this.props.data.personalInfo.aadhar,
-      address: this.props.data.personalInfo.address,
-      physicallyDisabled: this.props.data.personalInfo.physicallyDisabled,
-      department: this.props.data.personalInfo.department,
+      name: "",
+      middleName: "",
+      gender: "",
+      dob: "",
+      email: "",
+      mobile: "",
+      nationality: "",
+      category: "",
+      aadhar: "",
+      address: "",
+      physicallyDisabled: "",
+      department: "",
 
       errorName: false,
       errorMiddleName: false,
@@ -108,6 +108,7 @@ export default class PersonalDetails extends Component {
       : this.setState({ errorMobile: true });
 
     var n = this.state.nationality.replace(/ /g, "");
+
     n === ""
       ? this.setState({ errorNationality: true })
       : this.setState({ errorNationality: false });
@@ -205,18 +206,42 @@ export default class PersonalDetails extends Component {
           })
           .then((res) => {
             this.setState({
-              name: res.data.user.personalInfo.name,
-              middleName: res.data.user.personalInfo.middleName,
-              email: res.data.user.personalInfo.email,
-              gender: res.data.user.personalInfo.gender,
-              mobile: res.data.user.personalInfo.mobile,
-              nationality: res.data.user.personalInfo.nationality,
-              category: res.data.user.personalInfo.category,
-              aadhar: res.data.user.personalInfo.aadhar,
-              dob: res.data.user.personalInfo.dob,
-              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled,
-              department: res.data.user.personalInfo.department,
-              address: res.data.user.personalInfo.address,
+              name: res.data.user.personalInfo.name
+                ? res.data.user.personalInfo.name
+                : "",
+              middleName: res.data.user.personalInfo.middleName
+                ? res.data.user.personalInfo.middleName
+                : "",
+              email: res.data.user.personalInfo.email
+                ? res.data.user.personalInfo.email
+                : "",
+              gender: res.data.user.personalInfo.gender
+                ? res.data.user.personalInfo.gender
+                : "",
+              mobile: res.data.user.personalInfo.mobile
+                ? res.data.user.personalInfo.mobile
+                : "",
+              nationality: res.data.user.personalInfo.nationality
+                ? res.data.user.personalInfo.nationality
+                : "",
+              category: res.data.user.personalInfo.category
+                ? res.data.user.personalInfo.category
+                : "",
+              aadhar: res.data.user.personalInfo.aadhar
+                ? res.data.user.personalInfo.aadhar
+                : "",
+              dob: res.data.user.personalInfo.dob
+                ? res.data.user.personalInfo.dob
+                : "",
+              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled
+                ? res.data.user.personalInfo.physicallyDisabled
+                : "",
+              department: res.data.user.personalInfo.department
+                ? res.data.user.personalInfo.department
+                : "",
+              address: res.data.user.personalInfo.address
+                ? res.data.user.personalInfo.address
+                : "",
             });
           });
       } catch (error) {
@@ -255,7 +280,7 @@ export default class PersonalDetails extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="personal_container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert

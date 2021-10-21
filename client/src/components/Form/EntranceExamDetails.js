@@ -252,7 +252,7 @@ export default class EntranceExamDetails extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="admission_container">
         {/**PopUp here */}
         <div>
           <SweetAlert

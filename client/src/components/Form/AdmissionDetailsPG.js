@@ -160,7 +160,7 @@ export default class AdmissionDetailsPG extends Component {
       },
     });
     return (
-      <div className="container">
+      <div className="admission_container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert

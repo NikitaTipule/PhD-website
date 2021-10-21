@@ -188,7 +188,7 @@ export default class AdmissionDetailsUG extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="admission_container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
