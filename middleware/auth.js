@@ -7,7 +7,6 @@ exports.auth = (req, res, next) => {
   // req.userRole = "student";
   // return next();
   const token = req.headers["phd-website-jwt"];
-  console.log(token);
   if (!token) {
     return res
       .status(401)
