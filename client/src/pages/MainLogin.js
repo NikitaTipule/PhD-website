@@ -37,7 +37,7 @@ export default function MainLogIn() {
   };
 
   return (
-<>
+<div class="all">
 <NavBar/>
 <div class="bod">
 <ThemeProvider theme={theme}>
@@ -101,14 +101,14 @@ export default function MainLogIn() {
                 <b>Important Announcements</b>
               </Typography>
               <div class="scroll-box">
-              <p><a href="https://www.google.co.in/">Link 1</a></p>
-            <p><a href="https://www.google.co.in/">Link 2</a></p>
-            <p><a href="https://www.google.co.in/">Link 3</a></p>
-            <p><a href="https://www.google.co.in/">Link 4</a></p>
-            <p><a href="https://www.google.co.in/">Link 5</a></p>
-            <p><a href="https://www.google.co.in/">Link 6</a></p>
-            <p><a href="https://www.google.co.in/">Link 7</a></p>
-            <p><a href="https://www.google.co.in/">Link 8</a></p>
+              <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 1</a></p>
+            <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 2</a></p>
+            <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 3</a></p>
+            <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 4</a></p>
+            <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 5</a></p>
+            <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 6</a></p>
+            <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 7</a></p>
+            <p class="link"><a class="main_link" href="https://www.google.co.in/">Link 8</a></p>
           </div>
 				</div>
 			</div>
@@ -116,6 +116,6 @@ export default function MainLogIn() {
 	</div>
   </ThemeProvider>
 </div>
-</>
+</div>
   );
 }
