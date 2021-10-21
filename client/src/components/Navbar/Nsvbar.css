@@ -14,7 +14,7 @@
   /* width: 100%;
     top: 0;
     position: fixed; */
-/* 
+/*
 .navbar-logo {
   color: #fff;
   justify-self: start;
@@ -31,7 +31,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: cadetblue;
+  background-color: #056676;
 }
 
 .li-class {
@@ -86,7 +86,7 @@ li a p {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: cadetblue;
+    background-color: #056676;
     align-items: center;
   }
 

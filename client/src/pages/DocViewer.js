@@ -1,10 +1,10 @@
-import { useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
 const viewDoc = ({ filename, contentType, originalName }) => {
   axios
     .get(BACKEND_URL + "/files/get/" + filename, {
+      headers: { "phd-website-jwt": localStorage.getItem("phd-website-jwt") },
       responseType: "blob",
     })
     .then((response) => {

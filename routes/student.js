@@ -13,7 +13,8 @@ const {
   editStudentFeeDetails,
   editStudentInfo,
   verifyFeeDetails,
-  verifyStudent,
+  verifyStudentInfo,
+  lockProfile,
 } = require("../controllers/student");
 
 const router = express.Router();
@@ -31,6 +32,8 @@ router.post("/edit/fee", auth, editStudentFeeDetails);
 router.post("/edit/info", auth, editStudentInfo);
 
 router.post("/verify/fee", auth, verifyFeeDetails);
-router.post("/verify", auth, verifyStudent);
+router.post("/verify/info", auth, verifyStudentInfo);
+
+router.post("/lock", auth, lockProfile);
 
 module.exports = router;

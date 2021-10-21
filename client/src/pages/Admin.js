@@ -76,7 +76,7 @@ class Admin extends Component {
     { id: "total", label: "Total", minWidth: 120 },
     { id: "verified", label: "Verified", minWidth: 120 },
     { id: "pending", label: "Not Verified", minWidth: 120 },
-    { id: "mod-req", label: "Modification Required", minWidth: 120 },
+    { id: "mod_req", label: "Modification Required", minWidth: 120 },
   ];
 
   handleChangePage = (event, newPage) => {
@@ -294,7 +294,7 @@ class Admin extends Component {
                             >
                               {row.status.verified +
                                 row.status.pending +
-                                row.status["mod-req"]}
+                                row.status["mod_req"]}
                             </Link>
                           </TableCell>
                           <TableCell align="center">
@@ -327,7 +327,7 @@ class Admin extends Component {
                                 color: "black",
                               }}
                             >
-                              {row.status["mod-req"]}
+                              {row.status["mod_req"]}
                             </Link>
                           </TableCell>
                         </TableRow>
