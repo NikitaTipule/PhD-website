@@ -24,7 +24,6 @@ import { BACKEND_URL } from "../config";
 class VerificationComponent extends Component {
   onChangeVerify = (event) => {};
 
-
   render() {
     return (
       <div className="verify">
@@ -35,7 +34,7 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Pending"
                 name="verify"
-                checked={this.props.status === "pending"}
+                defaultChecked={this.props.status === "pending"}
                 onChange={this.onChangeVerify}
                 className="radio"
               />
@@ -46,7 +45,7 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Modification-Required"
                 name="verify"
-                checked={this.props.status === "mod-req"}
+                defaultChecked={this.props.status === "mod_req"}
                 onChange={this.onChangeVerify}
                 className="radio"
               />{" "}
@@ -57,7 +56,7 @@ class VerificationComponent extends Component {
                 type="radio"
                 value="Verified"
                 name="verify"
-                checked={this.props.status === "verified"}
+                defaultChecked={this.props.status === "verified"}
                 onChange={this.onChangeVerify}
                 className="radio"
               />{" "}
@@ -168,7 +167,7 @@ class AccountHome extends Component {
                 allStudents: res.data,
                 length: res.data.length,
               });
-              console.log(this.state.allStudents)
+              console.log(this.state.allStudents);
               // console.log(this.state.allStudents[0].feeDetails.verification)
             });
         } catch (error) {
@@ -200,17 +199,16 @@ class AccountHome extends Component {
 
   handleclick4 = (event) => {
     this.setState({
-      tableData: "mod-req",
+      tableData: "mod_req",
     });
   };
 
   onChangeVerify = (event) => {
     this.setState({ [event.target.name]: event.target.value });
     // this.setState({
-    //   row.feeDetails.verification: 
+    //   row.feeDetails.verification:
     // })
   };
-
 
   render() {
     const department_options = [
@@ -238,7 +236,7 @@ class AccountHome extends Component {
         ) {
           counterNotVerified++;
         } else if (
-          this.state.allStudents[i].feeDetails.verification === "mod-req"
+          this.state.allStudents[i].feeDetails.verification === "mod_req"
         ) {
           counterModification++;
         }
@@ -567,63 +565,66 @@ class AccountHome extends Component {
                                     state={row.feeDetails.verification}
                                   /> */}
                                   <div className="icon">
-                                      <div>
-                                        <div className="verify">
-                                          <div style={{ width: "100%" }}>
-                                            <div className="radios">
-                                              <div>
-                                                <input
-                                                  type="radio"
-                                                  value="pending"
-                                                  name="row.feedetails.verification"
-                                                  checked={
-                                                    row.feeDetails.verification === "pending"
-                                                  }
+                                    <div>
+                                      <div className="verify">
+                                        <div style={{ width: "100%" }}>
+                                          <div className="radios">
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="pending"
+                                                name={"feeVerfication" + count}
+                                                defaultChecked={
+                                                  row.feeDetails
+                                                    .verification === "pending"
+                                                }
                                                 onChange={() => {
-                                                    row.feeDetails.verification= "pending"
-                                                  }}
-                                                  className="radio"
-                                                />
-                                                Pending
-                                              </div>
-                                              <div>
-                                                <input
-                                                  type="radio"
-                                                  value="mod-req"
-                                                  name="row.feedetails.verification"
-                                                  checked={
-                                                    row.feeDetails.verification ===
-                                                    "mod-req"
-                                                  }
-                                                  onChange={() => {
-                                                    row.feeDetails.verification= "mod-req"
-                                                  }}
-                                                  className="radio"
-                                                />{" "}
-                                                Modification-Required
-                                              </div>
-                                              <div>
-                                                <input
-                                                  type="radio"
-                                                  value="verified"
-                                                  name="row.feedetails.verification"
-                                                  checked={
-                                                    row.feeDetails.verification === "verified"
-                                                  }
+                                                  row.feeDetails.verification =
+                                                    "pending";
+                                                }}
+                                                className="radio"
+                                              />
+                                              Pending
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="mod_req"
+                                                name={"feeVerfication" + count}
+                                                defaultChecked={
+                                                  row.feeDetails
+                                                    .verification === "mod_req"
+                                                }
                                                 onChange={() => {
-                                                    row.feeDetails.verification = "verified"
-                                                  }}
-                                                  className="radio"
-                                                />{" "}
-                                                Verified
-                                              </div>
+                                                  row.feeDetails.verification =
+                                                    "mod_req";
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Modification-Required
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="verified"
+                                                name={"feeVerfication" + count}
+                                                defaultChecked={
+                                                  row.feeDetails
+                                                    .verification === "verified"
+                                                }
+                                                onChange={() => {
+                                                  row.feeDetails.verification =
+                                                    "verified";
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Verified
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                              
-                                
+                                  </div>
                                 </TableCell>
                                 <TableCell align="center">
                                   {/* <textarea id="w3review" name="w3review" rows="4" cols="50">
