@@ -4,6 +4,26 @@
     margin: 30px 10% 0 10%;
 }
 
+.remark_container{
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(255, 255, 0, 0.3);
+    margin-bottom: 10px;
+    padding:10px;
+    border-radius: 10px;
+}
+
+.verify_container{
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(0,255,0,0.3);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+
+
 /* PopUp Styles  */
 .backBtn{
     margin-right: 10px;

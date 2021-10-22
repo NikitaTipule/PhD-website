@@ -41,6 +41,9 @@ export default class Documents extends Component {
 
       documentsUploaded: [],
 
+      editable: "",
+      disabled: "",
+
       selectedFile: null,
 
       open: false,
@@ -113,20 +116,21 @@ export default class Documents extends Component {
 
   // Handle when clicked "Next"
   onNext = (event) => {
-    const documentsUploaded = {
-      documentsUploaded: this.state.documentsUploaded,
-    };
-    console.log("before posting: ", documentsUploaded);
-    try {
-      axios
-        .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
-          headers: { "phd-website-jwt": this.state.token },
-        })
-        .then((res) => {
-          console.log("Documents Added");
-        });
-    } catch (err) {
-      console.log(err.res);
+    if (!this.state.disabled) {
+      const documentsUploaded = {
+        documentsUploaded: this.state.documentsUploaded,
+      };
+      try {
+        axios
+          .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            console.log("Documents Added");
+          });
+      } catch (err) {
+        console.log(err.res);
+      }
     }
     this.setState({ open: !this.state.open });
   };
@@ -142,24 +146,14 @@ export default class Documents extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            this.setState({
-              documentsUploaded: res.data.user.documentsUploaded,
-            });
-            // for (var i = 0; i < res.data.user.documentsUploaded.length; i++) {
-            //   const docUploaded = {
-            //     type: res.data.user.documentsUploaded[i].type,
-            //     filename: res.data.user.documentsUploaded[i].filename,
-            //     contentType: res.data.user.documentsUploaded[i].contentType,
-            //     originalName: res.data.user.documentsUploaded[i].originalName,
-            //     verification: res.data.user.documentsUploaded[i].verification,
-            //   };
-            //   this.setState((prevState) => ({
-            //     documentsUploaded: [
-            //       ...prevState.documentsUploaded,
-            //       docUploaded,
-            //     ],
-            //   }));
-            // }
+            res.data.user.documentsUploaded &&
+              this.setState({
+                documentsUploaded: res.data.user.documentsUploaded
+                  ? res.data.user.documentsUploaded
+                  : [],
+              });
+            this.setState({ editable: res.data.user.editable });
+            this.setState({ disabled: !this.state.editable });
           });
       } catch (error) {
         console.log(error.message);
@@ -233,6 +227,7 @@ export default class Documents extends Component {
                       <div>{str.name}</div>
                       <div>
                         <input
+                          disabled={this.state.disabled}
                           type="file"
                           name={str.name}
                           onChange={this.onFileChange}
@@ -253,6 +248,7 @@ export default class Documents extends Component {
                       <div>{str.name}</div>
                       <div>
                         <input
+                          disabled={this.state.disabled}
                           type="file"
                           name={str.name}
                           onChange={this.onFileChange}
@@ -273,6 +269,7 @@ export default class Documents extends Component {
                       <div>{str.name}</div>
                       <div>
                         <input
+                          disabled={this.state.disabled}
                           type="file"
                           name={str.name}
                           onChange={this.onChange}

@@ -19,6 +19,12 @@ export default class AdmissionDetailsPG extends Component {
       percentage: "",
       confirmAlert: false,
 
+      remarks: "",
+      verification: "",
+
+      editable: "",
+      disabled: "",
+
       errorUniversity: false,
       errorNomanclaure: false,
       errorMarksObtained: false,
@@ -67,23 +73,26 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onSubmit = async (event) => {
-    await this.validateData();
-
-    if (
-      this.state.errorUniversity === false &&
-      this.state.errorNomanclaure === false &&
-      this.state.errorMarksObtained === false &&
-      this.state.errorTotalMarks === false &&
-      this.state.errorCGPA === false &&
-      this.state.errorPercentage === false
-    ) {
-      this.setState({ confirmAlert: !this.state.confirmAlert });
-      this.props.data.academicsPG.institute = this.state.university;
-      this.props.data.academicsPG.degree = this.state.nomanclaure;
-      this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
-      this.props.data.academicsPG.totalMarks = this.state.totalMarks;
-      this.props.data.academicsPG.cgpa10 = this.state.cgpa;
-      this.props.data.academicsPG.percentageMarks = this.state.percentage;
+    if (this.state.disabled) {
+      this.props.nextStep();
+    } else {
+      await this.validateData();
+      if (
+        this.state.errorUniversity === false &&
+        this.state.errorNomanclaure === false &&
+        this.state.errorMarksObtained === false &&
+        this.state.errorTotalMarks === false &&
+        this.state.errorCGPA === false &&
+        this.state.errorPercentage === false
+      ) {
+        this.setState({ confirmAlert: !this.state.confirmAlert });
+        this.props.data.academicsPG.institute = this.state.university;
+        this.props.data.academicsPG.degree = this.state.nomanclaure;
+        this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
+        this.props.data.academicsPG.totalMarks = this.state.totalMarks;
+        this.props.data.academicsPG.cgpa10 = this.state.cgpa;
+        this.props.data.academicsPG.percentageMarks = this.state.percentage;
+      }
     }
   };
 
@@ -128,14 +137,39 @@ export default class AdmissionDetailsPG extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            this.setState({
-              university: res.data.user.academicsPG.institute,
-              nomanclaure: res.data.user.academicsPG.degree,
-              marksObtained: res.data.user.academicsPG.totalAggregate,
-              totalMarks: res.data.user.academicsPG.totalMarks,
-              cgpa: res.data.user.academicsPG.cgpa10,
-              percentage: res.data.user.academicsPG.percentageMarks,
-            });
+            res.data.user.academicsPG &&
+              this.setState({
+                university: res.data.user.academicsPG.institute
+                  ? res.data.user.academicsPG.institute
+                  : "",
+                nomanclaure: res.data.user.academicsPG.degree
+                  ? res.data.user.academicsPG.degree
+                  : "",
+                marksObtained: res.data.user.academicsPG.totalAggregate
+                  ? res.data.user.academicsPG.totalAggregate
+                  : "",
+                totalMarks: res.data.user.academicsPG.totalMarks
+                  ? res.data.user.academicsPG.totalMarks
+                  : "",
+                cgpa: res.data.user.academicsPG.cgpa10
+                  ? res.data.user.academicsPG.cgpa10
+                  : "",
+                percentage: res.data.user.academicsPG.percentageMarks
+                  ? res.data.user.academicsPG.percentageMarks
+                  : "",
+                remarks: res.data.user.academicsPG.remarks
+                  ? res.data.user.academicsPG.remarks
+                  : "",
+                verification: res.data.user.academicsPG.verification
+                  ? res.data.user.academicsPG.verification
+                  : "",
+              });
+            this.setState({ editable: res.data.user.editable });
+            res.data.user.editable &&
+            (res.data.user.academicsPG.verification === "mod_req" ||
+              res.data.user.academicsPG.verification === "pending")
+              ? this.setState({ disabled: false })
+              : this.setState({ disabled: true });
           });
       } catch (error) {
         console.log(error.message);
@@ -238,6 +272,32 @@ export default class AdmissionDetailsPG extends Component {
             )}
           </SweetAlert>
         </div>
+        {/* Remark and verification display    */}
+        <div className="remark_verify_container">
+          {/* Remark display  */}
+          <div className="remark_container">
+            <div style={{ fontWeight: "500" }}>Remark : </div>
+            <div style={{ marginLeft: "20px" }}>
+              {this.state.remarks.replace(/ /g, "") !== ""
+                ? this.state.remarks
+                : "No remarks mentioned yet"}
+            </div>
+          </div>
+          {/* Verification status display  */}
+          <div className="verify_container">
+            <div style={{ fontWeight: "500" }}>Verification Status: </div>
+            <div style={{ marginLeft: "20px" }}>
+              {" "}
+              {this.state.verification === "verified"
+                ? "Verified"
+                : this.state.verification === "mod_req"
+                ? "Modification Required"
+                : "Pending"}
+            </div>
+          </div>
+        </div>
+
+        {/* Academics PG Details complete from  */}
         <div className="title">Academic Details - PG</div>
         <div className={"Form"}>
           <form onSubmit={this.onSubmit}>
@@ -245,6 +305,7 @@ export default class AdmissionDetailsPG extends Component {
             <div style={{ marginBottom: "12px" }}>
               <Typography>University/Institute</Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -267,6 +328,7 @@ export default class AdmissionDetailsPG extends Component {
             <div style={{ marginBottom: "12px" }}>
               <Typography>Nomanclaure of Degree</Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -293,6 +355,7 @@ export default class AdmissionDetailsPG extends Component {
               <div>
                 <Typography>Marks Obtained</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -312,6 +375,7 @@ export default class AdmissionDetailsPG extends Component {
               <div className="totalMarks">
                 <Typography>Total Marks</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -337,6 +401,7 @@ export default class AdmissionDetailsPG extends Component {
               <div>
                 <Typography>CGPA</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -356,6 +421,7 @@ export default class AdmissionDetailsPG extends Component {
               <div className="totalMarks">
                 <Typography>Percentage</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
