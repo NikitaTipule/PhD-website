@@ -55,6 +55,22 @@
     cursor: pointer
 }
 
+.docsError{
+    color: red;
+    font-size: 15px;
+}
+
+.docsPreviewFilename{
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.docsPreviewDiv{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+
 @media only screen and (max-width: 952px){
     .docContainer{
         margin: 30px 10% 0 10%;

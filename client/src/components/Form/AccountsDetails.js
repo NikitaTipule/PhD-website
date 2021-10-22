@@ -35,6 +35,7 @@ export default class AccountsDetails extends Component {
       errorUtrDuNumber: false,
       errorBank: false,
       errorDate: false,
+      errorDoc: false,
 
       open: false,
       confirmAlert: false,
@@ -97,6 +98,12 @@ export default class AccountsDetails extends Component {
     this.state.transactionTime === undefined
       ? this.setState({ errorDate: true })
       : this.setState({ errorDate: false });
+    this.state.docUploaded &&
+    Object.keys(this.state.docUploaded).length >= 3 &&
+    this.state.docUploaded.filename !== null &&
+    this.state.docUploaded.filename !== undefined
+      ? this.setState({ errorDoc: false })
+      : this.setState({ errorDoc: true });
   };
 
   // ON CLICK - "Next" button
@@ -106,7 +113,8 @@ export default class AccountsDetails extends Component {
       this.state.errorAmount === false &&
       this.state.errorUtrDuNumber === false &&
       this.state.errorBank === false &&
-      this.state.errorDate === false
+      this.state.errorDate === false &&
+      this.state.errorDoc === false
     ) {
       this.setState({ confirmAlert: !this.state.confirmAlert });
       this.props.data.feeDetails.utrDuNumber = this.state.utrDuNumber;
