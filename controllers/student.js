@@ -71,7 +71,7 @@ exports.lockProfile = (req, res) => {
     },
     (err, ans) => {
       if (err) return res.status(400).json({ err });
-      consol.log(ans);
+      console.log(ans);
       return { success: "true" };
     }
   );

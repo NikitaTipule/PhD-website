@@ -42,7 +42,7 @@ class phdCordForm extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.location.state.details);
+    // console.log(this.props.location.state.details);
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
@@ -53,7 +53,7 @@ class phdCordForm extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               personalInfo: res.data.user.personalInfo,
               personalInfoStatus: res.data.user.personalInfo.verification,
@@ -86,7 +86,8 @@ class phdCordForm extends Component {
     this.setState({
       remarks: this.state.remarks,
     });
-    console.log(this.state.remarks);
+    // console.log(this.state.remarks);
+
     this.setState({
       redirect: !this.state.redirect,
     });
@@ -103,7 +104,7 @@ class phdCordForm extends Component {
       documentsUploaded: this.state.documentsUploaded,
       remarks: this.state.remarks,
     };
-    await console.log(data);
+    // await console.log(data);
     axios
       .post(BACKEND_URL + "/students/verify/info", data, {
         headers: { "phd-website-jwt": this.state.token },
@@ -624,7 +625,6 @@ class phdCordForm extends Component {
                           className="radios"
                           onChange={(e) => this.onChangeVerify(e, id)}
                         >
-                          {doc.verification}
                           <div>
                             <input
                               type="radio"
@@ -646,7 +646,6 @@ class phdCordForm extends Component {
                               value="mod_req"
                               name={"verification" + id}
                               defaultChecked={doc.verification === "mod_req"}
-                              // onChange={this.onChangeVerify(id)}
                               onChange={() => {
                                 var copy = [...this.state.documentsUploaded];
                                 copy[id].verification = "mod_req";
@@ -662,8 +661,6 @@ class phdCordForm extends Component {
                               value="verified"
                               name={"verification" + id}
                               defaultChecked={doc.verification === "verified"}
-                              // checked={doc.verification === "verified"}
-                              // onChange={this.onChangeVerify(id)}
                               onChange={() => {
                                 var copy = [...this.state.documentsUploaded];
                                 copy[id].verification = "verified";
