@@ -21,6 +21,6 @@ app.use("/account-section", accountRouter);
 app.use("/files", fileRouter);
 app.use("/staff", staffRouter);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT||5000;
 app.listen(port, () => console.log(`Server up and running -> port ${port} !`));
 app.timeout = 3000;

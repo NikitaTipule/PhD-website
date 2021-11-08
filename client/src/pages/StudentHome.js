@@ -1,21 +1,75 @@
-import { React, Component } from 'react'
-import Grid from '@material-ui/core/Grid'
+import { React, Component } from 'react';
+import Grid from '@material-ui/core/Grid';
 import NavBar from '../components/Navbar/Navbar';
 import { Button } from '@material-ui/core';
-import PersonalDetails from "../components/Form/PersonalDetails"
-import { Link } from 'react-router-dom'
-
-
+import PersonalDetails from "../components/Form/PersonalDetails";
+import { Link } from 'react-router-dom';
+import "../CSS/studentHome.css";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 class StudentHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: "",
             email: "",
+            PGverification: "",
+            PGremarks: "",
+            UGverification: "",
+            UGremarks: "",
+            DOCverification: "",
+            DOCremarks: "",
+            ENTverification: "",
+            ENTremarks: "",
+            FEEverification: "",
+            FEEremarks: "",
+            PIverification: "",
+            PIremarks: "",
         };
     }
 
-    
+    async componentDidMount() {
+      if (localStorage.getItem("phd-website-jwt")) {
+        await this.setState({
+          token: localStorage.getItem("phd-website-jwt"),
+        });
+        try {
+          axios
+            .get(BACKEND_URL + "/students/me", {
+              headers: { "phd-website-jwt": this.state.token },
+            })
+            .then((res) => {
+              let docver="verified"
+              res.data.user.documentsUploaded.map(status=>(
+                // docrem=status.remarks.length?status.remarks:"None"
+                //console.log(status.verification)
+                  docver=status.verification==="pending"?"pending":""
+              ));
+              this.setState({
+                name: res.data.user.name,
+                email: res.data.user.email,
+                mis: res.data.user.mis,
+                PGverification: res.data.user.academicsPG.verification,
+                PGremarks: res.data.user.academicsPG.remarks,
+                UGverification: res.data.user.academicsUG.verification,
+                UGremarks: res.data.user.academicsUG.remarks,
+                DOCverification: docver,
+                DOCremarks: "None",
+                ENTverification: res.data.user.entranceDetails.verification,
+                ENTremarks: res.data.user.entranceDetails.remarks,
+                FEEverification: res.data.user.feeDetails.verification,
+                FEEremarks: res.data.user.feeDetails.remarks,
+                PIverification: res.data.user.personalInfo.verification,
+                PIremarks: res.data.user.personalInfo.remarks,
+              });
+              console.log(res);
+            });
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
+    }
+
     render() {
         return(
             <div>
@@ -46,7 +100,7 @@ class StudentHome extends Component {
                     </Grid>
                     </div>
                     </div>
-                </div> 
+                </div>
                 <div  style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:"30px"}}>
                    <Link to ={{pathname: '/admissionform'}}>
                     <button
@@ -68,7 +122,59 @@ class StudentHome extends Component {
                     </button>
                     </Link>
                 </div>
-            </div>
+                <div style={{display:'flex', justifyContent:'center', alignItems:'center',marginTop: '20px'}}>
+                    <h1 className="textBetween">
+                    Verification Status
+                    </h1>
+                </div>
+                <div class="container-verification">
+
+                  <ul class="responsive-table">
+                  <li class="table-header">
+
+                    <div class="col col-2"><b>Field</b></div>
+                    <div class="col col-3"><b>Remarks</b></div>
+                    <div class="col col-4"><b>Status</b></div>
+                  </li>
+                  <li class="table-row">
+
+                    <div class="col col-2" data-label="Customer Name">Academics PG</div>
+                    <div class="col col-3" data-label="Amount">{this.state.PGremarks.length?this.state.PGremarks:"None"}</div>
+                    <div class="col col-4" data-label="Payment Status" style={{textTransform: 'capitalize'}}>{this.state.PGverification}</div>
+                  </li>
+                  <li class="table-row">
+
+                    <div class="col col-2" data-label="Customer Name">Academics UG</div>
+                    <div class="col col-3" data-label="Amount">{this.state.UGremarks.length?this.state.UGremarks:"None"}</div>
+                    <div class="col col-4" data-label="Payment Status" style={{textTransform: 'capitalize'}}>{this.state.UGverification}</div>
+                  </li>
+                  <li class="table-row">
+
+                    <div class="col col-2" data-label="Customer Name">Document Upload</div>
+                    <div class="col col-3" data-label="Amount">{this.state.DOCremarks}</div>
+                    <div class="col col-4" data-label="Payment Status" style={{textTransform: 'capitalize'}}>{this.state.DOCverification.length?this.state.DOCverification:"verified"}</div>
+                  </li>
+                  <li class="table-row">
+
+                    <div class="col col-2" data-label="Customer Name">Entrance Details</div>
+                    <div class="col col-3" data-label="Amount">{this.state.ENTremarks.length?this.state.ENTremarks:"None"}</div>
+                    <div class="col col-4" data-label="Payment Status" style={{textTransform: 'capitalize'}}>{this.state.ENTverification}</div>
+                  </li>
+                  <li class="table-row">
+
+                    <div class="col col-2" data-label="Customer Name">Fee Details</div>
+                    <div class="col col-3" data-label="Amount">{this.state.FEEremarks.length?this.state.FEEremarks:"None"}</div>
+                    <div class="col col-4" data-label="Payment Status" style={{textTransform: 'capitalize'}}>{this.state.FEEverification}</div>
+                  </li>
+                  <li class="table-row">
+
+                    <div class="col col-2" data-label="Customer Name">Personal Info</div>
+                    <div class="col col-3" data-label="Amount">{this.state.PIremarks.length?this.state.PIremarks:"None"}</div>
+                    <div class="col col-4" data-label="Payment Status" style={{textTransform: 'capitalize'}}>{this.state.PIverification}</div>
+                  </li>
+                  </ul>
+                </div>
+        </div>
         );
     }
 }

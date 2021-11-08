@@ -42,7 +42,7 @@ export default function MainLogIn() {
 <div class="bod">
 <ThemeProvider theme={theme}>
 
-	<div class="container" id="container">
+	<div class="container_login" id="container">
 		<div class="form-container log-in-container">
 			<div class="form-container">
       <Typography component="h1" variant="h5" mt={2}>
