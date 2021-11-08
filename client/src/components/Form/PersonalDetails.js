@@ -16,18 +16,25 @@ export default class PersonalDetails extends Component {
     this.state = {
       confirmAlert: false,
 
-      name: this.props.data.personalInfo.name,
-      middleName: this.props.data.personalInfo.middleName,
-      gender: this.props.data.personalInfo.gender,
-      dob: this.props.data.personalInfo.dob,
-      email: this.props.data.personalInfo.email,
-      mobile: this.props.data.personalInfo.mobile,
-      nationality: this.props.data.personalInfo.nationality,
-      category: this.props.data.personalInfo.category,
-      aadhar: this.props.data.personalInfo.aadhar,
-      address: this.props.data.personalInfo.address,
-      physicallyDisabled: this.props.data.personalInfo.physicallyDisabled,
-      department: this.props.data.personalInfo.department,
+      name: "",
+      middleName: "",
+      gender: "",
+      dob: "",
+      email: "",
+      mobile: "",
+      nationality: "",
+      category: "",
+      aadhar: "",
+      address: "",
+      physicallyDisabled: "",
+      department: "",
+
+      remarks: "",
+      verification: "",
+
+      editable: "",
+
+      disabled: "",
 
       errorName: false,
       errorMiddleName: false,
@@ -108,6 +115,7 @@ export default class PersonalDetails extends Component {
       : this.setState({ errorMobile: true });
 
     var n = this.state.nationality.replace(/ /g, "");
+
     n === ""
       ? this.setState({ errorNationality: true })
       : this.setState({ errorNationality: false });
@@ -134,36 +142,39 @@ export default class PersonalDetails extends Component {
       : this.setState({ errorDepartment: false });
   };
 
-  onSubmit = async (event) => {
-    await this.validateData();
-
-    if (
-      this.state.errorName === false &&
-      this.state.errorMiddleName === false &&
-      this.state.errorGender === false &&
-      this.state.errorEmail === false &&
-      this.state.errorMobile === false &&
-      this.state.errorNationality === false &&
-      this.state.errorCategory === false &&
-      this.state.errorAadhar === false &&
-      this.state.errorAddress === false &&
-      this.state.errorPhysicallyDisabled === false &&
-      this.state.errorDepartment === false
-    ) {
-      this.setState({ confirmAlert: !this.state.confirmAlert });
-      this.props.data.personalInfo.name = this.state.name;
-      this.props.data.personalInfo.middleName = this.state.middleName;
-      this.props.data.personalInfo.gender = this.state.gender;
-      this.props.data.personalInfo.dob = this.state.dob;
-      this.props.data.personalInfo.email = this.state.email;
-      this.props.data.personalInfo.mobile = this.state.mobile;
-      this.props.data.personalInfo.nationality = this.state.nationality;
-      this.props.data.personalInfo.category = this.state.category;
-      this.props.data.personalInfo.aadhar = this.state.aadhar;
-      this.props.data.personalInfo.address = this.state.address;
-      this.props.data.personalInfo.physicallyDisabled =
-        this.state.physicallyDisabled;
-      this.props.data.personalInfo.department = this.state.department;
+  onNext = async (event) => {
+    if (this.state.disabled) {
+      this.props.nextStep();
+    } else {
+      await this.validateData();
+      if (
+        this.state.errorName === false &&
+        this.state.errorMiddleName === false &&
+        this.state.errorGender === false &&
+        this.state.errorEmail === false &&
+        this.state.errorMobile === false &&
+        this.state.errorNationality === false &&
+        this.state.errorCategory === false &&
+        this.state.errorAadhar === false &&
+        this.state.errorAddress === false &&
+        this.state.errorPhysicallyDisabled === false &&
+        this.state.errorDepartment === false
+      ) {
+        this.setState({ confirmAlert: !this.state.confirmAlert });
+        this.props.data.personalInfo.name = this.state.name;
+        this.props.data.personalInfo.middleName = this.state.middleName;
+        this.props.data.personalInfo.gender = this.state.gender;
+        this.props.data.personalInfo.dob = this.state.dob;
+        this.props.data.personalInfo.email = this.state.email;
+        this.props.data.personalInfo.mobile = this.state.mobile;
+        this.props.data.personalInfo.nationality = this.state.nationality;
+        this.props.data.personalInfo.category = this.state.category;
+        this.props.data.personalInfo.aadhar = this.state.aadhar;
+        this.props.data.personalInfo.address = this.state.address;
+        this.props.data.personalInfo.physicallyDisabled =
+          this.state.physicallyDisabled;
+        this.props.data.personalInfo.department = this.state.department;
+      }
     }
   };
 
@@ -204,20 +215,58 @@ export default class PersonalDetails extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            this.setState({
-              name: res.data.user.personalInfo.name,
-              middleName: res.data.user.personalInfo.middleName,
-              email: res.data.user.personalInfo.email,
-              gender: res.data.user.personalInfo.gender,
-              mobile: res.data.user.personalInfo.mobile,
-              nationality: res.data.user.personalInfo.nationality,
-              category: res.data.user.personalInfo.category,
-              aadhar: res.data.user.personalInfo.aadhar,
-              dob: res.data.user.personalInfo.dob,
-              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled,
-              department: res.data.user.personalInfo.department,
-              address: res.data.user.personalInfo.address,
-            });
+            res.data.user.personalInfo &&
+              this.setState({
+                name: res.data.user.personalInfo.name
+                  ? res.data.user.personalInfo.name
+                  : "",
+                middleName: res.data.user.personalInfo.middleName
+                  ? res.data.user.personalInfo.middleName
+                  : "",
+                email: res.data.user.personalInfo.email
+                  ? res.data.user.personalInfo.email
+                  : "",
+                gender: res.data.user.personalInfo.gender
+                  ? res.data.user.personalInfo.gender
+                  : "",
+                mobile: res.data.user.personalInfo.mobile
+                  ? res.data.user.personalInfo.mobile
+                  : "",
+                nationality: res.data.user.personalInfo.nationality
+                  ? res.data.user.personalInfo.nationality
+                  : "",
+                category: res.data.user.personalInfo.category
+                  ? res.data.user.personalInfo.category
+                  : "",
+                aadhar: res.data.user.personalInfo.aadhar
+                  ? res.data.user.personalInfo.aadhar
+                  : "",
+                dob: res.data.user.personalInfo.dob
+                  ? res.data.user.personalInfo.dob
+                  : "",
+                physicallyDisabled: res.data.user.personalInfo
+                  .physicallyDisabled
+                  ? res.data.user.personalInfo.physicallyDisabled
+                  : "",
+                department: res.data.user.personalInfo.department
+                  ? res.data.user.personalInfo.department
+                  : "",
+                address: res.data.user.personalInfo.address
+                  ? res.data.user.personalInfo.address
+                  : "",
+                remarks: res.data.user.personalInfo.remarks
+                  ? res.data.user.personalInfo.remarks
+                  : "",
+                verification: res.data.user.personalInfo.verification
+                  ? res.data.user.personalInfo.verification
+                  : "",
+              });
+            this.setState({ editable: res.data.user.editable });
+            res.data.user.editable &&
+            (res.data.user.personalInfo.verification === "mod_req" ||
+              res.data.user.personalInfo.verification === "pending")
+              ? this.setState({ disabled: false })
+              : this.setState({ disabled: true });
           });
       } catch (error) {
         console.log(error.message);
@@ -255,7 +304,7 @@ export default class PersonalDetails extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="personal_container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
@@ -379,13 +428,41 @@ export default class PersonalDetails extends Component {
             )}
           </SweetAlert>
         </div>
+
+        {/* Remark and verification display    */}
+        <div className="remark_verify_container">
+          {/* Remark display  */}
+          <div className="remark_container">
+            <div style={{ fontWeight: "500" }}>Remark : </div>
+            <div style={{ marginLeft: "20px" }}>
+              {this.state.remarks.replace(/ /g, "") !== ""
+                ? this.state.remarks
+                : "No remarks mentioned yet"}
+            </div>
+          </div>
+          {/* Verification status display  */}
+          <div className="verify_container">
+            <div style={{ fontWeight: "500" }}>Verification Status: </div>
+            <div style={{ marginLeft: "20px" }}>
+              {" "}
+              {this.state.verification === "verified"
+                ? "Verified"
+                : this.state.verification === "mod_req"
+                ? "Modification Required"
+                : "Pending"}
+            </div>
+          </div>
+        </div>
+
+        {/* Personal Details complete form  */}
         <div className="formContainer">Personal Details</div>
         <div className={"Form"}>
-          <form onSubmit={this.onSubmit}>
+          <form onNext={this.onNext}>
             {/* 1. Name  */}
             <div className="formField">
               <Typography>Name</Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -406,6 +483,7 @@ export default class PersonalDetails extends Component {
             <div className="formField">
               <Typography>Father/Husband's Name</Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -432,6 +510,7 @@ export default class PersonalDetails extends Component {
                   <Typography>Gender</Typography>
                   <div className="radios">
                     <input
+                      disabled={this.state.disabled}
                       type="radio"
                       value="Male"
                       name="gender"
@@ -441,6 +520,7 @@ export default class PersonalDetails extends Component {
                     />
                     Male
                     <input
+                      disabled={this.state.disabled}
                       type="radio"
                       value="Female"
                       name="gender"
@@ -450,6 +530,7 @@ export default class PersonalDetails extends Component {
                     />{" "}
                     Female
                     <input
+                      disabled={this.state.disabled}
                       type="radio"
                       value="Other"
                       name="gender"
@@ -470,6 +551,7 @@ export default class PersonalDetails extends Component {
               <div className="formDob">
                 <Typography>DOB</Typography>
                 <DatePicker
+                  disabled={this.state.disabled}
                   onChange={(e) => this.onChangeDate(e)}
                   value={this.state.dob}
                   format={"dd-MM-y"}
@@ -493,6 +575,7 @@ export default class PersonalDetails extends Component {
               <div style={{ width: "100%" }}>
                 <Typography>Email</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -512,6 +595,7 @@ export default class PersonalDetails extends Component {
               <div className="formNumber">
                 <Typography>Mobile Number</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -539,6 +623,7 @@ export default class PersonalDetails extends Component {
               <div style={{ width: "100%" }}>
                 <Typography>Nationality</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -560,6 +645,7 @@ export default class PersonalDetails extends Component {
                   Category
                 </Typography>
                 <DropDown
+                  disabled={this.state.disabled}
                   options={dropdown_options}
                   value={this.state.category}
                   onChange={this.onChangeCategory}
@@ -580,6 +666,7 @@ export default class PersonalDetails extends Component {
                 Aadhar Card Number
               </Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -603,6 +690,7 @@ export default class PersonalDetails extends Component {
                 Permanent Address
               </Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -637,6 +725,7 @@ export default class PersonalDetails extends Component {
                   <Typography>Physically Disable</Typography>
                   <div style={{ marginTop: "4px" }}>
                     <input
+                      disabled={this.state.disabled}
                       type="radio"
                       value="Yes"
                       name="physicallyDisabled"
@@ -646,6 +735,7 @@ export default class PersonalDetails extends Component {
                     />
                     Yes
                     <input
+                      disabled={this.state.disabled}
                       type="radio"
                       value="No"
                       name="physicallyDisabled"
@@ -667,6 +757,7 @@ export default class PersonalDetails extends Component {
                   Application in which Department
                 </Typography>
                 <DropDown
+                  disabled={this.state.disabled}
                   options={department_options}
                   value={this.state.department}
                   onChange={this.onChangeDepartment}
@@ -688,7 +779,7 @@ export default class PersonalDetails extends Component {
                 color="primary"
                 size="large"
                 onClick={() => {
-                  this.onSubmit();
+                  this.onNext();
                 }}
               >
                 Next

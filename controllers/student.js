@@ -71,7 +71,7 @@ exports.lockProfile = (req, res) => {
     },
     (err, ans) => {
       if (err) return res.status(400).json({ err });
-      consol.log(ans);
+      console.log(ans);
       return { success: "true" };
     }
   );
@@ -198,9 +198,9 @@ const applyVerification = (newDocs, origDocs) => {
     return map;
   }, {});
   return origDocs.map((doc) => {
-    const newDoc = newMap[doc.filename];
-    if (newDoc) {
-      doc.verification = newDoc.verification;
+    const newStatus = newMap[doc.filename];
+    if (newStatus) {
+      doc.verification = newStatus;
     }
     return doc;
   });
@@ -249,6 +249,7 @@ exports.verifyStudentInfo = (req, res) => {
         req.body.documentsUploaded,
         user.documentsUploaded
       );
+      console.log(user.documentsUploaded);
       user
         .save()
         .then(() => res.json({ success: true }))

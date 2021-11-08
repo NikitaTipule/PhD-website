@@ -40,6 +40,12 @@
     cursor: pointer
 }
 
+.uploadIconDisabled{
+    margin-right: 40px;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
 .previewFile{
     display: flex;
     flex-direction: row;
@@ -47,6 +53,22 @@
 
 .previewIcon:hover{
     cursor: pointer
+}
+
+.docsError{
+    color: red;
+    font-size: 15px;
+}
+
+.docsPreviewFilename{
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.docsPreviewDiv{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
 }
 
 @media only screen and (max-width: 952px){

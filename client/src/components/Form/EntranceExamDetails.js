@@ -43,6 +43,12 @@ export default class EntranceExamDetails extends Component {
       petDetails: "",
       petYear: "",
 
+      remarks: "",
+      verification: "",
+
+      editable: "",
+      disabled: "",
+
       errorGateScore: false,
       errorGateDate: false,
       errorPetDetails: false,
@@ -92,44 +98,48 @@ export default class EntranceExamDetails extends Component {
       : this.setState({ errorOptionsSelected: false });
   };
 
-  onSubmit = async (event) => {
-    var l = this.state.optionsSelected.length;
-    for (var i = 0; i < l; i++) {
-      if (this.state.optionsSelected[i].id === 1) {
-        this.state.isInterestedCoepRPET = true;
+  onNext = async (event) => {
+    if (this.state.disabled) {
+      this.props.nextStep();
+    } else {
+      var l = this.state.optionsSelected.length;
+      for (var i = 0; i < l; i++) {
+        if (this.state.optionsSelected[i].id === 1) {
+          this.state.isInterestedCoepRPET = true;
+        }
+        if (this.state.optionsSelected[i].id === 2) {
+          this.state.givenGate = true;
+        }
+        if (this.state.optionsSelected[i].id === 3) {
+          this.state.isInterestedCoepEntrance = true;
+        }
+        if (this.state.optionsSelected[i].id === 4) {
+          this.state.givenPet = true;
+        }
       }
-      if (this.state.optionsSelected[i].id === 2) {
-        this.state.givenGate = true;
-      }
-      if (this.state.optionsSelected[i].id === 3) {
-        this.state.isInterestedCoepEntrance = true;
-      }
-      if (this.state.optionsSelected[i].id === 4) {
-        this.state.givenPet = true;
-      }
-    }
 
-    await this.validateData();
+      await this.validateData();
 
-    if (
-      this.state.errorGateScore === false &&
-      this.state.errorGateDate === false &&
-      this.state.errorPetDetails === false &&
-      this.state.errorPetYear === false &&
-      this.state.errorOptionsSelected === false
-    ) {
-      this.setState({ confirmAlert: !this.state.confirmAlert });
-      this.props.data.entranceDetails.isInterestedCoepRPET =
-        this.state.isInterestedCoepRPET;
-      this.props.data.entranceDetails.isInterestedCoepEntrance =
-        this.state.isInterestedCoepEntrance;
-      this.props.data.entranceDetails.givenPet = this.state.givenPet;
-      this.props.data.entranceDetails.givenGate = this.state.givenGate;
-      this.props.data.entranceDetails.Gate.score = this.state.gateScore;
-      this.props.data.entranceDetails.Gate.lastDateOfValidation =
-        this.state.gateDate;
-      this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
-      this.props.data.entranceDetails.sppuPet.year = this.state.petYear;
+      if (
+        this.state.errorGateScore === false &&
+        this.state.errorGateDate === false &&
+        this.state.errorPetDetails === false &&
+        this.state.errorPetYear === false &&
+        this.state.errorOptionsSelected === false
+      ) {
+        this.setState({ confirmAlert: !this.state.confirmAlert });
+        this.props.data.entranceDetails.isInterestedCoepRPET =
+          this.state.isInterestedCoepRPET;
+        this.props.data.entranceDetails.isInterestedCoepEntrance =
+          this.state.isInterestedCoepEntrance;
+        this.props.data.entranceDetails.givenPet = this.state.givenPet;
+        this.props.data.entranceDetails.givenGate = this.state.givenGate;
+        this.props.data.entranceDetails.Gate.score = this.state.gateScore;
+        this.props.data.entranceDetails.Gate.lastDateOfValidation =
+          this.state.gateDate;
+        this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
+        this.props.data.entranceDetails.sppuPet.year = this.state.petYear;
+      }
     }
   };
 
@@ -182,18 +192,54 @@ export default class EntranceExamDetails extends Component {
           .then((res) => {
             res.data.user.entranceDetails &&
               this.setState({
-                givenGate: res.data.user.entranceDetails.givenGate,
-                givenPet: res.data.user.entranceDetails.givenPet,
-                isInterestedCoepRPET:
-                  res.data.user.entranceDetails.isInterestedCoepRPET,
-                isInterestedCoepEntrance:
-                  res.data.user.entranceDetails.isInterestedCoepEntrance,
-                gateScore: res.data.user.entranceDetails.Gate.score,
-                gateDate:
-                  res.data.user.entranceDetails.Gate.lastDateOfValidation,
-                petDetails: res.data.user.entranceDetails.sppuPet.details,
-                petYear: res.data.user.entranceDetails.sppuPet.year,
+                givenGate: res.data.user.entranceDetails.givenGate
+                  ? res.data.user.entranceDetails.givenGate
+                  : "",
+                givenPet: res.data.user.entranceDetails.givenPet
+                  ? res.data.user.entranceDetails.givenPet
+                  : "",
+                isInterestedCoepRPET: res.data.user.entranceDetails
+                  .isInterestedCoepRPET
+                  ? res.data.user.entranceDetails.isInterestedCoepRPET
+                  : "",
+                isInterestedCoepEntrance: res.data.user.entranceDetails
+                  .isInterestedCoepEntrance
+                  ? res.data.user.entranceDetails.isInterestedCoepEntrance
+                  : "",
+                gateScore: res.data.user.entranceDetails.Gate
+                  ? res.data.user.entranceDetails.Gate.score
+                    ? res.data.user.entranceDetails.Gate.score
+                    : ""
+                  : "",
+                gateDate: res.data.user.entranceDetails.Gate
+                  ? res.data.user.entranceDetails.Gate.lastDateOfValidation
+                    ? res.data.user.entranceDetails.Gate.lastDateOfValidation
+                    : ""
+                  : "",
+                petDetails: res.data.user.entranceDetails.sppuPet
+                  ? res.data.user.entranceDetails.sppuPet.details
+                    ? res.data.user.entranceDetails.sppuPet.details
+                    : ""
+                  : "",
+                petYear: res.data.user.entranceDetails.sppuPet
+                  ? res.data.user.entranceDetails.sppuPet.year
+                    ? res.data.user.entranceDetails.sppuPet.year
+                    : ""
+                  : "",
+                remarks: res.data.user.entranceDetails.remarks
+                  ? res.data.user.entranceDetails.remarks
+                  : "",
+                verification: res.data.user.entranceDetails.verification
+                  ? res.data.user.entranceDetails.verification
+                  : "",
               });
+
+            this.setState({ editable: res.data.user.editable });
+            res.data.user.editable &&
+            (res.data.user.entranceDetails.verification === "mod_req" ||
+              res.data.user.entranceDetails.verification === "pending")
+              ? this.setState({ disabled: false })
+              : this.setState({ disabled: true });
 
             if (this.state.givenGate) {
               this.setState((previousState) => ({
@@ -252,7 +298,7 @@ export default class EntranceExamDetails extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="admission_container">
         {/**PopUp here */}
         <div>
           <SweetAlert
@@ -438,14 +484,40 @@ export default class EntranceExamDetails extends Component {
           </SweetAlert>
         </div>
 
+        {/* Remark and verification display    */}
+        <div className="remark_verify_container">
+          {/* Remark display  */}
+          <div className="remark_container">
+            <div style={{ fontWeight: "500" }}>Remark : </div>
+            <div style={{ marginLeft: "20px" }}>
+              {this.state.remarks.replace(/ /g, "") !== ""
+                ? this.state.remarks
+                : "No remarks mentioned yet"}
+            </div>
+          </div>
+          {/* Verification status display  */}
+          <div className="verify_container">
+            <div style={{ fontWeight: "500" }}>Verification Status: </div>
+            <div style={{ marginLeft: "20px" }}>
+              {" "}
+              {this.state.verification === "verified"
+                ? "Verified"
+                : this.state.verification === "mod_req"
+                ? "Modification Required"
+                : "Pending"}
+            </div>
+          </div>
+        </div>
+
         {/**Form Starts here */}
         <div>
           <div className="title">Entrance Exam Details</div>
           <div>
-            <form onSubmit={this.onSubmit}>
+            <form onNext={this.onNext}>
               <div style={{ marginTop: "30px" }}>
                 <Typography>Details Regarded Extrance Exams</Typography>
                 <Multiselect
+                  disable={this.state.disabled}
                   options={this.state.options}
                   onSelect={this.handleSelect}
                   placeholder="Details regarded extrance exams..."
@@ -485,6 +557,7 @@ export default class EntranceExamDetails extends Component {
                           <div style={{ marginTop: "3px" }}>
                             <Typography>GATE Score</Typography>
                             <TextField
+                              disabled={this.state.disabled}
                               className="mb-3"
                               variant="outlined"
                               label="Gate Score"
@@ -503,6 +576,7 @@ export default class EntranceExamDetails extends Component {
                           <div style={{ marginTop: "10px" }}>
                             <Typography>Date of Validation</Typography>
                             <DatePicker
+                              disabled={this.state.disabled}
                               onChange={(e) => this.onChangeDate(e)}
                               value={this.state.gateDate}
                               format={"dd-MM-y"}
@@ -537,6 +611,7 @@ export default class EntranceExamDetails extends Component {
                             <div style={{ marginTop: "3px" }}>
                               <Typography>Details</Typography>
                               <TextField
+                                disabled={this.state.disabled}
                                 className="mb-3"
                                 variant="outlined"
                                 label="SPPU PET Details"
@@ -556,6 +631,7 @@ export default class EntranceExamDetails extends Component {
                             <div style={{ marginTop: "8px" }}>
                               <Typography>Year</Typography>
                               <TextField
+                                disabled={this.state.disabled}
                                 className="mb-3"
                                 variant="outlined"
                                 label="Year"
@@ -602,7 +678,7 @@ export default class EntranceExamDetails extends Component {
                   color="primary"
                   size="large"
                   onClick={() => {
-                    this.onSubmit();
+                    this.onNext();
                   }}
                 >
                   Next

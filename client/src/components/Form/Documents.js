@@ -9,16 +9,18 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { docType } from "../../phdAdmDetails";
+import viewDoc from "../../pages/DocViewer";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default class Documents extends Component {
   constructor(props) {
     super(props);
     this.state = {
       general: [
-        { name: docType.photo, id: 1 },
-        { name: docType.sign, id: 2 },
-        { name: docType.ug, id: 3 },
-        { name: docType.pg, id: 4 },
+        { name: docType.photo, id: 1, error: false },
+        { name: docType.sign, id: 2, error: false },
+        { name: docType.ug, id: 3, error: false },
+        { name: docType.pg, id: 4, error: false },
       ],
       OBC: [
         { name: "Caste Certificate", id: 1 },
@@ -41,9 +43,14 @@ export default class Documents extends Component {
 
       documentsUploaded: [],
 
+      editable: "",
+      disabled: "",
+
       selectedFile: null,
 
       open: false,
+
+      errorPGMarksheet: false,
 
       token: localStorage.getItem("phd-website-jwt"),
     };
@@ -111,24 +118,42 @@ export default class Documents extends Component {
     this.props.prevStep();
   };
 
-  // Handle when clicked "Next"
-  onNext = (event) => {
-    const documentsUploaded = {
-      documentsUploaded: this.state.documentsUploaded,
-    };
-    console.log("before posting: ", documentsUploaded);
-    try {
-      axios
-        .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
-          headers: { "phd-website-jwt": this.state.token },
-        })
-        .then((res) => {
-          console.log("Documents Added");
-        });
-    } catch (err) {
-      console.log(err.res);
+  validate = (event) => {
+    if (this.state.generalData) {
+      this.state.general.map((doc, id) => {
+        var copy = [...this.state.general];
+        if (this.state.documentsUploaded.some((e) => e.type === doc.name)) {
+          copy[id].error = false;
+        } else {
+          copy[id].error = true;
+        }
+        this.setState({ general: copy });
+      });
     }
-    this.setState({ open: !this.state.open });
+  };
+
+  // Handle when clicked "Next"
+  onNext = async (event) => {
+    await this.validate();
+    if (!this.state.general.some((e) => e.error)) {
+      if (!this.state.disabled) {
+        const documentsUploaded = {
+          documentsUploaded: this.state.documentsUploaded,
+        };
+        try {
+          axios
+            .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
+              headers: { "phd-website-jwt": this.state.token },
+            })
+            .then((res) => {
+              console.log("Documents Added");
+            });
+        } catch (err) {
+          console.log(err.res);
+        }
+      }
+      this.setState({ open: !this.state.open });
+    }
   };
 
   async componentDidMount() {
@@ -142,24 +167,14 @@ export default class Documents extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            this.setState({
-              documentsUploaded: res.data.user.documentsUploaded,
-            });
-            // for (var i = 0; i < res.data.user.documentsUploaded.length; i++) {
-            //   const docUploaded = {
-            //     type: res.data.user.documentsUploaded[i].type,
-            //     filename: res.data.user.documentsUploaded[i].filename,
-            //     contentType: res.data.user.documentsUploaded[i].contentType,
-            //     originalName: res.data.user.documentsUploaded[i].originalName,
-            //     verification: res.data.user.documentsUploaded[i].verification,
-            //   };
-            //   this.setState((prevState) => ({
-            //     documentsUploaded: [
-            //       ...prevState.documentsUploaded,
-            //       docUploaded,
-            //     ],
-            //   }));
-            // }
+            res.data.user.documentsUploaded &&
+              this.setState({
+                documentsUploaded: res.data.user.documentsUploaded
+                  ? res.data.user.documentsUploaded
+                  : [],
+              });
+            this.setState({ editable: res.data.user.editable });
+            this.setState({ disabled: !this.state.editable });
           });
       } catch (error) {
         console.log(error.message);
@@ -233,11 +248,58 @@ export default class Documents extends Component {
                       <div>{str.name}</div>
                       <div>
                         <input
+                          disabled={this.state.disabled}
                           type="file"
                           name={str.name}
                           onChange={this.onFileChange}
                         />
+                        {str.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === str.name) {
+                            return (
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
+                                </div>
+                                <div
+                                  className="previewIcon"
+                                  onClick={() =>
+                                    viewDoc({
+                                      filename: doc.filename,
+                                      contentType: doc.contentType,
+                                      originalName: doc.originalName,
+                                    })
+                                  }
+                                >
+                                  <VisibilityIcon />
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
                       </div>
+                      {/* {this.state.documentsUploaded.map((doc, id) => {
+                        if (doc.type === str.name) {
+                          return (
+                            <div
+                              className="previewIcon"
+                              onClick={() =>
+                                viewDoc({
+                                  filename: doc.filename,
+                                  contentType: doc.contentType,
+                                  originalName: doc.originalName,
+                                })
+                              }
+                            >
+                              <VisibilityIcon />
+                            </div>
+                          );
+                        }
+                      })} */}
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
                   </>
@@ -253,6 +315,7 @@ export default class Documents extends Component {
                       <div>{str.name}</div>
                       <div>
                         <input
+                          disabled={this.state.disabled}
                           type="file"
                           name={str.name}
                           onChange={this.onFileChange}
@@ -273,6 +336,7 @@ export default class Documents extends Component {
                       <div>{str.name}</div>
                       <div>
                         <input
+                          disabled={this.state.disabled}
                           type="file"
                           name={str.name}
                           onChange={this.onChange}

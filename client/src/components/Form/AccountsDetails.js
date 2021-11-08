@@ -23,10 +23,19 @@ export default class AccountsDetails extends Component {
       bank: "",
       docUploaded: {},
 
+      remarks: "",
+      verification: "",
+
+      editable: "",
+      disabled: "",
+
+      try: "",
+
       errorAmount: false,
       errorUtrDuNumber: false,
       errorBank: false,
       errorDate: false,
+      errorDoc: false,
 
       open: false,
       confirmAlert: false,
@@ -89,6 +98,12 @@ export default class AccountsDetails extends Component {
     this.state.transactionTime === undefined
       ? this.setState({ errorDate: true })
       : this.setState({ errorDate: false });
+    this.state.docUploaded &&
+    Object.keys(this.state.docUploaded).length >= 3 &&
+    this.state.docUploaded.filename !== null &&
+    this.state.docUploaded.filename !== undefined
+      ? this.setState({ errorDoc: false })
+      : this.setState({ errorDoc: true });
   };
 
   // ON CLICK - "Next" button
@@ -98,7 +113,8 @@ export default class AccountsDetails extends Component {
       this.state.errorAmount === false &&
       this.state.errorUtrDuNumber === false &&
       this.state.errorBank === false &&
-      this.state.errorDate === false
+      this.state.errorDate === false &&
+      this.state.errorDoc === false
     ) {
       this.setState({ confirmAlert: !this.state.confirmAlert });
       this.props.data.feeDetails.utrDuNumber = this.state.utrDuNumber;
@@ -113,16 +129,31 @@ export default class AccountsDetails extends Component {
   onConfirm = async () => {
     await this.setState({ confirmAlert: !this.state.confirmAlert });
     this.setState({ open: !this.state.open });
-    const feeDetails = {
-      feeDetails: this.props.data.feeDetails,
-    };
+
+    if (!this.state.disabled) {
+      const feeDetails = {
+        feeDetails: this.props.data.feeDetails,
+      };
+      try {
+        axios
+          .post(BACKEND_URL + "/students/edit/fee", feeDetails, {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            console.log("Accounts Info Added");
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     try {
-      axios
-        .post(BACKEND_URL + "/students/edit/fee", feeDetails, {
+      await axios
+        .post(BACKEND_URL + "/students/lock", this.state.try, {
           headers: { "phd-website-jwt": this.state.token },
         })
         .then((res) => {
-          console.log("Accounts Info Added");
+          console.log("profile locked");
         });
     } catch (err) {
       console.log(err);
@@ -156,13 +187,37 @@ export default class AccountsDetails extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            this.setState({
-              utrDuNumber: res.data.user.feeDetails.utrDuNumber,
-              amount: res.data.user.feeDetails.amount,
-              transactionTime: res.data.user.feeDetails.transactionTime,
-              bank: res.data.user.feeDetails.bank,
-              docUploaded: res.data.user.feeDetails.docUploaded,
-            });
+            this.setState({ try: { editable: res.data.user.editable } });
+            res.data.user.feeDetails &&
+              this.setState({
+                utrDuNumber: res.data.user.feeDetails.utrDuNumber
+                  ? res.data.user.feeDetails.utrDuNumber
+                  : "",
+                amount: res.data.user.feeDetails.amount
+                  ? res.data.user.feeDetails.amount
+                  : "",
+                transactionTime: res.data.user.feeDetails.transactionTime
+                  ? res.data.user.feeDetails.transactionTime
+                  : "",
+                bank: res.data.user.feeDetails.bank
+                  ? res.data.user.feeDetails.bank
+                  : "",
+                docUploaded: res.data.user.feeDetails.docUploaded
+                  ? res.data.user.feeDetails.docUploaded
+                  : {},
+                remarks: res.data.user.feeDetails.remarks
+                  ? res.data.user.feeDetails.remarks
+                  : "",
+                verification: res.data.user.feeDetails.verification
+                  ? res.data.user.feeDetails.verification
+                  : "",
+              });
+            this.setState({ editable: res.data.user.editable });
+            res.data.user.editable &&
+            (res.data.user.feeDetails.verification === "mod_req" ||
+              res.data.user.feeDetails.verification === "pending")
+              ? this.setState({ disabled: false })
+              : this.setState({ disabled: true });
           });
       } catch (error) {
         console.log(error.message);
@@ -278,11 +333,38 @@ export default class AccountsDetails extends Component {
           </SweetAlert>
         </div>
 
+        {/* Remark and verification display    */}
+        <div className="remark_verify_container">
+          {/* Remark display  */}
+          <div className="remark_container">
+            <div style={{ fontWeight: "500" }}>Remark : </div>
+            <div style={{ marginLeft: "20px" }}>
+              {this.state.remarks.replace(/ /g, "") !== ""
+                ? this.state.remarks
+                : "No remarks mentioned yet"}
+            </div>
+          </div>
+          {/* Verification status display  */}
+          <div className="verify_container">
+            <div style={{ fontWeight: "500" }}>Verification Status: </div>
+            <div style={{ marginLeft: "20px" }}>
+              {" "}
+              {this.state.verification === "verified"
+                ? "Verified"
+                : this.state.verification === "mod_req"
+                ? "Modification Required"
+                : "Pending"}
+            </div>
+          </div>
+        </div>
+
+        {/* Payment Details complete form   */}
         <div className="paymentsContainer">Payment Details</div>
         {/* Amount    */}
         <div>
           <Typography>Amount</Typography>
           <TextField
+            disabled={this.state.disabled}
             className="mb-3"
             required
             fullWidth
@@ -304,6 +386,7 @@ export default class AccountsDetails extends Component {
         <div style={{ marginTop: "10px" }}>
           <Typography>UTR/DU Number</Typography>
           <TextField
+            disabled={this.state.disabled}
             className="mb-3"
             required
             fullWidth
@@ -325,6 +408,7 @@ export default class AccountsDetails extends Component {
         <div style={{ marginTop: "10px" }}>
           <Typography>Bank Name</Typography>
           <TextField
+            disabled={this.state.disabled}
             className="mb-3"
             required
             fullWidth
@@ -346,6 +430,7 @@ export default class AccountsDetails extends Component {
         <div style={{ marginTop: "10px" }}>
           <Typography>Date of Payment</Typography>
           <DatePicker
+            disabled={this.state.disabled}
             onChange={(e) => this.onChangeDate(e)}
             value={this.state.transactionTime}
             format={"dd-MM-y"}
@@ -365,12 +450,18 @@ export default class AccountsDetails extends Component {
           <Typography>Payment Receipt</Typography>
           <div className="chooseFile">
             <input
+              disabled={this.state.disabled}
               type="file"
               name="file"
               accept=".pdf"
               onChange={this.onFileChange}
             />
-            <div className="uploadIcon" onClick={this.onFileUpload}>
+            <div
+              className={
+                this.state.disabled ? "uploadIconDisabled" : "uploadIcon"
+              }
+              onClick={this.onFileUpload}
+            >
               <FileUploadIcon />
             </div>
             {/* Display if no file is uploaded    */}

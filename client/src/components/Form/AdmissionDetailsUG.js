@@ -22,6 +22,12 @@ export default class AdmissionDetailsUG extends Component {
       dateOfDeclaration: "",
       confirmAlert: false,
 
+      remarks: "",
+      verification: "",
+
+      editable: "",
+      disabled: "",
+
       errorUniversity: false,
       errorNomanclaure: false,
       errorSpecialization: false,
@@ -90,29 +96,32 @@ export default class AdmissionDetailsUG extends Component {
     this.props.prevStep();
   };
 
-  onSubmit = async (event) => {
-    await this.validateData();
-
-    if (
-      this.state.errorUniversity === false &&
-      this.state.errorNomanclaure === false &&
-      this.state.errorSpecialization === false &&
-      this.state.errorMarksObtained === false &&
-      this.state.errorTotalMarks === false &&
-      this.state.errorCGPA === false &&
-      this.state.errorPercentage === false &&
-      this.state.errorDod === false
-    ) {
-      this.setState({ confirmAlert: !this.state.confirmAlert });
-      this.props.data.academicsUG.institute = this.state.university;
-      this.props.data.academicsUG.degree = this.state.nomanclaure;
-      this.props.data.academicsUG.specialization = this.state.specialization;
-      this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
-      this.props.data.academicsUG.totalMarks = this.state.totalMarks;
-      this.props.data.academicsUG.cgpa10 = this.state.cgpa;
-      this.props.data.academicsUG.percentageMarks = this.state.percentage;
-      this.props.data.academicsUG.dateOfDeclaration =
-        this.state.dateOfDeclaration;
+  onNext = async (event) => {
+    if (this.state.disabled) {
+      this.props.nextStep();
+    } else {
+      await this.validateData();
+      if (
+        this.state.errorUniversity === false &&
+        this.state.errorNomanclaure === false &&
+        this.state.errorSpecialization === false &&
+        this.state.errorMarksObtained === false &&
+        this.state.errorTotalMarks === false &&
+        this.state.errorCGPA === false &&
+        this.state.errorPercentage === false &&
+        this.state.errorDod === false
+      ) {
+        this.setState({ confirmAlert: !this.state.confirmAlert });
+        this.props.data.academicsUG.institute = this.state.university;
+        this.props.data.academicsUG.degree = this.state.nomanclaure;
+        this.props.data.academicsUG.specialization = this.state.specialization;
+        this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
+        this.props.data.academicsUG.totalMarks = this.state.totalMarks;
+        this.props.data.academicsUG.cgpa10 = this.state.cgpa;
+        this.props.data.academicsUG.percentageMarks = this.state.percentage;
+        this.props.data.academicsUG.dateOfDeclaration =
+          this.state.dateOfDeclaration;
+      }
     }
   };
 
@@ -153,16 +162,45 @@ export default class AdmissionDetailsUG extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            this.setState({
-              university: res.data.user.academicsUG.institute,
-              nomanclaure: res.data.user.academicsUG.degree,
-              specialization: res.data.user.academicsUG.specialization,
-              marksObtained: res.data.user.academicsUG.totalAggregate,
-              totalMarks: res.data.user.academicsUG.totalMarks,
-              cgpa: res.data.user.academicsUG.cgpa10,
-              percentage: res.data.user.academicsUG.percentageMarks,
-              dateOfDeclaration: res.data.user.academicsUG.dateOfDeclaration,
-            });
+            res.data.user.academicsUG &&
+              this.setState({
+                university: res.data.user.academicsUG.institute
+                  ? res.data.user.academicsUG.institute
+                  : "",
+                nomanclaure: res.data.user.academicsUG.nomanclaure
+                  ? res.data.user.academicsUG.nomanclaure
+                  : "",
+                specialization: res.data.user.academicsUG.specialization
+                  ? res.data.user.academicsUG.specialization
+                  : "",
+                marksObtained: res.data.user.academicsUG.totalAggregate
+                  ? res.data.user.academicsUG.totalAggregate
+                  : "",
+                totalMarks: res.data.user.academicsUG.totalMarks
+                  ? res.data.user.academicsUG.totalMarks
+                  : "",
+                cgpa: res.data.user.academicsUG.cgpa10
+                  ? res.data.user.academicsUG.cgpa10
+                  : "",
+                percentage: res.data.user.academicsUG.percentageMarks
+                  ? res.data.user.academicsUG.percentageMarks
+                  : "",
+                dateOfDeclaration: res.data.user.academicsUG.dateOfDeclaration
+                  ? res.data.user.academicsUG.dateOfDeclaration
+                  : "",
+                remarks: res.data.user.academicsUG.remarks
+                  ? res.data.user.academicsUG.remarks
+                  : "",
+                verification: res.data.user.academicsUG.verification
+                  ? res.data.user.academicsUG.verification
+                  : "",
+              });
+            this.setState({ editable: res.data.user.editable });
+            res.data.user.editable &&
+            (res.data.user.academicsUG.verification === "mod_req" ||
+              res.data.user.academicsUG.verification === "pending")
+              ? this.setState({ disabled: false })
+              : this.setState({ disabled: true });
           });
       } catch (error) {
         console.log(error.message);
@@ -188,7 +226,7 @@ export default class AdmissionDetailsUG extends Component {
     });
 
     return (
-      <div className="container">
+      <div className="admission_container">
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
@@ -280,13 +318,41 @@ export default class AdmissionDetailsUG extends Component {
             )}
           </SweetAlert>
         </div>
+
+        {/* Remark and verification display    */}
+        <div className="remark_verify_container">
+          {/* Remark display  */}
+          <div className="remark_container">
+            <div style={{ fontWeight: "500" }}>Remark : </div>
+            <div style={{ marginLeft: "20px" }}>
+              {this.state.remarks.replace(/ /g, "") !== ""
+                ? this.state.remarks
+                : "No remarks mentioned yet"}
+            </div>
+          </div>
+          {/* Verification status display  */}
+          <div className="verify_container">
+            <div style={{ fontWeight: "500" }}>Verification Status: </div>
+            <div style={{ marginLeft: "20px" }}>
+              {" "}
+              {this.state.verification === "verified"
+                ? "Verified"
+                : this.state.verification === "mod_req"
+                ? "Modification Required"
+                : "Pending"}
+            </div>
+          </div>
+        </div>
+
+        {/* Academics UG Details complete form  */}
         <div className="title">Academic Details - UG</div>
         <div className={"Form"}>
-          <form onSubmit={this.onSubmit}>
+          <form onNext={this.onNext}>
             {/* 1. University/Institute of UG  */}
             <div style={{ marginBottom: "12px" }}>
               <Typography>University/Institute</Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -309,6 +375,7 @@ export default class AdmissionDetailsUG extends Component {
             <div style={{ marginBottom: "12px" }}>
               <Typography>Nomanclaure of Degree</Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -331,6 +398,7 @@ export default class AdmissionDetailsUG extends Component {
             <div style={{ marginBottom: "12px" }}>
               <Typography>Specialization Branch</Typography>
               <TextField
+                disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
@@ -355,6 +423,7 @@ export default class AdmissionDetailsUG extends Component {
               <div>
                 <Typography>Marks Obtained</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -374,6 +443,7 @@ export default class AdmissionDetailsUG extends Component {
               <div className="totalMarks">
                 <Typography>Total Marks</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -399,6 +469,7 @@ export default class AdmissionDetailsUG extends Component {
               <div>
                 <Typography>CGPA</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -418,6 +489,7 @@ export default class AdmissionDetailsUG extends Component {
               <div className="totalMarks">
                 <Typography>Percentage</Typography>
                 <TextField
+                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -439,6 +511,7 @@ export default class AdmissionDetailsUG extends Component {
             <div style={{ marginTop: "10px", marginBottom: "30px" }}>
               <Typography>Date of Declaration</Typography>
               <DatePicker
+                disabled={this.state.disabled}
                 onChange={(e) => this.onChangeDate(e)}
                 value={this.state.dateOfDeclaration}
                 format={"dd-MM-y"}
@@ -471,10 +544,10 @@ export default class AdmissionDetailsUG extends Component {
               </ThemeProvider>
               <Button
                 variant="contained"
-                color="success"
+                color="primary"
                 size="large"
                 onClick={() => {
-                  this.onSubmit();
+                  this.onNext();
                 }}
               >
                 Next

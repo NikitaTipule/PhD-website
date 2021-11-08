@@ -4,72 +4,10 @@ import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
 import Button from "@mui/material/Button";
 import "./DisplayData.css";
 import { TextField } from "@mui/material";
-import { Redirect } from "react-router";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import viewDoc from "./DocViewer";
-
-class VerificationComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      verify: "",
-    };
-  }
-
-  onChangeVerify = (event) => {};
-
-  render() {
-    return (
-      <div className="verify">
-        <div style={{ width: "100%" }}>
-          <div className="radios">
-            <div>
-              <input
-                type="radio"
-                value="pending"
-                name="verify"
-                checked={this.state.verify === "pending"}
-                onChange={this.onChangeGender}
-                checked={this.props.status === "pending"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />
-              pending
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="mod_req"
-                name="verify"
-                checked={this.state.verify === "mod_req"}
-                onChange={this.onChangeGender}
-                checked={this.props.status === "mod_req"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />{" "}
-              mod_req
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="verified"
-                name="verify"
-                checked={this.state.verify === "verified"}
-                onChange={this.onChangeGender}
-                checked={this.props.status === "verified"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />{" "}
-              verified
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
 
 class phdCordForm extends Component {
   constructor(props) {
@@ -104,7 +42,7 @@ class phdCordForm extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.location.state.details);
+    // console.log(this.props.location.state.details);
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
@@ -115,7 +53,7 @@ class phdCordForm extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             this.setState({
               personalInfo: res.data.user.personalInfo,
               personalInfoStatus: res.data.user.personalInfo.verification,
@@ -148,7 +86,8 @@ class phdCordForm extends Component {
     this.setState({
       remarks: this.state.remarks,
     });
-    console.log(this.state.remarks);
+    // console.log(this.state.remarks);
+
     this.setState({
       redirect: !this.state.redirect,
     });
@@ -165,6 +104,7 @@ class phdCordForm extends Component {
       documentsUploaded: this.state.documentsUploaded,
       remarks: this.state.remarks,
     };
+    // await console.log(data);
     axios
       .post(BACKEND_URL + "/students/verify/info", data, {
         headers: { "phd-website-jwt": this.state.token },
@@ -181,6 +121,7 @@ class phdCordForm extends Component {
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
   onChangeVerify = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -654,12 +595,12 @@ class phdCordForm extends Component {
           <div className="title">Documents Uploaded</div>
 
           <div style={{ alignItems: "left", textAlign: "left" }}>
-            {this.state.documentsUploaded.map((doc) => (
-              <div className="field">
+            {this.state.documentsUploaded.map((doc, id) => (
+              <div className="field" key={doc.id}>
                 <div className="documents">
                   <div className="docFieldName">{doc.type + "  :"}</div>
                   <div className="iconMobile">
-                    {/* <div>{doc.originalName}</div> */}
+                    {/* <div>{id}</div> */}
                     <div
                       className="previewIcon"
                       onClick={() =>
@@ -674,9 +615,64 @@ class phdCordForm extends Component {
                     </div>
                   </div>
                 </div>
+
+                {/* Verification of documents   */}
                 <div className="icon">
                   <div>
-                    <VerificationComponent />
+                    <div className="verify">
+                      <div style={{ width: "100%" }}>
+                        <div
+                          className="radios"
+                          onChange={(e) => this.onChangeVerify(e, id)}
+                        >
+                          <div>
+                            <input
+                              type="radio"
+                              value="pending"
+                              name={"verification" + id}
+                              defaultChecked={doc.verification === "pending"}
+                              onChange={() => {
+                                var copy = [...this.state.documentsUploaded];
+                                copy[id].verification = "pending";
+                                this.setState({ documentsUploaded: copy });
+                              }}
+                              className="radio"
+                            />
+                            Pending
+                          </div>
+                          <div>
+                            <input
+                              type="radio"
+                              value="mod_req"
+                              name={"verification" + id}
+                              defaultChecked={doc.verification === "mod_req"}
+                              onChange={() => {
+                                var copy = [...this.state.documentsUploaded];
+                                copy[id].verification = "mod_req";
+                                this.setState({ documentsUploaded: copy });
+                              }}
+                              className="radio"
+                            />{" "}
+                            Mod_req
+                          </div>
+                          <div>
+                            <input
+                              type="radio"
+                              value="verified"
+                              name={"verification" + id}
+                              defaultChecked={doc.verification === "verified"}
+                              onChange={() => {
+                                var copy = [...this.state.documentsUploaded];
+                                copy[id].verification = "verified";
+                                this.setState({ documentsUploaded: copy });
+                              }}
+                              className="radio"
+                            />{" "}
+                            Verified
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
