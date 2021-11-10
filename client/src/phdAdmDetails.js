@@ -38,6 +38,13 @@ export const docType = {
   sign: "Signature",
   ug: "UG Marksheet",
   pg: "PG Marksheet",
+
+  leaving_certificate: "Leaving Certificate with mention of Indian",
+  passport: "Passport Certificate",
+  birth: "Birth Certificate",
+  domicile: "Domicile Certificate of Maharashtra",
+
   c_certificate: "Caste Certificate",
   c_validity: "Caste Validity",
+  c_ncl: "Non-Creamy Layer Certificate"
 };

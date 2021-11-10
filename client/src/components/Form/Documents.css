@@ -20,6 +20,15 @@
     margin: 10px 10px 10px 10px;
 }
 
+.docVerify{
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 10px;
+    font-weight: 500;
+}
+
 .paymentsContainer{
     font-size: 28px;
     font-weight: 700;
