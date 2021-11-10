@@ -167,8 +167,8 @@ export default class AdmissionDetailsUG extends Component {
                 university: res.data.user.academicsUG.institute
                   ? res.data.user.academicsUG.institute
                   : "",
-                nomanclaure: res.data.user.academicsUG.nomanclaure
-                  ? res.data.user.academicsUG.nomanclaure
+                nomanclaure: res.data.user.academicsUG.degree
+                  ? res.data.user.academicsUG.degree
                   : "",
                 specialization: res.data.user.academicsUG.specialization
                   ? res.data.user.academicsUG.specialization
