@@ -53,6 +53,7 @@ class Admin extends Component {
                   headers: { "phd-website-jwt": this.state.token },
                 })
                 .then((response) => {
+                  console.log(response.data);
                   this.setState({
                     AllPhdcords: response.data,
                     length: response.data.length,

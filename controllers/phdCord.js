@@ -25,24 +25,26 @@ exports.getAllCords = async (req, res) => {
         $group: {
           _id: {
             department: "$personalInfo.department",
-            verification: "$verification",
+            infoVerified: "$infoVerified",
           },
           total: { $sum: 1 },
         },
       },
     ];
-
+    console.log(agg);
     const result = await Student.aggregate(agg);
     const vf = {};
     for (const curr of result) {
-      const { department, verification } = curr._id;
+      // console.log(curr);
+      const { department, infoVerified } = curr._id;
       if (!vf[department]) vf[department] = {};
-      vf[department][verification] = curr.total;
+      vf[department][infoVerified] = curr.total;
     }
     let cords = await PhdCord.find({}, "name department").lean().exec();
     for (let i = 0; i < cords.length; i++) {
       cords[i].status = vf[cords[i].department];
     }
+    // console.log(vf);
     return res.json(cords);
   } catch (error) {
     console.log(error);
