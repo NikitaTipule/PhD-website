@@ -164,12 +164,17 @@ exports.editStudentInfo = async (req, res) => {
 };
 
 exports.verifyFeeDetails = async (req, res) => {
+  console.log(req.userId);
+  console.log(req.userRole);
   if (req.userRole != "accountSec") {
     res
       .status(403)
       .json({ error: "only account section can update fee verification" });
   }
   const { studentId, verification, remarks } = req.body;
+  console.log(studentId);
+  console.log(verification);
+  console.log(remarks);
   if (!(studentId && verification)) {
     res
       .status(403)
@@ -213,12 +218,37 @@ const infoVerifiedStatus = (user) => {
     "academicsPG",
     "entranceDetails",
   ];
-  let flag = true;
-  for (let f of field_list) {
-    if (user[f].verification === "mod_req") return "mod_req";
-    if (user[f].verification === "pending") flag = false;
+
+  let dv=0, dp=0, dm=0, docVerification="pending";
+  user.documentsUploaded.map((doc)=>{
+    if(doc.verification==="mod_req"){
+      dm=dm+1;
+    }else if(doc.verification==="pending"){
+      dp=dp+1;
+    }else{
+      dv=dv+1;
+    }
+  })
+  if(dm>0){
+    docVerification="mod_req";
+  }else if(dp===0 && dm===0){
+    docVerification="verified"
   }
-  return flag ? "verified" : "pending";
+
+  let v=0, p=0, m=0;
+  for (let f of field_list) {
+    if(user[f].verification==="mod_req"){
+      m=m+1;
+    }else if(user[f].verification==="pending"){
+      p=p+1;
+    }else{
+      v=v+1;
+    }
+  }
+
+  if(p===0 && m===0 && docVerification==="verified") return "verified";
+  if(m>0 || docVerification==="mod_req") return "mod_req";
+  return "pending"
 };
 
 exports.verifyStudentInfo = (req, res) => {
@@ -244,12 +274,17 @@ exports.verifyStudentInfo = (req, res) => {
       user.remarks = req.body.remarks;
 
       user.infoVerified = infoVerifiedStatus(user);
-      if (user.infoVerified === "mod_req") user.editable = true;
+      
+      if (user.infoVerified === "mod_req"){
+        user.editable = true;
+      }else{
+        user.editable = false;
+      }
+
       user.documentsUploaded = applyVerification(
         req.body.documentsUploaded,
         user.documentsUploaded
       );
-      console.log(user.documentsUploaded);
       user
         .save()
         .then(() => res.json({ success: true }))

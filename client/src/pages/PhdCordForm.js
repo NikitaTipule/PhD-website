@@ -129,10 +129,12 @@ class phdCordForm extends Component {
   render() {
     if (this.state.redirect) {
       // return <Redirect to="/coordinator" />;
+      console.log(this.props.location.state.details);
+      console.log(this.props.location.state.cordId);
       this.props.history.push({
         pathname: "/coordinator",
         // search: `/${id}`,
-        state: { details: this.props.location.state.cordId },
+        // state: { details: this.props.location.state.details },
       });
     }
     return (
@@ -140,66 +142,65 @@ class phdCordForm extends Component {
         <NavBar />
         <div
           style={{
-            alignItems: "center",
-            textAlign: "left",
+            
             margin: "30px 10% 30px 10%",
           }}
         >
           {/* Personal Details  */}
           <div className="title">Personal Details</div>
-          <div style={{ alignItems: "left", textAlign: "left" }}>
-            <div className="field">
+          <div>
+            <div className="field1">
               <div className="fieldName">Name :</div>
               <div>{this.state.personalInfo.name}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Father/Husband's Name :</div>
               <div>{this.state.personalInfo.middleName}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Gender :</div>
               <div>{this.state.personalInfo.gender}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">DOB :</div>
               <div>{("" + this.state.personalInfo.dob).slice(0, 10)}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Email :</div>
               <div>{this.state.personalInfo.email}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Mobile No :</div>
               <div>{this.state.personalInfo.mobile}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Nationality :</div>
               <div>{this.state.personalInfo.nationality}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Category :</div>
               <div>{this.state.personalInfo.category}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Aadhar Card Number :</div>
               <div>{this.state.personalInfo.aadhar}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Permanent Address :</div>
               <div>{this.state.personalInfo.address}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Physically Disable :</div>
               <div>{this.state.personalInfo.physicallyDisabled}</div>
             </div>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Applying to department :</div>
               <div>{this.state.personalInfo.department}</div>
             </div>
 
             {/* Verify + Remarks start */}
             <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field">
+            <div className="field1">
               <div style={{ width: "55%" }}>
                 <TextField
                   onChange={this.handleChange}
@@ -271,42 +272,42 @@ class phdCordForm extends Component {
           {/* UG Details  */}
           <div className="title">UG Details</div>
           <div style={{ alignItems: "left", textAlign: "left" }}>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">University/Institute :</div>
               <div>{this.state.academicsUG.institute}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Nomanclaure of Degree :</div>
               <div>{this.state.academicsUG.degree}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Specialization :</div>
               <div>{this.state.academicsUG.specialization}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Marks Obtained :</div>
               <div>{this.state.academicsUG.totalAggregate}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Total Marks :</div>
               <div>{this.state.academicsUG.totalMarks}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">CGPA :</div>
               <div>{this.state.academicsUG.cgpa10}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Percentage :</div>
               <div>{this.state.academicsUG.percentageMarks}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Date of Declaration :</div>
               <div>
                 {("" + this.state.academicsUG.dateOfDeclaration).slice(0, 10)}
@@ -315,7 +316,7 @@ class phdCordForm extends Component {
 
             {/*Verify + Remark Start*/}
             <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field">
+            <div className="field1">
               <div style={{ width: "55%" }}>
                 <TextField
                   onChange={this.handleChange}
@@ -383,39 +384,39 @@ class phdCordForm extends Component {
           {/* PG Details    */}
           <div className="title">PG Details</div>
           <div style={{ alignItems: "left", textAlign: "left" }}>
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">University/Institute :</div>
               <div>{this.state.academicsPG.institute}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Nomanclaure of Degree :</div>
               <div>{this.state.academicsPG.degree}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Marks Obtained :</div>
               <div>{this.state.academicsPG.totalAggregate}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Total Marks :</div>
               <div>{this.state.academicsPG.totalMarks}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">CGPA :</div>
               <div>{this.state.academicsPG.cgpa10}</div>
             </div>
 
-            <div className="field">
+            <div className="field1">
               <div className="fieldName">Percentage :</div>
               <div>{this.state.academicsPG.percentageMarks}</div>
             </div>
 
             {/*Verify + Remark Start*/}
             <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field">
+            <div className="field1">
               <div style={{ width: "55%" }}>
                 <TextField
                   onChange={this.handleChange}
@@ -484,7 +485,7 @@ class phdCordForm extends Component {
           <div className="title"> Entrance Exam Details</div>
           <div style={{ alignItems: "left", textAlign: "left" }}>
             {this.state.entranceDetails.isInterestedCoepRPET && (
-              <div className="field">
+              <div className="field1">
                 <div className="fieldName">
                   Want to appear for COEP's Reasearch Program Eligibility Test
                   (RPET)
@@ -492,7 +493,7 @@ class phdCordForm extends Component {
               </div>
             )}
             {this.state.entranceDetails.givenGate && (
-              <div className="field">
+              <div className="field1">
                 <div className="fieldName">Gate</div>
                 <div>
                   <div>{this.state.entranceDetails.Gate.score}</div>
@@ -505,14 +506,14 @@ class phdCordForm extends Component {
               </div>
             )}
             {this.state.entranceDetails.isInterestedCoepEntrance && (
-              <div className="field">
+              <div className="field1">
                 <div className="fieldName">
                   Want to appear for COEP entrance exam
                 </div>
               </div>
             )}
             {this.state.entranceDetails.givenPet && (
-              <div className="field">
+              <div className="field1">
                 <div className="fieldName">SPPU ET 2021</div>
                 <div>
                   <div>{this.state.entranceDetails.sppuPet.details}</div>
@@ -523,7 +524,7 @@ class phdCordForm extends Component {
 
             {/*Verify + Remark Start*/}
             <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field">
+            <div className="field1">
               <div style={{ width: "55%" }}>
                 <TextField
                   onChange={this.handleChange}
@@ -596,7 +597,7 @@ class phdCordForm extends Component {
 
           <div style={{ alignItems: "left", textAlign: "left" }}>
             {this.state.documentsUploaded.map((doc, id) => (
-              <div className="field" key={doc.id}>
+              <div className="field1" key={doc.id}>
                 <div className="documents">
                   <div className="docFieldName">{doc.type + "  :"}</div>
                   <div className="iconMobile">
