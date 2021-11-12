@@ -20,7 +20,7 @@ import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
 import axios from "axios";
 import viewDoc from "./DocViewer";
 import { BACKEND_URL } from "../config";
-import Button2 from '@mui/material/Button';
+import Button2 from "@mui/material/Button";
 class VerificationComponent extends Component {
   onChangeVerify = (event) => {};
 
@@ -210,21 +210,23 @@ class AccountHome extends Component {
     //   row.feeDetails.verification:
     // })
   };
-  done=(e)=>{
+  done = (e) => {
     //console.log(e.target.value);
-    const data={
-      studentId: e.target.value[0], 
-      verification: e.target.value[1], 
-      remarks: e.target.value[2],
-    }
-    axios.post(BACKEND_URL + "/students/verify/fee", data, {
-      headers: { "phd-website-jwt": localStorage.getItem("phd-website-jwt"),"userRole": "accountSec"},
-    })
-    .then((response)=>{
-      console.log(response);
-    })
-    
-  }
+    console.log(e.target.value);
+    var val = e.target.value.split(",");
+    const data = {
+      studentId: val[0],
+      verification: val[1],
+      remarks: val[2],
+    };
+    axios
+      .post(BACKEND_URL + "/students/verify/fee", data, {
+        headers: { "phd-website-jwt": this.state.token },
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
 
   render() {
     const department_options = [
@@ -242,7 +244,7 @@ class AccountHome extends Component {
     let counterNotVerified = 0;
     let counterModification = 0;
     let count = 0;
-    let data={};
+    let data = {};
     if (this.state.department != "") {
       for (let i = 0; i < this.state.length; i++) {
         counterTotal++;
@@ -551,7 +553,7 @@ class AccountHome extends Component {
                                   )}
                                 </TableCell>
                                 <TableCell align="center">
-                                  {row.personalInfo._id}
+                                  {row.personalInfo.category}
                                 </TableCell>
                                 <TableCell align="center">
                                   {row.feeDetails.amount}
@@ -654,18 +656,27 @@ class AccountHome extends Component {
                                     {row.feeDetails.remarks}
                                   </textarea>
                                 </TableCell>
-                                <TableCell align="center" >
-                                {/* {
+                                <TableCell align="center">
+                                  {/* {
                                   data={
                                     id: row["_id"],
                                     verification: row.feeDetails.verification,
                                     remarks: row.feeDetails.remarks,
                                   }
                                 } */}
-                                <Button2 variant="contained" color="success" value={[row['_id'],row.feeDetails.verification,row.feeDetails.remarks]} onClick={this.done}>
-                                {/*  */}
-                                  Done
-                                </Button2>
+                                  <Button2
+                                    variant="contained"
+                                    color="success"
+                                    value={[
+                                      row["_id"],
+                                      row.feeDetails.verification,
+                                      row.feeDetails.remarks,
+                                    ]}
+                                    onClick={this.done}
+                                  >
+                                    {/*  */}
+                                    Done
+                                  </Button2>
                                 </TableCell>
                               </TableRow>
                             );
