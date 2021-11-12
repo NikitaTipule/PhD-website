@@ -21,53 +21,6 @@ import axios from "axios";
 import viewDoc from "./DocViewer";
 import { BACKEND_URL } from "../config";
 import Button2 from "@mui/material/Button";
-class VerificationComponent extends Component {
-  onChangeVerify = (event) => {};
-
-  render() {
-    return (
-      <div className="verify">
-        <div style={{ width: "100%" }}>
-          <div className="radios">
-            <div>
-              <input
-                type="radio"
-                value="Pending"
-                name="verify"
-                defaultChecked={this.props.status === "pending"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />
-              Pending
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="Modification-Required"
-                name="verify"
-                defaultChecked={this.props.status === "mod_req"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />{" "}
-              Modification-Required
-            </div>
-            <div>
-              <input
-                type="radio"
-                value="Verified"
-                name="verify"
-                defaultChecked={this.props.status === "verified"}
-                onChange={this.onChangeVerify}
-                className="radio"
-              />{" "}
-              Verified
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
 
 class AccountHome extends Component {
   constructor(props) {
@@ -599,7 +552,7 @@ class AccountHome extends Component {
                                                 type="radio"
                                                 value="pending"
                                                 name={"feeVerfication" + count}
-                                                defaultChecked={
+                                                checked={
                                                   row.feeDetails
                                                     .verification === "pending"
                                                 }
@@ -617,7 +570,7 @@ class AccountHome extends Component {
                                                 type="radio"
                                                 value="mod_req"
                                                 name={"feeVerfication" + count}
-                                                defaultChecked={
+                                                checked={
                                                   row.feeDetails
                                                     .verification === "mod_req"
                                                 }
@@ -635,7 +588,7 @@ class AccountHome extends Component {
                                                 type="radio"
                                                 value="verified"
                                                 name={"feeVerfication" + count}
-                                                defaultChecked={
+                                                checked={
                                                   row.feeDetails
                                                     .verification === "verified"
                                                 }
