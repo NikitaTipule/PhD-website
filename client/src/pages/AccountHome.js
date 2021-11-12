@@ -147,6 +147,10 @@ class AccountHome extends Component {
     });
   };
 
+  // handleChangeremark = (e) => {
+  //   rem = e.target.value;
+  // };
+
   onChangeDepartment = (event) => {
     // console.log(this.state.department)
     // console.log(this);
@@ -245,6 +249,8 @@ class AccountHome extends Component {
     let counterModification = 0;
     let count = 0;
     let data = {};
+    let vStatus = "verified";
+    let rem = "";
     if (this.state.department != "") {
       for (let i = 0; i < this.state.length; i++) {
         counterTotal++;
@@ -454,7 +460,7 @@ class AccountHome extends Component {
                 <Paper
                   sx={{
                     width: "100%",
-                    "@media screen and (min-width: 40em)": { width: "95%" },
+                    "@media screen and (min-width: 40em)": { width: "100%" },
                     overflow: "hidden",
                   }}
                 >
@@ -598,8 +604,9 @@ class AccountHome extends Component {
                                                     .verification === "pending"
                                                 }
                                                 onChange={() => {
-                                                  row.feeDetails.verification =
-                                                    "pending";
+                                                  // row.feeDetails.verification =
+                                                  //   "pending";
+                                                  vStatus = "pending";
                                                 }}
                                                 className="radio"
                                               />
@@ -615,8 +622,9 @@ class AccountHome extends Component {
                                                     .verification === "mod_req"
                                                 }
                                                 onChange={() => {
-                                                  row.feeDetails.verification =
-                                                    "mod_req";
+                                                  // row.feeDetails.verification =
+                                                  //   "mod_req";
+                                                  vStatus = "mod_req";
                                                 }}
                                                 className="radio"
                                               />{" "}
@@ -632,8 +640,9 @@ class AccountHome extends Component {
                                                     .verification === "verified"
                                                 }
                                                 onChange={() => {
-                                                  row.feeDetails.verification =
-                                                    "verified";
+                                                  // row.feeDetails.verification =
+                                                  //   "verified";
+                                                  vStatus = "verified";
                                                 }}
                                                 className="radio"
                                               />{" "}
@@ -651,7 +660,7 @@ class AccountHome extends Component {
                                   </textarea> */}
                                   <textarea
                                     type="text"
-                                    onChange={this.handleChange}
+                                    onChange={this.handleChangeremark}
                                   >
                                     {row.feeDetails.remarks}
                                   </textarea>
@@ -669,7 +678,7 @@ class AccountHome extends Component {
                                     color="success"
                                     value={[
                                       row["_id"],
-                                      row.feeDetails.verification,
+                                      vStatus,
                                       row.feeDetails.remarks,
                                     ]}
                                     onClick={this.done}
