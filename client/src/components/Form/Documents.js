@@ -20,37 +20,39 @@ export default class Documents extends Component {
         { name: docType.photo, id: 1, error: false },
         { name: docType.sign, id: 2, error: false },
         { name: docType.ug, id: 3, error: false },
-        { name: docType.pg, id: 4, error: false },
+        { name: docType.pg, id: 4, error: false }, 
       ],
-      OBC: [
-        { name: "Caste Certificate", id: 1 },
-        { name: "Caste Validity", id: 2 },
+      nationality:[
+        { name: docType.leaving_certificate, id: 1, error: false },
+        { name: docType.passport, id: 2, error: false },
+        { name: docType.birth, id: 3, error: false },
+        { name: docType.domicile, id: 4, error: false },
       ],
-      NT: [
-        { name: "Caste Certificate", id: 1 },
-        { name: "Caste Validity", id: 2 },
+      SC_ST: [
+        { name: docType.c_certificate, id: 1, error: false },
+        { name: docType.c_validity, id: 2, error: false },
       ],
-      ST: [
-        { name: "Caste Certificate", id: 1 },
-        { name: "Caste Validity", id: 2 },
+      OBC_NT_VJ: [
+        { name: docType.c_certificate, id: 1, error: false },
+        { name: docType.c_validity, id: 2, error: false },
+        { name: docType.c_ncl, id: 2, error: false },
       ],
-      gate: [{ name: "Gate/PET Score Card", id: 1 }],
 
+      category: "",
       generalData: true,
-      OBCData: false,
-      NTData: false,
-      STData: false,
+      nationalityData: true,
 
       documentsUploaded: [],
 
       editable: "",
       disabled: "",
 
+      verification: "pending",
+      remarks: "",
+
       selectedFile: null,
 
       open: false,
-
-      errorPGMarksheet: false,
 
       token: localStorage.getItem("phd-website-jwt"),
 
@@ -132,12 +134,45 @@ export default class Documents extends Component {
         this.setState({ general: copy });
       });
     }
+    if (this.state.nationalityData) {
+      this.state.nationality.map((doc, id) => {
+        var copy = [...this.state.nationality];
+        if (this.state.documentsUploaded.some((e) => e.type === doc.name)) {
+          copy[id].error = false;
+        } else {
+          copy[id].error = true;
+        }
+        this.setState({ nationality: copy });
+      });
+    }
+    if (this.state.category==="ST" || this.state.category==="SC") {
+      this.state.SC_ST.map((doc, id) => {
+        var copy = [...this.state.SC_ST];
+        if (this.state.documentsUploaded.some((e) => e.type === doc.name)) {
+          copy[id].error = false;
+        } else {
+          copy[id].error = true;
+        }
+        this.setState({ SC_ST: copy });
+      });
+    }
+    if (this.state.category==="OBC" || this.state.category==="NT" || this.state.category==="VJNT") {
+      this.state.OBC_NT_VJ.map((doc, id) => {
+        var copy = [...this.state.OBC_NT_VJ];
+        if (this.state.documentsUploaded.some((e) => e.type === doc.name)) {
+          copy[id].error = false;
+        } else {
+          copy[id].error = true;
+        }
+        this.setState({ OBC_NT_VJ: copy });
+      });
+    }
   };
 
   // Handle when clicked "Next"
   onNext = async (event) => {
     await this.validate();
-    if (!this.state.general.some((e) => e.error)) {
+    if (!this.state.general.some((e) => e.error) && !this.state.nationality.some((e)=>e.error) && !this.state.SC_ST.some((e)=>e.error) && !this.state.OBC_NT_VJ.some((e)=>e.error)) {
       if (!this.state.disabled) {
         const documentsUploaded = {
           documentsUploaded: this.state.documentsUploaded,
@@ -177,6 +212,22 @@ export default class Documents extends Component {
               });
             this.setState({ editable: res.data.user.editable });
             this.setState({ disabled: !this.state.editable });
+            this.setState({ category: res.data.user.personalInfo.category })
+            this.setState({ remarks: (res.data.user.documentsUploaded.remarks ? res.data.user.documentsUploaded.remarks : "")})
+            let m=0, p=0;
+            res.data.user.documentsUploaded.map((doc, id)=>{   
+              if(doc.verification==="mod_req"){
+                m=m+1;
+              }else if(doc.verification==="pending"){
+                p=p+1;
+              }
+              if(m>0){
+                this.setState({verification:"mod_req"})
+              }
+              if(m===0 && p===0){
+                this.setState({verification:"verified"})
+              }
+            })
           });
       } catch (error) {
         console.log(error.message);
@@ -247,6 +298,31 @@ export default class Documents extends Component {
           ></SweetAlert>
         </div>
 
+        {/* Remark and verification display    */}
+        <div className="remark_verify_container">
+          {/* Remark display  */}
+          <div className="remark_container">
+            <div style={{ fontWeight: "500" }}>Remark : </div>
+            <div style={{ marginLeft: "20px" }}>
+              {this.state.remarks.replace(/ /g, "") !== ""
+                ? this.state.remarks
+                : "No remarks mentioned yet"}
+            </div>
+          </div>
+          {/* Verification status display  */}
+          <div className="verify_container">
+            <div style={{ fontWeight: "500" }}>Verification Status: </div>
+            <div style={{ marginLeft: "20px" }}>
+              {" "}
+              {this.state.verification === "verified"
+                ? "Verified"
+                : this.state.verification === "mod_req"
+                ? "Modification Required"
+                : "Pending"}
+            </div>
+          </div>
+        </div>
+
         <div className="docTitle">Documents</div>
         {this.state.loading && <h2>PDF will load in few seconds...</h2>}
         <Table>
@@ -273,6 +349,7 @@ export default class Documents extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === str.name) {
                             return (
+                              <div>
                               <div className="docsPreviewDiv">
                                 <div className="docsPreviewFilename">
                                   {doc.originalName.slice(0, 10) + "...  "}
@@ -292,39 +369,27 @@ export default class Documents extends Component {
                                 >
                                   <VisibilityIcon />
                                 </div>
+                                
                               </div>
+                              <div>
+                                {doc.verification==="verified" && <div className="docVerify" style={{color:"green"}}>Verified</div>}
+                                {doc.verification==="mod_req" && <div className="docVerify" style={{color:"red"}}>Modification Required</div>}
+                              </div>
+                            </div>
                             );
                           }
                         })}
                       </div>
-                      {/* {this.state.documentsUploaded.map((doc, id) => {
-                        if (doc.type === str.name) {
-                          return (
-                            <div
-                              className="previewIcon"
-                              onClick={() =>
-                                viewDoc({
-                                  filename: doc.filename,
-                                  contentType: doc.contentType,
-                                  originalName: doc.originalName,
-                                })
-                              }
-                            >
-                              <VisibilityIcon />
-                            </div>
-                          );
-                        }
-                      })} */}
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
                   </>
                 ))}
               </div>
             )}
-            {/*________condition UG Details_____ */}
-            {this.props.data.gate && (
+            {/*________condition Nationality_______*/}
+            {this.state.nationality && (
               <div>
-                {this.state.gate.map((str) => (
+                {this.state.nationality.map((str) => (
                   <>
                     <div className="field">
                       <div>{str.name}</div>
@@ -335,17 +400,52 @@ export default class Documents extends Component {
                           name={str.name}
                           onChange={this.onFileChange}
                         />
+                        {str.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === str.name) {
+                            return (
+                              <div>
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
+                                </div>
+                                <div
+                                  className="previewIcon"
+                                  onClick={() =>
+                                    viewDoc({
+                                      filename: doc.filename,
+                                      contentType: doc.contentType,
+                                      originalName: doc.originalName,
+                                    })
+                                  }
+                                >
+                                  <VisibilityIcon />
+                                </div>
+                              </div>
+                              <div>
+                                {doc.verification==="verified" && <div className="docVerify" style={{color:"green"}}>Verified</div>}
+                                {doc.verification==="mod_req" && <div className="docVerify" style={{color:"red"}}>Modification Required</div>}
+                              </div>
+                              </div>
+                            );
+                          }
+                        })}
                       </div>
+                     
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
                   </>
                 ))}
               </div>
             )}
-            {/*________condition CASTE_____ */}
-            {this.props.data.category === "OBC" ? (
+            {/*________condition SC_ST____________*/}
+            {(this.state.category==="SC" || this.state.category==="ST") && (
               <div>
-                {this.state.caste.map((str) => (
+                {this.state.SC_ST.map((str) => (
                   <>
                     <div className="field">
                       <div>{str.name}</div>
@@ -354,16 +454,104 @@ export default class Documents extends Component {
                           disabled={this.state.disabled}
                           type="file"
                           name={str.name}
-                          onChange={this.onChange}
+                          onChange={this.onFileChange}
                         />
+                        {str.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === str.name) {
+                            return (
+                              <div>
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
+                                </div>
+                                <div
+                                  className="previewIcon"
+                                  onClick={() =>
+                                    viewDoc({
+                                      filename: doc.filename,
+                                      contentType: doc.contentType,
+                                      originalName: doc.originalName,
+                                    })
+                                  }
+                                >
+                                  <VisibilityIcon />
+                                </div>
+                              </div>
+                              <div>
+                              {doc.verification==="verified" && <div className="docVerify" style={{color:"green"}}>Verified</div>}
+                              {doc.verification==="mod_req" && <div className="docVerify" style={{color:"red"}}>Modification Required</div>}
+                            </div>
+                            </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </>
+                ))}
+              </div>
+            )}
+            {/*________condition OBC_NT_________*/}
+            {(this.state.category==='OBC' || this.state.category==="NT" || this.state.category==="VJNT") && (
+              <div>
+                {this.state.OBC_NT_VJ.map((str) => (
+                  <>
+                    <div className="field">
+                      <div>{str.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={str.name}
+                          onChange={this.onFileChange}
+                        />
+                        {str.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === str.name) {
+                            return (
+                              <div>
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
+                                </div>
+                                <div
+                                  className="previewIcon"
+                                  onClick={() =>
+                                    viewDoc({
+                                      filename: doc.filename,
+                                      contentType: doc.contentType,
+                                      originalName: doc.originalName,
+                                    })
+                                  }
+                                >
+                                  <VisibilityIcon />
+                                </div>
+                              </div>
+                              <div>
+                              {doc.verification==="verified" && <div className="docVerify" style={{color:"green"}}>Verified</div>}
+                              {doc.verification==="mod_req" && <div className="docVerify" style={{color:"red"}}>Modification Required</div>}
+                            </div>
+                            </div>
+                            );
+                          }
+                        })}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
                   </>
                 ))}
               </div>
-            ) : (
-              " "
             )}
           </TableBody>
         </Table>
