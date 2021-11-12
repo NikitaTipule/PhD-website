@@ -164,12 +164,17 @@ exports.editStudentInfo = async (req, res) => {
 };
 
 exports.verifyFeeDetails = async (req, res) => {
+  console.log(req.userId);
+  console.log(req.userRole);
   if (req.userRole != "accountSec") {
     res
       .status(403)
       .json({ error: "only account section can update fee verification" });
   }
   const { studentId, verification, remarks } = req.body;
+  console.log(studentId);
+  console.log(verification);
+  console.log(remarks);
   if (!(studentId && verification)) {
     res
       .status(403)
