@@ -53,6 +53,8 @@ export default class Documents extends Component {
       errorPGMarksheet: false,
 
       token: localStorage.getItem("phd-website-jwt"),
+
+      loading: false,
     };
   }
 
@@ -182,6 +184,15 @@ export default class Documents extends Component {
     }
   }
 
+  //loader
+
+  loader = () => {
+    this.setState({loading : true})
+    setTimeout(()=>{
+      this.setState({loading : false});
+    }, 2500)
+  } 
+
   render() {
     const theme = createTheme({
       palette: {
@@ -237,6 +248,7 @@ export default class Documents extends Component {
         </div>
 
         <div className="docTitle">Documents</div>
+        {this.state.loading && <h2>PDF will load in few seconds...</h2>}
         <Table>
           <TableBody>
             {/*________condition GENERAL_____ */}
@@ -268,11 +280,14 @@ export default class Documents extends Component {
                                 <div
                                   className="previewIcon"
                                   onClick={() =>
+                                    {
+                                    this.loader();
                                     viewDoc({
                                       filename: doc.filename,
                                       contentType: doc.contentType,
                                       originalName: doc.originalName,
-                                    })
+                                    });
+                                  }
                                   }
                                 >
                                   <VisibilityIcon />
