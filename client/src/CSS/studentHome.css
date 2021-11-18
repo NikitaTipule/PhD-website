@@ -52,6 +52,13 @@ li {
     flex-basis: 25%;
   }
 
+.container {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+	height: 100vh;
+	margin: auto;
+}
+
   @media all and (max-width: 767px) {
     .table-header {
       display: none;
@@ -75,4 +82,5 @@ li {
         text-align: right;
       }
     }
+
   }

@@ -1,0 +1,34 @@
+.Sidebar{
+	height: 100%;
+	width: 225px;
+	background-color: #056676;
+}
+
+.SidebarList{
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.SidebarList .row{
+  width: 100%;
+  height: 50px;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.row #icon{
+ flex: 30%;
+ display: grid;
+ place-items: center;
+}
+
+.row #title{
+ flex: 70%;
+}
+

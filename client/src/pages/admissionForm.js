@@ -7,6 +7,8 @@ import PersonalDetails from "../components/Form/PersonalDetails";
 import AccountsDetails from "../components/Form/AccountsDetails";
 import { Redirect } from "react-router-dom";
 import EntranceExamDetails from "../components/Form/EntranceExamDetails";
+import Sidebar from "../components/Sidebar";
+import "../CSS/admissionForm.css"
 
 export default class admissionForm extends Component {
   state = {
@@ -100,62 +102,80 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <PersonalDetails nextStep={this.nextStep} data={this.state.data} />
+            <div className='container'>
+              <Sidebar/>
+              <PersonalDetails nextStep={this.nextStep} data={this.state.data} />
+            </div>
           </div>
         );
       case 2:
         return (
           <div>
             <NavBar loggedin={true} />
-            <AdmissionDetailsUG
-              nextStep={this.nextStep}
-              data={this.state.data}
-              prevStep={this.prevStep}
-            />
+            <div className='container'>
+              <Sidebar/>
+              <AdmissionDetailsUG
+                nextStep={this.nextStep}
+                data={this.state.data}
+                prevStep={this.prevStep}
+              />
+            </div>
           </div>
         );
       case 3:
         return (
           <div>
             <NavBar loggedin={true} />
-            <AdmissionDetailsPG
-              nextStep={this.nextStep}
-              data={this.state.data}
-              prevStep={this.prevStep}
-            />
+            <div className='container'>
+              <Sidebar/>
+              <AdmissionDetailsPG
+                nextStep={this.nextStep}
+                data={this.state.data}
+                prevStep={this.prevStep}
+              />
+            </div>
           </div>
         );
       case 4:
         return (
           <div>
             <NavBar loggedin={true} />
-            <EntranceExamDetails
-              nextStep={this.nextStep}
-              data={this.state.data}
-              prevStep={this.prevStep}
-            />
+            <div className='container'>
+              <Sidebar/>
+              <EntranceExamDetails
+                nextStep={this.nextStep}
+                data={this.state.data}
+                prevStep={this.prevStep}
+              />
+            </div>
           </div>
         );
       case 5:
         return (
           <div>
             <NavBar loggedin={true} />
-            <Documents
-              nextStep={this.nextStep}
-              data={this.state.data}
-              prevStep={this.prevStep}
-            />
+            <div className='container'>
+              <Sidebar/>
+              <Documents
+                nextStep={this.nextStep}
+                data={this.state.data}
+                prevStep={this.prevStep}
+              />
+            </div>
           </div>
         );
       case 6:
         return (
           <div>
             <NavBar loggedin={true} />
+            <div className='container'>
+            <Sidebar/>
             <AccountsDetails
               nextStep={this.nextStep}
               data={this.state.data}
               prevStep={this.prevStep}
             />
+            </div>
           </div>
         );
       default:
