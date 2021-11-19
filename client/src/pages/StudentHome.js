@@ -77,7 +77,7 @@ class StudentHome extends Component {
                 <NavBar loggedin={true}/>
                 
                <div className='container'>
-                 <Sidebar/>
+                 <Sidebar user="Candidate"/>
                  <div>
                         <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                             <h1 className="textBetween">

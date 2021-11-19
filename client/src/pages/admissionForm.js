@@ -103,7 +103,7 @@ export default class admissionForm extends Component {
           <div>
             <NavBar loggedin={true} />
             <div className='container'>
-              <Sidebar/>
+              <Sidebar user="Candidate"/>
               <PersonalDetails nextStep={this.nextStep} data={this.state.data} />
             </div>
           </div>
@@ -113,7 +113,7 @@ export default class admissionForm extends Component {
           <div>
             <NavBar loggedin={true} />
             <div className='container'>
-              <Sidebar/>
+              <Sidebar user="Candidate"/>
               <AdmissionDetailsUG
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -127,7 +127,7 @@ export default class admissionForm extends Component {
           <div>
             <NavBar loggedin={true} />
             <div className='container'>
-              <Sidebar/>
+              <Sidebar user="Candidate"/>
               <AdmissionDetailsPG
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -141,7 +141,7 @@ export default class admissionForm extends Component {
           <div>
             <NavBar loggedin={true} />
             <div className='container'>
-              <Sidebar/>
+              <Sidebar user="Candidate"/>
               <EntranceExamDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -155,7 +155,7 @@ export default class admissionForm extends Component {
           <div>
             <NavBar loggedin={true} />
             <div className='container'>
-              <Sidebar/>
+              <Sidebar user="Candidate"/>
               <Documents
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -169,7 +169,7 @@ export default class admissionForm extends Component {
           <div>
             <NavBar loggedin={true} />
             <div className='container'>
-            <Sidebar/>
+            <Sidebar user="Candidate"/>
             <AccountsDetails
               nextStep={this.nextStep}
               data={this.state.data}
