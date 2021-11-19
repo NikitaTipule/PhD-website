@@ -8,6 +8,8 @@
   height: auto;
   padding: 0;
   width: 100%;
+  position: sticky;
+  top: 92px;
 }
 
 .SidebarList .row{

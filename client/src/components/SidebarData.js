@@ -5,6 +5,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export const SidebarData = [
  {
@@ -18,6 +19,12 @@ export const SidebarData = [
   user: "Candidate", 
   icon: <InfoIcon/>,
   link: "/candidate",
+ },
+ {
+  title: "Logout",
+  user: "Candidate",
+  icon: <LogoutIcon/>,
+  link: "/"
  },
  {
   title: "Add Coordinator",
@@ -44,6 +51,12 @@ export const SidebarData = [
   link: "/addcord/add-account-section",
  },
  {
+  title: "Logout",
+  user: "Admin",
+  icon: <LogoutIcon/>,
+  link: "/"
+ },
+ {
   title: "Home",
   user: "Coordinator",
   icon: <HomeIcon/>,
@@ -54,5 +67,11 @@ export const SidebarData = [
   user: "Coordinator",
   icon: <InfoIcon/>,
   link: "/coordinator"
+ },
+ {
+  title: "Logout",
+  user: "Coordinator",
+  icon: <LogoutIcon/>,
+  link: "/"
  }
 ]

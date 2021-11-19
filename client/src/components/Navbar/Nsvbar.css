@@ -26,6 +26,11 @@
   transform: scale(1);
 } */
 
+.NavbarItems{
+  position: sticky;
+  top: 0;
+}
+
 .ul-class {
   list-style-type: none;
   margin: 0;
