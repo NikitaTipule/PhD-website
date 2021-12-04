@@ -8,7 +8,7 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import viewDoc from "./DocViewer";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/Sidebar"
 export default class phdCordForm extends Component {
   constructor(props) {
     super(props);
@@ -1009,8 +1009,7 @@ export default class phdCordForm extends Component {
                     </div>
                     </>
                   );
-      }
   }
 }
-
+}
 

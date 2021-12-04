@@ -45,7 +45,11 @@
   padding-left: 120px;
 }
 
-
+.info{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media screen and (max-width: 550px) {
   .textBetween {

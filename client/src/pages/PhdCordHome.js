@@ -15,6 +15,7 @@ import "../CSS/coHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
+import InfoBox from "../components/InfoBox"
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -270,8 +271,22 @@ class PhdCordHome extends Component {
                   List of All Students
                 </h1>
                 </div> */}
+              <div className="info">
+                <div onClick={() => {this.handleclick1();}}>
+                  <InfoBox count={counterTotal} tag="Total Candidates"/>
+                </div >
+                <div onClick={() => {this.handleclick2();}}>
+                  <InfoBox count={counterVerified} tag="Verified"/>
+                </div>
+                <div onClick={() => {this.handleclick3();}}>
+                  <InfoBox count={counterNotVerified} tag="Not Verified"/>
+                </div>
+                <div onClick={() => {this.handleclick4();}}>
+                  <InfoBox count={counterModification} tag="Modification required"/>
+                </div>
+              </div>
 
-              <div>
+              {/* <div>
                 <div
                   style={{
                     display: "flex",
@@ -357,7 +372,7 @@ class PhdCordHome extends Component {
                     </TableContainer>
                   </Paper>
                 </div>
-              </div>
+              </div> */}
 
               <div
                 style={{
