@@ -8,13 +8,14 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import viewDoc from "./DocViewer";
-
-class phdCordForm extends Component {
+import Sidebar from "../components/Sidebar"
+export default class phdCordForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      step:1,
       personalInfo: "",
-      personalInfoStatus: "pending",
+      personalInfoStatus: "verified",
       personalInfoRemark: "",
 
       academicsUG: "",
@@ -75,12 +76,25 @@ class phdCordForm extends Component {
 
               remarks: res.data.user.remarks,
             });
+            console.log(this.state.documentsUploaded);
           });
       } catch (error) {
         console.log(error.response);
       }
     }
   }
+  nextStep = () => {
+    const { step } = this.state;
+    this.setState({
+      step: step + 1,
+    });
+  };
+  prevStep = () => {
+    const { step } = this.state;
+    this.setState({
+      step: step - 1,
+    });
+  };
 
   handleSubmit = async (event) => {
     this.setState({
@@ -111,6 +125,7 @@ class phdCordForm extends Component {
       })
       .then((res) => {
         console.log("verification details submitted");
+
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -137,577 +152,865 @@ class phdCordForm extends Component {
         // state: { details: this.props.location.state.details },
       });
     }
+    const { step } = this.state;
+
+    switch (step) {
+      case 1:
     return (
-      <>
-        <NavBar />
-        <div
-          style={{
-            
-            margin: "30px 10% 30px 10%",
-          }}
-        >
-          {/* Personal Details  */}
-          <div className="title">Personal Details</div>
-          <div>
-            <div className="field1">
-              <div className="fieldName">Name :</div>
-              <div>{this.state.personalInfo.name}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Father/Husband's Name :</div>
-              <div>{this.state.personalInfo.middleName}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Gender :</div>
-              <div>{this.state.personalInfo.gender}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">DOB :</div>
-              <div>{("" + this.state.personalInfo.dob).slice(0, 10)}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Email :</div>
-              <div>{this.state.personalInfo.email}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Mobile No :</div>
-              <div>{this.state.personalInfo.mobile}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Nationality :</div>
-              <div>{this.state.personalInfo.nationality}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Category :</div>
-              <div>{this.state.personalInfo.category}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Aadhar Card Number :</div>
-              <div>{this.state.personalInfo.aadhar}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Permanent Address :</div>
-              <div>{this.state.personalInfo.address}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Physically Disable :</div>
-              <div>{this.state.personalInfo.physicallyDisabled}</div>
-            </div>
-            <div className="field1">
-              <div className="fieldName">Applying to department :</div>
-              <div>{this.state.personalInfo.department}</div>
-            </div>
+                <>
+                  <NavBar loggedin={true} />
+                  <div className="container">
+                    <Sidebar user="Coordinator"/>
+                    <div>
 
-            {/* Verify + Remarks start */}
-            <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field1">
-              <div style={{ width: "55%" }}>
-                <TextField
-                  onChange={this.handleChange}
-                  value={this.state.personalInfoRemark}
-                  variant="outlined"
-                  multiline
-                  minRows={3}
-                  type="text"
-                  name="personalInfoRemark"
-                  label="Remark"
-                  fullWidth
-                ></TextField>
-              </div>
-              <div className="icon">
-                <div>
-                  <div className="verify">
-                    <div style={{ width: "100%" }}>
-                      <div className="radios">
-                        <div>
-                          <input
-                            type="radio"
-                            value="pending"
-                            name="personalInfoStatus"
-                            checked={
-                              this.state.personalInfoStatus === "pending"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />
-                          pending
+                    <div>
+                    <div>
+                    <div>
+                    </div>
+                    <div>
+                    <div class="container1">
+                      <table class="tb">
+                        <div className="type">
+                        <div class="h" style={{color:"white",width:"200%"}}>Personal Details</div>
                         </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="mod_req"
-                            name="personalInfoStatus"
-                            checked={
-                              this.state.personalInfoStatus === "mod_req"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          mod_req
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="verified"
-                            name="personalInfoStatus"
-                            checked={
-                              this.state.personalInfoStatus === "verified"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          verified
-                        </div>
+                        <tbody>
+                          <tr class="row1">
+                            <td class="first data">Name</td>
+                            <td class="data">{this.state.personalInfo.name}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">Father/Husband's Name</td>
+                            <td class="data">{this.state.personalInfo.middleName}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">Gender</td>
+                            <td class="data">{this.state.personalInfo.gender}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">DOB</td>
+                            <td class="data">{("" + this.state.personalInfo.dob).slice(0, 10)}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">Email</td>
+                            <td class="data">{this.state.personalInfo.email}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Mobile No</td>
+                            <td class="data">{this.state.personalInfo.mobile}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Nationality</td>
+                            <td class="data">{this.state.personalInfo.nationality}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Category</td>
+                            <td class="data">{this.state.personalInfo.category}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Aadhar Card Number</td>
+                            <td class="data">{this.state.personalInfo.aadhar}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Permanent Address</td>
+                            <td class="data">{this.state.personalInfo.address}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Physically Disable</td>
+                            <td class="data">{this.state.personalInfo.physicallyDisabled}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Applying to department</td>
+                            <td class="data">{this.state.personalInfo.department}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <br />
+                      
+                      <div className="title">Documents Uploaded</div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Verify + Remark end */}
-          </div>
-
-          <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
-
-          {/* UG Details  */}
-          <div className="title">UG Details</div>
-          <div style={{ alignItems: "left", textAlign: "left" }}>
-            <div className="field1">
-              <div className="fieldName">University/Institute :</div>
-              <div>{this.state.academicsUG.institute}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Nomanclaure of Degree :</div>
-              <div>{this.state.academicsUG.degree}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Specialization :</div>
-              <div>{this.state.academicsUG.specialization}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Marks Obtained :</div>
-              <div>{this.state.academicsUG.totalAggregate}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Total Marks :</div>
-              <div>{this.state.academicsUG.totalMarks}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">CGPA :</div>
-              <div>{this.state.academicsUG.cgpa10}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Percentage :</div>
-              <div>{this.state.academicsUG.percentageMarks}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Date of Declaration :</div>
-              <div>
-                {("" + this.state.academicsUG.dateOfDeclaration).slice(0, 10)}
-              </div>
-            </div>
-
-            {/*Verify + Remark Start*/}
-            <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field1">
-              <div style={{ width: "55%" }}>
-                <TextField
-                  onChange={this.handleChange}
-                  value={this.state.academicsUGRemark}
-                  variant="outlined"
-                  multiline
-                  minRows={3}
-                  type="text"
-                  name="academicsUGRemark"
-                  label="Remark"
-                  fullWidth
-                ></TextField>
-              </div>
-              <div className="icon">
-                <div>
-                  <div className="verify">
-                    <div style={{ width: "100%" }}>
-                      <div className="radios">
-                        <div>
-                          <input
-                            type="radio"
-                            value="pending"
-                            name="academicsUGStatus"
-                            checked={this.state.academicsUGStatus === "pending"}
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />
-                          pending
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="mod_req"
-                            name="academicsUGStatus"
-                            checked={this.state.academicsUGStatus === "mod_req"}
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          mod_req
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="verified"
-                            name="academicsUGStatus"
-                            checked={
-                              this.state.academicsUGStatus === "verified"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          verified
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Verify + Remark end */}
-          </div>
-
-          <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
-
-          {/* PG Details    */}
-          <div className="title">PG Details</div>
-          <div style={{ alignItems: "left", textAlign: "left" }}>
-            <div className="field1">
-              <div className="fieldName">University/Institute :</div>
-              <div>{this.state.academicsPG.institute}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Nomanclaure of Degree :</div>
-              <div>{this.state.academicsPG.degree}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Marks Obtained :</div>
-              <div>{this.state.academicsPG.totalAggregate}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Total Marks :</div>
-              <div>{this.state.academicsPG.totalMarks}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">CGPA :</div>
-              <div>{this.state.academicsPG.cgpa10}</div>
-            </div>
-
-            <div className="field1">
-              <div className="fieldName">Percentage :</div>
-              <div>{this.state.academicsPG.percentageMarks}</div>
-            </div>
-
-            {/*Verify + Remark Start*/}
-            <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field1">
-              <div style={{ width: "55%" }}>
-                <TextField
-                  onChange={this.handleChange}
-                  value={this.state.academicsPGRemark}
-                  variant="outlined"
-                  multiline
-                  minRows={3}
-                  type="text"
-                  name="academicsPGRemark"
-                  label="Remark"
-                  fullWidth
-                ></TextField>
-              </div>
-              <div className="icon">
-                <div>
-                  <div className="verify">
-                    <div style={{ width: "100%" }}>
-                      <div className="radios">
-                        <div>
-                          <input
-                            type="radio"
-                            value="pending"
-                            name="academicsPGStatus"
-                            checked={this.state.academicsPGStatus === "pending"}
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />
-                          pending
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="mod_req"
-                            name="academicsPGStatus"
-                            checked={this.state.academicsPGStatus === "mod_req"}
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          mod_req
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="verified"
-                            name="academicsPGStatus"
-                            checked={
-                              this.state.academicsPGStatus === "verified"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          verified
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Verify + Remark end */}
-          </div>
-
-          <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
-
-          {/*Entrance Exam details*/}
-          <div className="title"> Entrance Exam Details</div>
-          <div style={{ alignItems: "left", textAlign: "left" }}>
-            {this.state.entranceDetails.isInterestedCoepRPET && (
-              <div className="field1">
-                <div className="fieldName">
-                  Want to appear for COEP's Reasearch Program Eligibility Test
-                  (RPET)
-                </div>
-              </div>
-            )}
-            {this.state.entranceDetails.givenGate && (
-              <div className="field1">
-                <div className="fieldName">Gate</div>
-                <div>
-                  <div>{this.state.entranceDetails.Gate.score}</div>
-                  <div>
-                    {(
-                      "" + this.state.entranceDetails.Gate.lastDateOfValidation
-                    ).slice(0, 10)}
-                  </div>
-                </div>
-              </div>
-            )}
-            {this.state.entranceDetails.isInterestedCoepEntrance && (
-              <div className="field1">
-                <div className="fieldName">
-                  Want to appear for COEP entrance exam
-                </div>
-              </div>
-            )}
-            {this.state.entranceDetails.givenPet && (
-              <div className="field1">
-                <div className="fieldName">SPPU ET 2021</div>
-                <div>
-                  <div>{this.state.entranceDetails.sppuPet.details}</div>
-                  <div>{this.state.entranceDetails.sppuPet.year}</div>
-                </div>
-              </div>
-            )}
-
-            {/*Verify + Remark Start*/}
-            <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-            <div className="field1">
-              <div style={{ width: "55%" }}>
-                <TextField
-                  onChange={this.handleChange}
-                  value={this.state.entranceDetailsRemark}
-                  variant="outlined"
-                  multiline
-                  minRows={3}
-                  type="text"
-                  name="entranceDetailsRemark"
-                  label="Remark"
-                  fullWidth
-                ></TextField>
-              </div>
-              <div className="icon">
-                <div>
-                  <div className="verify">
-                    <div style={{ width: "100%" }}>
-                      <div className="radios">
-                        <div>
-                          <input
-                            type="radio"
-                            value="pending"
-                            name="entranceDetailsStatus"
-                            checked={
-                              this.state.entranceDetailsStatus === "pending"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />
-                          pending
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="mod_req"
-                            name="entranceDetailsStatus"
-                            checked={
-                              this.state.entranceDetailsStatus === "mod_req"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          mod_req
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            value="verified"
-                            name="entranceDetailsStatus"
-                            checked={
-                              this.state.entranceDetailsStatus === "verified"
-                            }
-                            onChange={this.onChangeVerify}
-                            className="radio"
-                          />{" "}
-                          verified
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Verify + Remark end */}
-          </div>
-
-          <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
-
-          <div className="title">Documents Uploaded</div>
-
-          <div style={{ alignItems: "left", textAlign: "left" }}>
-            {this.state.documentsUploaded.map((doc, id) => (
-              <div className="field1" key={doc.id}>
-                <div className="documents">
-                  <div className="docFieldName">{doc.type + "  :"}</div>
-                  <div className="iconMobile">
-                    {/* <div>{id}</div> */}
-                    <div
-                      className="previewIcon"
-                      onClick={() =>
-                        viewDoc({
-                          filename: doc.filename,
-                          contentType: doc.contentType,
-                          originalName: doc.originalName,
-                        })
-                      }
-                    >
-                      <ArrowCircleDown />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Verification of documents   */}
-                <div className="icon">
-                  <div>
-                    <div className="verify">
-                      <div style={{ width: "100%" }}>
-                        <div
-                          className="radios"
-                          onChange={(e) => this.onChangeVerify(e, id)}
-                        >
-                          <div>
-                            <input
-                              type="radio"
-                              value="pending"
-                              name={"verification" + id}
-                              defaultChecked={doc.verification === "pending"}
-                              onChange={() => {
-                                var copy = [...this.state.documentsUploaded];
-                                copy[id].verification = "pending";
-                                this.setState({ documentsUploaded: copy });
-                              }}
-                              className="radio"
-                            />
-                            Pending
+                      <div style={{justifyContent:"left"}}>
+                      {this.state.documentsUploaded.map((doc, id) => (
+                        <div key={doc.id}>
+                          {(doc.type==='Photo' || doc.type==='Signature' || doc.type==='Passport Certificate' || doc.type==='Birth Certificate' || doc.type==='Caste Certificate' || doc.type==='Caste Validity') && (
+                            <div className="field2">
+                            <div className="documents" key={doc.id}>
+                            <div className="docFieldName">{doc.type + "  :"}</div>
+                            <div className="iconMobile">
+                              {/* <div>{id}</div> */}
+                              <div
+                                className="previewIcon"
+                                onClick={() =>
+                                  viewDoc({
+                                    filename: doc.filename,
+                                    contentType: doc.contentType,
+                                    originalName: doc.originalName,
+                                  })
+                                }
+                              >
+                                <ArrowCircleDown />
+                              </div>
+                            </div>
+                            <div className="icon">
+                            <div>
+                              <div className="verify">
+                                <div style={{ width: "100%" }}>
+                                  <div
+                                    className="radios"
+                                    onChange={(e) => this.onChangeVerify(e, id)}
+                                  >
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="pending"
+                                        name={"verification" + id}
+                                        defaultChecked={doc.verification === "pending"}
+                                        onChange={() => {
+                                          var copy = [...this.state.documentsUploaded];
+                                          copy[id].verification = "pending";
+                                          this.setState({ documentsUploaded: copy });
+                                        }}
+                                        className="radio"
+                                      />
+                                      Pending
+                                    </div>
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="mod_req"
+                                        name={"verification" + id}
+                                        defaultChecked={doc.verification === "mod_req"}
+                                        onChange={() => {
+                                          var copy = [...this.state.documentsUploaded];
+                                          copy[id].verification = "mod_req";
+                                          this.setState({ documentsUploaded: copy });
+                                        }}
+                                        className="radio"
+                                      />{" "}
+                                      Mod_req
+                                    </div>
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="verified"
+                                        name={"verification" + id}
+                                        defaultChecked={doc.verification === "verified"}
+                                        onChange={() => {
+                                          var copy = [...this.state.documentsUploaded];
+                                          copy[id].verification = "verified";
+                                          this.setState({ documentsUploaded: copy });
+                                        }}
+                                        className="radio"
+                                      />{" "}
+                                      Verified
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <input
-                              type="radio"
-                              value="mod_req"
-                              name={"verification" + id}
-                              defaultChecked={doc.verification === "mod_req"}
-                              onChange={() => {
-                                var copy = [...this.state.documentsUploaded];
-                                copy[id].verification = "mod_req";
-                                this.setState({ documentsUploaded: copy });
-                              }}
-                              className="radio"
-                            />{" "}
-                            Mod_req
                           </div>
+                          </div>
+                          )}
+                        </div>
+                      ))}
+                      </div>
+                      <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
+                      <div className="field1">
+                        <div style={{ width: "55%" }}>
+                          <TextField
+                            onChange={this.handleChange}
+                            value={this.state.personalInfoRemark}
+                            variant="outlined"
+                            multiline
+                            minRows={3}
+                            type="text"
+                            name="personalInfoRemark"
+                            label="Remark"
+                            fullWidth
+                          ></TextField>
+                        </div>
+                      </div>
+                      <div className="icon">
                           <div>
-                            <input
-                              type="radio"
-                              value="verified"
-                              name={"verification" + id}
-                              defaultChecked={doc.verification === "verified"}
-                              onChange={() => {
-                                var copy = [...this.state.documentsUploaded];
-                                copy[id].verification = "verified";
-                                this.setState({ documentsUploaded: copy });
-                              }}
-                              className="radio"
-                            />{" "}
-                            Verified
+                            <div className="verify">
+                              <div style={{ width: "100%" }}>
+                                <div className="radios">
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="pending"
+                                      name="personalInfoStatus"
+                                      checked={
+                                        this.state.personalInfoStatus === "pending"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />
+                                    pending
+                                  </div>
+                                  
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="verified"
+                                      name="personalInfoStatus"
+                                      checked={
+                                        this.state.personalInfoStatus === "verified"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />{" "}
+                                    verified
+                                  </div>
+                                </div>
+                                <br />
+                                <div style={{alignContent:"center"}}>
+                                  <Button
+                                  variant="contained"
+                                  size="large"
+                                  style={{ alignSelf: "center" }}
+                                  
+                                  onClick={this.nextStep}
+                          
+                                  >
+                                  Save and next
+                                  </Button>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    </div>
+                    </div>
+                    <br />
+                  </div>
+                  </div>
+                  </div>
+                  </>
+              );
+              case 2:
+                return (
+                  <>
+                    <NavBar loggedin={true} />
+                  <div className="container">
+                    <Sidebar user="Coordinator"/>
+                    <div>
+                    <div>
+                    <div>
+                    <div>
+                    </div>
+                    <div>
+                    <div class="container1">
+                      <table class="tb">
+                        <div className="type">
+                        <div class="h" style={{color:"white",width:"200%"}}>UG Details</div>
+                        </div>
+                        <tbody>
+                          <tr class="row1">
+                            <td class="first data">University/Institute</td>
+                            <td class="data">{this.state.academicsUG.institute}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">Nomenclaure of Degree</td>
+                            <td class="data">{this.state.academicsUG.degree}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">Specialization</td>
+                            <td class="data">{this.state.academicsUG.specialization}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">Marks Obtained</td>
+                            <td class="data">{this.state.academicsUG.totalAggregate}</td>
+                            
+                          </tr>
+                          <tr class="row1">
+                            <td class="first data">Total Marks</td>
+                            <td class="data">{this.state.academicsUG.totalMarks}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">CGPA</td>
+                            <td class="data">{this.state.academicsUG.cgpa10}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Percentage</td>
+                            <td class="data">{this.state.academicsUG.percentageMarks}</td>
+                          </tr>
+                                <tr class="row1">
+                            <td class="first data">Date of Declaration</td>
+                            <td class="data">{("" + this.state.academicsUG.dateOfDeclaration).slice(0, 10)}</td>
+                          </tr>
+          
+                        </tbody>
+                      </table>
+                      <br />
+                      
+                      <div className="title">Documents Uploaded</div>
+                      </div>
+                      <div style={{justifyContent:"left"}}>
+                      {this.state.documentsUploaded.map((doc, id) => (
+                        <div key={doc.id}>
+                          {(doc.type==='UG Marksheet' || doc.type==='Leaving Certificate with mention of Indian') && (
+                            <div className="field2">
+                            <div className="documents" key={doc.id}>
+                            <div className="docFieldName">{doc.type + "  :"}</div>
+                            <div className="iconMobile">
+                              {/* <div>{id}</div> */}
+                              <div
+                                className="previewIcon"
+                                onClick={() =>
+                                  viewDoc({
+                                    filename: doc.filename,
+                                    contentType: doc.contentType,
+                                    originalName: doc.originalName,
+                                  })
+                                }
+                              >
+                                <ArrowCircleDown />
+                              </div>
+                            </div>
+                            <div className="icon">
+                            <div>
+                              <div className="verify">
+                                <div style={{ width: "100%" }}>
+                                  <div
+                                    className="radios"
+                                    onChange={(e) => this.onChangeVerify(e, id)}
+                                  >
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="pending"
+                                        name={"verification" + id}
+                                        defaultChecked={doc.verification === "pending"}
+                                        onChange={() => {
+                                          var copy = [...this.state.documentsUploaded];
+                                          copy[id].verification = "pending";
+                                          this.setState({ documentsUploaded: copy });
+                                        }}
+                                        className="radio"
+                                      />
+                                      Pending
+                                    </div>
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="mod_req"
+                                        name={"verification" + id}
+                                        defaultChecked={doc.verification === "mod_req"}
+                                        onChange={() => {
+                                          var copy = [...this.state.documentsUploaded];
+                                          copy[id].verification = "mod_req";
+                                          this.setState({ documentsUploaded: copy });
+                                        }}
+                                        className="radio"
+                                      />{" "}
+                                      Mod_req
+                                    </div>
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="verified"
+                                        name={"verification" + id}
+                                        defaultChecked={doc.verification === "verified"}
+                                        onChange={() => {
+                                          var copy = [...this.state.documentsUploaded];
+                                          copy[id].verification = "verified";
+                                          this.setState({ documentsUploaded: copy });
+                                        }}
+                                        className="radio"
+                                      />{" "}
+                                      Verified
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                          </div>
+                          )}
+                        </div>
+                      ))}
+                      </div>
+                      <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
+                      <div className="field1">
+                        <div style={{ width: "55%" }}>
+                          <TextField
+                            onChange={this.handleChange}
+                            value={this.state.personalInfoRemark}
+                            variant="outlined"
+                            multiline
+                            minRows={3}
+                            type="text"
+                            name="personalInfoRemark"
+                            label="Remark"
+                            fullWidth
+                          ></TextField>
+                        </div>
+                      </div>
+                      <div className="icon">
+                          <div>
+                            <div className="verify">
+                              <div style={{ width: "100%" }}>
+                                <div className="radios">
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="pending"
+                                      name="personalInfoStatus"
+                                      checked={
+                                        this.state.personalInfoStatus === "pending"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />
+                                    pending
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="mod_req"
+                                      name="entranceDetailsStatus"
+                                      checked={
+                                        this.state.entranceDetailsStatus === "mod_req"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />{" "}
+                                    mod_req
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="verified"
+                                      name="personalInfoStatus"
+                                      checked={
+                                        this.state.personalInfoStatus === "verified"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />{" "}
+                                    verified
+                                  </div>
+                                </div>
+                                <br />   
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+                        <div style={{alignContent:"center", marginLeft:'30%'}}>
+                                  <Button
+                                  variant="outlined"
+                                  size="large"
+                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px'}}
+                                  
+                                  onClick={this.nextStep}
+                          
+                                  >
+                                  Back
+                                  </Button>
+                        
+                                  <Button
+                                  variant="contained"
+                                  size="large"
+                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px' }}
+                                  
+                                  onClick={this.nextStep}
+                          
+                                  >
+                                  Save and next
+                                  </Button>
+                        </div>
+                    </div>
+                    <br />
+                  </div>
+                  </div>
+                  </div>
+                  </>
+                );
+                case 3:
+                  return (
+                    <>
+                      <NavBar loggedin={true} />
+                    <div className="container">
+                      <Sidebar user="Coordinator"/>
+                    <div>
+                    <div>
+                    <div>
+                    <div>
+                      </div>
+                      <div>
+                      <div class="container1">
+                        <table class="tb">
+                          <div className="type">
+                          <div class="h" style={{color:"white",width:"200%"}}>PG Details</div>
+                          </div>
+                          <tbody>
+                            <tr class="row1">
+                              <td class="first data">University/Institute</td>
+                              <td class="data">{this.state.academicsPG.institute}</td>
+                              
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Nomenclaure of Degree</td>
+                              <td class="data">{this.state.academicsPG.degree}</td>
+                              
+                            </tr>
+
+                            <tr class="row1">
+                              <td class="first data">Marks Obtained</td>
+                              <td class="data">{this.state.academicsPG.totalAggregate}</td>
+                              
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Total Marks</td>
+                              <td class="data">{this.state.academicsPG.totalMarks}</td>
+                            </tr>
+                                  <tr class="row1">
+                              <td class="first data">CGPA</td>
+                              <td class="data">{this.state.academicsPG.cgpa10}</td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Percentage</td>
+                              <td class="data">{this.state.academicsPG.percentageMarks}</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+                        <br />
+                        
+                        <div className="title">Documents Uploaded</div>
+                        </div>
+                        <div style={{justifyContent:"left"}}>
+                        {this.state.documentsUploaded.map((doc, id) => (
+                          <div key={doc.id}>
+                            {(doc.type==='PG Marksheet' || doc.type==='Domicile Certificate of Maharashtra') && (
+                              <div className="field2">
+                              <div className="documents" key={doc.id}>
+                              <div className="docFieldName">{doc.type + "  :"}</div>
+                              <div className="iconMobile">
+                                {/* <div>{id}</div> */}
+                                <div
+                                  className="previewIcon"
+                                  onClick={() =>
+                                    viewDoc({
+                                      filename: doc.filename,
+                                      contentType: doc.contentType,
+                                      originalName: doc.originalName,
+                                    })
+                                  }
+                                >
+                                  <ArrowCircleDown />
+                                </div>
+                              </div>
+                              <div className="icon">
+                              <div>
+                                <div className="verify">
+                                  <div style={{ width: "100%" }}>
+                                    <div
+                                      className="radios"
+                                      onChange={(e) => this.onChangeVerify(e, id)}
+                                    >
+                                      <div>
+                                        <input
+                                          type="radio"
+                                          value="pending"
+                                          name={"verification" + id}
+                                          defaultChecked={doc.verification === "pending"}
+                                          onChange={() => {
+                                            var copy = [...this.state.documentsUploaded];
+                                            copy[id].verification = "pending";
+                                            this.setState({ documentsUploaded: copy });
+                                          }}
+                                          className="radio"
+                                        />
+                                        Pending
+                                      </div>
+                                      <div>
+                                        <input
+                                          type="radio"
+                                          value="mod_req"
+                                          name={"verification" + id}
+                                          defaultChecked={doc.verification === "mod_req"}
+                                          onChange={() => {
+                                            var copy = [...this.state.documentsUploaded];
+                                            copy[id].verification = "mod_req";
+                                            this.setState({ documentsUploaded: copy });
+                                          }}
+                                          className="radio"
+                                        />{" "}
+                                        Mod_req
+                                      </div>
+                                      <div>
+                                        <input
+                                          type="radio"
+                                          value="verified"
+                                          name={"verification" + id}
+                                          defaultChecked={doc.verification === "verified"}
+                                          onChange={() => {
+                                            var copy = [...this.state.documentsUploaded];
+                                            copy[id].verification = "verified";
+                                            this.setState({ documentsUploaded: copy });
+                                          }}
+                                          className="radio"
+                                        />{" "}
+                                        Verified
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            </div>
+                            )}
+                          </div>
+                        ))}
+                        </div>
+                        {/* Verify + Remarks start */}
+                        <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
+                        <div className="field1">
+                          <div style={{ width: "55%" }}>
+                            <TextField
+                              onChange={this.handleChange}
+                              value={this.state.personalInfoRemark}
+                              variant="outlined"
+                              multiline
+                              minRows={3}
+                              type="text"
+                              name="personalInfoRemark"
+                              label="Remark"
+                              fullWidth
+                            ></TextField>
+                          </div>
+                        </div>
+                        <div className="icon">
+                          <div>
+                            <div className="verify">
+                              <div style={{ width: "100%" }}>
+                                <div className="radios">
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="pending"
+                                      name="personalInfoStatus"
+                                      checked={
+                                        this.state.personalInfoStatus === "pending"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />
+                                    pending
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="mod_req"
+                                      name="entranceDetailsStatus"
+                                      checked={
+                                        this.state.entranceDetailsStatus === "mod_req"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />{" "}
+                                    mod_req
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="verified"
+                                      name="personalInfoStatus"
+                                      checked={
+                                        this.state.personalInfoStatus === "verified"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />{" "}
+                                    verified
+                                  </div>
+                                </div>
+                                <br />                                                                
+                              </div>
+                            </div>   
+                          </div>
+                    </div>
+                  </div>
+                        <div style={{alignContent:"center", marginLeft:'30%'}}>
+                                  <Button
+                                  variant="outlined"
+                                  size="large"
+                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px'}}
+                                  
+                                  onClick={this.nextStep}
+                          
+                                  >
+                                  Back
+                                  </Button>
+                        
+                                  <Button
+                                  variant="contained"
+                                  size="large"
+                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px' }}
+                                  
+                                  onClick={this.nextStep}
+                          
+                                  >
+                                  Save and next
+                                  </Button>            
+                        </div>
+                    </div>
+                    <br />
+                  </div>
+                  </div>
+                  </div>
+                    </>
+                  );
+                  case 4:
+                    
+                  return (
+                    <>
+                      <NavBar loggedin={true} />
+                    <div className="container">
+                      <Sidebar user="Coordinator"/>
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      </div>
+                      <div>
+                      <div className="title"> Entrance Exam Details</div>
+                    <div style={{ alignItems: "left", textAlign: "left" }}>
+                      {this.state.entranceDetails.isInterestedCoepRPET && (
+                        <div className="field1">
+                          <div className="fieldName">
+                            Want to appear for COEP's Reasearch Program Eligibility Test
+                            (RPET)
+                          </div>
+                        </div>
+                      )}
+                      {this.state.entranceDetails.givenGate && (
+                        <div className="field1">
+                          <div className="fieldName">Gate</div>
+                          <div>
+                            <div>{this.state.entranceDetails.Gate.score}</div>
+                            <div>
+                              {(
+                                "" + this.state.entranceDetails.Gate.lastDateOfValidation
+                              ).slice(0, 10)}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      {this.state.entranceDetails.isInterestedCoepEntrance && (
+                        <div className="field1">
+                          <div className="fieldName">
+                            Want to appear for COEP entrance exam
+                          </div>
+                        </div>
+                      )}
+                      {this.state.entranceDetails.givenPet && (
+                        <div className="field1">
+                          <div className="fieldName">SPPU ET 2021</div>
+                          <div>
+                            <div>{this.state.entranceDetails.sppuPet.details}</div>
+                            <div>{this.state.entranceDetails.sppuPet.year}</div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/*Verify + Remark Start*/}
+                      <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
+                      <div className="field1">
+                        <div style={{ width: "55%" }}>
+                          <TextField
+                            onChange={this.handleChange}
+                            value={this.state.entranceDetailsRemark}
+                            variant="outlined"
+                            multiline
+                            minRows={3}
+                            type="text"
+                            name="entranceDetailsRemark"
+                            label="Remark"
+                            fullWidth
+                          ></TextField>
+                        </div>
+                        <div className="icon">
+                          <div>
+                            <div className="verify">
+                              <div style={{ width: "100%" }}>
+                                <div className="radios">
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="pending"
+                                      name="entranceDetailsStatus"
+                                      checked={
+                                        this.state.entranceDetailsStatus === "pending"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />
+                                    pending
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="mod_req"
+                                      name="entranceDetailsStatus"
+                                      checked={
+                                        this.state.entranceDetailsStatus === "mod_req"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />{" "}
+                                    mod_req
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      value="verified"
+                                      name="entranceDetailsStatus"
+                                      checked={
+                                        this.state.entranceDetailsStatus === "verified"
+                                      }
+                                      onChange={this.onChangeVerify}
+                                      className="radio"
+                                    />{" "}
+                                    verified
+                                  </div>
+                                </div>
+                                <br />
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    style={{ alignSelf: "center" }}
+                                    onClick={this.handleSubmit}
+                                  >
+                                  Done
+                                </Button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
+                    </div>                      
                     </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
-
-          <TextField
-            onChange={this.handleChange}
-            value={this.state.remarks}
-            variant="outlined"
-            multiline
-            minRows={3}
-            type="text"
-            name="remarks"
-            label="Remark"
-            fullWidth
-          />
-
-          <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
-
-          <Button
-            variant="contained"
-            size="large"
-            style={{ alignSelf: "center" }}
-            onClick={this.handleSubmit}
-          >
-            Done
-          </Button>
-        </div>
-      </>
-    );
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </>
+                  );
   }
+}
 }
 
 export default phdCordForm;

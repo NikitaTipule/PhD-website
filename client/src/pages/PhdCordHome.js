@@ -14,6 +14,8 @@ import Grid from "@mui/material/Grid";
 import "../CSS/coHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import Sidebar from "../components/Sidebar";
+import InfoBox from "../components/InfoBox"
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -207,274 +209,295 @@ class PhdCordHome extends Component {
     return (
       <>
         <NavBar loggedin={true} />
-        <div>
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <h1 className="textBetween">Co-Ordinator Information</h1>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="box">
-                <Grid container className="container-box">
-                  <Grid item xs={12} md={6} className="grid-item">
-                    <p style={{ fontSize: "20px" }}>
-                      <b style={{ fontWeight: 600 }}>Name : </b>
-                      {"   "}
-                      {this.state.name}
-                    </p>
-                  </Grid>
-                  <Grid item xs={12} md={6} className="grid-item">
-                    <p style={{ fontSize: "20px" }}>
-                      <b style={{ fontWeight: 600 }}>Email : </b>
-                      {"   "}
-                      {this.state.email}
-                    </p>
-                  </Grid>
-                  <Grid item xs={12} md={6} className="grid-item">
-                    <p style={{ fontSize: "20px" }}>
-                      <b style={{ fontWeight: 600 }}>Mis : </b>
-                      {"   "}
-                      {this.state.mis}
-                    </p>
-                  </Grid>
-                  <Grid item xs={12} md={6} className="grid-item">
-                    <p style={{ fontSize: "20px" }}>
-                      <b style={{ fontWeight: 600 }}>Department: </b>
-                      {"   "}
-                      {this.state.department}
-                    </p>
-                  </Grid>
-                </Grid>
-              </div>
-            </div>
-          </div>
-          {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>
-            <h1 className="textBetween">
-              List of All Students
-            </h1>
-            </div> */}
+        <div className="container">
 
+          <Sidebar user="Coordinator"/>
           <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "30px",
-                marginBottom: "50px",
-              }}
-            >
-              <Paper
-                sx={{
-                  width: "100%",
-                  "@media screen and (min-width: 40em)": { width: "80%" },
-                  overflow: "hidden",
+
+            <div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h1 className="textBetween">Co-Ordinator Information</h1>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="box">
+                    <Grid container className="container-box">
+                      <Grid item xs={12} md={6} className="grid-item">
+                        <p style={{ fontSize: "20px" }}>
+                          <b style={{ fontWeight: 600 }}>Name : </b>
+                          {"   "}
+                          {this.state.name}
+                        </p>
+                      </Grid>
+                      <Grid item xs={12} md={6} className="grid-item">
+                        <p style={{ fontSize: "20px" }}>
+                          <b style={{ fontWeight: 600 }}>Email : </b>
+                          {"   "}
+                          {this.state.email}
+                        </p>
+                      </Grid>
+                      <Grid item xs={12} md={6} className="grid-item">
+                        <p style={{ fontSize: "20px" }}>
+                          <b style={{ fontWeight: 600 }}>Mis : </b>
+                          {"   "}
+                          {this.state.mis}
+                        </p>
+                      </Grid>
+                      <Grid item xs={12} md={6} className="grid-item">
+                        <p style={{ fontSize: "20px" }}>
+                          <b style={{ fontWeight: 600 }}>Department: </b>
+                          {"   "}
+                          {this.state.department}
+                        </p>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </div>
+              </div>
+              {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>
+                <h1 className="textBetween">
+                  List of All Students
+                </h1>
+                </div> */}
+              <div className="info">
+                <div onClick={() => {this.handleclick1();}}>
+                  <InfoBox count={counterTotal} tag="Total Candidates"/>
+                </div >
+                <div onClick={() => {this.handleclick2();}}>
+                  <InfoBox count={counterVerified} tag="Verified"/>
+                </div>
+                <div onClick={() => {this.handleclick3();}}>
+                  <InfoBox count={counterNotVerified} tag="Not Verified"/>
+                </div>
+                <div onClick={() => {this.handleclick4();}}>
+                  <InfoBox count={counterModification} tag="Modification required"/>
+                </div>
+              </div>
+
+              {/* <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "30px",
+                    marginBottom: "50px",
+                  }}
+                >
+                  <Paper
+                    sx={{
+                      width: "100%",
+                      "@media screen and (min-width: 40em)": { width: "80%" },
+                      overflow: "hidden",
+                    }}
+                  >
+                    <TableContainer sx={{ maxHeight: 500 }}>
+                      <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                          <TableRow>
+                            {this.upperColumns.map((column) => (
+                              <TableCell
+                                key={column.id}
+                                align="center"
+                                style={{
+                                  minWidth: column.minWidth,
+                                  backgroundColor: "ButtonHighlight",
+                                  color: "black",
+                                  border: "1px",
+                                }}
+                              >
+                                {column.label}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow hover role="checkbox" tabIndex={-1}>
+                            <TableCell
+                              align="center"
+                              value="Not Verified"
+                              onClick={() => {
+                                this.handleclick1();
+                              }}
+                              className="tablecell"
+                            >
+                              {counterTotal}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              value="Verified"
+                              onClick={() => {
+                                this.handleclick2();
+                              }}
+                              className="tablecell"
+                              // style ={{border: "2px"}}
+                            >
+                              {counterVerified}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              value="Not Verified"
+                              onClick={() => {
+                                this.handleclick3();
+                              }}
+                              className="tablecell"
+                            >
+                              {counterNotVerified}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              value="Modification needed"
+                              onClick={() => {
+                                this.handleclick4();
+                              }}
+                              className="tablecell"
+                            >
+                              {counterModification}
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Paper>
+                </div>
+              </div> */}
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "30px",
+                  marginBottom: "50px",
                 }}
               >
-                <TableContainer sx={{ maxHeight: 500 }}>
-                  <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                      <TableRow>
-                        {this.upperColumns.map((column) => (
-                          <TableCell
-                            key={column.id}
-                            align="center"
-                            style={{
-                              minWidth: column.minWidth,
-                              backgroundColor: "ButtonHighlight",
-                              color: "black",
-                              border: "1px",
-                            }}
-                          >
-                            {column.label}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow hover role="checkbox" tabIndex={-1}>
-                        <TableCell
-                          align="center"
-                          value="Not Verified"
-                          onClick={() => {
-                            this.handleclick1();
-                          }}
-                          className="tablecell"
-                        >
-                          {counterTotal}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          value="Verified"
-                          onClick={() => {
-                            this.handleclick2();
-                          }}
-                          className="tablecell"
-                          // style ={{border: "2px"}}
-                        >
-                          {counterVerified}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          value="Not Verified"
-                          onClick={() => {
-                            this.handleclick3();
-                          }}
-                          className="tablecell"
-                        >
-                          {counterNotVerified}
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          value="Modification needed"
-                          onClick={() => {
-                            this.handleclick4();
-                          }}
-                          className="tablecell"
-                        >
-                          {counterModification}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Paper>
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "30px",
-              marginBottom: "50px",
-            }}
-          >
-            <Paper
-              sx={{
-                width: "100%",
-                "@media screen and (min-width: 40em)": { width: "80%" },
-                overflow: "hidden",
-              }}
-            >
-              <TableContainer sx={{ maxHeight: 500 }}>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      {this.columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align="center"
-                          style={{
-                            minWidth: column.minWidth,
-                            backgroundColor: "ButtonHighlight",
-                            color: "black",
-                          }}
-                        >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.state.studentData
-                      .filter(
-                        (student) =>
-                          student.infoVerified === this.state.tableData
-                      )
-                      .slice(
-                        this.state.page * this.state.rowsPerPage,
-                        this.state.page * this.state.rowsPerPage +
-                          this.state.rowsPerPage
-                      )
-                      .map((row) => {
-                        return (
-                          <TableRow
-                            hover
-                            role="checkbox"
-                            tabIndex={-1}
-                            key={row.code}
-                            value={row.name}
-                            onClick={() => {
-                              this.oncellClick(row._id);
-                            }}
-                          >
-                            {this.columns.map((column) => {
-                              const value = row[column.id];
-                              return (
-                                <TableCell key={column.id} align="center">
-                                  {column.id === "infoVerified" ? (
-                                    <div>
-                                      {column.id === "infoVerified" &&
-                                      value === "verified" ? (
-                                        <div style={{ color: "green" }}>
-                                          {value}
-                                        </div>
-                                      ) : (
+                <Paper
+                  sx={{
+                    width: "100%",
+                    "@media screen and (min-width: 40em)": { width: "80%" },
+                    overflow: "hidden",
+                  }}
+                >
+                  <TableContainer sx={{ maxHeight: 500 }}>
+                    <Table stickyHeader aria-label="sticky table">
+                      <TableHead>
+                        <TableRow>
+                          {this.columns.map((column) => (
+                            <TableCell
+                              key={column.id}
+                              align="center"
+                              style={{
+                                minWidth: column.minWidth,
+                                backgroundColor: "ButtonHighlight",
+                                color: "black",
+                              }}
+                            >
+                              {column.label}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.state.studentData
+                          .filter(
+                            (student) =>
+                              student.infoVerified === this.state.tableData
+                          )
+                          .slice(
+                            this.state.page * this.state.rowsPerPage,
+                            this.state.page * this.state.rowsPerPage +
+                              this.state.rowsPerPage
+                          )
+                          .map((row) => {
+                            return (
+                              <TableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={row.code}
+                                value={row.name}
+                                onClick={() => {
+                                  this.oncellClick(row._id);
+                                }}
+                              >
+                                {this.columns.map((column) => {
+                                  const value = row[column.id];
+                                  return (
+                                    <TableCell key={column.id} align="center">
+                                      {column.id === "infoVerified" ? (
                                         <div>
                                           {column.id === "infoVerified" &&
-                                          value === "pending" ? (
-                                            <div style={{ color: "red" }}>
+                                          value === "verified" ? (
+                                            <div style={{ color: "green" }}>
                                               {value}
                                             </div>
                                           ) : (
-                                            <div style={{ color: "blue" }}>
-                                              Modification Required
+                                            <div>
+                                              {column.id === "infoVerified" &&
+                                              value === "pending" ? (
+                                                <div style={{ color: "red" }}>
+                                                  {value}
+                                                </div>
+                                              ) : (
+                                                <div style={{ color: "blue" }}>
+                                                  Modification Required
+                                                </div>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      ) : (
+                                        <div>
+                                          {column.id === "id" ? (
+                                            <div>{++count}</div>
+                                          ) : (
+                                            <div>
+                                              <Link
+                                                to={{ pathname: "/coform" }}
+                                                style={{
+                                                  textDecoration: "none",
+                                                  color: "black",
+                                                }}
+                                              >
+                                                {value}
+                                              </Link>
                                             </div>
                                           )}
                                         </div>
                                       )}
-                                    </div>
-                                  ) : (
-                                    <div>
-                                      {column.id === "id" ? (
-                                        <div>{++count}</div>
-                                      ) : (
-                                        <div>
-                                          <Link
-                                            to={{ pathname: "/coform" }}
-                                            style={{
-                                              textDecoration: "none",
-                                              color: "black",
-                                            }}
-                                          >
-                                            {value}
-                                          </Link>
-                                        </div>
-                                      )}
-                                    </div>
-                                  )}
-                                </TableCell>
-                              );
-                            })}
-                          </TableRow>
-                        );
-                      })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={this.state.length}
-                rowsPerPage={this.state.rowsPerPage}
-                page={this.state.page}
-                onPageChange={this.handleChangePage}
-                onRowsPerPageChange={this.handleChangeRowsPerPage}
-              />
-            </Paper>
+                                    </TableCell>
+                                  );
+                                })}
+                              </TableRow>
+                            );
+                          })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={this.state.length}
+                    rowsPerPage={this.state.rowsPerPage}
+                    page={this.state.page}
+                    onPageChange={this.handleChangePage}
+                    onRowsPerPageChange={this.handleChangeRowsPerPage}
+                  />
+                </Paper>
+              </div>
+            </div>
           </div>
         </div>
       </>

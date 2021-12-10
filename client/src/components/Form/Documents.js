@@ -5,6 +5,9 @@ import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./Documents.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ReactNotification from 'react-notifications-component'
+import {store} from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
@@ -238,10 +241,22 @@ export default class Documents extends Component {
   //loader
 
   loader = () => {
-    this.setState({loading : true})
-    setTimeout(()=>{
-      this.setState({loading : false});
-    }, 2500)
+    // this.setState({loading : true})
+    // setTimeout(()=>{
+    //   this.setState({loading : false});
+    // }, 2500)
+    store.addNotification({
+      title: "Wait!",
+      message: "PDF will load in few seconds",
+      type: "info",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      insert: "top",
+      dismiss: {
+        duration: 2500,
+      }
+    })
   } 
 
   render() {
@@ -259,8 +274,11 @@ export default class Documents extends Component {
     });
 
     return (
+      <>
+      <ReactNotification/>
       <div className="docContainer">
         {/* Popup on Success */}
+        
         <div>
           <SweetAlert
             success
@@ -324,7 +342,7 @@ export default class Documents extends Component {
         </div>
 
         <div className="docTitle">Documents</div>
-        {this.state.loading && <h2>PDF will load in few seconds...</h2>}
+        {/* {this.state.loading && <h2>PDF will load in few seconds...</h2>} */}
         <Table>
           <TableBody>
             {/*________condition GENERAL_____ */}
@@ -585,6 +603,8 @@ export default class Documents extends Component {
           </React.Fragment>
         </div>
       </div>
+    </>
     );
+
   }
 }

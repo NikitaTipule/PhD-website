@@ -80,7 +80,7 @@ export default function NavBar(props) {
                         </a>
                     </li>
                 
-                    <li className="li-class" style={{ float: "right", marginRight: '10px' }}>
+                    {/* <li className="li-class" style={{ float: "right", marginRight: '10px' }}>
                     <div>
                         <h3>
                             <Button color="light" onClick={toggle} value={btnTxt}>{btnTxt}</Button>
@@ -93,7 +93,7 @@ export default function NavBar(props) {
                                 <Button color="light">Home</Button>
                             </h3>
                         </div>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         );
