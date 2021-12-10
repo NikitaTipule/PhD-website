@@ -39,12 +39,16 @@ class StudentHome extends Component {
               headers: { "phd-website-jwt": this.state.token },
             })
             .then((res) => {
-              let docver="verified"
+              let docver="pending", p=0, m=0, v=0;
               res.data.user.documentsUploaded.map(status=>(
-                // docrem=status.remarks.length?status.remarks:"None"
-                //console.log(status.verification)
-                  docver=status.verification==="pending"?"pending":""
+                status.verification==="pending" ? (p=p+1) : (status.verification==="mod_req" ? (m=m+1) : (v=v+1))    
               ));
+              if(m>0){
+                docver="modification Required"
+              }else if(m===0 && p===0 && v!==0){
+                docver="verified"
+              }
+              console.log(res.data.user.feeDetails.verification)
               this.setState({
                 name: res.data.user.name,
                 email: res.data.user.email,
@@ -164,6 +168,7 @@ class StudentHome extends Component {
 
                     <div class="col col-2" data-label="Customer Name">Fee Details</div>
                     <div class="col col-3" data-label="Amount">{this.state.FEEremarks.length?this.state.FEEremarks:"None"}</div>
+                    {console.log(this.state.FEEverification)}
                     <div class="col col-4" data-label="Payment Status" style={{textTransform: 'capitalize'}}>{this.state.FEEverification}</div>
                   </li>
                   <li class="table-row">

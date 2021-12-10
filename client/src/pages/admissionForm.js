@@ -50,10 +50,10 @@ export default class admissionForm extends Component {
       },
 
       entranceDetails: {
-        givenGate: "",
-        givenPet: "",
-        isInterestedCoepRPET: "",
-        isInterestedCoepEntrance: "",
+        givenGate: false,
+        givenPet: false,
+        isInterestedCoepRPET: false,
+        isInterestedCoepEntrance: false,
         Gate: {
           score: "",
           lastDateOfValidation: "",

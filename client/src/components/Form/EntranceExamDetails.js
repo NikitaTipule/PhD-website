@@ -150,6 +150,8 @@ export default class EntranceExamDetails extends Component {
       entranceDetails: this.props.data.entranceDetails,
     };
 
+    console.log(entranceDetails)
+
     try {
       axios
         .post(BACKEND_URL + "/students/edit/info", entranceDetails, {
@@ -194,18 +196,18 @@ export default class EntranceExamDetails extends Component {
               this.setState({
                 givenGate: res.data.user.entranceDetails.givenGate
                   ? res.data.user.entranceDetails.givenGate
-                  : "",
+                  : false,
                 givenPet: res.data.user.entranceDetails.givenPet
                   ? res.data.user.entranceDetails.givenPet
-                  : "",
+                  : false,
                 isInterestedCoepRPET: res.data.user.entranceDetails
                   .isInterestedCoepRPET
                   ? res.data.user.entranceDetails.isInterestedCoepRPET
-                  : "",
+                  : false,
                 isInterestedCoepEntrance: res.data.user.entranceDetails
                   .isInterestedCoepEntrance
                   ? res.data.user.entranceDetails.isInterestedCoepEntrance
-                  : "",
+                  : false,
                 gateScore: res.data.user.entranceDetails.Gate
                   ? res.data.user.entranceDetails.Gate.score
                     ? res.data.user.entranceDetails.Gate.score
