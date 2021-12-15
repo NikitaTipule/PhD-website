@@ -6,6 +6,7 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import LogoutIcon from '@mui/icons-material/Logout';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export const SidebarData = [
  {
@@ -19,6 +20,12 @@ export const SidebarData = [
   user: "Candidate", 
   icon: <InfoIcon/>,
   link: "/candidate",
+ },
+ {
+  title: "Download Form",
+  user: "Candidate",
+  icon: <DownloadIcon/>,
+  link: "/"
  },
  {
   title: "Logout",
