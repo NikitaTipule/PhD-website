@@ -7,6 +7,11 @@ import "./AdmissionDetails.css";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import { Table, TableBody } from "@material-ui/core";
+import { docType } from "../../phdAdmDetails";
+import viewDoc from "../../pages/DocViewer";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
@@ -21,6 +26,8 @@ export default class AdmissionDetailsUG extends Component {
       percentage: "",
       dateOfDeclaration: "",
       confirmAlert: false,
+
+      ug: { name: docType.ug, error: false, display: true },
 
       remarks: "",
       verification: "",
@@ -37,9 +44,55 @@ export default class AdmissionDetailsUG extends Component {
       errorPercentage: false,
       errorDod: false,
 
+      documentsUploaded: [],
+
       token: localStorage.getItem("phd-website-jwt"),
     };
   }
+
+  // FUNCTIONS FOR FILE DATA
+  onFileChange = async (event) => {
+    await this.setState({ selectedFile: event.target.files[0] });
+
+    const formData = new FormData();
+    formData.append("file", this.state.selectedFile);
+
+    const i = await this.state.documentsUploaded
+      .map((e) => e.type)
+      .indexOf(event.target.name);
+
+    axios
+      .post(BACKEND_URL + "/files/upload", formData, {
+        headers: {
+          "phd-website-jwt": this.state.token,
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        const docUploaded = {
+          type: event.target.name,
+          filename: res.data.filename,
+          contentType: res.data.contentType,
+          originalName: res.data.originalname,
+          verification: "pending",
+        };
+
+        if (i === -1) {
+          this.setState((prevState) => ({
+            documentsUploaded: [...prevState.documentsUploaded, docUploaded],
+          }));
+        } else {
+          this.state.documentsUploaded[i] = docUploaded;
+        }
+
+        // this.setState((prevState) => ({
+        //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
+        // }));
+
+        console.log(this.state.documentsUploaded);
+      })
+      .catch((err) => console.log(err.response || "error"));
+  };
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -50,6 +103,23 @@ export default class AdmissionDetailsUG extends Component {
   };
 
   validateData = () => {
+    if (this.state.documentsUploaded.some((e) => e.type === docType.ug)) {
+      this.setState({
+        ug: {
+          name: this.state.ug.name,
+          error: false,
+          display: this.state.ug.display,
+        },
+      });
+    } else {
+      this.setState({
+        ug: {
+          name: this.state.ug.name,
+          error: true,
+          display: this.state.ug.display,
+        },
+      });
+    }
     var s = this.state.university.replace(/ /g, "");
     s === ""
       ? this.setState({ errorUniversity: true })
@@ -102,6 +172,7 @@ export default class AdmissionDetailsUG extends Component {
     } else {
       await this.validateData();
       if (
+        !this.state.ug.error &&
         this.state.errorUniversity === false &&
         this.state.errorNomanclaure === false &&
         this.state.errorSpecialization === false &&
@@ -111,6 +182,22 @@ export default class AdmissionDetailsUG extends Component {
         this.state.errorPercentage === false &&
         this.state.errorDod === false
       ) {
+        if (!this.state.disabled) {
+          const documentsUploaded = {
+            documentsUploaded: this.state.documentsUploaded,
+          };
+          try {
+            axios
+              .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
+                headers: { "phd-website-jwt": this.state.token },
+              })
+              .then((res) => {
+                console.log("Documents Added");
+              });
+          } catch (err) {
+            console.log(err.res);
+          }
+        }
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsUG.institute = this.state.university;
         this.props.data.academicsUG.degree = this.state.nomanclaure;
@@ -201,6 +288,13 @@ export default class AdmissionDetailsUG extends Component {
               res.data.user.academicsUG.verification === "pending")
               ? this.setState({ disabled: false })
               : this.setState({ disabled: true });
+
+            res.data.user.documentsUploaded &&
+              this.setState({
+                documentsUploaded: res.data.user.documentsUploaded
+                  ? res.data.user.documentsUploaded
+                  : [],
+              });
           });
       } catch (error) {
         console.log(error.message);
@@ -526,6 +620,92 @@ export default class AdmissionDetailsUG extends Component {
               )}
             </div>
           </form>
+
+          {/**
+           *
+           * Document Collection Component
+           *
+           */}
+          <div
+            className="formContainer"
+            style={{ marginTop: "30px", fontSize: "21px" }}
+          >
+            Documents Required
+          </div>
+          <Table>
+            <TableBody>
+              <div>
+                {/* UG Marksheet */}
+                {this.state.ug.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.ug.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.ug.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.ug.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.ug.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+              </div>
+            </TableBody>
+          </Table>
 
           <div style={{ marginBottom: "30px" }}>
             <React.Fragment>
