@@ -138,6 +138,7 @@ export default class phdCordForm extends Component {
   };
 
   onChangeVerify = (event) => {
+    console.log(event.target.name);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -262,7 +263,7 @@ export default class phdCordForm extends Component {
                                     className="radios"
                                     onChange={(e) => this.onChangeVerify(e, id)}
                                   >
-                                    <div>
+                                    {/* <div>
                                       <input
                                         type="radio"
                                         value="pending"
@@ -276,7 +277,7 @@ export default class phdCordForm extends Component {
                                         className="radio"
                                       />
                                       Pending
-                                    </div>
+                                    </div> */}
                                     <div>
                                       <input
                                         type="radio"
@@ -290,7 +291,7 @@ export default class phdCordForm extends Component {
                                         }}
                                         className="radio"
                                       />{" "}
-                                      Mod_req
+                                      Not Verified
                                     </div>
                                     <div>
                                       <input
@@ -483,7 +484,7 @@ export default class phdCordForm extends Component {
                                     className="radios"
                                     onChange={(e) => this.onChangeVerify(e, id)}
                                   >
-                                    <div>
+                                    {/* <div>
                                       <input
                                         type="radio"
                                         value="pending"
@@ -497,7 +498,7 @@ export default class phdCordForm extends Component {
                                         className="radio"
                                       />
                                       Pending
-                                    </div>
+                                    </div> */}
                                     <div>
                                       <input
                                         type="radio"
@@ -511,7 +512,7 @@ export default class phdCordForm extends Component {
                                         }}
                                         className="radio"
                                       />{" "}
-                                      Mod_req
+                                      Not Verified
                                     </div>
                                     <div>
                                       <input
@@ -544,12 +545,12 @@ export default class phdCordForm extends Component {
                         <div style={{ width: "55%" }}>
                           <TextField
                             onChange={this.handleChange}
-                            value={this.state.personalInfoRemark}
+                            value={this.state.academicsUGRemark}
                             variant="outlined"
                             multiline
                             minRows={3}
                             type="text"
-                            name="personalInfoRemark"
+                            name="academicsUGRemark"
                             label="Remark"
                             fullWidth
                           ></TextField>
@@ -564,16 +565,16 @@ export default class phdCordForm extends Component {
                                     <input
                                       type="radio"
                                       value="pending"
-                                      name="personalInfoStatus"
+                                      name="academicsUGStatus"
                                       checked={
-                                        this.state.personalInfoStatus === "pending"
+                                        this.state.academicsUGStatus === "pending"
                                       }
                                       onChange={this.onChangeVerify}
                                       className="radio"
                                     />
                                     pending
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <input
                                       type="radio"
                                       value="mod_req"
@@ -585,14 +586,14 @@ export default class phdCordForm extends Component {
                                       className="radio"
                                     />{" "}
                                     mod_req
-                                  </div>
+                                  </div> */}
                                   <div>
                                     <input
                                       type="radio"
                                       value="verified"
-                                      name="personalInfoStatus"
+                                      name="academicsUGStatus"
                                       checked={
-                                        this.state.personalInfoStatus === "verified"
+                                        this.state.academicsUGStatus === "verified"
                                       }
                                       onChange={this.onChangeVerify}
                                       className="radio"
@@ -719,7 +720,7 @@ export default class phdCordForm extends Component {
                                       className="radios"
                                       onChange={(e) => this.onChangeVerify(e, id)}
                                     >
-                                      <div>
+                                      {/* <div>
                                         <input
                                           type="radio"
                                           value="pending"
@@ -733,7 +734,7 @@ export default class phdCordForm extends Component {
                                           className="radio"
                                         />
                                         Pending
-                                      </div>
+                                      </div> */}
                                       <div>
                                         <input
                                           type="radio"
@@ -747,7 +748,7 @@ export default class phdCordForm extends Component {
                                           }}
                                           className="radio"
                                         />{" "}
-                                        Mod_req
+                                        Not Verified
                                       </div>
                                       <div>
                                         <input
@@ -781,12 +782,12 @@ export default class phdCordForm extends Component {
                           <div style={{ width: "55%" }}>
                             <TextField
                               onChange={this.handleChange}
-                              value={this.state.personalInfoRemark}
+                              value={this.state.academicsPGRemark}
                               variant="outlined"
                               multiline
                               minRows={3}
                               type="text"
-                              name="personalInfoRemark"
+                              name="academicsPGRemark"
                               label="Remark"
                               fullWidth
                             ></TextField>
@@ -801,16 +802,16 @@ export default class phdCordForm extends Component {
                                     <input
                                       type="radio"
                                       value="pending"
-                                      name="personalInfoStatus"
+                                      name="academicsPGStatus"
                                       checked={
-                                        this.state.personalInfoStatus === "pending"
+                                        this.state.academicsPGStatus === "pending"
                                       }
                                       onChange={this.onChangeVerify}
                                       className="radio"
                                     />
                                     pending
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <input
                                       type="radio"
                                       value="mod_req"
@@ -822,14 +823,14 @@ export default class phdCordForm extends Component {
                                       className="radio"
                                     />{" "}
                                     mod_req
-                                  </div>
+                                  </div> */}
                                   <div>
                                     <input
                                       type="radio"
                                       value="verified"
-                                      name="personalInfoStatus"
+                                      name="academicsPGStatus"
                                       checked={
-                                        this.state.personalInfoStatus === "verified"
+                                        this.state.academicsPGStatus === "verified"
                                       }
                                       onChange={this.onChangeVerify}
                                       className="radio"
@@ -960,7 +961,7 @@ export default class phdCordForm extends Component {
                                     />
                                     pending
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <input
                                       type="radio"
                                       value="mod_req"
@@ -972,7 +973,7 @@ export default class phdCordForm extends Component {
                                       className="radio"
                                     />{" "}
                                     mod_req
-                                  </div>
+                                  </div> */}
                                   <div>
                                     <input
                                       type="radio"
