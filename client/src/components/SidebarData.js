@@ -87,5 +87,11 @@ export const SidebarData = [
   user: "Coordinator",
   icon: <LogoutIcon/>,
   link: "/"
- }
+ },
+ {
+  title: "Home",
+  user: "Faculty",
+  icon: <HomeIcon/>,
+  link: "/coordinator",
+ },
 ]
