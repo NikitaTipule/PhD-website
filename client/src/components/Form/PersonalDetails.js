@@ -43,8 +43,9 @@ export default class PersonalDetails extends Component {
       middleName: "",
       gender: "",
       dob: "",
-      email: "",
-      mobile: "",
+      // email: "",
+      // mobile: "",
+      motherName: "",
       nationality: "",
       category: "",
       aadhar: "",
@@ -64,8 +65,9 @@ export default class PersonalDetails extends Component {
       errorMiddleName: false,
       errorGender: false,
       errorDob: false,
-      errorEmail: false,
-      errorMobile: false,
+      errorMotherName: false,
+      // errorEmail: false,
+      // errorMobile: false,
       errorNationality: false,
       errorCategory: false,
       errorAadhar: false,
@@ -308,6 +310,10 @@ export default class PersonalDetails extends Component {
       ? this.setState({ errorMiddleName: true })
       : this.setState({ errorMiddleName: false });
 
+    this.state.motherName.length < 1
+      ? this.setState({ errorMotherName: true })
+      : this.setState({ errorMotherName: false });
+
     this.state.gender === ""
       ? this.setState({ errorGender: true })
       : this.setState({ errorGender: false });
@@ -316,15 +322,15 @@ export default class PersonalDetails extends Component {
       ? this.setState({ errorDob: true })
       : this.setState({ errorDob: false });
 
-    this.state.email.length < 10 ||
-    this.state.email.indexOf("@") > this.state.email.indexOf(".") ||
-    this.state.email.indexOf("@") < 1
-      ? this.setState({ errorEmail: true })
-      : this.setState({ errorEmail: false });
+    // this.state.email.length < 10 ||
+    // this.state.email.indexOf("@") > this.state.email.indexOf(".") ||
+    // this.state.email.indexOf("@") < 1
+    //   ? this.setState({ errorEmail: true })
+    //   : this.setState({ errorEmail: false });
 
-    this.state.mobile.length === 10 && /^\d+$/.test(this.state.mobile)
-      ? this.setState({ errorMobile: false })
-      : this.setState({ errorMobile: true });
+    // this.state.mobile.length === 10 && /^\d+$/.test(this.state.mobile)
+    //   ? this.setState({ errorMobile: false })
+    //   : this.setState({ errorMobile: true });
 
     var n = this.state.nationality.replace(/ /g, "");
 
@@ -371,8 +377,9 @@ export default class PersonalDetails extends Component {
         this.state.errorName === false &&
         this.state.errorMiddleName === false &&
         this.state.errorGender === false &&
-        this.state.errorEmail === false &&
-        this.state.errorMobile === false &&
+        this.state.errorMotherName === false &&
+        // this.state.errorEmail === false &&
+        // this.state.errorMobile === false &&
         this.state.errorNationality === false &&
         this.state.errorCategory === false &&
         this.state.errorAadhar === false &&
@@ -402,8 +409,9 @@ export default class PersonalDetails extends Component {
         this.props.data.personalInfo.middleName = this.state.middleName;
         this.props.data.personalInfo.gender = this.state.gender;
         this.props.data.personalInfo.dob = this.state.dob;
-        this.props.data.personalInfo.email = this.state.email;
-        this.props.data.personalInfo.mobile = this.state.mobile;
+        this.props.data.personalInfo.motherName = this.state.motherName;
+        // this.props.data.personalInfo.email = this.state.email;
+        // this.props.data.personalInfo.mobile = this.state.mobile;
         this.props.data.personalInfo.nationality = this.state.nationality;
         this.props.data.personalInfo.category = this.state.category;
         this.props.data.personalInfo.aadhar = this.state.aadhar;
@@ -461,15 +469,18 @@ export default class PersonalDetails extends Component {
                 middleName: res.data.user.personalInfo.middleName
                   ? res.data.user.personalInfo.middleName
                   : "",
-                email: res.data.user.personalInfo.email
-                  ? res.data.user.personalInfo.email
-                  : "",
+                // email: res.data.user.personalInfo.email
+                //   ? res.data.user.personalInfo.email
+                //   : "",
                 gender: res.data.user.personalInfo.gender
                   ? res.data.user.personalInfo.gender
                   : "",
-                mobile: res.data.user.personalInfo.mobile
-                  ? res.data.user.personalInfo.mobile
+                motherName: res.data.user.personalInfo.motherName
+                  ? res.data.user.personalInfo.motherName
                   : "",
+                // mobile: res.data.user.personalInfo.mobile
+                //   ? res.data.user.personalInfo.mobile
+                //   : "",
                 nationality: res.data.user.personalInfo.nationality
                   ? res.data.user.personalInfo.nationality
                   : "",
@@ -610,6 +621,12 @@ export default class PersonalDetails extends Component {
                 </div>
                 <div className="popUpField">
                   <div>
+                    <Typography>Mother's Name :</Typography>
+                  </div>
+                  <div>{this.state.motherName}</div>
+                </div>
+                <div className="popUpField">
+                  <div>
                     <Typography>Gender :</Typography>
                   </div>
                   <div>{this.state.gender}</div>
@@ -620,7 +637,7 @@ export default class PersonalDetails extends Component {
                   </div>
                   <div>{this.state.dob.toLocaleString().slice(0, 10)}</div>
                 </div>
-                <div className="popUpField">
+                {/* <div className="popUpField">
                   <div>
                     <Typography>Email :</Typography>
                   </div>
@@ -631,7 +648,7 @@ export default class PersonalDetails extends Component {
                     <Typography>Mobile No :</Typography>
                   </div>
                   <div>{this.state.mobile}</div>
-                </div>
+                </div> */}
                 <div className="popUpField">
                   <div>
                     <Typography>Nationality :</Typography>
@@ -754,6 +771,31 @@ export default class PersonalDetails extends Component {
                 </div>
               )}
             </div>
+
+            {/**
+             * Mother's Name
+             */}
+            <div className="formField">
+              <Typography>Mother's Name</Typography>
+              <TextField
+                disabled={this.state.disabled}
+                className="mb-3"
+                fullWidth
+                onChange={this.handleChange}
+                value={this.state.motherName}
+                name="motherName"
+                label="Mother's Name"
+                variant="outlined"
+                required="true"
+                style={{ marginTop: "8px" }}
+              />
+              {this.state.errorMotherName && (
+                <div style={{ color: "red" }}>
+                  <Typography>Mother's Name is required field</Typography>
+                </div>
+              )}
+            </div>
+
             {/*
              * 3. Gender
              * 4. DOB
@@ -825,7 +867,7 @@ export default class PersonalDetails extends Component {
              *   5. Email
              *   6. Mobile Number
              */}
-            <div className="formEmailNumber">
+            {/* <div className="formEmailNumber">
               <div style={{ width: "100%" }}>
                 <Typography>Email</Typography>
                 <TextField
@@ -868,7 +910,8 @@ export default class PersonalDetails extends Component {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
+
             {/*
              * 7. Nationality
              * 8. Category
