@@ -19,6 +19,7 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { BACKEND_URL } from "../config";
 import { useHistory } from "react-router-dom";
+import Sidebar from '../components/Sidebar';
 
 const theme = createTheme();
 const initialState = {
@@ -62,85 +63,93 @@ export default function FacLogIn() {
   return (
     <ThemeProvider theme={theme}>
       <NavBar loggedin={false} />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "cadetblue" }}></Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="mis"
-              label="MIS"
-              name="mis"
-              autoComplete="mis"
-              onChange={handleInput}
-              value={state.mis}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              value={state.password}
-              onChange={handleInput}
-              autoComplete="current-password"
-            />
-            <FormControl sx={{ mt: 1.2, minWidth: 180 }}>
-              <InputLabel id="role" required>
-                Role
-              </InputLabel>
-              <Select
-                labelId="role"
-                id="role"
-                label="Role"
-                name="role"
-                value={state.role}
-                onChange={handleInput}
-              >
-                <MenuItem value="admin">Administrator</MenuItem>
-                <MenuItem value="phdCord">Coordinator</MenuItem>
-                <MenuItem value="accountSec">Account Section</MenuItem>
-              </Select>
-            </FormControl>
-            <Button
-              type="submit"
-              fullWidth
-              onClick={handleSubmit}
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+      <div className="container">
+        <Sidebar user="Faculty"/>
+        <div>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              {loading ? (
-                <CircularProgress size="1.7em" color="inherit" />
-              ) : (
-                "Sign In"
-              )}
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="/" variant="body2">
-                  {"Home Page"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
+              <Avatar sx={{ m: 1, bgcolor: "cadetblue" }}></Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
+              <Box sx={{ mt: 1 }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="mis"
+                  label="MIS"
+                  name="mis"
+                  autoComplete="mis"
+                  onChange={handleInput}
+                  value={state.mis}
+                  autoFocus
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  value={state.password}
+                  onChange={handleInput}
+                  autoComplete="current-password"
+                />
+                <FormControl sx={{ mt: 1.2, minWidth: 180 }}>
+                  <InputLabel id="role" required>
+                    Role
+                  </InputLabel>
+                  <Select
+                    labelId="role"
+                    id="role"
+                    label="Role"
+                    name="role"
+                    value={state.role}
+                    onChange={handleInput}
+                  >
+                    <MenuItem value="admin">Administrator</MenuItem>
+                    <MenuItem value="phdCord">Coordinator</MenuItem>
+                    <MenuItem value="accountSec">Account Section</MenuItem>
+                  </Select>
+                </FormControl>
+                <Button
+                  type="submit"
+                  fullWidth
+                  onClick={handleSubmit}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  {loading ? (
+                    <CircularProgress size="1.7em" color="inherit" />
+                  ) : (
+                    "Sign In"
+                  )}
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="/" variant="body2">
+                      {"Home Page"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Container>
+        </div>
+      </div>
+      
+      
+      
     </ThemeProvider>
   );
 }

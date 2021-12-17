@@ -8,12 +8,73 @@ import "../CSS/studentHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
+
+import {
+  PDFDownloadLink,
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+} from "@react-pdf/renderer";
+
+const styles = StyleSheet.create({
+  body: {
+    padding: 10,
+  },
+  table: {
+    display: "table",
+    width: "auto",
+    borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderWidth: 1,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+  },
+  tableRow: {
+    margin: "auto",
+    flexDirection: "row",
+  },
+  tableColHeader: {
+    width: "100%",
+    borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderBottomColor: "#000",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+  },
+  tableCol: {
+    width: "25%",
+    borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+  },
+  tableCellHeader: {
+    margin: "auto",
+    margin: 5,
+    fontSize: 12,
+    fontWeight: 500,
+  },
+  tableCell: {
+    margin: "auto",
+    margin: 5,
+    fontSize: 10,
+  },
+});
+
 class StudentHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       email: "",
+      pdfName: "",
+      pdfEmail: "",
+      middleName: "",
+      gender: "",
       PGverification: "",
       PGremarks: "",
       UGverification: "",
@@ -40,24 +101,18 @@ class StudentHome extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            let docver = "pending",
-              p = 0,
-              m = 0,
-              v = 0;
-            res.data.user.documentsUploaded.map((status) =>
-              status.verification === "pending"
-                ? (p = p + 1)
-                : status.verification === "mod_req"
-                ? (m = m + 1)
-                : (v = v + 1)
+            let docver = "verified";
+            res.data.user.documentsUploaded.map(
+              (status) =>
+                // docrem=status.remarks.length?status.remarks:"None"
+                //console.log(status.verification)
+                (docver = status.verification === "pending" ? "pending" : "")
             );
-            if (m > 0) {
-              docver = "modification Required";
-            } else if (m === 0 && p === 0 && v !== 0) {
-              docver = "verified";
-            }
-            console.log(res.data.user.feeDetails.verification);
             this.setState({
+              pdfName: res.data.user.personalInfo.name,
+              pdfEmail: res.data.user.personalInfo.email,
+              middleName: res.data.user.personalInfo.middleName,
+              gender: res.data.user.personalInfo.gender,
               name: res.data.user.name,
               email: res.data.user.email,
               mis: res.data.user.mis,
@@ -83,6 +138,47 @@ class StudentHome extends Component {
   }
 
   render() {
+    const MyDoc = () => (
+      <Document>
+        <Page style={styles.body}>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCellHeader}>Personal Details</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Candidate's Full name</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.pdfName}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Father's Name</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.middleName}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Mail id</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.email}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Gender</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.gender}</Text>
+              </View>
+            </View>
+          </View>
+        </Page>
+      </Document>
+    );
     return (
       <div>
         <NavBar loggedin={true} />
@@ -126,6 +222,28 @@ class StudentHome extends Component {
               </div>
             </div>
 
+            {/* <div  style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:"30px"}}>
+                      <Link to ={{pathname: '/admissionform'}}>
+                        <button
+                            style={{
+                            // marginTop: "20px",
+                            // marginBottom: "30px",
+                            padding: "5px",
+                            cursor: "pointer",
+                            width: "300px",
+                            height: "40px",
+                            fontSize: "20px",
+                            backgroundColor: "cadetblue",
+                            color: "white",
+                            borderRadius: "10px",
+                            }}
+                            onClick={this.FillForm}
+                        >
+                            {" "}
+                            Fill  Application  Form
+                        </button>
+                        </Link>
+                    </div> */}
             <div
               style={{
                 display: "flex",
@@ -134,12 +252,13 @@ class StudentHome extends Component {
                 marginTop: "30px",
               }}
             >
-              <Link to={{ pathname: "/admissionform" }}>
+              <PDFDownloadLink document={<MyDoc />} fileName="Application.pdf">
                 <button
                   style={{
-                    marginTop: "20px",
-                    marginBottom: "30px",
+                    // marginTop: "20px",
+                    // marginBottom: "30px",
                     padding: "5px",
+                    cursor: "pointer",
                     width: "300px",
                     height: "40px",
                     fontSize: "20px",
@@ -150,9 +269,12 @@ class StudentHome extends Component {
                   onClick={this.FillForm}
                 >
                   {" "}
-                  Fill Application Form
+                  Download Application
+                  {({ blob, url, loading, error }) =>
+                    loading ? "Loading document..." : "Download now!"
+                  }
                 </button>
-              </Link>
+              </PDFDownloadLink>
             </div>
             <div
               style={{
