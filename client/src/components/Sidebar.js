@@ -2,29 +2,29 @@ import React from "react"
 import {SidebarData} from './SidebarData'
 import '../CSS/sidebar.css'
 //import MyDocument from '../components/PdfGen';
-import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+// import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 // Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1
-  }
-});
+// const styles = StyleSheet.create({
+//   page: {
+//     flexDirection: 'row',
+//     backgroundColor: '#E4E4E4'
+//   },
+//   section: {
+//     margin: 10,
+//     padding: 10,
+//     flexGrow: 1
+//   }
+// });
 
 // Create Document Component
-const MyDocument = () => (
-  <Document>
-    <Page>
-      <Text>React-pdf</Text>
-    </Page>
-  </Document>
-);
+// const MyDocument = () => (
+//   <Document>
+//     <Page>
+//       <Text>React-pdf</Text>
+//     </Page>
+//   </Document>
+// );
 
 function Sidebar({user}){
   return (
