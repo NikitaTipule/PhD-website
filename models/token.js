@@ -1,9 +1,22 @@
 const mongoose = require("mongoose");
 
-const tokenSchema = new mongoose.Schema({
+const otpSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    ref: "student",
+    required: true,
+  },
+  otp: {
+    type: String,
+    required: true,
+  },
+});
+exports.MailOtp = mongoose.model("mailOTP", otpSchema, "mailOTP");
+exports.PhoneOtp = mongoose.model("phoneOTP", otpSchema, "phoneOTP");
+
+const tokenSchema = new mongoose.Schema({
+  userId: {
+    type: String,
     required: true,
   },
   token: {
@@ -12,6 +25,4 @@ const tokenSchema = new mongoose.Schema({
   },
 });
 
-const Token = mongoose.model("token", tokenSchema, "tokens");
-
-module.exports = Token;
+exports.Token = mongoose.model("token", tokenSchema, "tokens");
