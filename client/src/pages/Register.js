@@ -160,7 +160,7 @@ export default function Register() {
                   </Grid>
 
                   <Grid item xs>
-                    <Link href="/StudentLogIn" variant="body2">
+                    <Link href="/login/candidate" variant="body2">
                       {"Already Registered? Log In"}
                     </Link>
                   </Grid>
