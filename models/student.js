@@ -18,6 +18,7 @@ const personalInfo = {
   email: { type: String },
   gender: { type: String },
   mobile: { type: String },
+  motherName: { type: String },
   nationality: { type: String },
   category: { type: String },
   aadhar: { type: String },
@@ -104,6 +105,7 @@ const StudentSchema = Schema(
   {
     name: reqString,
     email: email,
+    mobile: { type: String },
     password: reqString,
     personalInfo: personalInfo,
     academicsUG: academicsUG,

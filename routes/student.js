@@ -3,6 +3,7 @@ const {
   loginStudent,
   registerStudent,
   verifyMail,
+  verifyMobile,
 } = require("../controllers/auth");
 const { auth } = require("../middleware/auth");
 const {
@@ -21,7 +22,8 @@ const router = express.Router();
 
 router.post("/login", loginStudent);
 router.post("/register", registerStudent);
-router.get("/verifymail/:userId/:token", verifyMail);
+router.post("/verifymail", verifyMail);
+router.post("/verifymobile", verifyMobile);
 
 router.get("/me", [auth, myProfileStudent]);
 router.get("/:userId", [auth, getStudentInfo]);

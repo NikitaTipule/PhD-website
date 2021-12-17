@@ -2,6 +2,7 @@ const { auth } = require("../middleware/auth");
 const { loginAccountSec } = require("../controllers/auth");
 const AccountSec = require("../models/accountSec");
 const express = require("express");
+const sendEmail = require("../controllers/email");
 
 const router = express.Router();
 
@@ -19,12 +20,24 @@ const addAccountSec = (req, res) => {
         .status(409)
         .json({ error: "User Already Exist. Please ask to Login" });
     }
-    const user = new AccountSec({ name, email });
+    const user = new AccountSec({
+      name,
+      email,
+      password: Math.random().toString(36).slice(2, 8),
+    });
     user
       .save()
       .then((user) => {
-        // handle login for email with a link to password here
-        res.json({ email });
+        sendEmail(
+          email,
+          `Your password for Phd website portal with email ${email} is ${user.password}.
+           Please reset after signing in`,
+          "PhD Website Account Section details"
+        );
+        res.send({
+          userId: user._id,
+          message: "An Email sent to user with the password",
+        });
       })
       .catch((err) => {
         console.log(err);

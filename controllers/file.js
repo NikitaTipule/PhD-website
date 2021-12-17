@@ -32,7 +32,9 @@ const uploadFileGrid = multer({
 
 exports.uploadFile = (req, res) => {
   if (req.userRole != "student") {
-    res.status(403).json({ error: "only students can upload documents" });
+    return res
+      .status(403)
+      .json({ error: "only students can upload documents" });
   }
   uploadFileGrid(req, res, (err) => {
     if (err || !req.file) {

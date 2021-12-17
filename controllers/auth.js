@@ -6,7 +6,7 @@ const { jwtSecretKey, ldapAuthUrl, baseURL } = require("../config/configKeys");
 const roleToModel = require("./roles");
 const sendEmail = require("./email");
 const Student = require("../models/student");
-const MailToken = require("../models/token");
+const { MailOtp, PhoneOtp } = require("../models/token");
 const AccountSec = require("../models/accountSec");
 
 const generateToken = (user) => {
@@ -29,13 +29,13 @@ const generateToken = (user) => {
 };
 
 exports.registerStudent = (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, mobile, password } = req.body;
   if (!(name, email && password)) {
     return res.status(400).json({ error: "All input is required" });
   }
   Student.findOne({ email })
-    .then((oldStudent) => {
-      if (oldStudent) {
+    .then((old) => {
+      if (old && old.mailVerified && old.mobileVerified) {
         return res
           .status(409)
           .json({ error: "User Already Exist. Please Login" });
@@ -44,17 +44,27 @@ exports.registerStudent = (req, res) => {
       newStudent
         .save()
         .then((user) => {
-          const token = new MailToken({
+          const mailToken = new MailOtp({
             userId: user._id,
-            token: crypto.randomBytes(32).toString("hex"),
+            otp: Math.floor(Math.random() * 899999 + 100000),
           });
-          token
-            .save()
-            .then((token) => {
-              const message = `${baseURL}/students/verifymail/${token.userId}/${token.token}`;
-              console.log(message);
+          const phoneToken = new PhoneOtp({
+            userId: user._id,
+            otp: Math.floor(Math.random() * 899999 + 100000),
+          });
+          Promise.all([mailToken.save(), phoneToken.save()])
+            .then(() => {
+              const msg1 = `otp for mail verification is ${mailToken.otp}`;
+              console.log(msg1);
               // sendEmail(user.email, message);
-              res.send("An Email sent to your account. Please verify");
+              const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
+              console.log(msg2);
+              // sendSMS(user.email, message);
+              res.send({
+                userId: user._id,
+                message:
+                  "OTP is sent to your email and mobile number. Please verify both",
+              });
             })
             .catch((err) =>
               res.status(500).json({ error: "internal server error" })
@@ -71,21 +81,47 @@ exports.registerStudent = (req, res) => {
 };
 
 exports.verifyMail = async (req, res) => {
+  const { userId, otp } = req.body;
+  console.log(userId, otp);
   try {
-    const user = await Student.findById(req.params.userId).exec();
-    if (!user) return res.status(400).send("Invalid link");
-
+    const user = await Student.findById(userId).exec();
+    if (!user) return res.status(400).send("Invalid user");
     if (user.mailVerified) return res.send("Email already verified");
-
-    const token = await MailToken.findOne({
-      userId: user._id,
-      token: req.params.token,
+    const token = await MailOtp.findOne({
+      userId,
+      otp,
     });
-    if (!token) return res.status(400).send("Invalid link");
+    console.log(userId, otp);
+    if (!token) return res.status(400).send("Invalid otp");
     user.mailVerified = true;
-    await user.save();
-    await MailToken.deleteOne({ _id: token._id }).exec();
-    res.send("Email verified sucessfully. Please sign in");
+    await Promise.all([
+      user.save(),
+      MailOtp.deleteOne({ _id: token._id }).exec(),
+    ]);
+    res.send("Email verified sucessfully.");
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("An error occured");
+  }
+};
+
+exports.verifyMobile = async (req, res) => {
+  const { userId, otp } = req.body;
+  try {
+    const user = await Student.findById(userId).exec();
+    if (!user) return res.status(400).send("Invalid user");
+    if (user.mobileVerified) return res.send("Email already verified");
+    const token = await PhoneOtp.findOne({
+      userId,
+      otp,
+    });
+    if (!token) return res.status(400).send("Invalid otp");
+    user.mobileVerified = true;
+    await Promise.all([
+      user.save(),
+      PhoneOtp.deleteOne({ _id: token._id }).exec(),
+    ]);
+    res.send("Mobile number verified sucessfully.");
   } catch (error) {
     console.log(error);
     res.status(400).send("An error occured");
@@ -109,6 +145,12 @@ exports.loginStudent = (req, res) => {
           error: "Email is not verified, verify before trying to logIn",
         });
       }
+      if (!user.mobileVerified) {
+        return res.send(401).json({
+          error: "Mobile number is not verified, verify before trying to logIn",
+        });
+      }
+
       const isMatch = await compare(password, user.password);
       if (isMatch) {
         user.role = Student.modelName;

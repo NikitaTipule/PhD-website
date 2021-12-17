@@ -1,9 +1,22 @@
-// routes common to nonStudent users
+// Functionality common to staff users (non-Student users)
+
 const { loginStaff } = require("../controllers/auth");
 const { auth } = require("../middleware/auth");
-const { myProfileStaff } = require("../controllers/staff");
 const express = require("express");
+const roleToModel = require("../controllers/roles");
+
 const router = express.Router();
+
+const myProfileStaff = (req, res) => {
+  if (!req.userId) res.status(400).json({ error: "id is required" });
+  const User = roleToModel[req.userRole];
+  User.findById(req.userId, (err, user) => {
+    if (err) {
+      return res.status(404).json({ error: "user doesn't exist" });
+    }
+    res.json({ user });
+  });
+};
 
 router.post("/login", loginStaff);
 
