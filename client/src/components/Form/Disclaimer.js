@@ -13,11 +13,24 @@ export default class Disclaimer extends Component {
     this.state = {
       alertopen: false,
       check: false,
+      try: "",
+      token: localStorage.getItem("phd-website-jwt"),
     };
   }
 
   onSubmit = async (event) => {
     await this.setState({ alertopen: !this.state.alertopen });
+    try {
+      await axios
+        .post(BACKEND_URL + "/students/lock", this.state.try, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((res) => {
+          console.log("profile locked");
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   onCancel = async (event) => {
@@ -37,6 +50,25 @@ export default class Disclaimer extends Component {
       check: !this.state.check,
     });
   };
+
+  async componentDidMount() {
+    if (localStorage.getItem("phd-website-jwt")) {
+      await this.setState({
+        token: localStorage.getItem("phd-website-jwt"),
+      });
+      try {
+        await axios
+          .get(BACKEND_URL + "/students/me", {
+            headers: { "phd-website-jwt": this.state.token },
+          })
+          .then((res) => {
+            this.setState({ try: { editable: res.data.user.editable } });
+          });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
 
   render() {
     const theme = createTheme({
