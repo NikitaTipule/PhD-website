@@ -104,6 +104,7 @@ const StudentSchema = Schema(
   {
     name: reqString,
     email: email,
+    mobile: { type: String },
     password: reqString,
     personalInfo: personalInfo,
     academicsUG: academicsUG,
