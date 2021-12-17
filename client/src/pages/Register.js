@@ -129,6 +129,7 @@ export default function Register() {
                   />
                   <Input
                     name="password"
+                    type="password"
                     label="Password*"
                     value={values.password}
                     onChange={handleInputChange}
@@ -136,6 +137,7 @@ export default function Register() {
                   />
                   <Input
                     name="cpassword"
+                    type="password"
                     label="Confirm Password*"
                     value={values.cpassword}
                     onChange={handleInputChange}
