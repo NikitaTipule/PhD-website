@@ -34,17 +34,21 @@ export const roles = {
 };
 
 export const docType = {
-  photo: "Photo",
-  sign: "Signature",
+  photo: "Applicant's Photo",
+  sign: "Applicant's Signature",
   ug: "UG Marksheet",
   pg: "PG Marksheet",
 
-  leaving_certificate: "Leaving Certificate with mention of Indian",
-  passport: "Passport Certificate",
-  birth: "Birth Certificate",
-  domicile: "Domicile Certificate of Maharashtra",
+  // leaving_certificate: "Leaving Certificate with mention of Indian",
+  // passport: "Passport Certificate",
+  // birth: "Birth Certificate",
+  // domicile: "Domicile Certificate of Maharashtra",
+
+  nationality_c: "Nationality Certificate",
 
   c_certificate: "Caste Certificate",
   c_validity: "Caste Validity",
-  c_ncl: "Non-Creamy Layer Certificate"
+  c_ncl: "Non-Creamy Layer Certificate",
+
+  ews: "EWS Certificate",
 };

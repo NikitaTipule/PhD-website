@@ -8,7 +8,8 @@ import AccountsDetails from "../components/Form/AccountsDetails";
 import { Redirect } from "react-router-dom";
 import EntranceExamDetails from "../components/Form/EntranceExamDetails";
 import Sidebar from "../components/Sidebar";
-import "../CSS/admissionForm.css"
+import "../CSS/admissionForm.css";
+import Disclaimer from "../components/Form/Disclaimer";
 
 export default class admissionForm extends Component {
   state = {
@@ -52,10 +53,10 @@ export default class admissionForm extends Component {
       },
 
       entranceDetails: {
-        givenGate: "",
-        givenPet: "",
-        isInterestedCoepRPET: "",
-        isInterestedCoepEntrance: "",
+        givenGate: false,
+        givenPet: false,
+        isInterestedCoepRPET: false,
+        isInterestedCoepEntrance: false,
         Gate: {
           score: "",
           lastDateOfValidation: "",
@@ -102,9 +103,12 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className='container'>
-              <Sidebar user="Candidate"/>
-              <PersonalDetails nextStep={this.nextStep} data={this.state.data} />
+            <div className="container">
+              <Sidebar user="Candidate" />
+              <PersonalDetails
+                nextStep={this.nextStep}
+                data={this.state.data}
+              />
             </div>
           </div>
         );
@@ -112,8 +116,8 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className='container'>
-              <Sidebar user="Candidate"/>
+            <div className="container">
+              <Sidebar user="Candidate" />
               <AdmissionDetailsUG
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -126,8 +130,8 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className='container'>
-              <Sidebar user="Candidate"/>
+            <div className="container">
+              <Sidebar user="Candidate" />
               <AdmissionDetailsPG
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -140,8 +144,8 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className='container'>
-              <Sidebar user="Candidate"/>
+            <div className="container">
+              <Sidebar user="Candidate" />
               <EntranceExamDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -154,9 +158,9 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className='container'>
-              <Sidebar user="Candidate"/>
-              <Documents
+            <div className="container">
+              <Sidebar user="Candidate" />
+              <AccountsDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
@@ -168,13 +172,13 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className='container'>
-            <Sidebar user="Candidate"/>
-            <AccountsDetails
-              nextStep={this.nextStep}
-              data={this.state.data}
-              prevStep={this.prevStep}
-            />
+            <div className="container">
+              <Sidebar user="Candidate" />
+              <Disclaimer
+                nextStep={this.nextStep}
+                data={this.state.data}
+                prevStep={this.prevStep}
+              />
             </div>
           </div>
         );

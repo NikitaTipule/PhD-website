@@ -9,12 +9,35 @@ import "./PersonalDetails.css";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import { Table, TableBody } from "@material-ui/core";
+import { docType } from "../../phdAdmDetails";
+import viewDoc from "../../pages/DocViewer";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import e from "cors";
 
 export default class PersonalDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
       confirmAlert: false,
+
+      //document collection
+      photo: { name: docType.photo, error: false, display: true },
+      sign: { name: docType.sign, error: false, display: true },
+      c_certificate: {
+        name: docType.c_certificate,
+        error: false,
+        display: false,
+      },
+      c_validity: { name: docType.c_validity, error: false, display: false },
+      c_ncl: { name: docType.c_ncl, error: false, display: false },
+      ews: { name: docType.ews, error: false, display: false },
+      nationality_c: {
+        name: docType.nationality_c,
+        error: false,
+        display: true,
+      },
 
       name: "",
       middleName: "",
@@ -32,6 +55,7 @@ export default class PersonalDetails extends Component {
       remarks: "",
       verification: "",
 
+      documentsUploaded: [],
       editable: "",
 
       disabled: "",
@@ -53,6 +77,51 @@ export default class PersonalDetails extends Component {
     };
   }
 
+  // FUNCTIONS FOR FILE DATA
+  onFileChange = async (event) => {
+    await this.setState({ selectedFile: event.target.files[0] });
+
+    const formData = new FormData();
+    formData.append("file", this.state.selectedFile);
+
+    const i = await this.state.documentsUploaded
+      .map((e) => e.type)
+      .indexOf(event.target.name);
+
+    axios
+      .post(BACKEND_URL + "/files/upload", formData, {
+        headers: {
+          "phd-website-jwt": this.state.token,
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        const docUploaded = {
+          type: event.target.name,
+          filename: res.data.filename,
+          contentType: res.data.contentType,
+          originalName: res.data.originalname,
+          verification: "pending",
+        };
+
+        if (i === -1) {
+          this.setState((prevState) => ({
+            documentsUploaded: [...prevState.documentsUploaded, docUploaded],
+          }));
+        } else {
+          this.state.documentsUploaded[i] = docUploaded;
+        }
+
+        // this.setState((prevState) => ({
+        //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
+        // }));
+
+        console.log(this.state.documentsUploaded);
+      })
+      .catch((err) => console.log(err.response || "error"));
+  };
+
+  // FUNCTION FOR HANDLE CHANGE
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -87,7 +156,150 @@ export default class PersonalDetails extends Component {
     });
   };
 
+  // VALIDATE DATA
   validateData = () => {
+    if (this.state.documentsUploaded.some((e) => e.type === docType.photo)) {
+      this.setState({
+        photo: {
+          name: this.state.photo.name,
+          error: false,
+          display: this.state.photo.display,
+        },
+      });
+    } else {
+      this.setState({
+        photo: {
+          name: this.state.photo.name,
+          error: true,
+          display: this.state.photo.display,
+        },
+      });
+    }
+
+    if (this.state.documentsUploaded.some((e) => e.type === docType.sign)) {
+      this.setState({
+        sign: {
+          name: this.state.sign.name,
+          error: false,
+          display: this.state.sign.display,
+        },
+      });
+    } else {
+      this.setState({
+        sign: {
+          name: this.state.sign.name,
+          error: true,
+          display: this.state.sign.display,
+        },
+      });
+    }
+
+    if (
+      this.state.documentsUploaded.some((e) => e.type === docType.nationality_c)
+    ) {
+      this.setState({
+        nationality_c: {
+          name: this.state.nationality_c.name,
+          error: false,
+          display: this.state.nationality_c.display,
+        },
+      });
+    } else {
+      this.setState({
+        nationality_c: {
+          name: this.state.nationality_c.name,
+          error: true,
+          display: this.state.nationality_c.display,
+        },
+      });
+    }
+
+    if (this.state.c_certificate.display) {
+      if (
+        this.state.documentsUploaded.some(
+          (e) => e.type === docType.c_certificate
+        )
+      ) {
+        this.setState({
+          c_certificate: {
+            name: this.state.c_certificate.name,
+            error: false,
+            display: this.state.c_certificate.display,
+          },
+        });
+      } else {
+        this.setState({
+          c_certificate: {
+            name: this.state.c_certificate.name,
+            error: true,
+            display: this.state.c_certificate.display,
+          },
+        });
+      }
+    }
+
+    if (this.state.c_validity.display) {
+      if (
+        this.state.documentsUploaded.some((e) => e.type === docType.c_validity)
+      ) {
+        this.setState({
+          c_validity: {
+            name: this.state.c_validity.name,
+            error: false,
+            display: this.state.c_validity.display,
+          },
+        });
+      } else {
+        this.setState({
+          c_validity: {
+            name: this.state.c_validity.name,
+            error: true,
+            display: this.state.c_validity.display,
+          },
+        });
+      }
+    }
+
+    if (this.state.c_ncl.display) {
+      if (this.state.documentsUploaded.some((e) => e.type === docType.c_ncl)) {
+        this.setState({
+          c_ncl: {
+            name: this.state.c_ncl.name,
+            error: false,
+            display: this.state.c_ncl.display,
+          },
+        });
+      } else {
+        this.setState({
+          c_ncl: {
+            name: this.state.c_ncl.name,
+            error: true,
+            display: this.state.c_ncl.display,
+          },
+        });
+      }
+    }
+
+    if (this.state.ews.display) {
+      if (this.state.documentsUploaded.some((e) => e.type === docType.ews)) {
+        this.setState({
+          ews: {
+            name: this.state.ews.name,
+            error: false,
+            display: this.state.ews.display,
+          },
+        });
+      } else {
+        this.setState({
+          ews: {
+            name: this.state.ews.name,
+            error: true,
+            display: this.state.ews.display,
+          },
+        });
+      }
+    }
+
     this.state.name.length < 1
       ? this.setState({ errorName: true })
       : this.setState({ errorName: false });
@@ -142,12 +354,20 @@ export default class PersonalDetails extends Component {
       : this.setState({ errorDepartment: false });
   };
 
+  // NEXT CONFIRM CANCEL
   onNext = async (event) => {
     if (this.state.disabled) {
       this.props.nextStep();
     } else {
       await this.validateData();
       if (
+        !this.state.nationality_c.error &&
+        !this.state.photo.error &&
+        !this.state.sign.error &&
+        !this.state.c_certificate.error &&
+        !this.state.c_validity.error &&
+        !this.state.c_ncl.error &&
+        !this.state.ews.error &&
         this.state.errorName === false &&
         this.state.errorMiddleName === false &&
         this.state.errorGender === false &&
@@ -160,6 +380,23 @@ export default class PersonalDetails extends Component {
         this.state.errorPhysicallyDisabled === false &&
         this.state.errorDepartment === false
       ) {
+        if (!this.state.disabled) {
+          const documentsUploaded = {
+            documentsUploaded: this.state.documentsUploaded,
+          };
+          try {
+            axios
+              .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
+                headers: { "phd-website-jwt": this.state.token },
+              })
+              .then((res) => {
+                console.log("Documents Added");
+              });
+          } catch (err) {
+            console.log(err.res);
+          }
+        }
+        this.setState({ open: !this.state.open });
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.personalInfo.name = this.state.name;
         this.props.data.personalInfo.middleName = this.state.middleName;
@@ -204,6 +441,7 @@ export default class PersonalDetails extends Component {
     });
   };
 
+  // COMPONENTDIDMOUNT
   async componentDidMount() {
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
@@ -267,6 +505,13 @@ export default class PersonalDetails extends Component {
               res.data.user.personalInfo.verification === "pending")
               ? this.setState({ disabled: false })
               : this.setState({ disabled: true });
+
+            res.data.user.documentsUploaded &&
+              this.setState({
+                documentsUploaded: res.data.user.documentsUploaded
+                  ? res.data.user.documentsUploaded
+                  : [],
+              });
           });
       } catch (error) {
         console.log(error.message);
@@ -275,7 +520,16 @@ export default class PersonalDetails extends Component {
   }
 
   render() {
-    const dropdown_options = ["General", "OBC", "ST", "SC", "NT", "VJNT"];
+    var copy;
+    const dropdown_options = [
+      "General",
+      "OBC",
+      "ST",
+      "SC",
+      "NT",
+      "VJNT",
+      "EWS",
+    ];
     const department_options = [
       "Civil Engineering",
       "Computer Engineering",
@@ -335,7 +589,7 @@ export default class PersonalDetails extends Component {
                     this.confirmData();
                   }}
                 >
-                  Confirm
+                  Save and Proceed
                 </Button>
               </React.Fragment>
             }
@@ -658,6 +912,29 @@ export default class PersonalDetails extends Component {
                 )}
               </div>
             </div>
+
+            {/**
+             * Changes in document collection as per category selection
+             * */}
+            <div style={{ display: "none" }}>
+              {this.state.category !== "General" &&
+              this.state.category !== "EWS"
+                ? (this.state.c_certificate.display = true)
+                : (this.state.c_certificate.display = false)}
+              {this.state.category !== "General" &&
+              this.state.category !== "EWS"
+                ? (this.state.c_validity.display = true)
+                : (this.state.c_validity.display = false)}
+              {this.state.category === "NT" ||
+              this.state.category === "OBC" ||
+              this.state.category === "VJNT"
+                ? (this.state.c_ncl.display = true)
+                : (this.state.c_ncl.display = false)}
+              {this.state.category === "EWS"
+                ? (this.state.ews.display = true)
+                : (this.state.ews.display = false)}
+            </div>
+
             {/*
              * 9. Aadhar Number
              */}
@@ -682,6 +959,7 @@ export default class PersonalDetails extends Component {
                 </div>
               )}
             </div>
+
             {/*
              * 10. Permanent Address
              */}
@@ -708,6 +986,7 @@ export default class PersonalDetails extends Component {
                 </div>
               )}
             </div>
+
             {/*
              * 11. Physically Disable
              * 12. Application in which department
@@ -772,6 +1051,522 @@ export default class PersonalDetails extends Component {
             </div>
           </form>
 
+          {/**
+           *
+           * Document Collection Component
+           *
+           */}
+          <div
+            className="formContainer"
+            style={{ marginTop: "30px", fontSize: "21px" }}
+          >
+            Documents Required
+          </div>
+          <Table>
+            <TableBody>
+              <div>
+                {/* Photo */}
+                {this.state.photo.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.photo.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.photo.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.photo.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.photo.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {/* Sign */}
+                {this.state.sign.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.sign.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.sign.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.sign.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.sign.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {/* Nationality */}
+                {this.state.nationality_c.display ? (
+                  <div>
+                    <div className="field">
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <div>{this.state.nationality_c.name}</div>
+                        <div style={{ opacity: "0.8", fontSize: "13px" }}>
+                          <div style={{ marginLeft: "3px" }}>
+                            Any one of these:
+                          </div>
+                          <ul style={{ marginTop: "0px" }}>
+                            <li>Leaving Certificate with mention of Indian</li>
+                            <li>Passport Certificate</li>
+                            <li>Birth Certificate</li>
+                            <li>Domicile Certificate of Maharashtra</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.nationality_c.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.nationality_c.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.nationality_c.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {/* Caste Certificate  */}
+                {this.state.c_certificate.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.c_certificate.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.c_certificate.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.c_certificate.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.c_certificate.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {/* Caste Validity  */}
+                {this.state.c_validity.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.c_validity.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.c_validity.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.c_validity.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.c_validity.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {/* NCL  */}
+                {this.state.c_ncl.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.c_ncl.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.c_ncl.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.c_ncl.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.c_ncl.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {/* EWS  */}
+                {this.state.ews.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.ews.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.ews.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.ews.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (doc.type === this.state.ews.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+              </div>
+            </TableBody>
+          </Table>
+
+          {/**
+           * Next Button
+           */}
           <div style={{ marginBottom: "30px", marginTop: "30px" }}>
             <React.Fragment>
               <Button
@@ -786,6 +1581,10 @@ export default class PersonalDetails extends Component {
               </Button>
             </React.Fragment>
           </div>
+
+          {/**
+           * End
+           */}
         </div>
       </div>
     );

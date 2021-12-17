@@ -8,12 +8,12 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import viewDoc from "./DocViewer";
-import Sidebar from "../components/Sidebar"
+import Sidebar from "../components/Sidebar";
 export default class phdCordForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      step:1,
+      step: 1,
       personalInfo: "",
       personalInfoStatus: "verified",
       personalInfoRemark: "",
@@ -125,7 +125,6 @@ export default class phdCordForm extends Component {
       })
       .then((res) => {
         console.log("verification details submitted");
-
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -157,113 +156,148 @@ export default class phdCordForm extends Component {
 
     switch (step) {
       case 1:
-    return (
-                <>
-                  <NavBar loggedin={true} />
-                  <div className="container">
-                    <Sidebar user="Coordinator"/>
+        return (
+          <>
+            <NavBar loggedin={true} />
+            <div className="container">
+              <Sidebar user="Coordinator" />
+              <div>
+                <div>
+                  <div>
+                    <div></div>
                     <div>
-
-                    <div>
-                    <div>
-                    <div>
-                    </div>
-                    <div>
-                    <div class="container1">
-                      <table class="tb">
-                        <div className="type">
-                        <div class="h" style={{color:"white",width:"200%"}}>Personal Details</div>
-                        </div>
-                        <tbody>
-                          <tr class="row1">
-                            <td class="first data">Name</td>
-                            <td class="data">{this.state.personalInfo.name}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">Father/Husband's Name</td>
-                            <td class="data">{this.state.personalInfo.middleName}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">Gender</td>
-                            <td class="data">{this.state.personalInfo.gender}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">DOB</td>
-                            <td class="data">{("" + this.state.personalInfo.dob).slice(0, 10)}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">Email</td>
-                            <td class="data">{this.state.personalInfo.email}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Mobile No</td>
-                            <td class="data">{this.state.personalInfo.mobile}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Nationality</td>
-                            <td class="data">{this.state.personalInfo.nationality}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Category</td>
-                            <td class="data">{this.state.personalInfo.category}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Aadhar Card Number</td>
-                            <td class="data">{this.state.personalInfo.aadhar}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Permanent Address</td>
-                            <td class="data">{this.state.personalInfo.address}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Physically Disable</td>
-                            <td class="data">{this.state.personalInfo.physicallyDisabled}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Applying to department</td>
-                            <td class="data">{this.state.personalInfo.department}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <br />
-                      
-                      <div className="title">Documents Uploaded</div>
-                      </div>
-                      <div style={{justifyContent:"left"}}>
-                      {this.state.documentsUploaded.map((doc, id) => (
-                        <div key={doc.id}>
-                          {(doc.type==='Photo' || doc.type==='Signature' || doc.type==='Passport Certificate' || doc.type==='Birth Certificate' || doc.type==='Caste Certificate' || doc.type==='Caste Validity') && (
-                            <div className="field2">
-                            <div className="documents" key={doc.id}>
-                            <div className="docFieldName">{doc.type + "  :"}</div>
-                            <div className="iconMobile">
-                              {/* <div>{id}</div> */}
-                              <div
-                                className="previewIcon"
-                                onClick={() =>
-                                  viewDoc({
-                                    filename: doc.filename,
-                                    contentType: doc.contentType,
-                                    originalName: doc.originalName,
-                                  })
-                                }
-                              >
-                                <ArrowCircleDown />
-                              </div>
+                      <div class="container1">
+                        <table class="tb">
+                          <div className="type">
+                            <div
+                              class="h"
+                              style={{ color: "white", width: "200%" }}
+                            >
+                              Personal Details
                             </div>
-                            <div className="icon">
-                            <div>
-                              <div className="verify">
-                                <div style={{ width: "100%" }}>
-                                  <div
-                                    className="radios"
-                                    onChange={(e) => this.onChangeVerify(e, id)}
-                                  >
-                                    {/* <div>
+                          </div>
+                          <tbody>
+                            <tr class="row1">
+                              <td class="first data">Name</td>
+                              <td class="data">
+                                {this.state.personalInfo.name}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Father/Husband's Name</td>
+                              <td class="data">
+                                {this.state.personalInfo.middleName}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Gender</td>
+                              <td class="data">
+                                {this.state.personalInfo.gender}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">DOB</td>
+                              <td class="data">
+                                {("" + this.state.personalInfo.dob).slice(
+                                  0,
+                                  10
+                                )}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Email</td>
+                              <td class="data">
+                                {this.state.personalInfo.email}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Mobile No</td>
+                              <td class="data">
+                                {this.state.personalInfo.mobile}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Nationality</td>
+                              <td class="data">
+                                {this.state.personalInfo.nationality}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Category</td>
+                              <td class="data">
+                                {this.state.personalInfo.category}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Aadhar Card Number</td>
+                              <td class="data">
+                                {this.state.personalInfo.aadhar}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Permanent Address</td>
+                              <td class="data">
+                                {this.state.personalInfo.address}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Physically Disable</td>
+                              <td class="data">
+                                {this.state.personalInfo.physicallyDisabled}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Applying to department</td>
+                              <td class="data">
+                                {this.state.personalInfo.department}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <br />
+
+                        <div className="title">Documents Uploaded</div>
+                      </div>
+                      <div style={{ justifyContent: "left" }}>
+                        {this.state.documentsUploaded.map((doc, id) => (
+                          <div key={doc.id}>
+                            {(doc.type === "Photo" ||
+                              doc.type === "Signature" ||
+                              doc.type === "Passport Certificate" ||
+                              doc.type === "Birth Certificate" ||
+                              doc.type === "Caste Certificate" ||
+                              doc.type === "Caste Validity") && (
+                              <div className="field2">
+                                <div className="documents" key={doc.id}>
+                                  <div className="docFieldName">
+                                    {doc.type + "  :"}
+                                  </div>
+                                  <div className="iconMobile">
+                                    {/* <div>{id}</div> */}
+                                    <div
+                                      className="previewIcon"
+                                      onClick={() =>
+                                        viewDoc({
+                                          filename: doc.filename,
+                                          contentType: doc.contentType,
+                                          originalName: doc.originalName,
+                                        })
+                                      }
+                                    >
+                                      <ArrowCircleDown />
+                                    </div>
+                                  </div>
+                                  <div className="icon">
+                                    <div>
+                                      <div className="verify">
+                                        <div style={{ width: "100%" }}>
+                                          <div
+                                            className="radios"
+                                            onChange={(e) =>
+                                              this.onChangeVerify(e, id)
+                                            }
+                                          >
+                                            {/* <div>
                                       <input
                                         type="radio"
                                         value="pending"
@@ -278,46 +312,63 @@ export default class phdCordForm extends Component {
                                       />
                                       Pending
                                     </div> */}
-                                    <div>
-                                      <input
-                                        type="radio"
-                                        value="mod_req"
-                                        name={"verification" + id}
-                                        defaultChecked={doc.verification === "mod_req"}
-                                        onChange={() => {
-                                          var copy = [...this.state.documentsUploaded];
-                                          copy[id].verification = "mod_req";
-                                          this.setState({ documentsUploaded: copy });
-                                        }}
-                                        className="radio"
-                                      />{" "}
-                                      Not Verified
-                                    </div>
-                                    <div>
-                                      <input
-                                        type="radio"
-                                        value="verified"
-                                        name={"verification" + id}
-                                        defaultChecked={doc.verification === "verified"}
-                                        onChange={() => {
-                                          var copy = [...this.state.documentsUploaded];
-                                          copy[id].verification = "verified";
-                                          this.setState({ documentsUploaded: copy });
-                                        }}
-                                        className="radio"
-                                      />{" "}
-                                      Verified
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="mod_req"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "mod_req"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "mod_req";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Not Verified
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="verified"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification ===
+                                                  "verified"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "verified";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Verified
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                           </div>
-                          </div>
-                          </div>
-                          )}
-                        </div>
-                      ))}
+                        ))}
                       </div>
                       <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
                       <div className="field1">
@@ -336,155 +387,178 @@ export default class phdCordForm extends Component {
                         </div>
                       </div>
                       <div className="icon">
-                          <div>
-                            <div className="verify">
-                              <div style={{ width: "100%" }}>
-                                <div className="radios">
-                                  <div>
-                                    <input
-                                      type="radio"
-                                      value="pending"
-                                      name="personalInfoStatus"
-                                      checked={
-                                        this.state.personalInfoStatus === "pending"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />
-                                    pending
-                                  </div>
-                                  
-                                  <div>
-                                    <input
-                                      type="radio"
-                                      value="verified"
-                                      name="personalInfoStatus"
-                                      checked={
-                                        this.state.personalInfoStatus === "verified"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />{" "}
-                                    verified
-                                  </div>
+                        <div>
+                          <div className="verify">
+                            <div style={{ width: "100%" }}>
+                              <div className="radios">
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="pending"
+                                    name="personalInfoStatus"
+                                    checked={
+                                      this.state.personalInfoStatus ===
+                                      "pending"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />
+                                  pending
                                 </div>
-                                <br />
-                                <div style={{alignContent:"center"}}>
-                                  <Button
+
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="verified"
+                                    name="personalInfoStatus"
+                                    checked={
+                                      this.state.personalInfoStatus ===
+                                      "verified"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />{" "}
+                                  verified
+                                </div>
+                              </div>
+                              <br />
+                              <div style={{ alignContent: "center" }}>
+                                <Button
                                   variant="contained"
                                   size="large"
                                   style={{ alignSelf: "center" }}
-                                  
                                   onClick={this.nextStep}
-                          
-                                  >
+                                >
                                   Save and next
-                                  </Button>
-                                  </div>
+                                </Button>
                               </div>
                             </div>
                           </div>
-                    </div>
-                    </div>
-                    </div>
-                    <br />
-                  </div>
-                  </div>
-                  </div>
-                  </>
-              );
-              case 2:
-                return (
-                  <>
-                    <NavBar loggedin={true} />
-                  <div className="container">
-                    <Sidebar user="Coordinator"/>
-                    <div>
-                    <div>
-                    <div>
-                    <div>
-                    </div>
-                    <div>
-                    <div class="container1">
-                      <table class="tb">
-                        <div className="type">
-                        <div class="h" style={{color:"white",width:"200%"}}>UG Details</div>
                         </div>
-                        <tbody>
-                          <tr class="row1">
-                            <td class="first data">University/Institute</td>
-                            <td class="data">{this.state.academicsUG.institute}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">Nomenclaure of Degree</td>
-                            <td class="data">{this.state.academicsUG.degree}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">Specialization</td>
-                            <td class="data">{this.state.academicsUG.specialization}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">Marks Obtained</td>
-                            <td class="data">{this.state.academicsUG.totalAggregate}</td>
-                            
-                          </tr>
-                          <tr class="row1">
-                            <td class="first data">Total Marks</td>
-                            <td class="data">{this.state.academicsUG.totalMarks}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">CGPA</td>
-                            <td class="data">{this.state.academicsUG.cgpa10}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Percentage</td>
-                            <td class="data">{this.state.academicsUG.percentageMarks}</td>
-                          </tr>
-                                <tr class="row1">
-                            <td class="first data">Date of Declaration</td>
-                            <td class="data">{("" + this.state.academicsUG.dateOfDeclaration).slice(0, 10)}</td>
-                          </tr>
-          
-                        </tbody>
-                      </table>
-                      <br />
-                      
-                      <div className="title">Documents Uploaded</div>
                       </div>
-                      <div style={{justifyContent:"left"}}>
-                      {this.state.documentsUploaded.map((doc, id) => (
-                        <div key={doc.id}>
-                          {(doc.type==='UG Marksheet' || doc.type==='Leaving Certificate with mention of Indian') && (
-                            <div className="field2">
-                            <div className="documents" key={doc.id}>
-                            <div className="docFieldName">{doc.type + "  :"}</div>
-                            <div className="iconMobile">
-                              {/* <div>{id}</div> */}
-                              <div
-                                className="previewIcon"
-                                onClick={() =>
-                                  viewDoc({
-                                    filename: doc.filename,
-                                    contentType: doc.contentType,
-                                    originalName: doc.originalName,
-                                  })
-                                }
-                              >
-                                <ArrowCircleDown />
-                              </div>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <NavBar loggedin={true} />
+            <div className="container">
+              <Sidebar user="Coordinator" />
+              <div>
+                <div>
+                  <div>
+                    <div></div>
+                    <div>
+                      <div class="container1">
+                        <table class="tb">
+                          <div className="type">
+                            <div
+                              class="h"
+                              style={{ color: "white", width: "200%" }}
+                            >
+                              UG Details
                             </div>
-                            <div className="icon">
-                            <div>
-                              <div className="verify">
-                                <div style={{ width: "100%" }}>
-                                  <div
-                                    className="radios"
-                                    onChange={(e) => this.onChangeVerify(e, id)}
-                                  >
-                                    {/* <div>
+                          </div>
+                          <tbody>
+                            <tr class="row1">
+                              <td class="first data">University/Institute</td>
+                              <td class="data">
+                                {this.state.academicsUG.institute}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Nomenclaure of Degree</td>
+                              <td class="data">
+                                {this.state.academicsUG.degree}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Specialization</td>
+                              <td class="data">
+                                {this.state.academicsUG.specialization}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Marks Obtained</td>
+                              <td class="data">
+                                {this.state.academicsUG.totalAggregate}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Total Marks</td>
+                              <td class="data">
+                                {this.state.academicsUG.totalMarks}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">CGPA</td>
+                              <td class="data">
+                                {this.state.academicsUG.cgpa10}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Percentage</td>
+                              <td class="data">
+                                {this.state.academicsUG.percentageMarks}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Date of Declaration</td>
+                              <td class="data">
+                                {(
+                                  "" + this.state.academicsUG.dateOfDeclaration
+                                ).slice(0, 10)}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <br />
+
+                        <div className="title">Documents Uploaded</div>
+                      </div>
+                      <div style={{ justifyContent: "left" }}>
+                        {this.state.documentsUploaded.map((doc, id) => (
+                          <div key={doc.id}>
+                            {(doc.type === "UG Marksheet" ||
+                              doc.type ===
+                                "Leaving Certificate with mention of Indian") && (
+                              <div className="field2">
+                                <div className="documents" key={doc.id}>
+                                  <div className="docFieldName">
+                                    {doc.type + "  :"}
+                                  </div>
+                                  <div className="iconMobile">
+                                    {/* <div>{id}</div> */}
+                                    <div
+                                      className="previewIcon"
+                                      onClick={() =>
+                                        viewDoc({
+                                          filename: doc.filename,
+                                          contentType: doc.contentType,
+                                          originalName: doc.originalName,
+                                        })
+                                      }
+                                    >
+                                      <ArrowCircleDown />
+                                    </div>
+                                  </div>
+                                  <div className="icon">
+                                    <div>
+                                      <div className="verify">
+                                        <div style={{ width: "100%" }}>
+                                          <div
+                                            className="radios"
+                                            onChange={(e) =>
+                                              this.onChangeVerify(e, id)
+                                            }
+                                          >
+                                            {/* <div>
                                       <input
                                         type="radio"
                                         value="pending"
@@ -499,46 +573,63 @@ export default class phdCordForm extends Component {
                                       />
                                       Pending
                                     </div> */}
-                                    <div>
-                                      <input
-                                        type="radio"
-                                        value="mod_req"
-                                        name={"verification" + id}
-                                        defaultChecked={doc.verification === "mod_req"}
-                                        onChange={() => {
-                                          var copy = [...this.state.documentsUploaded];
-                                          copy[id].verification = "mod_req";
-                                          this.setState({ documentsUploaded: copy });
-                                        }}
-                                        className="radio"
-                                      />{" "}
-                                      Not Verified
-                                    </div>
-                                    <div>
-                                      <input
-                                        type="radio"
-                                        value="verified"
-                                        name={"verification" + id}
-                                        defaultChecked={doc.verification === "verified"}
-                                        onChange={() => {
-                                          var copy = [...this.state.documentsUploaded];
-                                          copy[id].verification = "verified";
-                                          this.setState({ documentsUploaded: copy });
-                                        }}
-                                        className="radio"
-                                      />{" "}
-                                      Verified
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="mod_req"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "mod_req"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "mod_req";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Not Verified
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="verified"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification ===
+                                                  "verified"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "verified";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Verified
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                           </div>
-                          </div>
-                          </div>
-                          )}
-                        </div>
-                      ))}
+                        ))}
                       </div>
                       <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
                       <div className="field1">
@@ -557,24 +648,24 @@ export default class phdCordForm extends Component {
                         </div>
                       </div>
                       <div className="icon">
-                          <div>
-                            <div className="verify">
-                              <div style={{ width: "100%" }}>
-                                <div className="radios">
-                                  <div>
-                                    <input
-                                      type="radio"
-                                      value="pending"
-                                      name="academicsUGStatus"
-                                      checked={
-                                        this.state.academicsUGStatus === "pending"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />
-                                    pending
-                                  </div>
-                                  {/* <div>
+                        <div>
+                          <div className="verify">
+                            <div style={{ width: "100%" }}>
+                              <div className="radios">
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="pending"
+                                    name="academicsUGStatus"
+                                    checked={
+                                      this.state.academicsUGStatus === "pending"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />
+                                  pending
+                                </div>
+                                {/* <div>
                                     <input
                                       type="radio"
                                       value="mod_req"
@@ -587,140 +678,165 @@ export default class phdCordForm extends Component {
                                     />{" "}
                                     mod_req
                                   </div> */}
-                                  <div>
-                                    <input
-                                      type="radio"
-                                      value="verified"
-                                      name="academicsUGStatus"
-                                      checked={
-                                        this.state.academicsUGStatus === "verified"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />{" "}
-                                    verified
-                                  </div>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="verified"
+                                    name="academicsUGStatus"
+                                    checked={
+                                      this.state.academicsUGStatus ===
+                                      "verified"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />{" "}
+                                  verified
                                 </div>
-                                <br />   
                               </div>
+                              <br />
                             </div>
                           </div>
-                    </div>
-                  </div>
-                        <div style={{alignContent:"center", marginLeft:'30%'}}>
-                                  <Button
-                                  variant="outlined"
-                                  size="large"
-                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px'}}
-                                  
-                                  onClick={this.nextStep}
-                          
-                                  >
-                                  Back
-                                  </Button>
-                        
-                                  <Button
-                                  variant="contained"
-                                  size="large"
-                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px' }}
-                                  
-                                  onClick={this.nextStep}
-                          
-                                  >
-                                  Save and next
-                                  </Button>
                         </div>
-                    </div>
-                    <br />
-                  </div>
-                  </div>
-                  </div>
-                  </>
-                );
-                case 3:
-                  return (
-                    <>
-                      <NavBar loggedin={true} />
-                    <div className="container">
-                      <Sidebar user="Coordinator"/>
-                    <div>
-                    <div>
-                    <div>
-                    <div>
                       </div>
-                      <div>
+                    </div>
+                    <div style={{ alignContent: "center", marginLeft: "30%" }}>
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        style={{
+                          alignSelf: "center",
+                          marginRight: "10px",
+                          maxWidth: "250px",
+                          minWidth: "250px",
+                        }}
+                        onClick={this.nextStep}
+                      >
+                        Back
+                      </Button>
+
+                      <Button
+                        variant="contained"
+                        size="large"
+                        style={{
+                          alignSelf: "center",
+                          marginRight: "10px",
+                          maxWidth: "250px",
+                          minWidth: "250px",
+                        }}
+                        onClick={this.nextStep}
+                      >
+                        Save and next
+                      </Button>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <NavBar loggedin={true} />
+            <div className="container">
+              <Sidebar user="Coordinator" />
+              <div>
+                <div>
+                  <div>
+                    <div></div>
+                    <div>
                       <div class="container1">
                         <table class="tb">
                           <div className="type">
-                          <div class="h" style={{color:"white",width:"200%"}}>PG Details</div>
+                            <div
+                              class="h"
+                              style={{ color: "white", width: "200%" }}
+                            >
+                              PG Details
+                            </div>
                           </div>
                           <tbody>
                             <tr class="row1">
                               <td class="first data">University/Institute</td>
-                              <td class="data">{this.state.academicsPG.institute}</td>
-                              
+                              <td class="data">
+                                {this.state.academicsPG.institute}
+                              </td>
                             </tr>
                             <tr class="row1">
                               <td class="first data">Nomenclaure of Degree</td>
-                              <td class="data">{this.state.academicsPG.degree}</td>
-                              
+                              <td class="data">
+                                {this.state.academicsPG.degree}
+                              </td>
                             </tr>
 
                             <tr class="row1">
                               <td class="first data">Marks Obtained</td>
-                              <td class="data">{this.state.academicsPG.totalAggregate}</td>
-                              
+                              <td class="data">
+                                {this.state.academicsPG.totalAggregate}
+                              </td>
                             </tr>
                             <tr class="row1">
                               <td class="first data">Total Marks</td>
-                              <td class="data">{this.state.academicsPG.totalMarks}</td>
+                              <td class="data">
+                                {this.state.academicsPG.totalMarks}
+                              </td>
                             </tr>
-                                  <tr class="row1">
+                            <tr class="row1">
                               <td class="first data">CGPA</td>
-                              <td class="data">{this.state.academicsPG.cgpa10}</td>
+                              <td class="data">
+                                {this.state.academicsPG.cgpa10}
+                              </td>
                             </tr>
                             <tr class="row1">
                               <td class="first data">Percentage</td>
-                              <td class="data">{this.state.academicsPG.percentageMarks}</td>
+                              <td class="data">
+                                {this.state.academicsPG.percentageMarks}
+                              </td>
                             </tr>
-
                           </tbody>
                         </table>
                         <br />
-                        
+
                         <div className="title">Documents Uploaded</div>
-                        </div>
-                        <div style={{justifyContent:"left"}}>
+                      </div>
+                      <div style={{ justifyContent: "left" }}>
                         {this.state.documentsUploaded.map((doc, id) => (
                           <div key={doc.id}>
-                            {(doc.type==='PG Marksheet' || doc.type==='Domicile Certificate of Maharashtra') && (
+                            {(doc.type === "PG Marksheet" ||
+                              doc.type ===
+                                "Domicile Certificate of Maharashtra") && (
                               <div className="field2">
-                              <div className="documents" key={doc.id}>
-                              <div className="docFieldName">{doc.type + "  :"}</div>
-                              <div className="iconMobile">
-                                {/* <div>{id}</div> */}
-                                <div
-                                  className="previewIcon"
-                                  onClick={() =>
-                                    viewDoc({
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    })
-                                  }
-                                >
-                                  <ArrowCircleDown />
-                                </div>
-                              </div>
-                              <div className="icon">
-                              <div>
-                                <div className="verify">
-                                  <div style={{ width: "100%" }}>
+                                <div className="documents" key={doc.id}>
+                                  <div className="docFieldName">
+                                    {doc.type + "  :"}
+                                  </div>
+                                  <div className="iconMobile">
+                                    {/* <div>{id}</div> */}
                                     <div
-                                      className="radios"
-                                      onChange={(e) => this.onChangeVerify(e, id)}
+                                      className="previewIcon"
+                                      onClick={() =>
+                                        viewDoc({
+                                          filename: doc.filename,
+                                          contentType: doc.contentType,
+                                          originalName: doc.originalName,
+                                        })
+                                      }
                                     >
-                                      {/* <div>
+                                      <ArrowCircleDown />
+                                    </div>
+                                  </div>
+                                  <div className="icon">
+                                    <div>
+                                      <div className="verify">
+                                        <div style={{ width: "100%" }}>
+                                          <div
+                                            className="radios"
+                                            onChange={(e) =>
+                                              this.onChangeVerify(e, id)
+                                            }
+                                          >
+                                            {/* <div>
                                         <input
                                           type="radio"
                                           value="pending"
@@ -735,233 +851,100 @@ export default class phdCordForm extends Component {
                                         />
                                         Pending
                                       </div> */}
-                                      <div>
-                                        <input
-                                          type="radio"
-                                          value="mod_req"
-                                          name={"verification" + id}
-                                          defaultChecked={doc.verification === "mod_req"}
-                                          onChange={() => {
-                                            var copy = [...this.state.documentsUploaded];
-                                            copy[id].verification = "mod_req";
-                                            this.setState({ documentsUploaded: copy });
-                                          }}
-                                          className="radio"
-                                        />{" "}
-                                        Not Verified
-                                      </div>
-                                      <div>
-                                        <input
-                                          type="radio"
-                                          value="verified"
-                                          name={"verification" + id}
-                                          defaultChecked={doc.verification === "verified"}
-                                          onChange={() => {
-                                            var copy = [...this.state.documentsUploaded];
-                                            copy[id].verification = "verified";
-                                            this.setState({ documentsUploaded: copy });
-                                          }}
-                                          className="radio"
-                                        />{" "}
-                                        Verified
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="mod_req"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "mod_req"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "mod_req";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Not Verified
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="verified"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification ===
+                                                  "verified"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "verified";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Verified
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            </div>
-                            </div>
                             )}
                           </div>
                         ))}
-                        </div>
-                        {/* Verify + Remarks start */}
-                        <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
-                        <div className="field1">
-                          <div style={{ width: "55%" }}>
-                            <TextField
-                              onChange={this.handleChange}
-                              value={this.state.academicsPGRemark}
-                              variant="outlined"
-                              multiline
-                              minRows={3}
-                              type="text"
-                              name="academicsPGRemark"
-                              label="Remark"
-                              fullWidth
-                            ></TextField>
-                          </div>
-                        </div>
-                        <div className="icon">
-                          <div>
-                            <div className="verify">
-                              <div style={{ width: "100%" }}>
-                                <div className="radios">
-                                  <div>
-                                    <input
-                                      type="radio"
-                                      value="pending"
-                                      name="academicsPGStatus"
-                                      checked={
-                                        this.state.academicsPGStatus === "pending"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />
-                                    pending
-                                  </div>
-                                  {/* <div>
-                                    <input
-                                      type="radio"
-                                      value="mod_req"
-                                      name="entranceDetailsStatus"
-                                      checked={
-                                        this.state.entranceDetailsStatus === "mod_req"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />{" "}
-                                    mod_req
-                                  </div> */}
-                                  <div>
-                                    <input
-                                      type="radio"
-                                      value="verified"
-                                      name="academicsPGStatus"
-                                      checked={
-                                        this.state.academicsPGStatus === "verified"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />{" "}
-                                    verified
-                                  </div>
-                                </div>
-                                <br />                                                                
-                              </div>
-                            </div>   
-                          </div>
-                    </div>
-                  </div>
-                        <div style={{alignContent:"center", marginLeft:'30%'}}>
-                                  <Button
-                                  variant="outlined"
-                                  size="large"
-                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px'}}
-                                  
-                                  onClick={this.nextStep}
-                          
-                                  >
-                                  Back
-                                  </Button>
-                        
-                                  <Button
-                                  variant="contained"
-                                  size="large"
-                                  style={{ alignSelf: "center",marginRight:"10px",maxWidth: '250px',minWidth:'250px' }}
-                                  
-                                  onClick={this.nextStep}
-                          
-                                  >
-                                  Save and next
-                                  </Button>            
-                        </div>
-                    </div>
-                    <br />
-                  </div>
-                  </div>
-                  </div>
-                    </>
-                  );
-                  case 4:
-                    
-                  return (
-                    <>
-                      <NavBar loggedin={true} />
-                    <div className="container">
-                      <Sidebar user="Coordinator"/>
-                      <div>
-                      <div>
-                      <div>
-                      <div>
                       </div>
-                      <div>
-                      <div className="title"> Entrance Exam Details</div>
-                    <div style={{ alignItems: "left", textAlign: "left" }}>
-                      {this.state.entranceDetails.isInterestedCoepRPET && (
-                        <div className="field1">
-                          <div className="fieldName">
-                            Want to appear for COEP's Reasearch Program Eligibility Test
-                            (RPET)
-                          </div>
-                        </div>
-                      )}
-                      {this.state.entranceDetails.givenGate && (
-                        <div className="field1">
-                          <div className="fieldName">Gate</div>
-                          <div>
-                            <div>{this.state.entranceDetails.Gate.score}</div>
-                            <div>
-                              {(
-                                "" + this.state.entranceDetails.Gate.lastDateOfValidation
-                              ).slice(0, 10)}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      {this.state.entranceDetails.isInterestedCoepEntrance && (
-                        <div className="field1">
-                          <div className="fieldName">
-                            Want to appear for COEP entrance exam
-                          </div>
-                        </div>
-                      )}
-                      {this.state.entranceDetails.givenPet && (
-                        <div className="field1">
-                          <div className="fieldName">SPPU ET 2021</div>
-                          <div>
-                            <div>{this.state.entranceDetails.sppuPet.details}</div>
-                            <div>{this.state.entranceDetails.sppuPet.year}</div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/*Verify + Remark Start*/}
+                      {/* Verify + Remarks start */}
                       <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
                       <div className="field1">
                         <div style={{ width: "55%" }}>
                           <TextField
                             onChange={this.handleChange}
-                            value={this.state.entranceDetailsRemark}
+                            value={this.state.academicsPGRemark}
                             variant="outlined"
                             multiline
                             minRows={3}
                             type="text"
-                            name="entranceDetailsRemark"
+                            name="academicsPGRemark"
                             label="Remark"
                             fullWidth
                           ></TextField>
                         </div>
-                        <div className="icon">
-                          <div>
-                            <div className="verify">
-                              <div style={{ width: "100%" }}>
-                                <div className="radios">
-                                  <div>
-                                    <input
-                                      type="radio"
-                                      value="pending"
-                                      name="entranceDetailsStatus"
-                                      checked={
-                                        this.state.entranceDetailsStatus === "pending"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />
-                                    pending
-                                  </div>
-                                  {/* <div>
+                      </div>
+                      <div className="icon">
+                        <div>
+                          <div className="verify">
+                            <div style={{ width: "100%" }}>
+                              <div className="radios">
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="pending"
+                                    name="academicsPGStatus"
+                                    checked={
+                                      this.state.academicsPGStatus === "pending"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />
+                                  pending
+                                </div>
+                                {/* <div>
                                     <input
                                       type="radio"
                                       value="mod_req"
@@ -974,43 +957,208 @@ export default class phdCordForm extends Component {
                                     />{" "}
                                     mod_req
                                   </div> */}
-                                  <div>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="verified"
+                                    name="academicsPGStatus"
+                                    checked={
+                                      this.state.academicsPGStatus ===
+                                      "verified"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />{" "}
+                                  verified
+                                </div>
+                              </div>
+                              <br />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ alignContent: "center", marginLeft: "30%" }}>
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        style={{
+                          alignSelf: "center",
+                          marginRight: "10px",
+                          maxWidth: "250px",
+                          minWidth: "250px",
+                        }}
+                        onClick={this.nextStep}
+                      >
+                        Back
+                      </Button>
+
+                      <Button
+                        variant="contained"
+                        size="large"
+                        style={{
+                          alignSelf: "center",
+                          marginRight: "10px",
+                          maxWidth: "250px",
+                          minWidth: "250px",
+                        }}
+                        onClick={this.nextStep}
+                      >
+                        Save and next
+                      </Button>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            <NavBar loggedin={true} />
+            <div className="container">
+              <Sidebar user="Coordinator" />
+              <div>
+                <div>
+                  <div>
+                    <div></div>
+                    <div>
+                      <div className="title"> Entrance Exam Details</div>
+                      <div style={{ alignItems: "left", textAlign: "left" }}>
+                        {this.state.entranceDetails.isInterestedCoepRPET && (
+                          <div className="field1">
+                            <div className="fieldName">
+                              Want to appear for COEP's Reasearch Program
+                              Eligibility Test (RPET)
+                            </div>
+                          </div>
+                        )}
+                        {this.state.entranceDetails.givenGate && (
+                          <div className="field1">
+                            <div className="fieldName">Gate</div>
+                            <div>
+                              <div>{this.state.entranceDetails.Gate.score}</div>
+                              <div>
+                                {(
+                                  "" +
+                                  this.state.entranceDetails.Gate
+                                    .lastDateOfValidation
+                                ).slice(0, 10)}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        {this.state.entranceDetails
+                          .isInterestedCoepEntrance && (
+                          <div className="field1">
+                            <div className="fieldName">
+                              Want to appear for COEP entrance exam
+                            </div>
+                          </div>
+                        )}
+                        {this.state.entranceDetails.givenPet && (
+                          <div className="field1">
+                            <div className="fieldName">SPPU ET 2021</div>
+                            <div>
+                              <div>
+                                {this.state.entranceDetails.sppuPet.details}
+                              </div>
+                              <div>
+                                {this.state.entranceDetails.sppuPet.year}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/*Verify + Remark Start*/}
+                        <Divider
+                          sx={{ marginTop: "5px", marginBottom: "7px" }}
+                        />
+                        <div className="field1">
+                          <div style={{ width: "55%" }}>
+                            <TextField
+                              onChange={this.handleChange}
+                              value={this.state.entranceDetailsRemark}
+                              variant="outlined"
+                              multiline
+                              minRows={3}
+                              type="text"
+                              name="entranceDetailsRemark"
+                              label="Remark"
+                              fullWidth
+                            ></TextField>
+                          </div>
+                          <div className="icon">
+                            <div>
+                              <div className="verify">
+                                <div style={{ width: "100%" }}>
+                                  <div className="radios">
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="pending"
+                                        name="entranceDetailsStatus"
+                                        checked={
+                                          this.state.entranceDetailsStatus ===
+                                          "pending"
+                                        }
+                                        onChange={this.onChangeVerify}
+                                        className="radio"
+                                      />
+                                      pending
+                                    </div>
+                                    {/* <div>
                                     <input
                                       type="radio"
-                                      value="verified"
+                                      value="mod_req"
                                       name="entranceDetailsStatus"
                                       checked={
-                                        this.state.entranceDetailsStatus === "verified"
+                                        this.state.entranceDetailsStatus === "mod_req"
                                       }
                                       onChange={this.onChangeVerify}
                                       className="radio"
                                     />{" "}
-                                    verified
+                                    mod_req
+                                  </div> */}
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="verified"
+                                        name="entranceDetailsStatus"
+                                        checked={
+                                          this.state.entranceDetailsStatus ===
+                                          "verified"
+                                        }
+                                        onChange={this.onChangeVerify}
+                                        className="radio"
+                                      />{" "}
+                                      verified
+                                    </div>
                                   </div>
-                                </div>
-                                <br />
-                                <Button
+                                  <br />
+                                  <Button
                                     variant="contained"
                                     size="large"
                                     style={{ alignSelf: "center" }}
                                     onClick={this.handleSubmit}
                                   >
-                                  Done
-                                </Button>
+                                    Done
+                                  </Button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>                      
                     </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </>
-                  );
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+    }
   }
 }
-}
-
