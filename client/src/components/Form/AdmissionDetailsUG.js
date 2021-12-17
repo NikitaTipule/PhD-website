@@ -351,7 +351,7 @@ export default class AdmissionDetailsUG extends Component {
                     this.confirmData();
                   }}
                 >
-                  Confirm
+                  Save and Proceed
                 </Button>
               </React.Fragment>
             }

@@ -318,7 +318,7 @@ export default class AdmissionDetailsPG extends Component {
                     this.confirmData();
                   }}
                 >
-                  Confirm
+                  Save and Proceed
                 </Button>
               </React.Fragment>
             }

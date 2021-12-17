@@ -8,6 +8,9 @@ import { BACKEND_URL } from "../../config";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import Divider from "@mui/material/Divider";
+import { Table, TableBody } from "@material-ui/core";
+import { docType } from "../../phdAdmDetails";
 // import { browserHistory } from "react-router";
 
 import "./Documents.css";
@@ -55,13 +58,11 @@ export default class AccountsDetails extends Component {
   };
 
   // FUNCTIONS FOR FILE DATA
-  onFileChange = (event) => {
-    this.setState({ selectedFile: event.target.files[0] });
-  };
-  onFileUpload = async (event) => {
+  onFileChange = async (event) => {
+    await this.setState({ selectedFile: event.target.files[0] });
     const formData = new FormData();
     formData.append("file", this.state.selectedFile);
-    axios
+    await axios
       .post(BACKEND_URL + "/files/upload", formData, {
         headers: {
           "phd-website-jwt": this.state.token,
@@ -116,7 +117,12 @@ export default class AccountsDetails extends Component {
       this.state.errorDate === false &&
       this.state.errorDoc === false
     ) {
-      this.setState({ confirmAlert: !this.state.confirmAlert });
+      if (!this.state.disabled) {
+        this.setState({ confirmAlert: !this.state.confirmAlert });
+      }
+      if (this.state.disabled) {
+        this.props.nextStep();
+      }
       this.props.data.feeDetails.utrDuNumber = this.state.utrDuNumber;
       this.props.data.feeDetails.amount = this.state.amount;
       this.props.data.feeDetails.transactionTime = this.state.transactionTime;
@@ -242,7 +248,7 @@ export default class AccountsDetails extends Component {
     return (
       <div className="accountsContainer">
         {/* Popup on Success */}
-        <div>
+        {/* <div>
           <SweetAlert
             success
             show={this.state.open}
@@ -263,7 +269,7 @@ export default class AccountsDetails extends Component {
               </React.Fragment>
             }
           ></SweetAlert>
-        </div>
+        </div> */}
 
         {/* Pop for confirming data*/}
         <div>
@@ -292,10 +298,10 @@ export default class AccountsDetails extends Component {
                   color="success"
                   size="large"
                   onClick={() => {
-                    this.onConfirm();
+                    this.handleNext();
                   }}
                 >
-                  Confirm
+                  Save and Proceed
                 </Button>
               </React.Fragment>
             }
@@ -445,55 +451,96 @@ export default class AccountsDetails extends Component {
           )}
         </div>
 
-        {/* Payment Receipt    */}
+        {/**
+         *
+         * Document Collection Component
+         *
+         */}
         <div style={{ marginTop: "10px" }}>
-          <Typography>Payment Receipt</Typography>
-          <div className="chooseFile">
-            <input
-              disabled={this.state.disabled}
-              type="file"
-              name="file"
-              accept=".pdf"
-              onChange={this.onFileChange}
-            />
-            <div
-              className={
-                this.state.disabled ? "uploadIconDisabled" : "uploadIcon"
-              }
-              onClick={this.onFileUpload}
-            >
-              <FileUploadIcon />
-            </div>
-            {/* Display if no file is uploaded    */}
-            {!this.state.docUploaded ||
-            Object.keys(this.state.docUploaded).length !== 3 ||
-            this.state.docUploaded.filename === null ||
-            !this.state.docUploaded.filename === "" ? (
-              <div style={{ color: "red" }}>File not uploaded yet</div>
-            ) : (
-              " "
-            )}
-            {/* Display if file is uploaded   */}
-            {this.state.docUploaded &&
-              Object.keys(this.state.docUploaded).length === 3 &&
-              this.state.docUploaded.filename !== "" &&
-              this.state.docUploaded.filename !== null && (
-                <div className="previewFile">
-                  <div style={{ marginRight: "10px" }}>
-                    Current uploaded file:
-                  </div>
-                  <div style={{ marginRight: "10px" }}>
-                    {this.state.docUploaded.originalName}
-                  </div>
-                  <div
-                    className="previewIcon"
-                    onClick={() => viewDoc(this.state.docUploaded)}
-                  >
-                    <VisibilityIcon />
-                  </div>
-                </div>
-              )}
+          <div
+            className="formContainer"
+            style={{ marginTop: "30px", fontSize: "21px" }}
+          >
+            Documents Required
           </div>
+          <Table>
+            <TableBody>
+              <div>
+                {/* Payment Receipt */}
+
+                <div>
+                  <div className="field">
+                    <div>Fee Receipt</div>
+                    <div>
+                      <input
+                        disabled={this.state.disabled}
+                        type="file"
+                        name="Fee Receipt"
+                        onChange={this.onFileChange}
+                      />
+                      {this.state.errorDoc ? (
+                        <div className="docsError">Please upload file</div>
+                      ) : (
+                        ""
+                      )}
+                      {this.state.docUploaded.filename !== null ||
+                      this.state.docUploaded.filename !== undefined ? (
+                        <div>
+                          <div className="docsPreviewDiv">
+                            <div className="docsPreviewFilename">
+                              {this.state.docUploaded.originalName
+                                ? this.state.docUploaded.originalName.slice(
+                                    0,
+                                    10
+                                  )
+                                : " "}
+                              {"...."}
+                            </div>
+                            <div
+                              className="previewIcon"
+                              onClick={() => {
+                                // this.loader();
+                                viewDoc({
+                                  filename: this.state.docUploaded.filename,
+                                  contentType:
+                                    this.state.docUploaded.contentType,
+                                  originalName:
+                                    this.state.docUploaded.originalName,
+                                });
+                              }}
+                            >
+                              <VisibilityIcon />
+                            </div>
+                          </div>
+                          <div>
+                            {this.state.verification === "verified" && (
+                              <div
+                                className="docVerify"
+                                style={{ color: "green" }}
+                              >
+                                Verified
+                              </div>
+                            )}
+                            {this.state.verification === "mod_req" && (
+                              <div
+                                className="docVerify"
+                                style={{ color: "red" }}
+                              >
+                                Modification Required
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        " "
+                      )}
+                    </div>
+                  </div>
+                  <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                </div>
+              </div>
+            </TableBody>
+          </Table>
         </div>
 
         {/* Back and Next buttons   */}
