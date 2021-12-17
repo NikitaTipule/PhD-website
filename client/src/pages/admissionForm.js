@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 import EntranceExamDetails from "../components/Form/EntranceExamDetails";
 import Sidebar from "../components/Sidebar";
 import "../CSS/admissionForm.css";
+import Disclaimer from "../components/Form/Disclaimer";
 
 export default class admissionForm extends Component {
   state = {
@@ -160,6 +161,20 @@ export default class admissionForm extends Component {
             <div className="container">
               <Sidebar user="Candidate" />
               <AccountsDetails
+                nextStep={this.nextStep}
+                data={this.state.data}
+                prevStep={this.prevStep}
+              />
+            </div>
+          </div>
+        );
+      case 6:
+        return (
+          <div>
+            <NavBar loggedin={true} />
+            <div className="container">
+              <Sidebar user="Candidate" />
+              <Disclaimer
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
