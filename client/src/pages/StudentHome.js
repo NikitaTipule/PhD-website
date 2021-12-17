@@ -113,6 +113,19 @@ class StudentHome extends Component {
               pdfEmail: res.data.user.personalInfo.email,
               middleName: res.data.user.personalInfo.middleName,
               gender: res.data.user.personalInfo.gender,
+              category: res.data.user.personalInfo.category,
+              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled,
+              dob: res.data.user.personalInfo.dob,
+              mobile: res.data.user.personalInfo.mobile,
+              cgpaUG: res.data.user.academicsUG.cgpa10,
+              degreeUG: res.data.user.academicsUG.degree,
+              instituteUG: res.data.user.academicsUG.institute,
+              specialUG: res.data.user.academicsUG.specialization,
+              cgpaPG: res.data.user.academicsPG.cgpa10,
+              degreePG: res.data.user.academicsPG.degree,
+              institutePG: res.data.user.academicsPG.institute,
+              percentPG: res.data.user.academicsPG.percentageMarks,
+              scoreGATE: res.data.user.entranceDetails.Gate.score,
               name: res.data.user.name,
               email: res.data.user.email,
               mis: res.data.user.mis,
@@ -173,6 +186,119 @@ class StudentHome extends Component {
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.gender}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Category</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.category}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Physically Disabled?</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.physicallyDisabled}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Date of Birth</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.dob}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Mobile Number</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.mobile}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCellHeader}>Academics UG</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>CGPA</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.cgpaUG}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Degree</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.degreeUG}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Institute</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.instituteUG}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Specialization</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.specialUG}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCellHeader}>Academics PG</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>CGPA</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.cgpaPG}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Degree</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.degreePG}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Institute</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.institutePG}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Percentage Marks</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.percentPG}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCellHeader}>Entrance Details</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Score</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.scoreGATE}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}></Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}></Text>
               </View>
             </View>
           </View>
