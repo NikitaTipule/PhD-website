@@ -101,49 +101,48 @@ class StudentHome extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            console.log(res.data);
             let docver = "verified";
-            res.data.user.documentsUploaded.map(
+            const user = res.data.user;
+            user.documentsUploaded.map(
               (status) =>
                 // docrem=status.remarks.length?status.remarks:"None"
                 //console.log(status.verification)
                 (docver = status.verification === "pending" ? "pending" : "")
             );
             this.setState({
-              pdfName: res.data.user.personalInfo.name,
-              pdfEmail: res.data.user.personalInfo.email,
-              middleName: res.data.user.personalInfo.middleName,
-              gender: res.data.user.personalInfo.gender,
-              category: res.data.user.personalInfo.category,
-              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled,
-              dob: res.data.user.personalInfo.dob,
-              mobile: res.data.user.personalInfo.mobile,
-              cgpaUG: res.data.user.academicsUG.cgpa10,
-              degreeUG: res.data.user.academicsUG.degree,
-              instituteUG: res.data.user.academicsUG.institute,
-              specialUG: res.data.user.academicsUG.specialization,
-              cgpaPG: res.data.user.academicsPG.cgpa10,
-              degreePG: res.data.user.academicsPG.degree,
-              institutePG: res.data.user.academicsPG.institute,
-              percentPG: res.data.user.academicsPG.percentageMarks,
-              scoreGATE: "kjhd",
-              name: res.data.user.name,
-              email: res.data.user.email,
-              mis: res.data.user.mis,
-              PGverification: res.data.user.academicsPG.verification,
-              PGremarks: res.data.user.academicsPG.remarks,
-              UGverification: res.data.user.academicsUG.verification,
-              UGremarks: res.data.user.academicsUG.remarks,
+              pdfName: user.personalInfo.name,
+              pdfEmail: user.personalInfo.email,
+              middleName: user.personalInfo.middleName,
+              gender: user.personalInfo.gender,
+              category: user.personalInfo.category,
+              physicallyDisabled: user.personalInfo.physicallyDisabled,
+              dob: user.personalInfo.dob,
+              mobile: user.personalInfo.mobile,
+              cgpaUG: user.academicsUG.cgpa10,
+              degreeUG: user.academicsUG.degree,
+              instituteUG: user.academicsUG.institute,
+              specialUG: user.academicsUG.specialization,
+              cgpaPG: user.academicsPG.cgpa10,
+              degreePG: user.academicsPG.degree,
+              institutePG: user.academicsPG.institute,
+              percentPG: user.academicsPG.percentageMarks,
+              scoreGATE: user.entranceDetails?.Gate?.score,
+              name: user.name,
+              email: user.email,
+              mis: user.mis,
+              PGverification: user.academicsPG.verification,
+              PGremarks: user.academicsPG.remarks,
+              UGverification: user.academicsUG.verification,
+              UGremarks: user.academicsUG.remarks,
               DOCverification: docver,
               DOCremarks: "None",
-              ENTverification: res.data.user.entranceDetails.verification,
-              ENTremarks: res.data.user.entranceDetails.remarks,
-              FEEverification: res.data.user.feeDetails.verification,
-              FEEremarks: res.data.user.feeDetails.remarks,
-              PIverification: res.data.user.personalInfo.verification,
-              PIremarks: res.data.user.personalInfo.remarks,
+              ENTverification: user.entranceDetails.verification,
+              ENTremarks: user.entranceDetails.remarks,
+              FEEverification: user.feeDetails.verification,
+              FEEremarks: user.feeDetails.remarks,
+              PIverification: user.personalInfo.verification,
+              PIremarks: user.personalInfo.remarks,
             });
-            console.log(res);
           });
       } catch (error) {
         console.log(error.message);
@@ -415,62 +414,62 @@ class StudentHome extends Component {
             >
               <h1 className="textBetween">Verification Status</h1>
             </div>
-            <div class="container-verification">
-              <ul class="responsive-table">
-                <li class="table-header">
-                  <div class="col col-2">
+            <div className="container-verification">
+              <ul className="responsive-table">
+                <li className="table-header">
+                  <div className="col col-2">
                     <b>Field</b>
                   </div>
-                  <div class="col col-3">
+                  <div className="col col-3">
                     <b>Remarks</b>
                   </div>
-                  <div class="col col-4">
+                  <div className="col col-4">
                     <b>Status</b>
                   </div>
                 </li>
-                <li class="table-row">
-                  <div class="col col-2" data-label="Customer Name">
+                <li className="table-row">
+                  <div className="col col-2" data-label="Customer Name">
                     Academics PG
                   </div>
-                  <div class="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Amount">
                     {this.state.PGremarks.length
                       ? this.state.PGremarks
                       : "None"}
                   </div>
                   <div
-                    class="col col-4"
+                    className="col col-4"
                     data-label="Payment Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.PGverification}
                   </div>
                 </li>
-                <li class="table-row">
-                  <div class="col col-2" data-label="Customer Name">
+                <li className="table-row">
+                  <div className="col col-2" data-label="Customer Name">
                     Academics UG
                   </div>
-                  <div class="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Amount">
                     {this.state.UGremarks.length
                       ? this.state.UGremarks
                       : "None"}
                   </div>
                   <div
-                    class="col col-4"
+                    className="col col-4"
                     data-label="Payment Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.UGverification}
                   </div>
                 </li>
-                <li class="table-row">
-                  <div class="col col-2" data-label="Customer Name">
+                <li className="table-row">
+                  <div className="col col-2" data-label="Customer Name">
                     Document Upload
                   </div>
-                  <div class="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Amount">
                     {this.state.DOCremarks}
                   </div>
                   <div
-                    class="col col-4"
+                    className="col col-4"
                     data-label="Payment Status"
                     style={{ textTransform: "capitalize" }}
                   >
@@ -479,51 +478,51 @@ class StudentHome extends Component {
                       : "verified"}
                   </div>
                 </li>
-                <li class="table-row">
-                  <div class="col col-2" data-label="Customer Name">
+                <li className="table-row">
+                  <div className="col col-2" data-label="Customer Name">
                     Entrance Details
                   </div>
-                  <div class="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Amount">
                     {this.state.ENTremarks.length
                       ? this.state.ENTremarks
                       : "None"}
                   </div>
                   <div
-                    class="col col-4"
+                    className="col col-4"
                     data-label="Payment Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.ENTverification}
                   </div>
                 </li>
-                <li class="table-row">
-                  <div class="col col-2" data-label="Customer Name">
+                <li className="table-row">
+                  <div className="col col-2" data-label="Customer Name">
                     Fee Details
                   </div>
-                  <div class="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Amount">
                     {this.state.FEEremarks.length
                       ? this.state.FEEremarks
                       : "None"}
                   </div>
                   <div
-                    class="col col-4"
+                    className="col col-4"
                     data-label="Payment Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.FEEverification}
                   </div>
                 </li>
-                <li class="table-row">
-                  <div class="col col-2" data-label="Customer Name">
+                <li className="table-row">
+                  <div className="col col-2" data-label="Customer Name">
                     Personal Info
                   </div>
-                  <div class="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Amount">
                     {this.state.PIremarks.length
                       ? this.state.PIremarks
                       : "None"}
                   </div>
                   <div
-                    class="col col-4"
+                    className="col col-4"
                     data-label="Payment Status"
                     style={{ textTransform: "capitalize" }}
                   >
