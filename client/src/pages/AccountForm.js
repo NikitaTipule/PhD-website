@@ -1,169 +1,275 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Divider from "@mui/material/Divider";
 import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
-import { TextField, Typography } from "@material-ui/core";
 import Button from "@mui/material/Button";
-import NavBar from "../components/Navbar/Navbar"
 import "./DisplayData.css";
-import { Redirect } from "react-router";
+import { TextField } from "@mui/material";
+import { BACKEND_URL } from "../config";
+import axios from "axios";
+import NavBar from "../components/Navbar/Navbar";
+import viewDoc from "./DocViewer";
+import Sidebar from "../components/Sidebar";
+export default class AccountFormNew extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: this.props.student.name,
+      utrDuNumber: this.props.student.feeDetails.utrDuNumber,
+      amount: this.props.student.feeDetails.amount,
+      bank: this.props.student.feeDetails.bank,
+      documentsUploaded: this.props.student.feeDetails.docUploaded,
+      remarks: this.props.student.feeDetails.remarks,
+      transactionTime: this.props.student.feeDetails.transactionTime,
+      verification: this.props.student.feeDetails.verification,
+      category: this.props.student.personalInfo.category,
 
+      // name: "sldkfj",
+      // utrDuNumber: "lskjdf",
+      // amount: "sdf",
+      // bank: "gdfg",
+      // documentsUploaded: "dfg",
+      // remarks: "dgfgfdg",
+      // transactionTime: "dfgdfg",
+      // verification: "dgdgfdg",
+      // category: "dgffdff",
 
+      //   open: false,
+      //   confirmAlert: false,
 
-  class VerificationComponent extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        verify: "",
-      };
-    }
-  
-    render() {
-      return (
-        <div className="verify">
-          <div style={{ width: "100%" }}>
-            <div className="radios">
-              <div>
-                <input
-                  type="radio"
-                  value="Pending"
-                  name="verify"
-                  checked={this.state.verify === "Pending"}
-                  onChange={this.onChangeGender}
-                  className="radio"
-                />
-                Pending
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  value="Modification-Required"
-                  name="verify"
-                  checked={this.state.verify === "Modification-Required"}
-                  onChange={this.onChangeGender}
-                  className="radio"
-                />{" "}
-                Modification-Required
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  value="Verified"
-                  name="verify"
-                  checked={this.state.verify === "Verified"}
-                  onChange={this.onChangeGender}
-                  className="radio"
-                />{" "}
-                Verified
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      //   remarks: "",
+      redirect: false,
+      token: "",
+      //verification: "",
+    };
+  }
+  async componentDidMount() {
+    // console.log(this.props);
+    console.log(this.props);
+    // console.log(this.state.documentsUploaded);
+
+    if (localStorage.getItem("phd-website-jwt")) {
+      this.setState({
+        token: localStorage.getItem("phd-website-jwt"),
+      });
     }
   }
-  
 
-class AccountForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: "Pragati Narote",
-            category: "NT",
-            DUINumber: "DU9813891",
-            amount: "1000",
-            DateOfPayment: "23/09/2021"
-        }
-    }
+  handleSubmit = async (event) => {
+    this.setState({
+      remarks: this.state.remarks,
+    });
+    // console.log(this.state.remarks);
 
-    handleChange = (event) => {
-      this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      redirect: !this.state.redirect,
+    });
+    const data = {
+      studentId: this.props.student._id,
+      verification: this.state.verification,
+      remarks: this.state.remarks,
     };
-  
-    handleSubmit = (event) => {
-      this.setState({
-        message: this.state.message,
+    // await console.log(data);
+    axios
+      .post(BACKEND_URL + "/students/verify/fee", data, {
+        headers: { "phd-website-jwt": this.state.token },
+      })
+      .then((res) => {
+        console.log("verification details submitted");
+        this.props.updateStudent(
+          data.verification,
+          data.remarks,
+          this.props.student.index,
+          this.props.department
+        );
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert(err.response?.data?.error || "error while submitting");
       });
-      console.log(this.state.message);
-      this.setState({
-        redirect: !this.state.redirect,
-      });
-    };
-  
+  };
 
-    render() {
-        if (this.state.redirect) {
-          return <Redirect to="/account" />;
-        }
-        return(
-          <>
-            <NavBar loggedin={true}/>
-            <div
-                style={{
-                    alignItems: "center",
-                    textAlign: "left",
-                    margin: "30px 10% 30px 10%",
-                }}
-            >
-              <div className="title">Accounts Details</div>
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+      remarks: event.target.value,
+    });
+  };
 
-              <div style={{ alignItems: "left", textAlign: "left" }}>
-                <div className="field">
-                  <div div className="fieldName">Name :</div>
-                  <div>{this.state.name}</div>
-                </div>
+  onChangeVerify = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+      verification: event.target.value,
+    });
+  };
 
-                <div className="field">
-                  <div className="fieldName">Category :</div>
-                  <div>{this.state.category}</div>
-                </div>
-                      
-                <div className="field">
-                  <div className="fieldName">Amount Paid :</div>
-                  <div>{this.state.amount}/-</div>
-                </div>
+  render() {
+    // if (this.state.redirect) {
+    //   // return <Redirect to="/coordinator" />;
+    //   console.log(this.props.student);
+    //   console.log(this.props.location.state.cordId);
+    //   this.props.history.push({
+    //     pathname: "/account",
+    //     // search: `/${id}`,
+    //     // state: { details: this.props.student },
+    //   });
+    // }
+    // const { step } = this.state;
 
-                <div className="field">
-                  <div className="fieldName">UTR/DU Number:</div>
-                  <div>{this.state.DUINumber}</div>
-                </div>
+    return (
+      <>
+        <NavBar loggedin={true} />
+        <div className="container">
+          <Sidebar user="Coordinator" />
+          <div>
+            <div>
+              <div>
+                <div></div>
+                <div>
+                  <div class="container1">
+                    <table class="tb">
+                      <div className="type">
+                        <div
+                          class="h"
+                          style={{ color: "white", width: "200%" }}
+                        >
+                          Payments Details
+                        </div>
+                      </div>
+                      <tbody>
+                        <tr class="row1">
+                          <td class="first data">Name</td>
+                          <td class="data">{this.state.name}</td>
+                        </tr>
+                        <tr class="row1">
+                          <td class="first data">Category</td>
+                          <td class="data">{this.state.category}</td>
+                        </tr>
+                        <tr class="row1">
+                          <td class="first data">Amount Paid</td>
+                          <td class="data">{this.state.amount}</td>
+                        </tr>
+                        <tr class="row1">
+                          <td class="first data">UTR/Du Number</td>
+                          <td class="data">{this.state.utrDuNumber}</td>
+                        </tr>
+                        <tr class="row1">
+                          <td class="first data">Date of Payment</td>
+                          <td class="data">
+                            {this.state.transactionTime.slice(0, 10)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <br />
 
-                <div className="field">
-                  <div className="fieldName">Date Of Payment:</div>
-                  <div>{this.state.DateOfPayment}</div>
-                </div>
-
-                <div className="field" style={{marginTop:"0px"}}>
-                  <div className="documents">
-                    <div className="docFieldName">Payment Reciept: </div>
-                    <div className="iconMobile">
-                      <div>PaymentReciept</div>
-                      <div>
-                        <ArrowCircleDown />
+                    <div className="title">Documents Uploaded</div>
+                  </div>
+                  <div style={{ justifyContent: "left" }}>
+                    <div>
+                      <div className="field2">
+                        <div className="documents" style={{ display: "flex" }}>
+                          <div className="docFieldName">
+                            Payment Receipt :{" "}
+                            {this.state.documentsUploaded.originalName}
+                          </div>
+                          <div className="iconMobile">
+                            <div
+                              className="previewIcon"
+                              onClick={() =>
+                                viewDoc({
+                                  filename:
+                                    this.state.documentsUploaded.filename,
+                                  contentType:
+                                    this.state.documentsUploaded.contentType,
+                                  originalName:
+                                    this.state.documentsUploaded.originalName,
+                                })
+                              }
+                            >
+                              <ArrowCircleDown />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="icon" style={{marginLeft:"0px", justifyContent:"flex-start"}}>
+                  <Divider
+                    sx={{
+                      marginTop: "5px",
+                      marginBottom: "7px",
+                      paddingBottom: "5px",
+                    }}
+                  />
+                  <div className="field1">
+                    <div style={{ width: "55%" }}>
+                      <TextField
+                        onChange={this.handleChange}
+                        value={this.state.remarks}
+                        variant="outlined"
+                        multiline
+                        minRows={3}
+                        type="text"
+                        name="personalInfoRemark"
+                        label="Remark"
+                        fullWidth
+                      ></TextField>
+                    </div>
+                  </div>
+                  <div className="icon">
                     <div>
-                      <VerificationComponent />
+                      <div className="verify">
+                        <div style={{ width: "100%" }}>
+                          <div className="radios">
+                            <div>
+                              <input
+                                type="radio"
+                                value="mod_req"
+                                name="personalInfoStatus"
+                                checked={this.state.verification === "mod_req"}
+                                onChange={this.onChangeVerify}
+                                className="radio"
+                              />
+                              Not Verified
+                            </div>
+
+                            <div>
+                              <input
+                                type="radio"
+                                value="verified"
+                                name="personalInfoStatus"
+                                checked={this.state.verification === "verified"}
+                                onChange={this.onChangeVerify}
+                                className="radio"
+                              />{" "}
+                              Verified
+                            </div>
+                          </div>
+                          <br />
+                          <div
+                            style={{
+                              alignContent: "center",
+                            }}
+                          >
+                            <Button
+                              variant="contained"
+                              size="large"
+                              style={{ alignSelf: "center" }}
+                              onClick={this.handleSubmit}
+                            >
+                              Save
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div> 
-              <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
-
-              <Button
-                variant="contained"
-                size="large"
-                style={{ alignSelf: "center" }}
-                onClick={this.handleSubmit}
-              >
-                Done
-              </Button>
+              </div>
+              <br />
             </div>
-            </>
-        );
-    }
+          </div>
+        </div>
+      </>
+    );
+  }
 }
-
-export default AccountForm;

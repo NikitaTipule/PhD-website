@@ -101,6 +101,7 @@ class StudentHome extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
+            console.log(res.data);
             let docver = "verified";
             res.data.user.documentsUploaded.map(
               (status) =>
@@ -125,7 +126,7 @@ class StudentHome extends Component {
               degreePG: res.data.user.academicsPG.degree,
               institutePG: res.data.user.academicsPG.institute,
               percentPG: res.data.user.academicsPG.percentageMarks,
-              scoreGATE: res.data.user.entranceDetails.Gate.score,
+              scoreGATE: "kjhd",
               name: res.data.user.name,
               email: res.data.user.email,
               mis: res.data.user.mis,
@@ -199,7 +200,9 @@ class StudentHome extends Component {
                 <Text style={styles.tableCell}>Physically Disabled?</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>{this.state.physicallyDisabled}</Text>
+                <Text style={styles.tableCell}>
+                  {this.state.physicallyDisabled}
+                </Text>
               </View>
             </View>
             <View style={styles.tableRow}>

@@ -138,6 +138,7 @@ export default class phdCordForm extends Component {
 
   onChangeVerify = (event) => {
     console.log(event.target.name);
+    console.log(event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -261,12 +262,13 @@ export default class phdCordForm extends Component {
                       <div style={{ justifyContent: "left" }}>
                         {this.state.documentsUploaded.map((doc, id) => (
                           <div key={doc.id}>
-                            {(doc.type === "Photo" ||
-                              doc.type === "Signature" ||
-                              doc.type === "Passport Certificate" ||
-                              doc.type === "Birth Certificate" ||
+                            {(doc.type === "Applicant's Photo" ||
+                              doc.type === "Applicant's Signature" ||
+                              doc.type === "Nationality Certificate" ||
                               doc.type === "Caste Certificate" ||
-                              doc.type === "Caste Validity") && (
+                              doc.type === "Caste Validity" ||
+                              doc.type === "Non-Creamy Layer Certificate" ||
+                              doc.type === "EWS Certificate") && (
                               <div className="field2">
                                 <div className="documents" key={doc.id}>
                                   <div className="docFieldName">
@@ -525,9 +527,7 @@ export default class phdCordForm extends Component {
                       <div style={{ justifyContent: "left" }}>
                         {this.state.documentsUploaded.map((doc, id) => (
                           <div key={doc.id}>
-                            {(doc.type === "UG Marksheet" ||
-                              doc.type ===
-                                "Leaving Certificate with mention of Indian") && (
+                            {doc.type === "UG Marksheet" && (
                               <div className="field2">
                                 <div className="documents" key={doc.id}>
                                   <div className="docFieldName">
@@ -665,19 +665,7 @@ export default class phdCordForm extends Component {
                                   />
                                   pending
                                 </div>
-                                {/* <div>
-                                    <input
-                                      type="radio"
-                                      value="mod_req"
-                                      name="entranceDetailsStatus"
-                                      checked={
-                                        this.state.entranceDetailsStatus === "mod_req"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />{" "}
-                                    mod_req
-                                  </div> */}
+
                                 <div>
                                   <input
                                     type="radio"
@@ -803,9 +791,7 @@ export default class phdCordForm extends Component {
                       <div style={{ justifyContent: "left" }}>
                         {this.state.documentsUploaded.map((doc, id) => (
                           <div key={doc.id}>
-                            {(doc.type === "PG Marksheet" ||
-                              doc.type ===
-                                "Domicile Certificate of Maharashtra") && (
+                            {doc.type === "PG Marksheet" && (
                               <div className="field2">
                                 <div className="documents" key={doc.id}>
                                   <div className="docFieldName">
