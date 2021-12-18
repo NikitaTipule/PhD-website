@@ -4,6 +4,7 @@ const {
   registerStudent,
   verifyMail,
   verifyMobile,
+  sendOtp,
 } = require("../controllers/auth");
 const { auth } = require("../middleware/auth");
 const {
@@ -24,6 +25,7 @@ router.post("/login", loginStudent);
 router.post("/register", registerStudent);
 router.post("/verifymail", verifyMail);
 router.post("/verifymobile", verifyMobile);
+router.post("/resendotp", sendOtp);
 
 router.get("/me", [auth, myProfileStudent]);
 router.get("/:userId", [auth, getStudentInfo]);

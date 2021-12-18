@@ -59,10 +59,13 @@ export default function StudentLogIn() {
         .post(url, data)
         .then((res) => {
           setLoading(false);
-          console.log(res.data.token);
-          localStorage.setItem("phd-website-jwt", res.data.token);
-          localStorage.setItem("phd-website-role", "student");
-          history.push("/candidate");
+          if (res.data.otp_error) {
+            history.push("/candidate-otp", { userId: res.data.userId });
+          } else {
+            localStorage.setItem("phd-website-jwt", res.data.token);
+            localStorage.setItem("phd-website-role", "student");
+            history.push("/candidate");
+          }
         })
         .catch((err) => {
           setLoading(false);
