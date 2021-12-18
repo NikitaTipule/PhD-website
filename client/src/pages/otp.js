@@ -7,10 +7,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NavBar from "../components/Navbar/Navbar";
-import { Form } from "./Form";
 import Input from "./Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import { Redirect } from "react-router";
 
 const theme = createTheme();
@@ -20,12 +20,33 @@ export default function OTP(props) {
   const [mobileotp, setMobileotp] = useState("");
   const [mailVerified, setMailVerified] = useState(false);
   const [mobileVerified, setMobileVerified] = useState(false);
+  const [resendDisabled, setResendDisabled] = useState(false);
+  const location = useLocation();
+
+  const resendOtp = () => {
+    axios
+      .post(BACKEND_URL + "/students/resendotp", {
+        userId: location.state.userId,
+      })
+      .then((res) => {
+        setTimeout(() => {
+          setResendDisabled(false);
+        }, 10000);
+        setResendDisabled(true);
+        alert("resent OTP");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("couldn't resend OTP");
+      });
+  };
+
   const submitMailOtp = (e) => {
     e.preventDefault();
     if (mailotp && mailotp.length === 6) {
       axios
         .post(BACKEND_URL + "/students/verifymail", {
-          userId: props.userId,
+          userId: location.state.userId,
           otp: mailotp,
         })
         .then((res) => {
@@ -44,7 +65,7 @@ export default function OTP(props) {
     if (mobileotp && mobileotp.length === 6) {
       axios
         .post(BACKEND_URL + "/students/verifymobile", {
-          userId: props.userId,
+          userId: location.state.userId,
           otp: mobileotp,
         })
         .then((res) => {
@@ -59,7 +80,7 @@ export default function OTP(props) {
   };
 
   if (mailVerified && mobileVerified) {
-    return <Redirect from="/Register" to="/login/candidate" />;
+    return <Redirect to="/login/candidate" />;
   }
   return (
     <ThemeProvider theme={theme}>
@@ -76,7 +97,7 @@ export default function OTP(props) {
         >
           {/* <Avatar sx={{ m: 1, bgcolor: "cadetblue" }}></Avatar> */}
           <Typography component="h1" variant="h5">
-            Verify
+            Verify Mail and Mobile
           </Typography>
           <br />
           <form>
@@ -92,7 +113,7 @@ export default function OTP(props) {
                   <Button
                     type="submit"
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 1, mb: 3 }}
                     onClick={submitMailOtp}
                     style={{ width: "100%", marginLeft: "2%" }}
                   >
@@ -111,11 +132,27 @@ export default function OTP(props) {
                     <Button
                       type="submit"
                       variant="contained"
-                      sx={{ mt: 3, mb: 2 }}
+                      sx={{ mt: 1, mb: 5 }}
                       onClick={submitMobileOtp}
                       style={{ width: "100%", marginLeft: "2%" }}
                     >
                       Submit
+                    </Button>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Button
+                      sx={{ mb: 2, mt: 3 }}
+                      disabled={resendDisabled}
+                      variant="contained"
+                      onClick={resendOtp}
+                      style={{
+                        width: "100%",
+                        backgroundColor: resendDisabled ? "grey" : "black",
+                        marginLeft: "2%",
+                      }}
+                    >
+                      Resend OTP
                     </Button>
                   </Grid>
 

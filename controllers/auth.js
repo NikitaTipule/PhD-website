@@ -44,31 +44,8 @@ exports.registerStudent = (req, res) => {
       newStudent
         .save()
         .then((user) => {
-          const mailToken = new MailOtp({
-            userId: user._id,
-            otp: Math.floor(Math.random() * 899999 + 100000),
-          });
-          const phoneToken = new PhoneOtp({
-            userId: user._id,
-            otp: Math.floor(Math.random() * 899999 + 100000),
-          });
-          Promise.all([mailToken.save(), phoneToken.save()])
-            .then(() => {
-              const msg1 = `otp for mail verification is ${mailToken.otp}`;
-              console.log(msg1);
-              // sendEmail(user.email, message);
-              const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
-              console.log(msg2);
-              // sendSMS(user.email, message);
-              res.send({
-                userId: user._id,
-                message:
-                  "OTP is sent to your email and mobile number. Please verify both",
-              });
-            })
-            .catch((err) =>
-              res.status(500).json({ error: "internal server error" })
-            );
+          req.body.userId = user._id;
+          return sendOtp(req, res);
         })
         .catch((err) =>
           res.status(400).json({ error: "could not create user" })
@@ -79,6 +56,38 @@ exports.registerStudent = (req, res) => {
       return res.status(400).json({ error: "could not create user" });
     });
 };
+
+const sendOtp = async (req, res) => {
+  const userId = req.body.userId;
+  MailOtp.deleteMany({ userId });
+  PhoneOtp.deleteMany({ userId });
+
+  const mailToken = new MailOtp({
+    userId,
+    otp: Math.floor(Math.random() * 899999 + 100000),
+  });
+  const phoneToken = new PhoneOtp({
+    userId,
+    otp: Math.floor(Math.random() * 899999 + 100000),
+  });
+  Promise.all([mailToken.save(), phoneToken.save()])
+    .then(() => {
+      const msg1 = `otp for mail verification is ${mailToken.otp}`;
+      console.log(msg1);
+      // sendEmail(user.email, message);
+      const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
+      console.log(msg2);
+      // sendSMS(user.email, message);
+      res.send({
+        userId,
+        message:
+          "OTP is sent to your email and mobile number. Please verify both",
+      });
+    })
+    .catch((err) => res.status(500).json({ error: "internal server error" }));
+};
+
+exports.sendOtp = sendOtp;
 
 exports.verifyMail = async (req, res) => {
   const { userId, otp } = req.body;
@@ -141,13 +150,16 @@ exports.loginStudent = (req, res) => {
         return res.status(404).json({ error: "Email not found" });
       }
       if (!user.mailVerified) {
-        return res.send(401).json({
-          error: "Email is not verified, verify before trying to logIn",
+        return res.json({
+          otp_error: "Email is not verified, verify before trying to logIn",
+          userId: user._id,
         });
       }
       if (!user.mobileVerified) {
-        return res.send(401).json({
-          error: "Mobile number is not verified, verify before trying to logIn",
+        return res.json({
+          otp_error:
+            "Mobile number is not verified, verify before trying to logIn",
+          userId: user._id,
         });
       }
 
