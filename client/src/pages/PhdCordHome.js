@@ -15,7 +15,7 @@ import "../CSS/coHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
-import InfoBox from "../components/InfoBox"
+import InfoBox from "../components/InfoBox";
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -38,7 +38,6 @@ class PhdCordHome extends Component {
       flag: true,
       id: "",
     };
-    
   }
 
   async componentDidMount() {
@@ -58,6 +57,7 @@ class PhdCordHome extends Component {
         token: localStorage.getItem("phd-website-jwt"),
       });
       // console.log(this.state.token)
+
       if (this.state.flag) {
         try {
           axios
@@ -130,6 +130,17 @@ class PhdCordHome extends Component {
         }
       }
     }
+    // try {
+    //   axios
+    //     .get(BACKEND_URL + "/departmentinfo/" + this.state.department, {
+    //       headers: { "phd-website-jwt": this.state.token },
+    //     })
+    //     .then((res) => {
+    //       console.log(res.data);
+    //     });
+    // } catch (err) {
+    //   console.log(err.message);
+    // }
   }
 
   upperColumns = [
@@ -207,14 +218,13 @@ class PhdCordHome extends Component {
         counterModification++;
       }
     }
+
     return (
       <>
         <NavBar loggedin={true} />
         <div className="container">
-
-          <Sidebar user="Coordinator"/>
+          <Sidebar user="Coordinator" />
           <div>
-
             <div>
               <div>
                 <div
@@ -273,17 +283,36 @@ class PhdCordHome extends Component {
                 </h1>
                 </div> */}
               <div className="info">
-                <div onClick={() => {this.handleclick1();}}>
-                  <InfoBox count={counterTotal} tag="Total Candidates"/>
-                </div >
-                <div onClick={() => {this.handleclick2();}}>
-                  <InfoBox count={counterVerified} tag="Verified"/>
+                <div
+                  onClick={() => {
+                    this.handleclick1();
+                  }}
+                >
+                  <InfoBox count={counterTotal} tag="Total Candidates" />
                 </div>
-                <div onClick={() => {this.handleclick3();}}>
-                  <InfoBox count={counterNotVerified} tag="Not Verified"/>
+                <div
+                  onClick={() => {
+                    this.handleclick2();
+                  }}
+                >
+                  <InfoBox count={counterVerified} tag="Verified" />
                 </div>
-                <div onClick={() => {this.handleclick4();}}>
-                  <InfoBox count={counterModification} tag="Modification required"/>
+                <div
+                  onClick={() => {
+                    this.handleclick3();
+                  }}
+                >
+                  <InfoBox count={counterNotVerified} tag="Not Verified" />
+                </div>
+                <div
+                  onClick={() => {
+                    this.handleclick4();
+                  }}
+                >
+                  <InfoBox
+                    count={counterModification}
+                    tag="Modification required"
+                  />
                 </div>
               </div>
 

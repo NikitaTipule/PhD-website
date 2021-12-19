@@ -219,36 +219,41 @@ const infoVerifiedStatus = (user) => {
     "entranceDetails",
   ];
 
-  let dv=0, dp=0, dm=0, docVerification="pending";
-  user.documentsUploaded.map((doc)=>{
-    if(doc.verification==="mod_req"){
-      dm=dm+1;
-    }else if(doc.verification==="pending"){
-      dp=dp+1;
-    }else{
-      dv=dv+1;
+  let dv = 0,
+    dp = 0,
+    dm = 0,
+    docVerification = "pending";
+  user.documentsUploaded.map((doc) => {
+    if (doc.verification === "mod_req") {
+      dm = dm + 1;
+    } else if (doc.verification === "pending") {
+      dp = dp + 1;
+    } else {
+      dv = dv + 1;
     }
-  })
-  if(dm>0){
-    docVerification="mod_req";
-  }else if(dp===0 && dm===0){
-    docVerification="verified"
+  });
+  if (dm > 0) {
+    docVerification = "mod_req";
+  } else if (dp === 0 && dm === 0) {
+    docVerification = "verified";
   }
 
-  let v=0, p=0, m=0;
+  let v = 0,
+    p = 0,
+    m = 0;
   for (let f of field_list) {
-    if(user[f].verification==="mod_req"){
-      m=m+1;
-    }else if(user[f].verification==="pending"){
-      p=p+1;
-    }else{
-      v=v+1;
+    if (user[f].verification === "mod_req") {
+      m = m + 1;
+    } else if (user[f].verification === "pending") {
+      p = p + 1;
+    } else {
+      v = v + 1;
     }
   }
 
-  if(p===0 && m===0 && docVerification==="verified") return "verified";
-  if(m>0 || docVerification==="mod_req") return "mod_req";
-  return "pending"
+  if (p === 0 && m === 0 && docVerification === "verified") return "verified";
+  if (m > 0 || docVerification === "mod_req") return "mod_req";
+  return "pending";
 };
 
 exports.verifyStudentInfo = (req, res) => {
@@ -274,10 +279,10 @@ exports.verifyStudentInfo = (req, res) => {
       user.remarks = req.body.remarks;
 
       user.infoVerified = infoVerifiedStatus(user);
-      
-      if (user.infoVerified === "mod_req"){
+
+      if (user.infoVerified === "mod_req") {
         user.editable = true;
-      }else{
+      } else {
         user.editable = false;
       }
 
@@ -299,4 +304,32 @@ exports.verifyStudentInfo = (req, res) => {
       res.status(400).json({ error: "request body contains invalid data" });
     }
   });
+};
+
+exports.getAllStudentsInfoByDept = (req, res) => {
+  console.log(req);
+  const department = req.params && req.params.department;
+  if (!department) {
+    return res.status(400).json({ error: "department is needed" });
+  }
+
+  let projection = "";
+  if (req.userRole == "phdCord" || req.userRole == "admin") {
+    projection =
+      "personalInfo.name personalInfo.middleName email personalInfo.gender personalInfo.dob personalInfo.mobile personalInfo.nationality personalInfo.category personalInfo.aadhar personalInfo.address personalInfo.physicallyDisabled personalInfo.deparment personalInfo.verification personalInfo.remarks academicsUG.institute academicsUG.degree academicsUG.specialization academicsUG.totalAggregate academicsUG.cgpa10 academicsUG.percentageMarks academicsUG.totalMarks academicsUG.dateOfDeclaration academicsPG.institute academicsPG.degree academicsPG.totalAggregate academicsPG.totalMarks academicsPG.cgpa10 academicsPG.percentageMarks academicsPG.verification academicsPG.remarks entranceDetails";
+  } else if (req.userRole == "accountSec") {
+    projection = "name personalInfo.category feeDetails";
+  } else {
+    return res.status(403).json("error : user don't have access to resource");
+  }
+
+  Student.find({ "personalInfo.department": department }, projection)
+    .lean()
+    .exec()
+    .then((users) => {
+      return res.json(users);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: "invalid request" });
+    });
 };
