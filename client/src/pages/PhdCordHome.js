@@ -11,11 +11,12 @@ import TableRow from "@mui/material/TableRow";
 import NavBar from "../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
+import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
 import "../CSS/coHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
-import InfoBox from "../components/InfoBox"
+import InfoBox from "../components/InfoBox";
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -142,6 +143,7 @@ class PhdCordHome extends Component {
     { id: "id", label: "No.", minWidth: 30 },
     { id: "name", label: "Name", minWidth: 120 },
     { id: "infoVerified", label: "Verification Status", minWidth: 70 },
+    { id: "icon", label: "", minWidth: 30 },
   ];
 
   handleChangePage = (event, newPage) => {
@@ -189,6 +191,22 @@ class PhdCordHome extends Component {
     });
   }
 
+  exportToExcel = () => {
+    const otherData = [];
+    this.state.studentData.forEach((student) => {
+      const { _id, ...otherProp } = student;
+      otherData.push(otherProp);
+    });
+    const XLSX = require("xlsx");
+    const workSheet = XLSX.utils.json_to_sheet(otherData);
+    workSheet["!cols"] = [{ wch: 50 }, { wch: 16 }, { wch: 16 }];
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
+    XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workBook, "Students Data.xlsx");
+  };
+
   render() {
     let counterTotal = 0;
     let counterVerified = 0;
@@ -210,10 +228,8 @@ class PhdCordHome extends Component {
       <>
         <NavBar loggedin={true} />
         <div className="container">
-
-          <Sidebar user="Coordinator"/>
+          <Sidebar user="Coordinator" />
           <div>
-
             <div>
               <div>
                 <div
@@ -272,17 +288,36 @@ class PhdCordHome extends Component {
                 </h1>
                 </div> */}
               <div className="info">
-                <div onClick={() => {this.handleclick1();}}>
-                  <InfoBox count={counterTotal} tag="Total Candidates"/>
-                </div >
-                <div onClick={() => {this.handleclick2();}}>
-                  <InfoBox count={counterVerified} tag="Verified"/>
+                <div
+                  onClick={() => {
+                    this.handleclick1();
+                  }}
+                >
+                  <InfoBox count={counterTotal} tag="Total Candidates" />
                 </div>
-                <div onClick={() => {this.handleclick3();}}>
-                  <InfoBox count={counterNotVerified} tag="Not Verified"/>
+                <div
+                  onClick={() => {
+                    this.handleclick2();
+                  }}
+                >
+                  <InfoBox count={counterVerified} tag="Verified" />
                 </div>
-                <div onClick={() => {this.handleclick4();}}>
-                  <InfoBox count={counterModification} tag="Modification required"/>
+                <div
+                  onClick={() => {
+                    this.handleclick3();
+                  }}
+                >
+                  <InfoBox count={counterNotVerified} tag="Not Verified" />
+                </div>
+                <div
+                  onClick={() => {
+                    this.handleclick4();
+                  }}
+                >
+                  <InfoBox
+                    count={counterModification}
+                    tag="Modification required"
+                  />
                 </div>
               </div>
 
@@ -404,7 +439,15 @@ class PhdCordHome extends Component {
                                 color: "black",
                               }}
                             >
-                              {column.label}
+                              {column.label !== "" ? (
+                                column.label
+                              ) : (
+                                <div onClick={() => this.exportToExcel()}>
+                                  <CloudDownloadTwoToneIcon
+                                    cursor={"pointer"}
+                                  />
+                                </div>
+                              )}
                             </TableCell>
                           ))}
                         </TableRow>
