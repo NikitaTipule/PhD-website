@@ -3,6 +3,7 @@ const {
   reqString,
   departmentField,
   email,
+  mobile,
   preSaveHashPassword,
 } = require("./schemaFields");
 

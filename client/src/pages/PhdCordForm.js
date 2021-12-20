@@ -14,6 +14,8 @@ export default class phdCordForm extends Component {
     super(props);
     this.state = {
       step: 1,
+      name: "",
+      mobile: "",
       personalInfo: "",
       personalInfoStatus: "verified",
       personalInfoRemark: "",
@@ -56,6 +58,8 @@ export default class phdCordForm extends Component {
           .then((res) => {
             // console.log(res.data);
             this.setState({
+              name: res.data.user.name,
+              mobile: "",
               personalInfo: res.data.user.personalInfo,
               personalInfoStatus: res.data.user.personalInfo.verification,
               personalInfoRemark: res.data.user.personalInfo.remarks,
@@ -109,8 +113,8 @@ export default class phdCordForm extends Component {
       studentId: this.props.location.state.details,
       personalInfoRemark: this.state.personalInfoRemark,
       personalInfoStatus: this.state.personalInfoStatus,
-      academicsUgRemark: this.state.academicsUgRemark,
-      academicsUgStatus: this.state.academicsUgStatus,
+      academicsUgRemark: this.state.academicsUGRemark,
+      academicsUgStatus: this.state.academicsUGStatus,
       academicsPGRemark: this.state.academicsPGRemark,
       academicsPGStatus: this.state.academicsPGStatus,
       entranceDetails: this.state.entranceDetails,
@@ -207,15 +211,11 @@ export default class phdCordForm extends Component {
                             </tr>
                             <tr class="row1">
                               <td class="first data">Email</td>
-                              <td class="data">
-                                {this.state.personalInfo.email}
-                              </td>
+                              <td class="data">{this.state.email}</td>
                             </tr>
                             <tr class="row1">
                               <td class="first data">Mobile No</td>
-                              <td class="data">
-                                {this.state.personalInfo.mobile}
-                              </td>
+                              <td class="data">{this.state.mobile}</td>
                             </tr>
                             <tr class="row1">
                               <td class="first data">Nationality</td>

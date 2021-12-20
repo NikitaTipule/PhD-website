@@ -26,9 +26,9 @@
   transform: scale(1);
 } */
 
-.NavbarItems{
-  position: sticky;
-  top:0;
+.NavbarItems {
+  position: fixed;
+  top: 0;
 }
 
 .ul-class {

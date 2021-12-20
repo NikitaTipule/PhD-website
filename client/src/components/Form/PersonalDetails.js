@@ -569,7 +569,7 @@ export default class PersonalDetails extends Component {
     });
 
     return (
-      <div className="personal_container">
+      <div className="personal_container" style={{ marginTop: "90px" }}>
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
@@ -937,7 +937,7 @@ export default class PersonalDetails extends Component {
                   </div>
                 )}
               </div>
-              <div className="formNumber">
+              <div className="formNumber" style={{ zIndex: "-1" }}>
                 <Typography style={{ marginBottom: "13px" }}>
                   Category
                 </Typography>
@@ -1074,7 +1074,7 @@ export default class PersonalDetails extends Component {
                   )}
                 </div>
               </div>
-              <div className="formNumber">
+              <div className="formNumber" style={{ zIndex: "-1" }}>
                 <Typography style={{ marginBottom: "13px" }}>
                   Application in which Department
                 </Typography>

@@ -320,7 +320,7 @@ export default class AdmissionDetailsUG extends Component {
     });
 
     return (
-      <div className="admission_container">
+      <div className="admission_container" style={{ marginTop: "90px" }}>
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
@@ -440,7 +440,7 @@ export default class AdmissionDetailsUG extends Component {
 
         {/* Academics UG Details complete form  */}
         <div className="title">Academic Details - UG</div>
-        <div className={"Form"}>
+        <div className={"Form"} style={{ zIndex: "-1" }}>
           <form onNext={this.onNext}>
             {/* 1. University/Institute of UG  */}
             <div style={{ marginBottom: "12px" }}>

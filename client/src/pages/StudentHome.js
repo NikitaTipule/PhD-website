@@ -8,7 +8,7 @@ import "../CSS/studentHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
-import pic from "../images/logo1.png"
+import pic from "../images/logo1.png";
 
 import {
   PDFDownloadLink,
@@ -78,21 +78,21 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 11,
-    textAlign: "left"
+    textAlign: "left",
   },
   sign: {
     fontSize: 11,
-    textAlign: "right"
+    textAlign: "right",
   },
   view: {
-    width: '80%',
-    height: '80',
+    width: "80%",
+    height: "80",
     padding: 0,
     marginBottom: 5,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   image: {
-    objectFit: 'cover',
+    objectFit: "cover",
   },
 });
 
@@ -185,9 +185,9 @@ class StudentHome extends Component {
     const MyDoc = () => (
       <Document>
         <Page style={styles.body}>
-        <View style={styles.view}>
-          <Image style={styles.image} src={pic} alt="image"/>
-        </View>
+          <View style={styles.view}>
+            <Image style={styles.image} src={pic} alt="image" />
+          </View>
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}>
@@ -338,18 +338,19 @@ class StudentHome extends Component {
               </View>
             </View>
           </View>
-          <Text style={styles.declareHead}>
-              Declaration:
-          </Text>
+          <Text style={styles.declareHead}>Declaration:</Text>
           <Text style={styles.declare}>
-          I have read all the rules of admission and after understanding these rules, I have filled this application form for
-          admission to phD in COEP for the academic year 2020-21. The information given by me in this application is true to the best of my knowledge and belief. At any later state, if it is found that I have
-          furnished wrong information and/or submitted false certificate(s), I am aware that my admission stands cancelled and
-          fees paid by me will be forfeited. Further, I will be subject to legal and/or penal action as per the provisions of the law.
+            I have read all the rules of admission and after understanding these
+            rules, I have filled this application form for admission to phD in
+            COEP for the academic year 2020-21. The information given by me in
+            this application is true to the best of my knowledge and belief. At
+            any later state, if it is found that I have furnished wrong
+            information and/or submitted false certificate(s), I am aware that
+            my admission stands cancelled and fees paid by me will be forfeited.
+            Further, I will be subject to legal and/or penal action as per the
+            provisions of the law.
           </Text>
-          <Text style={styles.place}>
-            Place : 
-          </Text>
+          <Text style={styles.place}>Place :</Text>
           <Text style={styles.date}>Date :</Text>
           <Text style={styles.sign}>Signature of Candidate</Text>
         </Page>
@@ -384,14 +385,14 @@ class StudentHome extends Component {
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Name : </b>
                       {"   "}
-                      Nikita Sopan Tipule
+                      {this.state.name}
                     </p>
                   </Grid>
                   <Grid item xs={12} md={6} className="grid-item">
                     <p style={{ fontSize: "20px" }}>
                       <b style={{ fontWeight: 600 }}>Email : </b>
                       {"   "}
-                      student@gamil.com
+                      {this.state.email}
                     </p>
                   </Grid>
                 </Grid>
