@@ -58,6 +58,8 @@ export default class EntranceExamDetails extends Component {
       next: false,
       confirmAlert: false,
 
+      try: 1,
+
       token: localStorage.getItem("phd-website-jwt"),
     };
   }
@@ -169,6 +171,10 @@ export default class EntranceExamDetails extends Component {
     this.setState({
       optionsSelected: selectedList,
     });
+  };
+
+  onRemove = (selectedList, selectedItem) => {
+    this.setState({ optionsSelected: selectedList });
   };
 
   onCancel = () => {
@@ -521,6 +527,7 @@ export default class EntranceExamDetails extends Component {
                 <Multiselect
                   disable={this.state.disabled}
                   options={this.state.options}
+                  onRemove={this.onRemove}
                   onSelect={this.handleSelect}
                   placeholder="Details regarded extrance exams..."
                   displayValue="name"
@@ -538,6 +545,7 @@ export default class EntranceExamDetails extends Component {
                     },
                   }}
                 />
+
                 {this.state.errorOptionsSelected && (
                   <div style={{ color: "red" }}>
                     <Typography>Please select something</Typography>
