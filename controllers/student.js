@@ -251,6 +251,10 @@ const infoVerifiedStatus = (user) => {
     }
   }
 
+  if (documentsUploaded.length() === 0) {
+    docVerification = "pending";
+  }
+
   if (p === 0 && m === 0 && docVerification === "verified") return "verified";
   if (m > 0 || docVerification === "mod_req") return "mod_req";
   return "pending";

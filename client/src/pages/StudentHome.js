@@ -132,14 +132,31 @@ class StudentHome extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            let docver = "verified";
             const user = res.data.user;
-            user.documentsUploaded.map(
-              (status) =>
-                // docrem=status.remarks.length?status.remarks:"None"
-                //console.log(status.verification)
-                (docver = status.verification === "pending" ? "pending" : "")
-            );
+
+            // Get the verification status of documents
+            let dv = 0,
+              dp = 0,
+              dm = 0;
+            this.setState({ docVerification: "pending" });
+            user.documentsUploaded.map((doc) => {
+              if (doc.verification === "mod_req") {
+                dm = dm + 1;
+              } else if (doc.verification === "pending") {
+                dp = dp + 1;
+              } else {
+                dv = dv + 1;
+              }
+            });
+            if (dm > 0) {
+              this.setState({ docVerification: "mod_req" });
+            } else if (dp === 0 && dm === 0) {
+              this.setState({ docVerification: "verified" });
+            }
+            if (user.documentsUploaded.length === 0) {
+              this.setState({ docVerification: "pending" });
+            }
+
             this.setState({
               pdfName: user.personalInfo.name,
               pdfEmail: user.personalInfo.email,
@@ -165,7 +182,6 @@ class StudentHome extends Component {
               PGremarks: user.academicsPG.remarks,
               UGverification: user.academicsUG.verification,
               UGremarks: user.academicsUG.remarks,
-              DOCverification: docver,
               DOCremarks: "None",
               ENTverification: user.entranceDetails.verification,
               ENTremarks: user.entranceDetails.remarks,
@@ -522,9 +538,9 @@ class StudentHome extends Component {
                     data-label="Payment Status"
                     style={{ textTransform: "capitalize" }}
                   >
-                    {this.state.DOCverification.length
-                      ? this.state.DOCverification
-                      : "verified"}
+                    {this.state.docVerification === "mod_req"
+                      ? "Modification Required"
+                      : this.state.docVerification}
                   </div>
                 </li>
                 <li className="table-row">
