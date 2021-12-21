@@ -108,6 +108,7 @@ const StudentSchema = Schema(
     email: email,
     mobile: { type: String },
     password: reqString,
+    applicationId: { type: String },
     personalInfo: personalInfo,
     academicsUG: academicsUG,
     academicsPG: academicsPG,
