@@ -38,6 +38,11 @@ export default class PersonalDetails extends Component {
         error: false,
         display: true,
       },
+      doc_physicallyDisable: {
+        name: docType.doc_physicallyDisable,
+        error: false,
+        display: false,
+      },
 
       name: "",
       middleName: "",
@@ -144,6 +149,49 @@ export default class PersonalDetails extends Component {
     this.setState({
       category: event.value,
     });
+
+    // var c_certificate = { ...this.state.c_certificate };
+    // var c_validity = { ...this.state.c_validity };
+    // var c_ncl = { ...this.state.c_ncl };
+    // var ews = { ...this.state.ews };
+
+    // if (
+    //   this.state.category === "SC" ||
+    //   this.state.category === "ST" ||
+    //   this.state.category === "OBC" ||
+    //   this.state.category === "NT" ||
+    //   this.state.category === "VJNT"
+    // ) {
+    //   c_certificate.display = true;
+    //   this.setState({ c_certificate: c_certificate });
+    //   c_validity.display = true;
+    //   this.setState({ c_validity: c_validity });
+    // } else {
+    //   c_certificate.display = false;
+    //   this.setState({ c_certificate: c_certificate });
+    //   c_validity.display = false;
+    //   this.setState({ c_validity: c_validity });
+    // }
+
+    // if (
+    //   this.state.category === "OBC" ||
+    //   this.state.category === "NT" ||
+    //   this.state.category === "VJNT"
+    // ) {
+    //   c_ncl.display = true;
+    //   this.setState({ c_ncl: c_ncl });
+    // } else {
+    //   c_ncl.display = false;
+    //   this.setState({ c_ncl: c_ncl });
+    // }
+
+    // if (this.state.category === "EWS") {
+    //   ews.display = true;
+    //   this.setState({ ews: ews });
+    // } else {
+    //   ews.display = false;
+    //   this.setState({ ews: ews });
+    // }
   };
 
   onChangeDisability = (event) => {
@@ -282,6 +330,30 @@ export default class PersonalDetails extends Component {
       }
     }
 
+    if (this.state.doc_physicallyDisable.display) {
+      if (
+        this.state.documentsUploaded.some(
+          (e) => e.type === docType.doc_physicallyDisable
+        )
+      ) {
+        this.setState({
+          doc_physicallyDisable: {
+            name: this.state.doc_physicallyDisable.name,
+            error: false,
+            display: this.state.doc_physicallyDisable.display,
+          },
+        });
+      } else {
+        this.setState({
+          doc_physicallyDisable: {
+            name: this.state.doc_physicallyDisable.name,
+            error: true,
+            display: this.state.doc_physicallyDisable.display,
+          },
+        });
+      }
+    }
+
     if (this.state.ews.display) {
       if (this.state.documentsUploaded.some((e) => e.type === docType.ews)) {
         this.setState({
@@ -367,6 +439,7 @@ export default class PersonalDetails extends Component {
     } else {
       await this.validateData();
       if (
+        !this.state.doc_physicallyDisable.error &&
         !this.state.nationality_c.error &&
         !this.state.photo.error &&
         !this.state.sign.error &&
@@ -937,7 +1010,7 @@ export default class PersonalDetails extends Component {
                   </div>
                 )}
               </div>
-              <div className="formNumber" style={{ zIndex: "-1" }}>
+              <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
                   Category
                 </Typography>
@@ -960,12 +1033,18 @@ export default class PersonalDetails extends Component {
              * Changes in document collection as per category selection
              * */}
             <div style={{ display: "none" }}>
-              {this.state.category !== "General" &&
-              this.state.category !== "EWS"
+              {this.state.category === "SC" ||
+              this.state.category === "ST" ||
+              this.state.category === "OBC" ||
+              this.state.category === "NT" ||
+              this.state.category === "VJNT"
                 ? (this.state.c_certificate.display = true)
                 : (this.state.c_certificate.display = false)}
-              {this.state.category !== "General" &&
-              this.state.category !== "EWS"
+              {this.state.category === "SC" ||
+              this.state.category === "ST" ||
+              this.state.category === "OBC" ||
+              this.state.category === "NT" ||
+              this.state.category === "VJNT"
                 ? (this.state.c_validity.display = true)
                 : (this.state.c_validity.display = false)}
               {this.state.category === "NT" ||
@@ -1073,8 +1152,13 @@ export default class PersonalDetails extends Component {
                     </div>
                   )}
                 </div>
+
+                {/* Document of physical disability needed or not */}
+                {this.state.physicallyDisabled === "Yes"
+                  ? (this.state.doc_physicallyDisable.display = true)
+                  : (this.state.doc_physicallyDisable.display = false)}
               </div>
-              <div className="formNumber" style={{ zIndex: "-1" }}>
+              <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
                   Application in which Department
                 </Typography>
@@ -1554,6 +1638,77 @@ export default class PersonalDetails extends Component {
                         )}
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.ews.name) {
+                            return (
+                              <div>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <div
+                                    className="previewIcon"
+                                    onClick={() => {
+                                      // this.loader();
+                                      viewDoc({
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      });
+                                    }}
+                                  >
+                                    <VisibilityIcon />
+                                  </div>
+                                </div>
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {/* Physically Disable  */}
+                {this.state.doc_physicallyDisable.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.doc_physicallyDisable.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.doc_physicallyDisable.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.doc_physicallyDisable.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.state.documentsUploaded.map((doc, id) => {
+                          if (
+                            doc.type === this.state.doc_physicallyDisable.name
+                          ) {
                             return (
                               <div>
                                 <div className="docsPreviewDiv">
