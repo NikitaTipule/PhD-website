@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import NavBar from "../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
+import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
 import "../CSS/coHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
@@ -40,7 +41,6 @@ class AccountHomeNew extends Component {
       length: 0,
       flag: true,
       id: "",
-      department: "",
       selectedStudent: "",
     };
   }
@@ -84,6 +84,7 @@ class AccountHomeNew extends Component {
       label: "Verification Status",
       minWidth: 70,
     },
+    { id: "icon", label: "", minwidth: 70 },
   ];
 
   handleChangePage = (event, newPage) => {
@@ -181,6 +182,25 @@ class AccountHomeNew extends Component {
       selectedStudent: row.index,
     });
   }
+
+  exportToExcel = () => {
+    console.log(this.state.allStudents);
+    const otherData = [];
+    this.state.allStudents.forEach((student) => {
+      const { personalInfo, name, ...otherProp } = student;
+      const { category } = personalInfo;
+      otherData.push({ name, category });
+    });
+    console.log(otherData);
+    const XLSX = require("xlsx");
+    const workSheet = XLSX.utils.json_to_sheet(otherData);
+    workSheet["!cols"] = [{ wch: 40 }, { wch: 16 }];
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
+    XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workBook, "Students Data.xlsx");
+  };
 
   render() {
     const department_options = [
@@ -399,7 +419,15 @@ class AccountHomeNew extends Component {
                                       color: "black",
                                     }}
                                   >
-                                    {column.label}
+                                    {column.label !== "" ? (
+                                      column.label
+                                    ) : (
+                                      <div onClick={() => this.exportToExcel()}>
+                                        <CloudDownloadTwoToneIcon
+                                          cursor={"pointer"}
+                                        />
+                                      </div>
+                                    )}
                                   </TableCell>
                                 ))}
                               </TableRow>

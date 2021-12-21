@@ -26,6 +26,7 @@ class PhdCordHome extends Component {
       email: "",
       mis: "",
       studentData: [],
+      allStudentData: [],
       allStudent: [],
       logout: false,
       page: 0,
@@ -87,6 +88,23 @@ class PhdCordHome extends Component {
                     });
                     console.log(response.data);
                   });
+                try {
+                  axios
+                    .get(
+                      BACKEND_URL +
+                        "/students/departmentinfo/" +
+                        this.state.department,
+                      { headers: { "phd-website-jwt": this.state.token } }
+                    )
+                    .then((res) => {
+                      this.setState({
+                        allStudentData: res.data,
+                      });
+                      console.log(res.data);
+                    });
+                } catch (err) {
+                  console.log(err.message);
+                }
               } catch (err) {
                 console.log(err.message);
               }
@@ -122,6 +140,23 @@ class PhdCordHome extends Component {
                     });
                     console.log(response.data);
                   });
+                try {
+                  axios
+                    .get(
+                      BACKEND_URL +
+                        "/students/departmentinfo/" +
+                        this.state.department,
+                      { headers: { "phd-website-jwt": this.state.token } }
+                    )
+                    .then((res) => {
+                      this.setState({
+                        allStudentData: res.data,
+                      });
+                      console.log(res.data);
+                    });
+                } catch (err) {
+                  console.log(err.message);
+                }
               } catch (err) {
                 console.log(err.message);
               }
@@ -204,14 +239,29 @@ class PhdCordHome extends Component {
   }
 
   exportToExcel = () => {
+    console.log(this.state.allStudentData);
     const otherData = [];
-    this.state.studentData.forEach((student) => {
+    this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
-      otherData.push(otherProp);
+      otherData.push(otherProp.personalInfo);
     });
+    console.log(otherData);
     const XLSX = require("xlsx");
     const workSheet = XLSX.utils.json_to_sheet(otherData);
-    workSheet["!cols"] = [{ wch: 50 }, { wch: 16 }, { wch: 16 }];
+    workSheet["!cols"] = [
+      { wch: 40 },
+      { wch: 40 },
+      { wch: 16 },
+      { wch: 30 },
+      { wch: 25 },
+      { wch: 16 },
+      { wch: 10 },
+      { wch: 25 },
+      { wch: 40 },
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 16 },
+    ];
     const workBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
     XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
