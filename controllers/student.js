@@ -1,4 +1,5 @@
 const Student = require("../models/student");
+const Counter = require("../models/counter");
 
 exports.myProfileStudent = (req, res) => {
   if (!req.userId) res.status(400).json({ error: "id is required" });
@@ -62,19 +63,32 @@ exports.lockProfile = (req, res) => {
   if (req.userRole != "student") {
     res.status(403).json({ error: "only student can confirm his profile" });
   }
-  Student.updateOne(
-    { _id: req.userId },
-    {
-      $set: {
-        editable: false,
-      },
-    },
-    (err, ans) => {
-      if (err) return res.status(400).json({ err });
-      console.log(ans);
-      return { success: "true" };
+  Student.findById(req.userId, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ err });
     }
-  );
+    user.editable = false;
+    const dept = user.personalInfo.department;
+    Counter.findOne({ department: dept }, (err, counter) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ err });
+      }
+      counter.index = counter.index + 1;
+      const ind = counter.index.toString().padStart(3, "0");
+      const appId = `PH21${counter.code}${ind}`;
+      user.applicationId = appId;
+      Promise.all([user.save(), counter.save()])
+        .then(() => {
+          res.json({ success: "true", applicationId: appId });
+        })
+        .catch((e) => {
+          console.log(e);
+          return res.status(400).json({ err });
+        });
+    });
+  });
 };
 
 // ignore changes made to verification data by user and mark updates documents as unverified
