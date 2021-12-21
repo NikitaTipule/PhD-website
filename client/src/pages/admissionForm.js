@@ -107,7 +107,7 @@ export default class admissionForm extends Component {
               <Sidebar user="Candidate" />
               <PersonalDetails
                 nextStep={this.nextStep}
-                data={this.state.data}
+                data={this.state.data} 
               />
             </div>
           </div>
