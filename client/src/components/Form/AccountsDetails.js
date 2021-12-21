@@ -165,6 +165,8 @@ export default class AccountsDetails extends Component {
     } catch (err) {
       console.log(err);
     }
+
+    this.props.nextStep();
   };
 
   // Handle Pop-up Cancels
