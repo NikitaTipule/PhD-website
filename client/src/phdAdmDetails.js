@@ -51,4 +51,6 @@ export const docType = {
   c_ncl: "Non-Creamy Layer Certificate",
 
   ews: "EWS Certificate",
+
+  doc_physicallyDisable: "Proof of Physical Disability",
 };
