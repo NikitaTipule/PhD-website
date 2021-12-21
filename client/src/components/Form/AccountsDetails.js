@@ -140,6 +140,7 @@ export default class AccountsDetails extends Component {
       const feeDetails = {
         feeDetails: this.props.data.feeDetails,
       };
+      console.log(feeDetails);
       try {
         axios
           .post(BACKEND_URL + "/students/edit/fee", feeDetails, {
@@ -298,7 +299,7 @@ export default class AccountsDetails extends Component {
                   color="success"
                   size="large"
                   onClick={() => {
-                    this.handleNext();
+                    this.onConfirm();
                   }}
                 >
                   Save and Proceed

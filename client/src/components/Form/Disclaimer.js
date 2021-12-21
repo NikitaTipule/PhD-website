@@ -88,7 +88,7 @@ export default class Disclaimer extends Component {
     });
 
     return (
-      <div style={{ margin: "30px", marginRight: "60px" }}>
+      <div style={{ margin: "30px", marginRight: "60px", marginTop: "100px" }}>
         {/* Popup on Success */}
         <div>
           <SweetAlert
