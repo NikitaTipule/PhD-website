@@ -24,7 +24,6 @@ class PhdCordHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu: false,
       name: "",
       email: "",
       mis: "",
@@ -155,7 +154,7 @@ class PhdCordHome extends Component {
                       this.setState({
                         allStudentData: res.data,
                       });
-                      console.log(res.data);
+                      console.log(res);
                     });
                 } catch (err) {
                   console.log(err.message);
@@ -246,7 +245,14 @@ class PhdCordHome extends Component {
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
-      otherData.push(otherProp.personalInfo);
+      const data = {
+        ...otherProp.personalInfo,
+        ...otherProp.academicsUG,
+        ...otherProp.academicsPG,
+        ...otherProp.entranceDetails,
+      };
+      otherData.push(data);
+      // console.log(student);
     });
     console.log(otherData);
     const XLSX = require("xlsx");
@@ -298,7 +304,7 @@ class PhdCordHome extends Component {
           : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
         </div>
         <div className="container">
-          {!this.state.menu && <Sidebar className="mob" user="Coordinator"/>}
+          {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
           <div>
             <div>
               <div>
