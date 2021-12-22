@@ -113,16 +113,16 @@ export default class phdCordForm extends Component {
       studentId: this.props.location.state.details,
       personalInfoRemark: this.state.personalInfoRemark,
       personalInfoStatus: this.state.personalInfoStatus,
-      academicsUgRemark: this.state.academicsUGRemark,
-      academicsUgStatus: this.state.academicsUGStatus,
+      academicsUGRemark: this.state.academicsUGRemark,
+      academicsUGStatus: this.state.academicsUGStatus,
       academicsPGRemark: this.state.academicsPGRemark,
       academicsPGStatus: this.state.academicsPGStatus,
-      entranceDetails: this.state.entranceDetails,
+      entranceDetailsRemark: this.state.entranceDetailsRemark,
       entranceDetailsStatus: this.state.entranceDetailsStatus,
       documentsUploaded: this.state.documentsUploaded,
       remarks: this.state.remarks,
     };
-    // await console.log(data);
+    await console.log(data);
     axios
       .post(BACKEND_URL + "/students/verify/info", data, {
         headers: { "phd-website-jwt": this.state.token },

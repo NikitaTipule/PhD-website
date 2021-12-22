@@ -233,6 +233,8 @@ const infoVerifiedStatus = (user) => {
     "entranceDetails",
   ];
 
+  console.log(user);
+
   let dv = 0,
     dp = 0,
     dm = 0,
@@ -265,7 +267,7 @@ const infoVerifiedStatus = (user) => {
     }
   }
 
-  if (documentsUploaded.length() === 0) {
+  if (user.documentsUploaded.length === 0) {
     docVerification = "pending";
   }
 
@@ -304,10 +306,14 @@ exports.verifyStudentInfo = (req, res) => {
         user.editable = false;
       }
 
+      console.log("================================");
+      console.log("DDDDDDDDDDDDDDDDDDD", user);
+
       user.documentsUploaded = applyVerification(
         req.body.documentsUploaded,
         user.documentsUploaded
       );
+
       user
         .save()
         .then(() => res.json({ success: true }))
