@@ -9,6 +9,8 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
 import pic from "../images/logo1.png";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {
   PDFDownloadLink,
@@ -100,6 +102,7 @@ class StudentHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      menu: false,
       name: "",
       email: "",
       pdfName: "",
@@ -372,12 +375,18 @@ class StudentHome extends Component {
         </Page>
       </Document>
     );
+
+    // this.state = { menu: true };
+
     return (
       <div>
         <NavBar loggedin={true} />
-
-        <div className="container" style={{ marginTop: "76px" }}>
-          <Sidebar user="Candidate" />
+        <div className="menu" >
+          {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+          : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+        </div>
+        <div className="container">
+          {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
           <div>
             <div
               style={{

@@ -77,3 +77,42 @@
 .tablecell .hover {
   background-color: #D3E2DA;
 }
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+	height: 100vh;
+	margin: auto;
+  margin-top: 70px;
+}
+
+.menu{
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .menu{
+    display: block;
+    position: fixed;
+    z-index: 2000000;
+    top: 20px;
+    right: 20px;
+    color: white;
+  }
+  .mob{
+    visibility: none;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .Sidebar{
+  position: absolute;
+  margin-top: 0;
+  height: 60%;
+  width: 100%;
+  opacity: 100%;
+  }
+  .container{
+    display: flex;
+  }
+}

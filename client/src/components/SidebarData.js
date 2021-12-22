@@ -28,12 +28,12 @@ export const SidebarData = [
   icon: <ModeIcon/>,
   link: "/admissionform",
  },
- // {
- //  title: "Download Form",
- //  user: "Candidate",
- //  icon: <DownloadIcon/>,
- //  link: "/"
- // },
+ {
+  title: "Download Form",
+  user: "Candidate",
+  icon: <DownloadIcon/>,
+  link: "/"
+ },
  {
   title: "Logout",
   user: "Candidate",
