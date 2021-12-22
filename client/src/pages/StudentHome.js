@@ -376,7 +376,7 @@ class StudentHome extends Component {
       <div>
         <NavBar loggedin={true} />
 
-        <div className="container">
+        <div className="container" style={{ marginTop: "76px" }}>
           <Sidebar user="Candidate" />
           <div>
             <div
