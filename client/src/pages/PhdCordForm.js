@@ -14,7 +14,7 @@ export default class phdCordForm extends Component {
     super(props);
     this.state = {
       step: 1,
-      name: "",
+      email: "",
       mobile: "",
       personalInfo: "",
       personalInfoStatus: "verified",
@@ -58,8 +58,8 @@ export default class phdCordForm extends Component {
           .then((res) => {
             // console.log(res.data);
             this.setState({
-              name: res.data.user.name,
-              mobile: "",
+              email: res.data.user.email,
+              mobile: res.data.user.mobile,
               personalInfo: res.data.user.personalInfo,
               personalInfoStatus: res.data.user.personalInfo.verification,
               personalInfoRemark: res.data.user.personalInfo.remarks,
@@ -166,7 +166,7 @@ export default class phdCordForm extends Component {
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div>
+              <div style={{ marginTop: "77px" }}>
                 <div>
                   <div>
                     <div></div>
@@ -452,7 +452,7 @@ export default class phdCordForm extends Component {
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div>
+              <div style={{ marginTop: "77px" }}>
                 <div>
                   <div>
                     <div></div>
@@ -729,7 +729,7 @@ export default class phdCordForm extends Component {
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div>
+              <div style={{ marginTop: "77px" }}>
                 <div>
                   <div>
                     <div></div>
@@ -1006,7 +1006,7 @@ export default class phdCordForm extends Component {
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div>
+              <div style={{ marginTop: "77px" }}>
                 <div>
                   <div>
                     <div></div>

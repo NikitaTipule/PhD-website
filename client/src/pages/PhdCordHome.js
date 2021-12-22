@@ -152,7 +152,7 @@ class PhdCordHome extends Component {
                       this.setState({
                         allStudentData: res.data,
                       });
-                      console.log(res.data);
+                      console.log(res);
                     });
                 } catch (err) {
                   console.log(err.message);
@@ -243,7 +243,14 @@ class PhdCordHome extends Component {
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
-      otherData.push(otherProp.personalInfo);
+      const data = {
+        ...otherProp.personalInfo,
+        ...otherProp.academicsUG,
+        ...otherProp.academicsPG,
+        ...otherProp.entranceDetails,
+      };
+      otherData.push(data);
+      // console.log(student);
     });
     console.log(otherData);
     const XLSX = require("xlsx");
@@ -290,7 +297,7 @@ class PhdCordHome extends Component {
     return (
       <>
         <NavBar loggedin={true} />
-        <div className="container">
+        <div className="container" style={{ marginTop: "76px" }}>
           <Sidebar user="Coordinator" />
           <div>
             <div>
