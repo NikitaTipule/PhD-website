@@ -9,6 +9,7 @@ import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import viewDoc from "./DocViewer";
 import Sidebar from "../components/Sidebar";
+
 export default class phdCordForm extends Component {
   constructor(props) {
     super(props);
@@ -87,12 +88,14 @@ export default class phdCordForm extends Component {
       }
     }
   }
+
   nextStep = () => {
     const { step } = this.state;
     this.setState({
       step: step + 1,
     });
   };
+
   prevStep = () => {
     const { step } = this.state;
     this.setState({
@@ -104,11 +107,11 @@ export default class phdCordForm extends Component {
     this.setState({
       remarks: this.state.remarks,
     });
-    // console.log(this.state.remarks);
 
     this.setState({
       redirect: !this.state.redirect,
     });
+
     const data = {
       studentId: this.props.location.state.details,
       personalInfoRemark: this.state.personalInfoRemark,
@@ -122,7 +125,7 @@ export default class phdCordForm extends Component {
       documentsUploaded: this.state.documentsUploaded,
       remarks: this.state.remarks,
     };
-    await console.log(data);
+
     axios
       .post(BACKEND_URL + "/students/verify/info", data, {
         headers: { "phd-website-jwt": this.state.token },
@@ -141,8 +144,8 @@ export default class phdCordForm extends Component {
   };
 
   onChangeVerify = (event) => {
-    console.log(event.target.name);
-    console.log(event.target.value);
+    // console.log(event.target.name);
+    // console.log(event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -157,19 +160,20 @@ export default class phdCordForm extends Component {
         // state: { details: this.props.location.state.details },
       });
     }
+
     const { step } = this.state;
 
     switch (step) {
       case 1:
         return (
           <>
+            {/* Personal Details Display   */}
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div style={{ marginTop: "77px" }}>
+              <div>
                 <div>
                   <div>
-                    <div></div>
                     <div>
                       <div class="container1">
                         <table class="tb">
@@ -257,6 +261,7 @@ export default class phdCordForm extends Component {
                         </table>
                         <br />
 
+                        {/* Personal Details Documents   */}
                         <div className="title">Documents Uploaded</div>
                       </div>
                       <div style={{ justifyContent: "left" }}>
@@ -291,6 +296,7 @@ export default class phdCordForm extends Component {
                                   </div>
                                   <div className="icon">
                                     <div>
+                                      {/* Verification Component for documents  */}
                                       <div className="verify">
                                         <div style={{ width: "100%" }}>
                                           <div
@@ -299,25 +305,34 @@ export default class phdCordForm extends Component {
                                               this.onChangeVerify(e, id)
                                             }
                                           >
-                                            {/* <div>
-                                      <input
-                                        type="radio"
-                                        value="pending"
-                                        name={"verification" + id}
-                                        defaultChecked={doc.verification === "pending"}
-                                        onChange={() => {
-                                          var copy = [...this.state.documentsUploaded];
-                                          copy[id].verification = "pending";
-                                          this.setState({ documentsUploaded: copy });
-                                        }}
-                                        className="radio"
-                                      />
-                                      Pending
-                                    </div> */}
+                                            <div style={{ display: "none" }}>
+                                              <input
+                                                type="radio"
+                                                value="pending"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "pending"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "pending";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />
+                                              Pending
+                                            </div>
                                             <div>
                                               <input
                                                 type="radio"
                                                 value="mod_req"
+                                                className="radio"
                                                 name={"verification" + id}
                                                 defaultChecked={
                                                   doc.verification === "mod_req"
@@ -333,7 +348,6 @@ export default class phdCordForm extends Component {
                                                     documentsUploaded: copy,
                                                   });
                                                 }}
-                                                className="radio"
                                               />{" "}
                                               Not Verified
                                             </div>
@@ -373,6 +387,7 @@ export default class phdCordForm extends Component {
                         ))}
                       </div>
                       <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
+                      {/* Remark and verification for personal Details   */}
                       <div className="field1">
                         <div style={{ width: "55%" }}>
                           <TextField
@@ -390,10 +405,11 @@ export default class phdCordForm extends Component {
                       </div>
                       <div className="icon">
                         <div>
+                          {/* Verification Component for documents  */}
                           <div className="verify">
                             <div style={{ width: "100%" }}>
                               <div className="radios">
-                                <div>
+                                <div style={{ display: "none" }}>
                                   <input
                                     type="radio"
                                     value="pending"
@@ -407,7 +423,20 @@ export default class phdCordForm extends Component {
                                   />
                                   pending
                                 </div>
-
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="mod_req"
+                                    name="personalInfoStatus"
+                                    checked={
+                                      this.state.personalInfoStatus ===
+                                      "mod_req"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />
+                                  Not Verified
+                                </div>
                                 <div>
                                   <input
                                     type="radio"
@@ -420,10 +449,11 @@ export default class phdCordForm extends Component {
                                     onChange={this.onChangeVerify}
                                     className="radio"
                                   />{" "}
-                                  verified
+                                  Verified
                                 </div>
                               </div>
                               <br />
+                              {/* Save and Next - Personal Details */}
                               <div style={{ alignContent: "center" }}>
                                 <Button
                                   variant="contained"
@@ -452,10 +482,10 @@ export default class phdCordForm extends Component {
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div style={{ marginTop: "77px" }}>
+              {/* Display details of UG   */}
+              <div>
                 <div>
                   <div>
-                    <div></div>
                     <div>
                       <div class="container1">
                         <table class="tb">
@@ -522,6 +552,7 @@ export default class phdCordForm extends Component {
                         </table>
                         <br />
 
+                        {/* Verification for documents */}
                         <div className="title">Documents Uploaded</div>
                       </div>
                       <div style={{ justifyContent: "left" }}>
@@ -550,6 +581,7 @@ export default class phdCordForm extends Component {
                                   </div>
                                   <div className="icon">
                                     <div>
+                                      {/* Document verification   */}
                                       <div className="verify">
                                         <div style={{ width: "100%" }}>
                                           <div
@@ -558,21 +590,29 @@ export default class phdCordForm extends Component {
                                               this.onChangeVerify(e, id)
                                             }
                                           >
-                                            {/* <div>
-                                      <input
-                                        type="radio"
-                                        value="pending"
-                                        name={"verification" + id}
-                                        defaultChecked={doc.verification === "pending"}
-                                        onChange={() => {
-                                          var copy = [...this.state.documentsUploaded];
-                                          copy[id].verification = "pending";
-                                          this.setState({ documentsUploaded: copy });
-                                        }}
-                                        className="radio"
-                                      />
-                                      Pending
-                                    </div> */}
+                                            <div style={{ display: "none" }}>
+                                              <input
+                                                type="radio"
+                                                value="pending"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "pending"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "pending";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />
+                                              Pending
+                                            </div>
                                             <div>
                                               <input
                                                 type="radio"
@@ -632,6 +672,8 @@ export default class phdCordForm extends Component {
                         ))}
                       </div>
                       <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
+
+                      {/* Remark and Verification for UG  */}
                       <div className="field1">
                         <div style={{ width: "55%" }}>
                           <TextField
@@ -652,7 +694,7 @@ export default class phdCordForm extends Component {
                           <div className="verify">
                             <div style={{ width: "100%" }}>
                               <div className="radios">
-                                <div>
+                                <div style={{ display: "none" }}>
                                   <input
                                     type="radio"
                                     value="pending"
@@ -663,9 +705,21 @@ export default class phdCordForm extends Component {
                                     onChange={this.onChangeVerify}
                                     className="radio"
                                   />
-                                  pending
+                                  Pending
                                 </div>
-
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="mod_req"
+                                    name="academicsUGStatus"
+                                    checked={
+                                      this.state.academicsUGStatus === "mod_req"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />
+                                  Not Verified
+                                </div>
                                 <div>
                                   <input
                                     type="radio"
@@ -678,7 +732,7 @@ export default class phdCordForm extends Component {
                                     onChange={this.onChangeVerify}
                                     className="radio"
                                   />{" "}
-                                  verified
+                                  Verified
                                 </div>
                               </div>
                               <br />
@@ -729,7 +783,8 @@ export default class phdCordForm extends Component {
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div style={{ marginTop: "77px" }}>
+              {/* Display PG data  */}
+              <div>
                 <div>
                   <div>
                     <div></div>
@@ -786,6 +841,7 @@ export default class phdCordForm extends Component {
                         </table>
                         <br />
 
+                        {/* Display documents of PG  */}
                         <div className="title">Documents Uploaded</div>
                       </div>
                       <div style={{ justifyContent: "left" }}>
@@ -814,6 +870,7 @@ export default class phdCordForm extends Component {
                                   </div>
                                   <div className="icon">
                                     <div>
+                                      {/* Verification component for documents  */}
                                       <div className="verify">
                                         <div style={{ width: "100%" }}>
                                           <div
@@ -822,21 +879,29 @@ export default class phdCordForm extends Component {
                                               this.onChangeVerify(e, id)
                                             }
                                           >
-                                            {/* <div>
-                                        <input
-                                          type="radio"
-                                          value="pending"
-                                          name={"verification" + id}
-                                          defaultChecked={doc.verification === "pending"}
-                                          onChange={() => {
-                                            var copy = [...this.state.documentsUploaded];
-                                            copy[id].verification = "pending";
-                                            this.setState({ documentsUploaded: copy });
-                                          }}
-                                          className="radio"
-                                        />
-                                        Pending
-                                      </div> */}
+                                            <div style={{ display: "none" }}>
+                                              <input
+                                                type="radio"
+                                                value="pending"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "pending"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "pending";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />
+                                              Pending
+                                            </div>
                                             <div>
                                               <input
                                                 type="radio"
@@ -917,7 +982,7 @@ export default class phdCordForm extends Component {
                           <div className="verify">
                             <div style={{ width: "100%" }}>
                               <div className="radios">
-                                <div>
+                                <div style={{ display: "none" }}>
                                   <input
                                     type="radio"
                                     value="pending"
@@ -930,19 +995,20 @@ export default class phdCordForm extends Component {
                                   />
                                   pending
                                 </div>
-                                {/* <div>
-                                    <input
-                                      type="radio"
-                                      value="mod_req"
-                                      name="entranceDetailsStatus"
-                                      checked={
-                                        this.state.entranceDetailsStatus === "mod_req"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />{" "}
-                                    mod_req
-                                  </div> */}
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value="mod_req"
+                                    name="entranceDetailsStatus"
+                                    checked={
+                                      this.state.entranceDetailsStatus ===
+                                      "mod_req"
+                                    }
+                                    onChange={this.onChangeVerify}
+                                    className="radio"
+                                  />{" "}
+                                  Not Verified
+                                </div>
                                 <div>
                                   <input
                                     type="radio"
@@ -955,7 +1021,7 @@ export default class phdCordForm extends Component {
                                     onChange={this.onChangeVerify}
                                     className="radio"
                                   />{" "}
-                                  verified
+                                  Verified
                                 </div>
                               </div>
                               <br />
@@ -1006,7 +1072,8 @@ export default class phdCordForm extends Component {
             <NavBar loggedin={true} />
             <div className="container">
               <Sidebar user="Coordinator" />
-              <div style={{ marginTop: "77px" }}>
+              {/* Display Entrance Exam data  */}
+              <div>
                 <div>
                   <div>
                     <div></div>
@@ -1081,7 +1148,7 @@ export default class phdCordForm extends Component {
                               <div className="verify">
                                 <div style={{ width: "100%" }}>
                                   <div className="radios">
-                                    <div>
+                                    <div style={{ display: "none" }}>
                                       <input
                                         type="radio"
                                         value="pending"
@@ -1095,19 +1162,20 @@ export default class phdCordForm extends Component {
                                       />
                                       pending
                                     </div>
-                                    {/* <div>
-                                    <input
-                                      type="radio"
-                                      value="mod_req"
-                                      name="entranceDetailsStatus"
-                                      checked={
-                                        this.state.entranceDetailsStatus === "mod_req"
-                                      }
-                                      onChange={this.onChangeVerify}
-                                      className="radio"
-                                    />{" "}
-                                    mod_req
-                                  </div> */}
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        value="mod_req"
+                                        name="entranceDetailsStatus"
+                                        checked={
+                                          this.state.entranceDetailsStatus ===
+                                          "mod_req"
+                                        }
+                                        onChange={this.onChangeVerify}
+                                        className="radio"
+                                      />{" "}
+                                      Not Verified
+                                    </div>
                                     <div>
                                       <input
                                         type="radio"
@@ -1120,7 +1188,7 @@ export default class phdCordForm extends Component {
                                         onChange={this.onChangeVerify}
                                         className="radio"
                                       />{" "}
-                                      verified
+                                      Verified
                                     </div>
                                   </div>
                                   <br />
