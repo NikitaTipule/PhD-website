@@ -1074,14 +1074,99 @@ export default class phdCordForm extends Component {
             <div className="container">
               <Sidebar user="Coordinator" />
               {/* Display Entrance Exam data  */}
-              <div>
+              <div style={{ marginTop: "30px" }}>
                 <div>
                   <div>
-                    <div></div>
-                    <div>
-                      <div className="title"> Entrance Exam Details</div>
+                    <div className="container1">
+                      {/* <div className="title"> Entrance Exam Details</div> */}
                       <div style={{ alignItems: "left", textAlign: "left" }}>
-                        {this.state.entranceDetails.isInterestedCoepRPET && (
+                        <table class="tb">
+                          <div className="type">
+                            <div
+                              class="h"
+                              style={{ color: "white", width: "200%" }}
+                            >
+                              Entrance Exam Details
+                            </div>
+                          </div>
+                          <tbody>
+                            {this.state.entranceDetails
+                              .isInterestedCoepRPET && (
+                              <tr class="row1">
+                                <td className="field1">
+                                  <div className="fieldName">
+                                    Want to appear for COEP's Reasearch Program
+                                    Eligibility Test (RPET)
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                            {this.state.entranceDetails.givenGate && (
+                              <tr className="row1">
+                                <td className="first data">Gate</td>
+
+                                <td className="data">
+                                  {this.state.entranceDetails.Gate.score}
+                                </td>
+                                <td className="data">
+                                  {(
+                                    "" +
+                                    this.state.entranceDetails.Gate
+                                      .lastDateOfValidation
+                                  ).slice(0, 10)}
+                                </td>
+                              </tr>
+                            )}
+                            {this.state.entranceDetails
+                              .isInterestedCoepEntrance && (
+                              <tr className="row1">
+                                <div className="fieldName">
+                                  Want to appear for COEP entrance exam
+                                </div>
+                              </tr>
+                            )}
+                            {this.state.entranceDetails.givenPet && (
+                              <tr className="row1">
+                                <td className="first data">SPPU ET 2021</td>
+
+                                <td className="data">
+                                  {this.state.entranceDetails.sppuPet.details}
+                                </td>
+                                <td className="data">
+                                  {this.state.entranceDetails.sppuPet.year}
+                                </td>
+                              </tr>
+                            )}
+
+                            {/* 
+                            <tr class="row1">
+                              <td class="first data">Marks Obtained</td>
+                              <td class="data">
+                                {this.state.academicsPG.totalAggregate}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Total Marks</td>
+                              <td class="data">
+                                {this.state.academicsPG.totalMarks}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">CGPA</td>
+                              <td class="data">
+                                {this.state.academicsPG.cgpa10}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td class="first data">Percentage</td>
+                              <td class="data">
+                                {this.state.academicsPG.percentageMarks}
+                              </td>
+                            </tr> */}
+                          </tbody>
+                        </table>
+
+                        {/* {this.state.entranceDetails.isInterestedCoepRPET && (
                           <div className="field1">
                             <div className="fieldName">
                               Want to appear for COEP's Reasearch Program
@@ -1124,7 +1209,7 @@ export default class phdCordForm extends Component {
                               </div>
                             </div>
                           </div>
-                        )}
+                        )} */}
 
                         {/*Verify + Remark Start*/}
                         <Divider

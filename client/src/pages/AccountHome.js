@@ -265,7 +265,7 @@ class AccountHomeNew extends Component {
           <NavBar loggedin={true} />
           <div className="container">
             <Sidebar user="Coordinator" />
-            <div>
+            <div style={{ marginTop: "90px" }}>
               <div>
                 <div>
                   <div
@@ -351,6 +351,7 @@ class AccountHomeNew extends Component {
                     <DropDown
                       options={department_options}
                       onChange={this.onChangeDepartment}
+                      value={this.state.department}
                       placeholder="Select Department"
                       style={{
                         width: "100px",

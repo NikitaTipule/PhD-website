@@ -306,7 +306,7 @@ export default class EntranceExamDetails extends Component {
     });
 
     return (
-      <div className="admission_container">
+      <div className="admission_container" style={{ marginTop: "90px" }}>
         {/**PopUp here */}
         <div>
           <SweetAlert

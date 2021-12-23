@@ -88,6 +88,16 @@ export default class AccountFormNew extends Component {
       });
   };
 
+  handleBack = () => {
+    console.log(this.props.department);
+    this.props.updateStudent(
+      this.props.student.feeDetails.verification,
+      this.props.student.feeDetails.remarks,
+      this.props.student.index,
+      this.props.department
+    );
+  };
+
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
@@ -120,7 +130,7 @@ export default class AccountFormNew extends Component {
         <NavBar loggedin={true} />
         <div className="container">
           <Sidebar user="Coordinator" />
-          <div>
+          <div style={{ marginTop: "90px" }}>
             <div>
               <div>
                 <div></div>
@@ -250,6 +260,17 @@ export default class AccountFormNew extends Component {
                               alignContent: "center",
                             }}
                           >
+                            <Button
+                              variant="contained"
+                              size="large"
+                              style={{
+                                alignSelf: "center",
+                                marginRight: "20px",
+                              }}
+                              onClick={this.handleBack}
+                            >
+                              Back
+                            </Button>
                             <Button
                               variant="contained"
                               size="large"

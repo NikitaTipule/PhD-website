@@ -85,7 +85,7 @@ export default function OTP(props) {
   return (
     <ThemeProvider theme={theme}>
       <NavBar loggedin={true} />
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" style={{ marginTop: "130px" }}>
         {/* <CssBaseline /> */}
         <Box
           sx={{
