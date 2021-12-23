@@ -233,8 +233,6 @@ const infoVerifiedStatus = (user) => {
     "entranceDetails",
   ];
 
-  console.log(user);
-
   let dv = 0,
     dp = 0,
     dm = 0,
@@ -254,9 +252,9 @@ const infoVerifiedStatus = (user) => {
     docVerification = "verified";
   }
 
-  let v = 0,
-    p = 0,
-    m = 0;
+  const p = 0,
+    m = 0,
+    v = 0;
   for (let f of field_list) {
     if (user[f].verification === "mod_req") {
       m = m + 1;
@@ -270,6 +268,8 @@ const infoVerifiedStatus = (user) => {
   if (user.documentsUploaded.length === 0) {
     docVerification = "pending";
   }
+
+  console.log("DOCVERIFICATION", docVerification);
 
   if (p === 0 && m === 0 && docVerification === "verified") return "verified";
   if (m > 0 || docVerification === "mod_req") return "mod_req";
@@ -305,9 +305,6 @@ exports.verifyStudentInfo = (req, res) => {
       } else {
         user.editable = false;
       }
-
-      console.log("================================");
-      console.log("DDDDDDDDDDDDDDDDDDD", user);
 
       user.documentsUploaded = applyVerification(
         req.body.documentsUploaded,

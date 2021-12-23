@@ -273,7 +273,8 @@ export default class phdCordForm extends Component {
                               doc.type === "Caste Certificate" ||
                               doc.type === "Caste Validity" ||
                               doc.type === "Non-Creamy Layer Certificate" ||
-                              doc.type === "EWS Certificate") && (
+                              doc.type === "EWS Certificate" ||
+                              doc.type === "Proof of Physical Disability") && (
                               <div className="field2">
                                 <div className="documents" key={doc.id}>
                                   <div className="docFieldName">
