@@ -130,7 +130,7 @@ export default class AccountFormNew extends Component {
         <NavBar loggedin={true} />
         <div className="container">
           <Sidebar user="Coordinator" />
-          <div>
+          <div style={{ marginTop: "90px" }}>
             <div>
               <div>
                 <div></div>

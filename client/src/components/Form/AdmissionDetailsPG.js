@@ -287,7 +287,7 @@ export default class AdmissionDetailsPG extends Component {
       },
     });
     return (
-      <div className="admission_container">
+      <div className="admission_container" style={{ marginTop: "90px" }}>
         {/* Confirmation Alert */}
         <div>
           <SweetAlert
