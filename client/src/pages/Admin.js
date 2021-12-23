@@ -16,6 +16,8 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 class Admin extends Component {
   constructor(props) {
@@ -107,9 +109,12 @@ class Admin extends Component {
     return (
       <>
         <NavBar loggedin={true} />
+        <div className="menu" >
+          {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+          : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+        </div>
         <div className="container">
-
-          <Sidebar user="Admin"/>
+          {!this.state.menu && <Sidebar className="mob" user="Admin"/>}
           <div>
 
             {/* <Box

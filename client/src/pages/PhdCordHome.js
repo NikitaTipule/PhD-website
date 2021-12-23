@@ -17,6 +17,8 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
 import InfoBox from "../components/InfoBox";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -297,8 +299,12 @@ class PhdCordHome extends Component {
     return (
       <>
         <NavBar loggedin={true} />
-        <div className="container" style={{ marginTop: "76px" }}>
-          <Sidebar user="Coordinator" />
+        <div className="menu" >
+          {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+          : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+        </div>
+        <div className="container">
+          {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
           <div>
             <div>
               <div>
