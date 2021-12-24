@@ -10,6 +10,8 @@ import EntranceExamDetails from "../components/Form/EntranceExamDetails";
 import Sidebar from "../components/Sidebar";
 import "../CSS/admissionForm.css";
 import Disclaimer from "../components/Form/Disclaimer";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default class admissionForm extends Component {
   state = {
@@ -103,11 +105,15 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="container">
-              <Sidebar user="Candidate" />
+            <div className="menu" >
+                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+              </div>
+              <div className="container">
+                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <PersonalDetails
                 nextStep={this.nextStep}
-                data={this.state.data}
+                data={this.state.data} 
               />
             </div>
           </div>
@@ -116,8 +122,12 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="container">
-              <Sidebar user="Candidate" />
+            <div className="menu" >
+                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+              </div>
+              <div className="container">
+                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <AdmissionDetailsUG
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -130,8 +140,12 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="container">
-              <Sidebar user="Candidate" />
+            <div className="menu" >
+                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+              </div>
+              <div className="container">
+                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <AdmissionDetailsPG
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -144,8 +158,12 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="container">
-              <Sidebar user="Candidate" />
+            <div className="menu" >
+                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+              </div>
+              <div className="container">
+                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <EntranceExamDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -158,8 +176,12 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="container">
-              <Sidebar user="Candidate" />
+            <div className="menu" >
+                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+              </div>
+              <div className="container">
+                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <AccountsDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
@@ -172,8 +194,12 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="container">
-              <Sidebar user="Candidate" />
+            <div className="menu" >
+                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
+                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+              </div>
+              <div className="container">
+                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <Disclaimer
                 nextStep={this.nextStep}
                 data={this.state.data}

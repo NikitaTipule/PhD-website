@@ -123,3 +123,16 @@ li a p {
     padding: 20px 0px;
   }
 }
+
+.menu{
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .menu{
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+}
