@@ -187,14 +187,24 @@ class AccountHomeNew extends Component {
     console.log(this.state.allStudents);
     const otherData = [];
     this.state.allStudents.forEach((student) => {
-      const { personalInfo, name, ...otherProp } = student;
+      const { personalInfo, name, feeDetails, ...otherProp } = student;
+      const { docUploaded, ...otherDetails } = feeDetails;
       const { category } = personalInfo;
-      otherData.push({ name, category });
+      otherData.push({ name, category, ...otherDetails });
     });
     console.log(otherData);
     const XLSX = require("xlsx");
     const workSheet = XLSX.utils.json_to_sheet(otherData);
-    workSheet["!cols"] = [{ wch: 40 }, { wch: 16 }];
+    workSheet["!cols"] = [
+      { wch: 40 },
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 25 },
+      { wch: 30 },
+      { wch: 10 },
+      { wch: 10 },
+    ];
     const workBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
     XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
