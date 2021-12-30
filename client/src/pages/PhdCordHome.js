@@ -388,7 +388,7 @@ class PhdCordHome extends Component {
           )}
         </div>
         <div className="container">
-          {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+          {!this.state.menu && <Sidebar className="mob" user="Coordinator" />}
           <div>
             <div>
               <div>

@@ -28,12 +28,12 @@ export const SidebarData = [
   icon: <ModeIcon/>,
   link: "/admissionform",
  },
- {
-  title: "Download Form",
-  user: "Candidate",
-  icon: <DownloadIcon/>,
-  link: "/"
- },
+ // {
+ //  title: "Download Form",
+ //  user: "Candidate",
+ //  icon: <DownloadIcon/>,
+ //  link: "/"
+ // },
  {
   title: "Logout",
   user: "Candidate",
@@ -74,7 +74,7 @@ export const SidebarData = [
   title: "Home",
   user: "Coordinator",
   icon: <HomeIcon/>,
-  link: "/coordinator",
+  link: "/",
  },
  {
   title: "About",
@@ -92,6 +92,6 @@ export const SidebarData = [
   title: "Home",
   user: "Faculty",
   icon: <HomeIcon/>,
-  link: "/coordinator",
+  link: "/",
  },
 ]

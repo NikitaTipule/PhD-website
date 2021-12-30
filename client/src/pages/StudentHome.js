@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   tableColHeader: {
     width: "100%",
     borderStyle: "solid",
+    backgroundColor: "#BEBEBE",
     borderColor: "#bfbfbf",
     borderBottomColor: "#000",
     borderWidth: 1,
@@ -51,6 +52,15 @@ const styles = StyleSheet.create({
   tableCol: {
     width: "25%",
     borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+  },
+  tableCol1: {
+    width: "25%",
+    borderStyle: "solid",
+    backgroundColor : "#E8E8E8",
     borderColor: "#bfbfbf",
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -136,7 +146,7 @@ class StudentHome extends Component {
           })
           .then((res) => {
             const user = res.data.user;
-
+            console.log(user);
             // Get the verification status of documents
             let dv = 0,
               dp = 0,
@@ -163,6 +173,8 @@ class StudentHome extends Component {
             this.setState({
               pdfName: user.personalInfo.name,
               pdfEmail: user.personalInfo.email,
+              appId: user.applicationId,
+              aadhar: user.personalInfo.aadhar,
               middleName: user.personalInfo.middleName,
               gender: user.personalInfo.gender,
               category: user.personalInfo.category,
@@ -214,13 +226,13 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Candidate's Full name</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.pdfName}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Father's Name</Text>
               </View>
               <View style={styles.tableCol}>
@@ -228,13 +240,27 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Application ID</Text>
+              </View>
               <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.appId}</Text>
+              </View>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Aadhar</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.aadhar}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Mail id</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.email}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Gender</Text>
               </View>
               <View style={styles.tableCol}>
@@ -242,13 +268,13 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Category</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.category}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Physically Disabled?</Text>
               </View>
               <View style={styles.tableCol}>
@@ -258,13 +284,13 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Date of Birth</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.dob}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Mobile Number</Text>
               </View>
               <View style={styles.tableCol}>
@@ -277,13 +303,13 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>CGPA</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.cgpaUG}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Degree</Text>
               </View>
               <View style={styles.tableCol}>
@@ -291,13 +317,13 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Institute</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.instituteUG}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Specialization</Text>
               </View>
               <View style={styles.tableCol}>
@@ -310,13 +336,13 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>CGPA</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.cgpaPG}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Degree</Text>
               </View>
               <View style={styles.tableCol}>
@@ -324,13 +350,13 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Institute</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.institutePG}</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Percentage Marks</Text>
               </View>
               <View style={styles.tableCol}>
@@ -343,7 +369,7 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Score</Text>
               </View>
               <View style={styles.tableCol}>
