@@ -17,8 +17,8 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
 import InfoBox from "../components/InfoBox";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -245,31 +245,104 @@ class PhdCordHome extends Component {
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
-      const data = {
-        ...otherProp.personalInfo,
-        ...otherProp.academicsUG,
-        ...otherProp.academicsPG,
-        ...otherProp.entranceDetails,
+      const { personalInfo, academicsUG, academicsPG, email, entranceDetails } =
+        otherProp;
+      const {
+        cgpa10: pg_cgpa,
+        degree: pg_degree,
+        institute: pg_institute,
+        percentageMarks: pg_percentageMarks,
+        remarks: pg_remarks,
+        totalAggregate: pg_totalAggregate,
+        totalMarks: pg_totalMarks,
+        verification: pg_verification,
+      } = academicsPG;
+      const {
+        cgpa10: ug_cgpa,
+        dateOfDeclaration: ug_dateOfDeclaration,
+        degree: ug_degree,
+        institute: ug_institute,
+        percentageMarks: ug_percentageMarks,
+        specialization: ug_specialization,
+        totalAggregate: ug_totalAggregate,
+        totalMarks: ug_totalMarks,
+      } = academicsUG;
+      const pg = {
+        pg_cgpa,
+        pg_degree,
+        pg_institute,
+        pg_percentageMarks,
+        pg_remarks,
+        pg_totalAggregate,
+        pg_totalMarks,
+        pg_verification,
       };
-      otherData.push(data);
-      // console.log(student);
+      const ug = {
+        ug_cgpa,
+        ug_dateOfDeclaration,
+        ug_degree,
+        ug_institute,
+        ug_percentageMarks,
+        ug_specialization,
+        ug_totalAggregate,
+        ug_totalMarks,
+      };
+      const { Gate, sppuPet, ...otherEntranceDetails } = entranceDetails;
+      // const {
+      //   lastDateOfValidation: gate_lastDateOfValidation,
+      //   score: gate_score,
+      // } = Gate;
+      // const { details: sppuPet_details, year: sppuPet_year } = sppuPet;
+
+      otherData.push({
+        ...personalInfo,
+        email,
+        ...ug,
+        ...pg,
+        // gate_score,
+        // gate_lastDateOfValidation,
+        ...otherEntranceDetails,
+        // sppuPet_details,
+        // sppuPet_year,
+      });
     });
     console.log(otherData);
     const XLSX = require("xlsx");
     const workSheet = XLSX.utils.json_to_sheet(otherData);
     workSheet["!cols"] = [
-      { wch: 40 },
-      { wch: 40 },
-      { wch: 16 },
+      { wch: 30 },
       { wch: 30 },
       { wch: 25 },
-      { wch: 16 },
       { wch: 10 },
-      { wch: 25 },
-      { wch: 40 },
+      { wch: 10 },
       { wch: 10 },
       { wch: 20 },
-      { wch: 16 },
+      { wch: 40 },
+      { wch: 5 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 30 },
+      { wch: 5 },
+      { wch: 25 },
+      { wch: 15 },
+      { wch: 30 },
+      { wch: 5 },
+      { wch: 25 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 5 },
+      { wch: 15 },
+      { wch: 30 },
+      { wch: 5 },
+      { wch: 15 },
+      { wch: 5 },
+      { wch: 5 },
+      { wch: 15 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
     ];
     const workBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
@@ -299,12 +372,23 @@ class PhdCordHome extends Component {
     return (
       <>
         <NavBar loggedin={true} />
-        <div className="menu" >
-          {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-          : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+        <div className="menu">
+          {this.state.menu ? (
+            <MenuIcon
+              onClick={() => {
+                this.setState({ menu: false });
+              }}
+            />
+          ) : (
+            <CloseIcon
+              onClick={() => {
+                this.setState({ menu: true });
+              }}
+            />
+          )}
         </div>
         <div className="container">
-          {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+          {!this.state.menu && <Sidebar className="mob" user="Coordinator" />}
           <div>
             <div>
               <div>
