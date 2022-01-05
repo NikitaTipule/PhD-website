@@ -10,12 +10,32 @@ import EntranceExamDetails from "../components/Form/EntranceExamDetails";
 import Sidebar from "../components/Sidebar";
 import "../CSS/admissionForm.css";
 import Disclaimer from "../components/Form/Disclaimer";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default class admissionForm extends Component {
   state = {
-    step: 1,
+    // step: this.props.location.state.step ? this.props.location.state.step : 1,
+    step: this.props
+      ? this.props.location
+        ? this.props.location.state
+          ? this.props.location.state.step
+            ? this.props.location.state.step
+            : 1
+          : 1
+        : 1
+      : 1,
+
+    entire: this.props
+      ? this.props.location
+        ? this.props.location.state
+          ? this.props.location.state.entire
+            ? this.props.location.state.entire
+            : "yes"
+          : "yes"
+        : "yes"
+      : "yes",
+
     token: "",
     data: {
       personalInfo: {
@@ -83,17 +103,17 @@ export default class admissionForm extends Component {
     },
   };
 
-  nextStep = () => {
+  nextStep = (inc = 1) => {
     const { step } = this.state;
     this.setState({
-      step: step + 1,
+      step: step + inc,
     });
   };
 
-  prevStep = () => {
+  prevStep = (dec = 1) => {
     const { step } = this.state;
     this.setState({
-      step: step - 1,
+      step: step - dec,
     });
   };
 
@@ -105,15 +125,28 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="menu" >
-                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
-              </div>
-              <div className="container">
-                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            <div className="menu">
+              {this.state.menu ? (
+                <MenuIcon
+                  onClick={() => {
+                    this.setState({ menu: false });
+                  }}
+                />
+              ) : (
+                <CloseIcon
+                  onClick={() => {
+                    this.setState({ menu: true });
+                  }}
+                />
+              )}
+            </div>
+            <div className="container">
+              {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <PersonalDetails
                 nextStep={this.nextStep}
-                data={this.state.data} 
+                data={this.state.data}
+                entire={this.state.entire}
+                prevStep={this.prevStep}
               />
             </div>
           </div>
@@ -122,16 +155,28 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="menu" >
-                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
-              </div>
-              <div className="container">
-                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            <div className="menu">
+              {this.state.menu ? (
+                <MenuIcon
+                  onClick={() => {
+                    this.setState({ menu: false });
+                  }}
+                />
+              ) : (
+                <CloseIcon
+                  onClick={() => {
+                    this.setState({ menu: true });
+                  }}
+                />
+              )}
+            </div>
+            <div className="container">
+              {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <AdmissionDetailsUG
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
+                entire={this.state.entire}
               />
             </div>
           </div>
@@ -140,16 +185,28 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="menu" >
-                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
-              </div>
-              <div className="container">
-                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            <div className="menu">
+              {this.state.menu ? (
+                <MenuIcon
+                  onClick={() => {
+                    this.setState({ menu: false });
+                  }}
+                />
+              ) : (
+                <CloseIcon
+                  onClick={() => {
+                    this.setState({ menu: true });
+                  }}
+                />
+              )}
+            </div>
+            <div className="container">
+              {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <AdmissionDetailsPG
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
+                entire={this.state.entire}
               />
             </div>
           </div>
@@ -158,16 +215,28 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="menu" >
-                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
-              </div>
-              <div className="container">
-                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            <div className="menu">
+              {this.state.menu ? (
+                <MenuIcon
+                  onClick={() => {
+                    this.setState({ menu: false });
+                  }}
+                />
+              ) : (
+                <CloseIcon
+                  onClick={() => {
+                    this.setState({ menu: true });
+                  }}
+                />
+              )}
+            </div>
+            <div className="container">
+              {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <EntranceExamDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
+                entire={this.state.entire}
               />
             </div>
           </div>
@@ -176,16 +245,28 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="menu" >
-                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
-              </div>
-              <div className="container">
-                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            <div className="menu">
+              {this.state.menu ? (
+                <MenuIcon
+                  onClick={() => {
+                    this.setState({ menu: false });
+                  }}
+                />
+              ) : (
+                <CloseIcon
+                  onClick={() => {
+                    this.setState({ menu: true });
+                  }}
+                />
+              )}
+            </div>
+            <div className="container">
+              {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <AccountsDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
+                entire={this.state.entire}
               />
             </div>
           </div>
@@ -194,16 +275,28 @@ export default class admissionForm extends Component {
         return (
           <div>
             <NavBar loggedin={true} />
-            <div className="menu" >
-                {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-                : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
-              </div>
-              <div className="container">
-                {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            <div className="menu">
+              {this.state.menu ? (
+                <MenuIcon
+                  onClick={() => {
+                    this.setState({ menu: false });
+                  }}
+                />
+              ) : (
+                <CloseIcon
+                  onClick={() => {
+                    this.setState({ menu: true });
+                  }}
+                />
+              )}
+            </div>
+            <div className="container">
+              {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
               <Disclaimer
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
+                entire={this.state.entire}
               />
             </div>
           </div>

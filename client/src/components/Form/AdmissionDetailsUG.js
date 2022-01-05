@@ -163,12 +163,16 @@ export default class AdmissionDetailsUG extends Component {
   };
 
   onBack = (event) => {
-    this.props.prevStep();
+    this.props.entire === "no"
+      ? this.props.prevStep(2)
+      : this.props.prevStep(1);
   };
 
   onNext = async (event) => {
     if (this.state.disabled) {
-      this.props.nextStep();
+      this.props.entire === "no"
+        ? this.props.nextStep(4)
+        : this.props.nextStep(1);
     } else {
       await this.validateData();
       if (
@@ -213,7 +217,9 @@ export default class AdmissionDetailsUG extends Component {
   };
 
   confirmData = (event) => {
-    this.props.nextStep();
+    this.props.entire === "no"
+      ? this.props.nextStep(4)
+      : this.props.nextStep(1);
 
     const academicsUG = {
       academicsUG: this.props.data.academicsUG,

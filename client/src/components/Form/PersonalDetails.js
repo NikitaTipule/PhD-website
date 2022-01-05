@@ -435,7 +435,9 @@ export default class PersonalDetails extends Component {
   // NEXT CONFIRM CANCEL
   onNext = async (event) => {
     if (this.state.disabled) {
-      this.props.nextStep();
+      this.props.entire === "no"
+        ? this.props.nextStep(5)
+        : this.props.nextStep(1);
     } else {
       await this.validateData();
       if (
@@ -496,6 +498,12 @@ export default class PersonalDetails extends Component {
     }
   };
 
+  onBack = (event) => {
+    this.props.entire === "no"
+      ? this.props.prevStep(1)
+      : this.props.prevStep(1);
+  };
+
   confirmData = (event) => {
     const personalInfo = {
       personalInfo: this.props.data.personalInfo,
@@ -513,7 +521,9 @@ export default class PersonalDetails extends Component {
       console.log(err);
     }
 
-    this.props.nextStep();
+    this.props.entire === "no"
+      ? this.props.nextStep(5)
+      : this.props.nextStep(1);
   };
 
   onCancel = (event) => {
@@ -1767,6 +1777,19 @@ export default class PersonalDetails extends Component {
            */}
           <div style={{ marginBottom: "30px", marginTop: "30px" }}>
             <React.Fragment>
+              <ThemeProvider theme={theme}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="neutral"
+                  onClick={() => {
+                    this.onBack();
+                  }}
+                  style={{ marginRight: "10px" }}
+                >
+                  Back
+                </Button>
+              </ThemeProvider>
               <Button
                 variant="contained"
                 color="primary"

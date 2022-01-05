@@ -102,7 +102,9 @@ export default class EntranceExamDetails extends Component {
 
   onNext = async (event) => {
     if (this.state.disabled) {
-      this.props.nextStep();
+      this.props.entire === "no"
+        ? this.props.nextStep(2)
+        : this.props.nextStep(1);
     } else {
       var l = this.state.optionsSelected.length;
       for (var i = 0; i < l; i++) {
@@ -146,7 +148,9 @@ export default class EntranceExamDetails extends Component {
   };
 
   confirmData = (event) => {
-    this.props.nextStep();
+    this.props.entire === "no"
+      ? this.props.nextStep(2)
+      : this.props.nextStep(1);
 
     const entranceDetails = {
       entranceDetails: this.props.data.entranceDetails,
@@ -184,7 +188,9 @@ export default class EntranceExamDetails extends Component {
   };
 
   onBack = (event) => {
-    this.props.prevStep();
+    this.props.entire === "no"
+      ? this.props.prevStep(4)
+      : this.props.prevStep(1);
   };
 
   async componentDidMount() {

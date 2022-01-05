@@ -121,7 +121,9 @@ export default class AccountsDetails extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
       }
       if (this.state.disabled) {
-        this.props.nextStep();
+        this.props.entire === "no"
+          ? this.props.nextStep(1)
+          : this.props.nextStep(1);
       }
       this.props.data.feeDetails.utrDuNumber = this.state.utrDuNumber;
       this.props.data.feeDetails.amount = this.state.amount;
@@ -166,7 +168,9 @@ export default class AccountsDetails extends Component {
       console.log(err);
     }
 
-    this.props.nextStep();
+    this.props.entire === "no"
+      ? this.props.nextStep(1)
+      : this.props.nextStep(1);
   };
 
   // Handle Pop-up Cancels
@@ -179,10 +183,14 @@ export default class AccountsDetails extends Component {
 
   // Handle next and back navigation
   handleNext = () => {
-    this.props.nextStep();
+    this.props.entire === "no"
+      ? this.props.nextStep(1)
+      : this.props.nextStep(1);
   };
   handleBack = () => {
-    this.props.prevStep();
+    this.props.entire === "no"
+      ? this.props.prevStep(5)
+      : this.props.prevStep(1);
   };
 
   async componentDidMount() {

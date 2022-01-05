@@ -1,16 +1,15 @@
 import { React, Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import NavBar from "../components/Navbar/Navbar";
-import { Button } from "@material-ui/core";
-import PersonalDetails from "../components/Form/PersonalDetails";
-import { Link } from "react-router-dom";
 import "../CSS/studentHome.css";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
 import pic from "../images/logo1.png";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
+import { withRouter } from "react-router-dom";
 
 import {
   PDFDownloadLink,
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
   tableCol1: {
     width: "25%",
     borderStyle: "solid",
-    backgroundColor : "#E8E8E8",
+    backgroundColor: "#E8E8E8",
     borderColor: "#bfbfbf",
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -402,18 +401,31 @@ class StudentHome extends Component {
       </Document>
     );
 
-    // this.state = { menu: true };
-
     return (
       <div>
         <NavBar loggedin={true} />
-        <div className="menu" >
-          {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-          : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+
+        {/*         
+        Sidebar
+         */}
+        <div className="menu">
+          {this.state.menu ? (
+            <MenuIcon
+              onClick={() => {
+                this.setState({ menu: false });
+              }}
+            />
+          ) : (
+            <CloseIcon
+              onClick={() => {
+                this.setState({ menu: true });
+              }}
+            />
+          )}
         </div>
         <div className="container">
           {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
-          <div>
+          <div style={{ width: "100%", alignItems: "center" }}>
             <div
               style={{
                 display: "flex",
@@ -450,28 +462,39 @@ class StudentHome extends Component {
               </div>
             </div>
 
-            {/* <div  style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:"30px"}}>
-                      <Link to ={{pathname: '/admissionform'}}>
-                        <button
-                            style={{
-                            // marginTop: "20px",
-                            // marginBottom: "30px",
-                            padding: "5px",
-                            cursor: "pointer",
-                            width: "300px",
-                            height: "40px",
-                            fontSize: "20px",
-                            backgroundColor: "cadetblue",
-                            color: "white",
-                            borderRadius: "10px",
-                            }}
-                            onClick={this.FillForm}
-                        >
-                            {" "}
-                            Fill  Application  Form
-                        </button>
-                        </Link>
-                    </div> */}
+            {/* <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "30px",
+              }}
+            >
+              <Link to={{ pathname: "/admissionform" }}>
+                <button
+                  style={{
+                    // marginTop: "20px",
+                    // marginBottom: "30px",
+                    padding: "5px",
+                    cursor: "pointer",
+                    width: "300px",
+                    height: "40px",
+                    fontSize: "20px",
+                    backgroundColor: "cadetblue",
+                    color: "white",
+                    borderRadius: "10px",
+                  }}
+                  onClick={this.FillForm}
+                >
+                  {" "}
+                  Fill Application Form
+                </button>
+              </Link>
+            </div> */}
+
+            {/*
+             *Download application button
+             */}
             <div
               style={{
                 display: "flex",
@@ -504,6 +527,10 @@ class StudentHome extends Component {
                 </button>
               </PDFDownloadLink>
             </div>
+
+            {/*
+             * Table for status & remark
+             */}
             <div
               style={{
                 display: "flex",
@@ -514,6 +541,7 @@ class StudentHome extends Component {
             >
               <h1 className="textBetween">Verification Status</h1>
             </div>
+
             <div className="container-verification">
               <ul className="responsive-table">
                 <li className="table-header">
@@ -525,6 +553,9 @@ class StudentHome extends Component {
                   </div>
                   <div className="col col-4">
                     <b>Status</b>
+                  </div>
+                  <div className="col col-5">
+                    <b>Edit</b>
                   </div>
                 </li>
                 <li className="table-row">
@@ -543,6 +574,20 @@ class StudentHome extends Component {
                   >
                     {this.state.PGverification}
                   </div>
+                  <div
+                    className="col col-5 editButton"
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/admissionForm",
+                        state: { step: 3, entire: "no" },
+                      });
+                    }}
+                  >
+                    <EditIcon
+                      sx={{ color: "cadetblue" }}
+                      className="editIcon"
+                    />
+                  </div>
                 </li>
                 <li className="table-row">
                   <div className="col col-2" data-label="Customer Name">
@@ -560,8 +605,22 @@ class StudentHome extends Component {
                   >
                     {this.state.UGverification}
                   </div>
+                  <div
+                    className="col col-5 editButton"
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/admissionForm",
+                        state: { step: 2, entire: "no" },
+                      });
+                    }}
+                  >
+                    <EditIcon
+                      sx={{ color: "cadetblue" }}
+                      className="editIcon"
+                    />
+                  </div>
                 </li>
-                <li className="table-row">
+                {/* <li className="table-row">
                   <div className="col col-2" data-label="Customer Name">
                     Document Upload
                   </div>
@@ -577,7 +636,10 @@ class StudentHome extends Component {
                       ? "Modification Required"
                       : this.state.docVerification}
                   </div>
-                </li>
+                  <div className="col col-5">
+                    <EditIcon />
+                  </div>
+                </li> */}
                 <li className="table-row">
                   <div className="col col-2" data-label="Customer Name">
                     Entrance Details
@@ -593,6 +655,20 @@ class StudentHome extends Component {
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.ENTverification}
+                  </div>
+                  <div
+                    className="col col-5 editButton"
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/admissionForm",
+                        state: { step: 4, entire: "no" },
+                      });
+                    }}
+                  >
+                    <EditIcon
+                      sx={{ color: "cadetblue" }}
+                      className="editIcon"
+                    />
                   </div>
                 </li>
                 <li className="table-row">
@@ -611,6 +687,20 @@ class StudentHome extends Component {
                   >
                     {this.state.FEEverification}
                   </div>
+                  <div
+                    className="col col-5 editButton"
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/admissionForm",
+                        state: { step: 5, entire: "no" },
+                      });
+                    }}
+                  >
+                    <EditIcon
+                      sx={{ color: "cadetblue" }}
+                      className="editIcon"
+                    />
+                  </div>
                 </li>
                 <li className="table-row">
                   <div className="col col-2" data-label="Customer Name">
@@ -628,6 +718,20 @@ class StudentHome extends Component {
                   >
                     {this.state.PIverification}
                   </div>
+                  <div
+                    className="col col-5 editButton"
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/admissionForm",
+                        state: { step: 1, entire: "no" },
+                      });
+                    }}
+                  >
+                    <EditIcon
+                      sx={{ color: "cadetblue" }}
+                      className="editIcon"
+                    />
+                  </div>
                 </li>
               </ul>
             </div>
@@ -638,4 +742,4 @@ class StudentHome extends Component {
   }
 }
 
-export default StudentHome;
+export default withRouter(StudentHome);

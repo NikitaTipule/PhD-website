@@ -19,9 +19,9 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { BACKEND_URL } from "../config";
 import { useHistory } from "react-router-dom";
-import Sidebar from '../components/Sidebar';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import Sidebar from "../components/Sidebar";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 const theme = createTheme();
 const initialState = {
@@ -33,7 +33,7 @@ export default function FacLogIn() {
   let history = useHistory();
   const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
-  const [menu, setMenu] = useState(false)
+  const [menu, setMenu] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -66,12 +66,23 @@ export default function FacLogIn() {
   return (
     <ThemeProvider theme={theme}>
       <NavBar loggedin={false} />
-      <div className="menu" >
-          {menu ? <MenuIcon onClick={()=>{setMenu(false)}}/>
-          : <CloseIcon onClick={() => {setMenu(true)}}/> }
-        </div>
-        <div className="container">
-          {!menu && <Sidebar className="mob" user="Faculty" />}
+      <div className="menu">
+        {menu ? (
+          <MenuIcon
+            onClick={() => {
+              setMenu(false);
+            }}
+          />
+        ) : (
+          <CloseIcon
+            onClick={() => {
+              setMenu(true);
+            }}
+          />
+        )}
+      </div>
+      <div className="container">
+        {!menu && <Sidebar className="mob" user="Faculty" />}
         <div>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -154,9 +165,6 @@ export default function FacLogIn() {
           </Container>
         </div>
       </div>
-      
-      
-      
     </ThemeProvider>
   );
 }

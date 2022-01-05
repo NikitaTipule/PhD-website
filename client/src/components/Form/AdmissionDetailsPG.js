@@ -143,8 +143,11 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onSubmit = async (event) => {
+    console.log(this.props.entire);
     if (this.state.disabled) {
-      this.props.nextStep();
+      this.props.entire === "no"
+        ? this.props.nextStep(3)
+        : this.props.nextStep(1);
     } else {
       await this.validateData();
       if (
@@ -183,11 +186,15 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onBack = (event) => {
-    this.props.prevStep();
+    this.props.entire === "no"
+      ? this.props.prevStep(4)
+      : this.props.prevStep(1);
   };
 
   confirmData = (event) => {
-    this.props.nextStep();
+    this.props.entire === "no"
+      ? this.props.nextStep(3)
+      : this.props.nextStep(1);
 
     const academicsPG = {
       academicsPG: this.props.data.academicsPG,
