@@ -49,7 +49,7 @@ export const SidebarData = [
     link: "/addcord",
   },
   {
-    title: "Add Link",
+    title: "Add/Remove Link",
     user: "Admin",
     icon: <AddLinkIcon />,
     link: "/link",
