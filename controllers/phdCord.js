@@ -7,7 +7,6 @@ exports.getPhdCordInfo = (req, res) => {
     return res.status(403).json("error : user don't have access to resource");
   }
   id = req.params && req.params.cordId;
-  console.log("ji niki");
   if (!id) res.status(400).json({ error: "id is required" });
   PhdCord.findById(id, (err, user) => {
     if (err) {
