@@ -580,8 +580,8 @@ class PhdCordHome extends Component {
               >
                 <Paper
                   sx={{
-                    width: "100%",
-                    "@media screen and (min-width: 40em)": { width: "80%" },
+                    width: "80vw",
+                    "@media screen and (min-width: 1285px)": { width: "80vm" },
                     overflow: "hidden",
                   }}
                 >

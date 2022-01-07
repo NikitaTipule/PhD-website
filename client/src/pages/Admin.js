@@ -147,6 +147,7 @@ class Admin extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
+                  
                 >
                   <h1 className="textBetween">Admin Information</h1>
                 </div>
@@ -207,8 +208,8 @@ class Admin extends Component {
               >
                 <Paper
                   sx={{
-                    width: "100%",
-                    "@media screen and (min-width: 40em)": { width: "80%" },
+                    width: "80vw",
+                    "@media screen and (max-width: 1285px)": { width: "80vw" },
                     overflow: "hidden",
                   }}
                 >
