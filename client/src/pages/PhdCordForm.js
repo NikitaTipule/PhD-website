@@ -83,7 +83,6 @@ export default class phdCordForm extends Component {
             });
             console.log(this.state.documentsUploaded);
           });
-          
       } catch (error) {
         console.log(error.response);
       }
@@ -105,14 +104,6 @@ export default class phdCordForm extends Component {
   };
 
   handleSubmit = async (event) => {
-    this.setState({
-      remarks: this.state.remarks,
-    });
-
-    this.setState({
-      redirect: !this.state.redirect,
-    });
-
     const data = {
       studentId: this.props.location.state.details,
       personalInfoRemark: this.state.personalInfoRemark,
@@ -132,6 +123,9 @@ export default class phdCordForm extends Component {
         headers: { "phd-website-jwt": this.state.token },
       })
       .then((res) => {
+        this.setState({
+          redirect: !this.state.redirect,
+        });
         console.log("verification details submitted");
       })
       .catch((err) => {
@@ -1091,52 +1085,54 @@ export default class phdCordForm extends Component {
                             </div>
                           </div>
                           <tbody>
-                            
-                              <tr class="row1">
-                                <td className="first data">
-                                    Want to appear for COEP's Reasearch Program
-                                    Eligibility Test (RPET)
-                                </td>
-                                <td className="data">
-                                    {this.state.entranceDetails.isInterestedCoepRPET ?"Yes":"No"}
-                                </td>
-                              </tr>
-                              <tr class="row1">
-                                <td className="first data">
+                            <tr class="row1">
+                              <td className="first data">
+                                Want to appear for COEP's Reasearch Program
+                                Eligibility Test (RPET)
+                              </td>
+                              <td className="data">
+                                {this.state.entranceDetails.isInterestedCoepRPET
+                                  ? "Yes"
+                                  : "No"}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td className="first data">
                                 Want to appear for COEP entrance exam
-                                </td>
-                                <td className="data">
-                                    {this.state.entranceDetails.isInterestedCoepEntrance?"Yes":"No"}
-                                </td>
-                              </tr>
-                              <tr class="row1">
-                                <td className="first data">
-                                  Given Gate
-                                </td>
-                                <td className="data">
-                                    {this.state.entranceDetails.givenGate?"Yes":"No"}
-                                </td>
-                              </tr>
-                              <tr class="row1">
-                                <td className="first data">
-                                  Score
-                                </td>
-                                <td className="data">
-                                    {this.state.entranceDetails.Gate.score}
-                                </td>
-                              </tr>
-                              <tr class="row1">
-                                <td className="first data">
-                                  Last Day of Validation
-                                </td>
-                                <td className="data">
+                              </td>
+                              <td className="data">
+                                {this.state.entranceDetails
+                                  .isInterestedCoepEntrance
+                                  ? "Yes"
+                                  : "No"}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td className="first data">Given Gate</td>
+                              <td className="data">
+                                {this.state.entranceDetails.givenGate
+                                  ? "Yes"
+                                  : "No"}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td className="first data">Score</td>
+                              <td className="data">
+                                {this.state.entranceDetails.Gate.score}
+                              </td>
+                            </tr>
+                            <tr class="row1">
+                              <td className="first data">
+                                Last Day of Validation
+                              </td>
+                              <td className="data">
                                 {(
-                                    "" +
-                                    this.state.entranceDetails.Gate
-                                      .lastDateOfValidation
-                                  ).slice(0, 10)}
-                                </td>
-                              </tr>
+                                  "" +
+                                  this.state.entranceDetails.Gate
+                                    .lastDateOfValidation
+                                ).slice(0, 10)}
+                              </td>
+                            </tr>
                             {/* {this.state.entranceDetails.givenGate && (
                               <tr className="row1">
                                 <td className="first data">Gate</td>
@@ -1162,20 +1158,16 @@ export default class phdCordForm extends Component {
                               </tr>
                             )} */}
                             <tr class="row1">
-                                <td className="first data">
-                                  SPPU ET 2021
-                                </td>
-                                <td className="data">
-                                  {this.state.entranceDetails.sppuPet.details}
-                                </td>
+                              <td className="first data">SPPU ET 2021</td>
+                              <td className="data">
+                                {this.state.entranceDetails.sppuPet.details}
+                              </td>
                             </tr>
                             <tr class="row1">
-                                <td className="first data">
-                                  Year
-                                </td>
-                                <td className="data">
-                                  {this.state.entranceDetails.sppuPet.year}
-                                </td>
+                              <td className="first data">Year</td>
+                              <td className="data">
+                                {this.state.entranceDetails.sppuPet.year}
+                              </td>
                             </tr>
                             {/* {this.state.entranceDetails.givenPet && (
                               <tr className="row1">

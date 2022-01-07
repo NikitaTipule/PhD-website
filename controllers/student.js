@@ -241,6 +241,7 @@ const infoVerifiedStatus = (user) => {
       dv = dv + 1;
     }
   });
+
   if (dm > 0) {
     docVerification = "mod_req";
   } else if (dp === 0 && dm === 0) {
@@ -291,8 +292,6 @@ exports.verifyStudentInfo = (req, res) => {
       user.entranceDetails.remarks = req.body.entranceDetailsRemark;
       user.remarks = req.body.remarks;
 
-      user.infoVerified = infoVerifiedStatus(user);
-
       if (user.infoVerified === "mod_req") {
         user.editable = true;
       } else {
@@ -303,6 +302,10 @@ exports.verifyStudentInfo = (req, res) => {
         req.body.documentsUploaded,
         user.documentsUploaded
       );
+
+      user.infoVerified = infoVerifiedStatus(user);
+
+      console.log(user.infoVerified);
 
       user
         .save()

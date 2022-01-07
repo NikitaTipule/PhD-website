@@ -51,7 +51,7 @@ class AddLink extends Component {
     }
     try {
       axios
-        .get(BACKEND_URL + "/phdCords/getAllLinks", {
+        .get(BACKEND_URL + "/phdCords/getalllinks", {
           headers: { "phd-website-jwt": this.state.token },
         })
         .then((res) => {
