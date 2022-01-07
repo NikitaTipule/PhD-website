@@ -14,7 +14,7 @@ import { Table, TableBody } from "@material-ui/core";
 import { docType } from "../../phdAdmDetails";
 import viewDoc from "../../pages/DocViewer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import e from "cors";
+//import e from "cors";
 
 export default class PersonalDetails extends Component {
   constructor(props) {
