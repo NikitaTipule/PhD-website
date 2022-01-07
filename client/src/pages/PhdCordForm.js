@@ -83,6 +83,7 @@ export default class phdCordForm extends Component {
             });
             console.log(this.state.documentsUploaded);
           });
+          
       } catch (error) {
         console.log(error.response);
       }
@@ -1090,18 +1091,53 @@ export default class phdCordForm extends Component {
                             </div>
                           </div>
                           <tbody>
-                            {this.state.entranceDetails
-                              .isInterestedCoepRPET && (
+                            
                               <tr class="row1">
-                                <td className="field1">
-                                  <div className="fieldName">
+                                <td className="first data">
                                     Want to appear for COEP's Reasearch Program
                                     Eligibility Test (RPET)
-                                  </div>
+                                </td>
+                                <td className="data">
+                                    {this.state.entranceDetails.isInterestedCoepRPET ?"Yes":"No"}
                                 </td>
                               </tr>
-                            )}
-                            {this.state.entranceDetails.givenGate && (
+                              <tr class="row1">
+                                <td className="first data">
+                                Want to appear for COEP entrance exam
+                                </td>
+                                <td className="data">
+                                    {this.state.entranceDetails.isInterestedCoepEntrance?"Yes":"No"}
+                                </td>
+                              </tr>
+                              <tr class="row1">
+                                <td className="first data">
+                                  Given Gate
+                                </td>
+                                <td className="data">
+                                    {this.state.entranceDetails.givenGate?"Yes":"No"}
+                                </td>
+                              </tr>
+                              <tr class="row1">
+                                <td className="first data">
+                                  Score
+                                </td>
+                                <td className="data">
+                                    {this.state.entranceDetails.Gate.score}
+                                </td>
+                              </tr>
+                              <tr class="row1">
+                                <td className="first data">
+                                  Last Day of Validation
+                                </td>
+                                <td className="data">
+                                {(
+                                    "" +
+                                    this.state.entranceDetails.Gate
+                                      .lastDateOfValidation
+                                  ).slice(0, 10)}
+                                </td>
+                              </tr>
+                            {/* {this.state.entranceDetails.givenGate && (
                               <tr className="row1">
                                 <td className="first data">Gate</td>
 
@@ -1116,16 +1152,32 @@ export default class phdCordForm extends Component {
                                   ).slice(0, 10)}
                                 </td>
                               </tr>
-                            )}
-                            {this.state.entranceDetails
+                            )} */}
+                            {/* {this.state.entranceDetails
                               .isInterestedCoepEntrance && (
                               <tr className="row1">
                                 <div className="fieldName">
                                   Want to appear for COEP entrance exam
                                 </div>
                               </tr>
-                            )}
-                            {this.state.entranceDetails.givenPet && (
+                            )} */}
+                            <tr class="row1">
+                                <td className="first data">
+                                  SPPU ET 2021
+                                </td>
+                                <td className="data">
+                                  {this.state.entranceDetails.sppuPet.details}
+                                </td>
+                            </tr>
+                            <tr class="row1">
+                                <td className="first data">
+                                  Year
+                                </td>
+                                <td className="data">
+                                  {this.state.entranceDetails.sppuPet.year}
+                                </td>
+                            </tr>
+                            {/* {this.state.entranceDetails.givenPet && (
                               <tr className="row1">
                                 <td className="first data">SPPU ET 2021</td>
 
@@ -1136,7 +1188,7 @@ export default class phdCordForm extends Component {
                                   {this.state.entranceDetails.sppuPet.year}
                                 </td>
                               </tr>
-                            )}
+                            )} */}
 
                             {/* 
                             <tr class="row1">
