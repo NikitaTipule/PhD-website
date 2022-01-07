@@ -119,8 +119,8 @@ exports.removeLink = (req, res) => {
   if (req.userRole != "admin") {
     res.status(403).json({ error: "only admin can remove links" });
   }
-  console.log(req.params.linkid);
-  const _id = req.params.linkid;
+  console.log("REMOVE", req.body);
+  const _id = req.body._id;
   if (!_id) {
     return res.status(400).json({ error: "missing paramters" });
   }

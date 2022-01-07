@@ -28,21 +28,39 @@ class AddLink extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  addLink = () => {
+  addLink = async () => {
     const data = {
       title: this.state.title,
       link: this.state.link,
     };
     try {
-      axios.post(BACKEND_URL + "/phdCords/addlink", data).then((res) => {
+      await axios.post(BACKEND_URL + "/phdCords/addlink", data).then((res) => {
         console.log("Link Added");
       });
     } catch (err) {
       console.log(err.res);
     }
+    this.setState((prevState) => ({
+      links: [...prevState.links, data],
+    }));
   };
 
-  removeLink = () => {};
+  removeLink = (value) => async (e) => {
+    console.log(value);
+    try {
+      await axios
+        .post(BACKEND_URL + "/phdCords/removelink/:linkid", { _id: value })
+        .then((res) => {
+          console.log("Link removed");
+        });
+    } catch (err) {
+      console.log(err.res);
+    }
+    const data = this.state.links.filter(function (obj) {
+      return obj._id !== value;
+    });
+    this.setState({ links: data });
+  };
 
   async componentDidMount() {
     if (localStorage.getItem("phd-website-jwt")) {
@@ -51,14 +69,15 @@ class AddLink extends Component {
       });
     }
     try {
-      axios
+      await axios
         .get(BACKEND_URL + "/phdCords/getalllinks", {
           headers: { "phd-website-jwt": this.state.token },
         })
         .then((res) => {
           this.setState({
-            links: res.data.users,
+            links: res.data,
           });
+          console.log(res);
           console.log(this.state.links);
         });
     } catch (err) {
@@ -90,9 +109,9 @@ class AddLink extends Component {
           <Container
             component="main"
             max-width="sm"
-            style={{ marginTop: "90px" }}
+            style={{ marginTop: "60px" }}
           >
-            <h1 style={{ alignItems: "center", textAlign: "center" }}>Links</h1>
+            {/* <h1 style={{ alignItems: "center", textAlign: "center" }}>Links</h1> */}
             <div className="inputsRow">
               <div className="inputs">
                 <Typography>Title for Link</Typography>
@@ -150,21 +169,26 @@ class AddLink extends Component {
                   <div class="col col-2">Links</div>
                   <div class="col col-3"></div>
                 </li>
-                {this.state.links.map((item) => (
-                  <li class="table-row item-tab">
-                    <div class="col col-1" data-label="Title">
-                      {item.title}
-                    </div>
-                    <div class="col col-2" data-label="Link">
-                      <a href={{}}>{item.link}</a>
-                    </div>
-                    <Button>
-                      <div class="col col-3" data-label="">
-                        <DeleteIcon />
-                      </div>
-                    </Button>
-                  </li>
-                ))}
+                {this.state.links
+                  ? this.state.links.map((item) => (
+                      <li class="table-row item-tab">
+                        <div class="col col-1" data-label="Title">
+                          {item.title}
+                        </div>
+                        <div class="col col-2" data-label="Link">
+                          <a href={{}}>{item.link}</a>
+                        </div>
+                        <Button
+                          id={item._id}
+                          onClick={this.removeLink(item._id)}
+                        >
+                          <div class="col col-3" data-label="">
+                            <DeleteIcon />
+                          </div>
+                        </Button>
+                      </li>
+                    ))
+                  : " "}
               </ul>
             </div>
           </Container>
