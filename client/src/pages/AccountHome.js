@@ -263,7 +263,7 @@ class AccountHomeNew extends Component {
           <NavBar loggedin={true} />
           <div className="container">
             <Sidebar user="Coordinator" />
-            <div style={{ marginTop: "90px" }}>
+            <div>
               <div>
                 <div>
                   <div
@@ -368,14 +368,22 @@ class AccountHomeNew extends Component {
                           this.handleclick1();
                         }}
                       >
-                        <InfoBox count={counterTotal} tag="Total Candidates" />
+                        <InfoBox
+                          count={counterTotal}
+                          tag="Total Candidates"
+                          bgcolor="#24B08B"
+                        />
                       </div>
                       <div
                         onClick={() => {
                           this.handleclick2();
                         }}
                       >
-                        <InfoBox count={counterVerified} tag="Verified" />
+                        <InfoBox
+                          count={counterVerified}
+                          tag="Verified"
+                          bgcolor="#12CC2A"
+                        />
                       </div>
                       <div
                         onClick={() => {
@@ -385,6 +393,7 @@ class AccountHomeNew extends Component {
                         <InfoBox
                           count={counterNotVerified}
                           tag="Not Verified"
+                          bgcolor="#F9463E"
                         />
                       </div>
                       <div
@@ -394,7 +403,8 @@ class AccountHomeNew extends Component {
                       >
                         <InfoBox
                           count={counterModification}
-                          tag="Modification required"
+                          tag="Modification"
+                          bgcolor="#3E56F9"
                         />
                       </div>
                     </div>

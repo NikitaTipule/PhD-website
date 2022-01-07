@@ -21,6 +21,7 @@ import { roles } from "./phdAdmDetails";
 import axios from "axios";
 import DocViewer from "./pages/DocViewer";
 import OTP from "./pages/otp";
+import Link from "./pages/Link";
 
 function setToken() {
   const token = localStorage.getItem("phd-website-jwt");
@@ -126,6 +127,7 @@ function App() {
           exact
         ></Route>
         <Route path="/candidate-otp" component={OTP} exact></Route>
+        <Route path="/link" component={Link} exact></Route>
       </Switch>
     </Router>
   );
