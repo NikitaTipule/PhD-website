@@ -179,7 +179,7 @@ class StudentHome extends Component {
               category: user.personalInfo.category,
               physicallyDisabled: user.personalInfo.physicallyDisabled,
               dob: user.personalInfo.dob,
-              mobile: user.personalInfo.mobile,
+              mobile: user.mobile,
               cgpaUG: user.academicsUG.cgpa10,
               degreeUG: user.academicsUG.degree,
               instituteUG: user.academicsUG.institute,
