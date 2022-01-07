@@ -251,7 +251,7 @@ exports.loginFaculty = (req, res) => {
     return res.status(400).json({ error: "All input is required" });
   }
   // check if user exists
-  if (role == "PhdCord") {
+  if (role == "phdCord") {
     PhdCord.findOne({ mis })
       .then(async (user) => {
         if (!user) {
