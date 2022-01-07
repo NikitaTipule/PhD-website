@@ -223,7 +223,6 @@ exports.loginStaff = (req, res) => {
   axios
     .post(ldapAuthUrl, reqData)
     .then((resp) => {
-      console.log(resp);
       const User = roleToModel[role];
       User.findOne({ email: resp.data.Email }).then(async (user) => {
         if (!user) {
