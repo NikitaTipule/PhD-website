@@ -65,6 +65,23 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderTopWidth: 0,
   },
+  tableCol2: {
+    width: "50%",
+    borderStyle: "solid",
+    backgroundColor: "#E8E8E8",
+    borderColor: "#bfbfbf",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+  },
+  tableCol3: {
+    width: "50%",
+    borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+  },
   tableCellHeader: {
     margin: "auto",
     margin: 5,
@@ -130,6 +147,15 @@ class StudentHome extends Component {
       FEEremarks: "",
       PIverification: "",
       PIremarks: "",
+      appId: null,
+      isInterestedCoepRPET: false,
+      isInterestedCoepEntrance: false,
+      givenGate: false,
+      givenPet: false,
+      gateScore: "",
+      gateLastDateOfValidation: "",
+      petDetails: "",
+      petYear: "",
     };
   }
 
@@ -172,7 +198,7 @@ class StudentHome extends Component {
             this.setState({
               pdfName: user.personalInfo.name,
               pdfEmail: user.personalInfo.email,
-              appId: user.applicationId,
+              appId: user.applicationId ? user.applicationId : null,
               aadhar: user.personalInfo.aadhar,
               middleName: user.personalInfo.middleName,
               gender: user.personalInfo.gender,
@@ -192,6 +218,9 @@ class StudentHome extends Component {
               name: user.name,
               email: user.email,
               mis: user.mis,
+              isInterestedCoepRPET: user.entranceDetails?.isInterestedCoepRPET,
+              isInterestedCoepEntrance:
+                user.entranceDetails?.isInterestedCoepEntrance,
               PGverification: user.academicsPG.verification,
               PGremarks: user.academicsPG.remarks,
               UGverification: user.academicsUG.verification,
@@ -203,7 +232,15 @@ class StudentHome extends Component {
               FEEremarks: user.feeDetails.remarks,
               PIverification: user.personalInfo.verification,
               PIremarks: user.personalInfo.remarks,
+              givenGate: user.entranceDetails?.givenGate,
+              givenPet: user.entranceDetails?.givenPet,
+              gateScore: user.entranceDetails?.Gate?.score,
+              gateLastDateOfValidation:
+                user.entranceDetails?.Gate?.lastDateOfValidation,
+              petDetails: user.entranceDetails?.sppuPet?.details,
+              petYear: user.entranceDetails?.sppuPet?.year,
             });
+            console.log(user.entranceDetails, this.state.givenPet);
           });
       } catch (error) {
         console.log(error.message);
@@ -368,18 +405,172 @@ class StudentHome extends Component {
               </View>
             </View>
             <View style={styles.tableRow}>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>Is Interested in COEP RPET</Text>
+              </View>
+              <View style={styles.tableCol3}>
+                {this.state.isInterestedCoepRPET ? (
+                  <Text style={styles.tableCell}>Yes</Text>
+                ) : (
+                  <Text style={styles.tableCell}>No</Text>
+                )}
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>
+                  Is Interested in COEP Entrance
+                </Text>
+              </View>
+              <View style={styles.tableCol3}>
+                {this.state.isInterestedCoepEntrance ? (
+                  <Text style={styles.tableCell}>Yes</Text>
+                ) : (
+                  <Text style={styles.tableCell}>No</Text>
+                )}
+              </View>
+            </View>
+            {/* Gate Details  */}
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>Given Gate</Text>
+              </View>
+              <View style={styles.tableCol3}>
+                {this.state.givenGate ? (
+                  <Text style={styles.tableCell}>Yes</Text>
+                ) : (
+                  <Text style={styles.tableCell}>No</Text>
+                )}
+              </View>
+            </View>
+            <View style={styles.tableRow}>
               <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Score</Text>
               </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>{this.state.scoreGATE}</Text>
+              {this.state.givenGate ? (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  {this.state.gateScore}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  -
+                </Text>
+              )}
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Last Date of Validation</Text>
               </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}></Text>
+              {this.state.givenGate ? (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  {this.state.gateLastDateOfValidation}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  -
+                </Text>
+              )}
+            </View>
+            {/* Pet Details  */}
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>Given SPPU PET</Text>
               </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}></Text>
+              <View style={styles.tableCol3}>
+                {this.state.givenPet ? (
+                  <Text style={styles.tableCell}>Yes</Text>
+                ) : (
+                  <Text style={styles.tableCell}>No</Text>
+                )}
               </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Details</Text>
+              </View>
+              {this.state.givenPet ? (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  {this.state.petDetails}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  -
+                </Text>
+              )}
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Year</Text>
+              </View>
+              {this.state.givenPet ? (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  {this.state.petYear}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    ...styles.tableCol,
+                    fontSize: "10px",
+                    fontWeight: "300",
+                    paddingTop: "5px",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  -
+                </Text>
+              )}
             </View>
           </View>
           <Text style={styles.declareHead}>Declaration:</Text>
@@ -458,6 +649,17 @@ class StudentHome extends Component {
                       {this.state.email}
                     </p>
                   </Grid>
+                  {this.state.appId ? (
+                    <Grid item xs={12} md={6} className="grid-item">
+                      <p style={{ fontSize: "20px" }}>
+                        <b style={{ fontWeight: 600 }}>Application ID : </b>
+                        {"   "}
+                        {this.state.appId}
+                      </p>
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
                 </Grid>
               </div>
             </div>
