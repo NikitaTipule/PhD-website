@@ -127,7 +127,12 @@ function App() {
           exact
         ></Route>
         <Route path="/candidate-otp" component={OTP} exact></Route>
-        <Route path="/link" component={Link} exact></Route>
+        <ProtectedRoute
+          allowedRoles={[roles.admin]}
+          path="/link"
+          component={Link}
+          exact
+        ></ProtectedRoute>
       </Switch>
     </Router>
   );
