@@ -19,8 +19,8 @@ router.post("/add", auth, addPhdCord);
 
 router.post("/remove", auth, removePhdCord);
 
-router.get("/getlink", auth, getAllLinks);
+router.get("/getalllinks", getAllLinks);
 router.post("/addlink", auth, addLink);
-router.post("/removelink", auth, removeLink);
+router.post("/removelink/:linkid", auth, removeLink);
 
 module.exports = router;

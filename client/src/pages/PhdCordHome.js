@@ -45,6 +45,10 @@ class PhdCordHome extends Component {
   }
 
   async componentDidMount() {
+    // console.log(this.props.location.state.details);
+    // this.setState({
+    //   id: this.props.location.state.details,
+    // });
     try {
       this.setState({
         id: this.props.location.state.details,
@@ -62,7 +66,7 @@ class PhdCordHome extends Component {
       });
       // console.log(this.state.token)
 
-      if (this.state.flag) {
+      if (localStorage.getItem("userRole") === "admin") {
         try {
           axios
             .get(BACKEND_URL + "/phdCords/" + this.state.id, {
