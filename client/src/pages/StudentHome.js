@@ -258,6 +258,13 @@ class StudentHome extends Component {
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}>
+                <Text style={{ ...styles.tableCellHeader, fontWeight: "600" }}>
+                  APPLICATION ID : {this.state.appId}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
                 <Text style={styles.tableCellHeader}>Personal Details</Text>
               </View>
             </View>
