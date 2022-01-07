@@ -1,3 +1,4 @@
+const Link = require("../models/links");
 const PhdCord = require("../models/phdCord");
 const Student = require("../models/student");
 
@@ -91,4 +92,55 @@ exports.removePhdCord = (req, res) => {
     }
     return res.json({ success: "true" });
   });
+};
+
+exports.addLink = (req, res) => {
+  if (req.userRole != "admin") {
+    res.status(403).json({ error: "only admin can add link" });
+  }
+  const title = req.body.title;
+  const link = req.body.link;
+  if (!title || !link) {
+    return res.status(404).json({ error: "error" });
+  }
+  const user = new Link({ title, link });
+  user
+    .save()
+    .then((user) => res.json({ link }))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ err: "invalid data" });
+    });
+};
+
+exports.removeLink = (req, res) => {
+  if (req.userRole != "admin") {
+    res.status(403).json({ error: "only admin can remove links" });
+  }
+  const id = req.body.id;
+  if (!id) {
+    return res.status(400).json({ error: "missing paramters" });
+  }
+  Link.deleteOne(id, (err, doc) => {
+    if (err || !doc || doc.deletedCount == 0) {
+      return res.status(404).json({ error: "user not found" });
+    }
+    return res.json({ success: "true" });
+  });
+};
+
+exports.getAllLinks = (req, res) => {
+  if (req.userRole != "admin") {
+    res.status(403).json({ error: "only admin person can access" });
+  }
+
+  Link.find()
+    .lean()
+    .exec()
+    .then((users) => {
+      return res.json(users);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: "invalid request" });
+    });
 };
