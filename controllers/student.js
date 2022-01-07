@@ -178,17 +178,12 @@ exports.editStudentInfo = async (req, res) => {
 };
 
 exports.verifyFeeDetails = async (req, res) => {
-  console.log(req.userId);
-  console.log(req.userRole);
   if (req.userRole != "accountSec") {
     res
       .status(403)
       .json({ error: "only account section can update fee verification" });
   }
   const { studentId, verification, remarks } = req.body;
-  console.log(studentId);
-  console.log(verification);
-  console.log(remarks);
   if (!(studentId && verification)) {
     res
       .status(403)
@@ -252,7 +247,7 @@ const infoVerifiedStatus = (user) => {
     docVerification = "verified";
   }
 
-  const p = 0,
+  let p = 0,
     m = 0,
     v = 0;
   for (let f of field_list) {
@@ -268,8 +263,6 @@ const infoVerifiedStatus = (user) => {
   if (user.documentsUploaded.length === 0) {
     docVerification = "pending";
   }
-
-  console.log("DOCVERIFICATION", docVerification);
 
   if (p === 0 && m === 0 && docVerification === "verified") return "verified";
   if (m > 0 || docVerification === "mod_req") return "mod_req";
@@ -328,7 +321,6 @@ exports.verifyStudentInfo = (req, res) => {
 };
 
 exports.getAllStudentsInfoByDept = (req, res) => {
-  console.log(req);
   const department = req.params && req.params.department;
   if (!department) {
     return res.status(400).json({ error: "department is needed" });
