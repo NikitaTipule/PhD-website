@@ -95,6 +95,14 @@ export default class phdCordForm extends Component {
     }
   }
 
+  prevStephome = () => {
+    this.props.history.push({
+      pathname: "/coordinator",
+      // search: `/${id}`,
+      state: { details: this.props.location.state.cordId },
+    });
+  };
+
   nextStep = () => {
     const { step } = this.state;
     this.setState({
@@ -464,6 +472,19 @@ export default class phdCordForm extends Component {
                               {/* Save and Next - Personal Details */}
                               <div style={{ alignContent: "center" }}>
                                 <Button
+                                  variant="outlined"
+                                  size="large"
+                                  style={{
+                                    alignSelf: "center",
+                                    marginRight: "10px",
+                                    maxWidth: "250px",
+                                    minWidth: "250px",
+                                  }}
+                                  onClick={this.prevStephome}
+                                >
+                                  Back
+                                </Button>
+                                <Button
                                   variant="contained"
                                   size="large"
                                   style={{ alignSelf: "center" }}
@@ -759,7 +780,7 @@ export default class phdCordForm extends Component {
                           maxWidth: "250px",
                           minWidth: "250px",
                         }}
-                        onClick={this.nextStep}
+                        onClick={this.prevStep}
                       >
                         Back
                       </Button>
@@ -1048,7 +1069,7 @@ export default class phdCordForm extends Component {
                           maxWidth: "250px",
                           minWidth: "250px",
                         }}
-                        onClick={this.nextStep}
+                        onClick={this.prevStep}
                       >
                         Back
                       </Button>

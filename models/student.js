@@ -124,7 +124,7 @@ const StudentSchema = Schema(
     },
     mobileVerified: {
       type: Boolean,
-      default: false,
+      default: true,
       required: true,
     },
     editable: {
