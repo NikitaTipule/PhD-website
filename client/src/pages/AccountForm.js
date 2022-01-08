@@ -13,6 +13,7 @@ export default class AccountFormNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      appid: this.props.student.applicationId,
       name: this.props.student.name,
       utrDuNumber: this.props.student.feeDetails.utrDuNumber,
       amount: this.props.student.feeDetails.amount,
@@ -94,6 +95,10 @@ export default class AccountFormNew extends Component {
                         </div>
                       </div>
                       <tbody>
+                        <tr class="row1">
+                          <td class="first data">Application Id</td>
+                          <td class="data">{this.state.appid}</td>
+                        </tr>
                         <tr class="row1">
                           <td class="first data">Name</td>
                           <td class="data">{this.state.name}</td>

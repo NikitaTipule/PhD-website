@@ -50,6 +50,10 @@ export default function MainLogIn(props) {
     history.push("/login/staff");
   };
 
+  const handleRoute3 = () => {
+    history.push("/login/account-section");
+  };
+
   useEffect(() => {
     fetchData();
   }, []);

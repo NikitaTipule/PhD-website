@@ -58,19 +58,19 @@ export const SidebarData = [
     title: "Add Account Section",
     user: "Admin",
     icon: <AddIcon />,
-    link: "/addcord/add-account-section",
+    link: "/add-account-section",
   },
   {
     title: "Remove Coordinator",
     user: "Admin",
     icon: <PersonRemoveIcon />,
-    link: "/addcord",
+    link: "/removecord",
   },
   {
     title: "Remove Account Section",
     user: "Admin",
     icon: <RemoveIcon />,
-    link: "/addcord/add-account-section",
+    link: "/remove-account-section",
   },
   {
     title: "Logout",

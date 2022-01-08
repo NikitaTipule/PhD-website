@@ -34,9 +34,9 @@ exports.getStudentsByDept = (req, res) => {
 
   let projection = "";
   if (req.userRole == "phdCord" || req.userRole == "admin") {
-    projection = "name infoVerified feeDetails.verification";
+    projection = "name applicationId infoVerified feeDetails.verification";
   } else if (req.userRole == "accountSec") {
-    projection = "name personalInfo.category feeDetails";
+    projection = "name applicationId personalInfo.category feeDetails";
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
