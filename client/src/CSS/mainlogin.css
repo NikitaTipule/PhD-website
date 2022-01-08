@@ -1,30 +1,27 @@
-
-
 .all {
-	box-sizing: border-box;
-	background: #DDF3F5;
+  box-sizing: border-box;
+  background: #ddf3f5;
 }
 
 .bod {
   width: 75%;
-  background: #DDF3F5;
-	display: flex;
+  background: #ddf3f5;
+  display: flex;
   flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	font-family: 'Montserrat', sans-serif;
-	height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  height: 100vh;
   margin: auto;
 }
 
-
 .link {
-	font-size: 14px;
-	font-weight: 100;
-	line-height: 20px;
-	letter-spacing: 0.5px;
-	margin: 20px 0 30px;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
 }
 
 /* span {
@@ -32,9 +29,9 @@
 } */
 
 .main_link {
-	color: #333;
-	font-size: 14px;
-	margin: 15px 0;
+  color: #333;
+  font-size: 14px;
+  margin: 15px 0;
 }
 
 /* button {
@@ -51,14 +48,14 @@
 } */
 
 .form-container {
-	background-color: #FFFFFF;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 50px;
-	height: 100%;
-	text-align: center;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
 }
 
 /* input {
@@ -70,93 +67,184 @@
 } */
 
 .container_login {
-	background-color: #fff;
-	border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-	position: relative;
-	overflow: hidden;
-	width: 100%;
-
-	min-height: 480px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  /* overflow: hidden; */
+  width: 100%;
+  min-height: 480px;
 }
 
 .form-container {
-	position: absolute;
+  position: absolute;
 
-	height: 100%;
+  height: 100%;
 }
 
 .log-in-container {
-	left: 0;
-	width: 50%;
-	z-index: 2;
+  left: 0;
+  width: 50%;
+  z-index: 2;
 }
-
 
 .overlay-container {
-	position: absolute;
-
-	left: 50%;
-	width: 50%;
-	height: 100%;
+  position: absolute;
+  left: 50%;
+  width: 50%;
+  height: 100%;
 }
 
-
 .overlay {
-	background: #056676;
-	background: -webkit-linear-gradient(to right, #056676, #5EAAA8);
-	background: linear-gradient(to right, #056676, #5EAAA8);
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: 0 0;
-	color: #FFFFFF;
-	position: relative;
-	left: -100%;
-	height: 100%;
-	width: 200%;
+  background: #056676;
+  background: -webkit-linear-gradient(to right, #056676, #5eaaa8);
+  background: linear-gradient(to right, #056676, #5eaaa8);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
 }
 
 .overlay-panel {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 20px;
-	text-align: center;
-	top: 0;
-	height: 100%;
-	width: 50%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 20px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
 }
-
 
 .overlay-right {
-	right: 0;
+  right: 0;
 }
 
-
 .social-container {
-	margin: 50px 0;
+  margin: 50px 0;
 }
 
 .social-container a {
-	border: 1px solid #DDDDDD;
-	border-radius: 50%;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	margin: 0 5px;
-	height: 40px;
-	width: 40px;
+  border: 1px solid #dddddd;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  height: 40px;
+  width: 40px;
 }
 .scroll-box {
-                margin-top: 50px;
-                margin: auto;
-                padding: 10px;
-                background: #fff;
-                color: #000;
-                width: 95%;
-                height: 70%;
-                overflow: auto;
-                text-align:justify;
-            }
+  margin-top: 50px;
+  margin: auto;
+  padding: 10px;
+  background: #fff;
+  color: #000;
+  width: 95%;
+  height: 70%;
+  overflow: auto;
+  text-align: justify;
+}
+
+@media all and (max-width: 767px) {
+  .bod {
+    width: 92%;
+    background: #ddf3f5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    height: 100vh;
+    margin: auto;
+  }
+  .form-container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .overlay {
+    background: #056676;
+    background: -webkit-linear-gradient(to right, #056676, #5eaaa8);
+    background: linear-gradient(to right, #056676, #5eaaa8);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #ffffff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    top: 500px;
+  }
+  .overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 20px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .log-in-container {
+    left: 0;
+    width: 100%;
+    z-index: 2;
+  }
+  .all {
+    box-sizing: border-box;
+    background: #ddf3f5;
+    height: 1150px;
+  }
+  /* .bod {
+    display: flex;
+  }
+  .container_login {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-container {
+    display: flex;
+  }
+  .log-in-container {
+    width: 100%;
+  }
+  .bod {
+    width: 75%;
+    background: #ddf3f5;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    margin: auto;
+  }
+
+  .overlay-container {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  .overlay {
+    background: #056676;
+    background: -webkit-linear-gradient(to right, #056676, #5eaaa8);
+    background: linear-gradient(to right, #056676, #5eaaa8);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #ffffff;
+    width: 135px;
+  } */
+}
