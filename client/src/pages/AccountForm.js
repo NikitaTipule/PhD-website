@@ -22,31 +22,11 @@ export default class AccountFormNew extends Component {
       transactionTime: this.props.student.feeDetails.transactionTime,
       verification: this.props.student.feeDetails.verification,
       category: this.props.student.personalInfo.category,
-
-      // name: "sldkfj",
-      // utrDuNumber: "lskjdf",
-      // amount: "sdf",
-      // bank: "gdfg",
-      // documentsUploaded: "dfg",
-      // remarks: "dgfgfdg",
-      // transactionTime: "dfgdfg",
-      // verification: "dgdgfdg",
-      // category: "dgffdff",
-
-      //   open: false,
-      //   confirmAlert: false,
-
-      //   remarks: "",
-      redirect: false,
       token: "",
       //verification: "",
     };
   }
   async componentDidMount() {
-    // console.log(this.props);
-    console.log(this.props);
-    // console.log(this.state.documentsUploaded);
-
     if (localStorage.getItem("phd-website-jwt")) {
       this.setState({
         token: localStorage.getItem("phd-website-jwt"),
@@ -55,20 +35,11 @@ export default class AccountFormNew extends Component {
   }
 
   handleSubmit = async (event) => {
-    this.setState({
-      remarks: this.state.remarks,
-    });
-    // console.log(this.state.remarks);
-
-    this.setState({
-      redirect: !this.state.redirect,
-    });
     const data = {
       studentId: this.props.student._id,
       verification: this.state.verification,
       remarks: this.state.remarks,
     };
-    // await console.log(data);
     axios
       .post(BACKEND_URL + "/students/verify/fee", data, {
         headers: { "phd-website-jwt": this.state.token },
@@ -78,8 +49,7 @@ export default class AccountFormNew extends Component {
         this.props.updateStudent(
           data.verification,
           data.remarks,
-          this.props.student.index,
-          this.props.department
+          this.props.student.index
         );
       })
       .catch((err) => {
@@ -89,42 +59,20 @@ export default class AccountFormNew extends Component {
   };
 
   handleBack = () => {
-    console.log(this.props.department);
     this.props.updateStudent(
       this.props.student.feeDetails.verification,
       this.props.student.feeDetails.remarks,
-      this.props.student.index,
-      this.props.department
+      this.props.student.index
     );
   };
 
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
-      remarks: event.target.value,
-    });
-  };
-
-  onChangeVerify = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-      verification: event.target.value,
     });
   };
 
   render() {
-    // if (this.state.redirect) {
-    //   // return <Redirect to="/coordinator" />;
-    //   console.log(this.props.student);
-    //   console.log(this.props.location.state.cordId);
-    //   this.props.history.push({
-    //     pathname: "/account",
-    //     // search: `/${id}`,
-    //     // state: { details: this.props.student },
-    //   });
-    // }
-    // const { step } = this.state;
-
     return (
       <>
         <NavBar loggedin={true} />
@@ -219,7 +167,7 @@ export default class AccountFormNew extends Component {
                         multiline
                         minRows={3}
                         type="text"
-                        name="personalInfoRemark"
+                        name="remarks"
                         label="Remark"
                         fullWidth
                       ></TextField>
@@ -234,9 +182,9 @@ export default class AccountFormNew extends Component {
                               <input
                                 type="radio"
                                 value="mod_req"
-                                name="personalInfoStatus"
+                                name="verification"
                                 checked={this.state.verification === "mod_req"}
-                                onChange={this.onChangeVerify}
+                                onChange={this.handleChange}
                                 className="radio"
                               />
                               Not Verified
@@ -246,9 +194,9 @@ export default class AccountFormNew extends Component {
                               <input
                                 type="radio"
                                 value="verified"
-                                name="personalInfoStatus"
+                                name="verification"
                                 checked={this.state.verification === "verified"}
-                                onChange={this.onChangeVerify}
+                                onChange={this.handleChange}
                                 className="radio"
                               />{" "}
                               Verified

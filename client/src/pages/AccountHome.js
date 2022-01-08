@@ -41,7 +41,7 @@ class AccountHomeNew extends Component {
       length: 0,
       flag: true,
       id: "",
-      selectedStudent: "",
+      selectedStudent: -1,
     };
   }
 
@@ -56,7 +56,6 @@ class AccountHomeNew extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            console.log(res.data);
             this.setState({
               name: res.data.user.name,
               email: res.data.user.email,
@@ -100,10 +99,7 @@ class AccountHomeNew extends Component {
   };
 
   onChangeDepartment = (event) => {
-    // console.log(this.state.department)
-    // console.log(this);
     let dept = event.value;
-    console.log(dept);
     if (dept) {
       if (localStorage.getItem("phd-website-jwt")) {
         this.setState({
@@ -115,7 +111,6 @@ class AccountHomeNew extends Component {
               headers: { "phd-website-jwt": this.state.token },
             })
             .then((res) => {
-              console.log(res.data);
               this.setState({
                 allStudents: res.data.map((s, i) => {
                   s.index = i;
@@ -123,8 +118,6 @@ class AccountHomeNew extends Component {
                 }),
                 length: res.data.length,
               });
-              console.log(this.state.allStudents);
-              // console.log(this.state.allStudents[0].feeDetails.verification)
             });
         } catch (error) {
           console.log(error.message);
@@ -160,31 +153,29 @@ class AccountHomeNew extends Component {
     });
   };
 
-  updateStudent = (verification, remarks, index, department) => {
+  updateStudent = (verification, remarks, index) => {
     const allStudents = this.state.allStudents;
-    allStudents[index].verification = verification;
-    allStudents[index].remarks = remarks;
+    allStudents[index].feeDetails.verification = verification;
+    allStudents[index].feeDetails.remarks = remarks;
     this.setState({
       allStudents: allStudents,
-      selectedStudent: "",
-      department: department,
+      selectedStudent: -1,
     });
   };
 
   oncellClick(row) {
-    console.log(row);
     // this.props.history.push({
     //   pathname: "/accountform",
     //   // search: `/${id}`,
     //   state: { details: id, cordId: this.state.id },
     // });
+    console.log(row.index);
     this.setState({
       selectedStudent: row.index,
     });
   }
 
   exportToExcel = () => {
-    console.log(this.state.allStudents);
     const otherData = [];
     this.state.allStudents.forEach((student) => {
       const { personalInfo, name, feeDetails, ...otherProp } = student;
@@ -192,7 +183,6 @@ class AccountHomeNew extends Component {
       const { category } = personalInfo;
       otherData.push({ name, category, ...otherDetails });
     });
-    console.log(otherData);
     const XLSX = require("xlsx");
     const workSheet = XLSX.utils.json_to_sheet(otherData);
     workSheet["!cols"] = [
@@ -247,14 +237,11 @@ class AccountHomeNew extends Component {
         }
       }
     }
-    if (this.state.selectedStudent) {
-      console.log(this.state.selectedStudent);
-      console.log(this.state.allStudents[this.state.selectedStudent]);
+    if (this.state.selectedStudent !== -1) {
       return (
         <AccountForm
           student={this.state.allStudents[this.state.selectedStudent]}
           updateStudent={this.updateStudent}
-          department={this.state.department}
         />
       );
     } else {
@@ -466,7 +453,6 @@ class AccountHomeNew extends Component {
                                     this.state.rowsPerPage
                                 )
                                 .map((row) => {
-                                  console.log(row);
                                   return (
                                     <TableRow
                                       hover
@@ -480,14 +466,11 @@ class AccountHomeNew extends Component {
                                     >
                                       {this.columns.map((column) => {
                                         const value = row[column.id];
-                                        // console.log(value);
-                                        console.log(column.id);
                                         return (
                                           <TableCell
                                             key={column.id}
                                             align="center"
                                           >
-                                            {console.log(column.id)}
                                             {column.id ===
                                             "feeDetails['verification']" ? (
                                               <div>
