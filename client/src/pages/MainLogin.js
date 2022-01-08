@@ -55,11 +55,6 @@ export default function MainLogIn(props) {
   }, []);
 
   const fetchData = async () => {
-    if (localStorage.getItem("phd-website-jwt")) {
-      this.setState({
-        token: localStorage.getItem("phd-webiste-jwt"),
-      });
-    }
     try {
       await axios.get(BACKEND_URL + "/phdCords/getalllinks").then((res) => {
         const links = res.data;

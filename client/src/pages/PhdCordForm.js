@@ -42,6 +42,8 @@ export default class phdCordForm extends Component {
       redirect: false,
       token: "",
       verification: "",
+
+      appId: null,
     };
   }
 
@@ -80,6 +82,10 @@ export default class phdCordForm extends Component {
               documentsUploaded: res.data.user.documentsUploaded,
 
               remarks: res.data.user.remarks,
+
+              appId: res.data.user?.applicationId
+                ? res.data.user.applicationId
+                : null,
             });
             console.log(this.state.documentsUploaded);
           });
@@ -181,6 +187,12 @@ export default class phdCordForm extends Component {
                             </div>
                           </div>
                           <tbody>
+                            <tr class="row1">
+                              <td class="first data">Application ID</td>
+                              <td class="data">
+                                {this.state.appId ? this.state.appId : ""}
+                              </td>
+                            </tr>
                             <tr class="row1">
                               <td class="first data">Name</td>
                               <td class="data">
