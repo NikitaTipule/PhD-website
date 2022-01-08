@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { BACKEND_URL } from "../config";
+import axios from "axios";
 import MainLogIn from "./MainLogin";
 class Home extends Component {
   render() {

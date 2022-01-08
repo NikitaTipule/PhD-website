@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,6 +10,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useHistory } from "react-router-dom";
 import NavBar from "../components/Navbar/Navbar";
 import "../CSS/mainlogin.css";
+import { BACKEND_URL } from "../config";
+import axios from "axios";
+
 const theme = createTheme({
   status: {
     danger: "#e53e3e",
@@ -26,14 +29,45 @@ const theme = createTheme({
   },
 });
 
-export default function MainLogIn() {
+export default function MainLogIn(props) {
   const history = useHistory();
+
+  (function () {
+    window.onpageshow = function (event) {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+  })();
+
+  const [links, setLinks] = useState();
 
   const handleRoute1 = () => {
     history.push("/login/candidate");
   };
+
   const handleRoute2 = () => {
     history.push("/login/staff");
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    if (localStorage.getItem("phd-website-jwt")) {
+      this.setState({
+        token: localStorage.getItem("phd-webiste-jwt"),
+      });
+    }
+    try {
+      await axios.get(BACKEND_URL + "/phdCords/getalllinks").then((res) => {
+        const links = res.data;
+        setLinks(links);
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return (
@@ -105,46 +139,15 @@ export default function MainLogIn() {
                     <b>Important Announcements</b>
                   </Typography>
                   <div class="scroll-box">
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 1
-                      </a>
-                    </p>
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 2
-                      </a>
-                    </p>
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 3
-                      </a>
-                    </p>
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 4
-                      </a>
-                    </p>
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 5
-                      </a>
-                    </p>
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 6
-                      </a>
-                    </p>
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 7
-                      </a>
-                    </p>
-                    <p class="link">
-                      <a class="main_link" href="https://www.google.co.in/">
-                        Link 8
-                      </a>
-                    </p>
+                    {links
+                      ? links.map((item) => (
+                          <p class="link">
+                            <a class="main_link" href={item.link}>
+                              {item.title}
+                            </a>
+                          </p>
+                        ))
+                      : ""}
                   </div>
                 </div>
               </div>
