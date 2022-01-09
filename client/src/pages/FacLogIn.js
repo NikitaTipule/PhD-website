@@ -22,6 +22,7 @@ import { useHistory } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { MobileView, BrowserView } from "react-device-detect";
 
 const theme = createTheme();
 const initialState = {
@@ -67,22 +68,27 @@ export default function FacLogIn() {
     <ThemeProvider theme={theme}>
       <NavBar loggedin={false} />
       <div className="menu">
-        {menu ? (
+        {!menu ? (
           <MenuIcon
             onClick={() => {
-              setMenu(false);
+              setMenu(true);
             }}
           />
         ) : (
           <CloseIcon
             onClick={() => {
-              setMenu(true);
+              setMenu(false);
             }}
           />
         )}
       </div>
       <div className="container">
-        {!menu && <Sidebar className="mob" user="Faculty" />}
+        <MobileView>
+          {menu && <Sidebar className="mob" user="Faculty" />}
+        </MobileView>
+        <BrowserView>
+          {!menu && <Sidebar className="mob" user="Faculty" />}
+        </BrowserView>
         <div>
           <Container component="main" maxWidth="xs">
             <CssBaseline />

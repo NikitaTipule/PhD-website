@@ -18,6 +18,7 @@ import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { MobileView, BrowserView } from "react-device-detect";
 
 class Admin extends Component {
   constructor(props) {
@@ -110,11 +111,16 @@ class Admin extends Component {
       <>
         <NavBar loggedin={true} />
         <div className="menu" >
-          {this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: false}); }}/>
-          : <CloseIcon onClick={() => {this.setState({menu: true})}}/> }
+          {!this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: true}); }}/>
+          : <CloseIcon onClick={() => {this.setState({menu: false})}}/> }
         </div>
         <div className="container">
-          {!this.state.menu && <Sidebar className="mob" user="Admin"/>}
+          <MobileView>
+            {this.state.menu && <Sidebar className="mob" user="Candidate" />}
+          </MobileView>
+          <BrowserView>
+            {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+          </BrowserView>
           <div>
 
             {/* <Box
