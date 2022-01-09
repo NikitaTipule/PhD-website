@@ -22,7 +22,7 @@ import { useHistory } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { MobileView, BrowserView } from "react-device-detect";
+import { MobileView, BrowserView } from 'react-device-detect';
 
 const theme = createTheme();
 const initialState = {

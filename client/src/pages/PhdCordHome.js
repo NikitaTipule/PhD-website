@@ -19,7 +19,7 @@ import Sidebar from "../components/Sidebar";
 import InfoBox from "../components/InfoBox";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { MobileView, BrowserView } from "react-device-detect";
+import { MobileView, BrowserView } from 'react-device-detect';
 
 class PhdCordHome extends Component {
   constructor(props) {
