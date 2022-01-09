@@ -21,17 +21,18 @@ const addAccountSec = (req, res) => {
         .status(409)
         .json({ error: "User Already Exist. Please ask to Login" });
     }
+    const pass = Math.random().toString(36).slice(2, 8);
     const user = new AccountSec({
       name,
       email,
-      password: Math.random().toString(36).slice(2, 8),
+      password: pass,
     });
     user
       .save()
       .then((user) => {
         sendEmail(
           email,
-          `Your password for Phd website portal with email ${email} is ${user.password}.
+          `Your password for Phd website portal with email ${email} is ${pass}.
            Please reset after signing in`,
           "PhD Website Account Section details"
         );
