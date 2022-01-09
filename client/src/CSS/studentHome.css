@@ -109,7 +109,7 @@ li {
   }
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 700px) {
   .table-header {
     display: none;
   }
