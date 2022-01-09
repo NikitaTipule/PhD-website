@@ -116,10 +116,10 @@ class Admin extends Component {
         </div>
         <div className="container">
           <MobileView>
-            {this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            {this.state.menu && <Sidebar className="mob" user="Admin" />}
           </MobileView>
           <BrowserView>
-            {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+            {!this.state.menu && <Sidebar className="mob" user="Admin" />}
           </BrowserView>
           <div>
 
