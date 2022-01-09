@@ -82,7 +82,7 @@ li {
   display: none;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
   .menu {
     display: block;
     position: fixed;
@@ -96,7 +96,7 @@ li {
   }
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
   .Sidebar {
     position: absolute;
     margin-top: 0;
@@ -109,7 +109,7 @@ li {
   }
 }
 
-@media all and (max-width: 700px) {
+@media all and (max-width: 800px) {
   .table-header {
     display: none;
   }
