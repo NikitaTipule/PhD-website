@@ -72,7 +72,7 @@ export default function Register() {
         .post(url, data)
         .then((res) => {
           setLoading(false);
-          alert("Registration Successful, Please verify mobile and email");
+          alert("Registration Successful, Please verify email");
           history.push("/candidate-otp", { userId: res.data.userId });
         })
         .catch((err) => {
