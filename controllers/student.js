@@ -309,7 +309,6 @@ exports.verifyStudentInfo = (req, res) => {
 
       user.infoVerified = infoVerifiedStatus(user);
 
-<<<<<<< HEAD
       if (user.infoVerified === "mod_req") {
         user.editable = true;
       } else {
@@ -318,8 +317,6 @@ exports.verifyStudentInfo = (req, res) => {
 
       console.log("EDITABLE : ", user.infoVerified, user.editable);
 
-=======
->>>>>>> 3ef7cbfd022e50b1cc694d1ab175ce809ba25e17
       user
         .save()
         .then(() => res.json({ success: true }))
