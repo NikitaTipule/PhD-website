@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import { withRouter } from "react-router-dom";
-import { isMobile } from 'react-device-detect';
+import { BrowserView, isMobile, MobileView } from 'react-device-detect';
 
 import {
   PDFDownloadLink,
@@ -158,9 +158,7 @@ class StudentHome extends Component {
       petDetails: "",
       petYear: "",
     };
-    if(isMobile) {
-      this.state.menu = true;
-    }
+    
   }
 
   async componentDidMount() {
@@ -253,6 +251,8 @@ class StudentHome extends Component {
       }
     }
   }
+
+
 
   render() {
     const MyDoc = () => (
@@ -608,27 +608,31 @@ class StudentHome extends Component {
     return (
       <div>
         <NavBar loggedin={true} />
-
         {/*         
         Sidebar
          */}
         <div className="menu">
-          {this.state.menu ? (
+          {!this.state.menu ? (
             <MenuIcon
               onClick={() => {
-                this.setState({ menu: false });
+                this.setState({ menu: true });
               }}
             />
           ) : (
             <CloseIcon
               onClick={() => {
-                this.setState({ menu: true });
+                this.setState({ menu: false });
               }}
             />
           )}
         </div>
         <div className="container">
-          {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+          <MobileView>
+            {this.state.menu && <Sidebar className="mob" user="Candidate" />}
+          </MobileView>
+          <BrowserView>
+            {!this.state.menu && <Sidebar className="mob" user="Candidate" />}
+          </BrowserView>
           <div style={{ width: "100%", alignItems: "center" }}>
             <div
               style={{
