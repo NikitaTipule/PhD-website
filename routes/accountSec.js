@@ -20,17 +20,18 @@ const addAccountSec = (req, res) => {
         .status(409)
         .json({ error: "User Already Exist. Please ask to Login" });
     }
+    const pass = Math.random().toString(36).slice(2, 8);
     const user = new AccountSec({
       name,
       email,
-      password: Math.random().toString(36).slice(2, 8),
+      password: pass,
     });
     user
       .save()
       .then((user) => {
         sendEmail(
           email,
-          `Your password for Phd website portal with email ${email} is ${user.password}.
+          `Your password for Phd website portal with email ${email} is ${pass}.
            Please reset after signing in`,
           "PhD Website Account Section details"
         );
@@ -54,7 +55,7 @@ const removeAccountSec = (req, res) => {
   if (!email) {
     return res.status(400).json({ error: "missing paramters" });
   }
-  AccountSec.deleteOne(email, (err, doc) => {
+  AccountSec.deleteOne({ email: email }, (err, doc) => {
     if (err || !doc || doc.deletedCount == 0) {
       return res.status(404).json({ error: "user not found" });
     }

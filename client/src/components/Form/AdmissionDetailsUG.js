@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import { Table, TableBody } from "@material-ui/core";
 import { docType } from "../../phdAdmDetails";
-import viewDoc from "../../pages/DocViewer";
+import DocViewer from "../../pages/DocViewer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default class AdmissionDetailsUG extends Component {
@@ -666,19 +666,13 @@ export default class AdmissionDetailsUG extends Component {
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
                                   </div>
-                                  <div
-                                    className="previewIcon"
-                                    onClick={() => {
-                                      // this.loader();
-                                      viewDoc({
-                                        filename: doc.filename,
-                                        contentType: doc.contentType,
-                                        originalName: doc.originalName,
-                                      });
+                                  <DocViewer
+                                    data={{
+                                      filename: doc.filename,
+                                      contentType: doc.contentType,
+                                      originalName: doc.originalName,
                                     }}
-                                  >
-                                    <VisibilityIcon />
-                                  </div>
+                                  />
                                 </div>
                                 <div>
                                   {doc.verification === "verified" && (

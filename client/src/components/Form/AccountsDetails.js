@@ -14,7 +14,7 @@ import { docType } from "../../phdAdmDetails";
 // import { browserHistory } from "react-router";
 
 import "./Documents.css";
-import viewDoc from "../../pages/DocViewer";
+import DocViewer from "../../pages/DocViewer";
 
 export default class AccountsDetails extends Component {
   constructor(props) {
@@ -507,21 +507,14 @@ export default class AccountsDetails extends Component {
                                 : " "}
                               {"...."}
                             </div>
-                            <div
-                              className="previewIcon"
-                              onClick={() => {
-                                // this.loader();
-                                viewDoc({
-                                  filename: this.state.docUploaded.filename,
-                                  contentType:
-                                    this.state.docUploaded.contentType,
-                                  originalName:
-                                    this.state.docUploaded.originalName,
-                                });
+                            <DocViewer
+                              data={{
+                                filename: this.state.docUploaded.filename,
+                                contentType: this.state.docUploaded.contentType,
+                                originalName:
+                                  this.state.docUploaded.originalName,
                               }}
-                            >
-                              <VisibilityIcon />
-                            </div>
+                            />
                           </div>
                           <div>
                             {this.state.verification === "verified" && (

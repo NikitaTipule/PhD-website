@@ -94,7 +94,7 @@
   display: none;
 }
 
-@media only screen and (max-width: 1285px) {
+@media only screen and (max-width: 800px) {
   .menu{
     display: block;
     position: fixed;
@@ -108,7 +108,7 @@
   }
 }
 
-@media only screen and (max-width: 1285px) {
+@media only screen and (max-width: 800px) {
   .Sidebar{
   position: absolute;
   margin-top: 0;
