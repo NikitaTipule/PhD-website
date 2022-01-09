@@ -44,6 +44,7 @@ export default class phdCordForm extends Component {
       verification: "",
 
       appId: null,
+      role: localStorage.getItem("phd-website-role"),
     };
   }
 
@@ -179,7 +180,9 @@ export default class phdCordForm extends Component {
             {/* Personal Details Display   */}
             <NavBar loggedin={true} />
             <div className="container">
-              <Sidebar user="Coordinator" />
+              <Sidebar
+                user={this.state.role === "admin" ? "Admin" : "Coordinator"}
+              />
               <div>
                 <div>
                   <div>
@@ -505,7 +508,9 @@ export default class phdCordForm extends Component {
           <>
             <NavBar loggedin={true} />
             <div className="container">
-              <Sidebar user="Coordinator" />
+              <Sidebar
+                user={this.state.role === "admin" ? "Admin" : "Coordinator"}
+              />
               {/* Display details of UG   */}
               <div>
                 <div>
@@ -800,7 +805,9 @@ export default class phdCordForm extends Component {
           <>
             <NavBar loggedin={true} />
             <div className="container">
-              <Sidebar user="Coordinator" />
+              <Sidebar
+                user={this.state.role === "admin" ? "Admin" : "Coordinator"}
+              />
               {/* Display PG data  */}
               <div>
                 <div>
@@ -1084,7 +1091,9 @@ export default class phdCordForm extends Component {
           <>
             <NavBar loggedin={true} />
             <div className="container">
-              <Sidebar user="Coordinator" />
+              <Sidebar
+                user={this.state.role === "admin" ? "Admin" : "Coordinator"}
+              />
               {/* Display Entrance Exam data  */}
               <div style={{ marginTop: "30px" }}>
                 <div>
