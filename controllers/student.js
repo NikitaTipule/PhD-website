@@ -68,7 +68,17 @@ exports.lockProfile = (req, res) => {
       console.log(err);
       return res.status(400).json({ err });
     }
-    user.editable = false;
+    if (
+      user.personalInfo.verification === "mod_req" ||
+      user.academicsUG.verification === "mod_req" ||
+      user.academicsPG.verification === "mod_req" ||
+      user.entranceDetails.verification === "mod_req" ||
+      user.feeDetails.verification === "mod_req"
+    ) {
+      user.editable = true;
+    } else {
+      user.editable = false;
+    }
     const dept = user.personalInfo.department;
     Counter.findOne({ department: dept }, (err, counter) => {
       if (err) {
@@ -292,12 +302,6 @@ exports.verifyStudentInfo = (req, res) => {
       user.entranceDetails.remarks = req.body.entranceDetailsRemark;
       user.remarks = req.body.remarks;
 
-      if (user.infoVerified === "mod_req") {
-        user.editable = true;
-      } else {
-        user.editable = false;
-      }
-
       user.documentsUploaded = applyVerification(
         req.body.documentsUploaded,
         user.documentsUploaded
@@ -305,6 +309,17 @@ exports.verifyStudentInfo = (req, res) => {
 
       user.infoVerified = infoVerifiedStatus(user);
 
+<<<<<<< HEAD
+      if (user.infoVerified === "mod_req") {
+        user.editable = true;
+      } else {
+        user.editable = false;
+      }
+
+      console.log("EDITABLE : ", user.infoVerified, user.editable);
+
+=======
+>>>>>>> 3ef7cbfd022e50b1cc694d1ab175ce809ba25e17
       user
         .save()
         .then(() => res.json({ success: true }))
