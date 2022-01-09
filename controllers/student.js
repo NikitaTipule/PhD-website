@@ -305,8 +305,6 @@ exports.verifyStudentInfo = (req, res) => {
 
       user.infoVerified = infoVerifiedStatus(user);
 
-      console.log(user.infoVerified);
-
       user
         .save()
         .then(() => res.json({ success: true }))

@@ -76,17 +76,20 @@ const sendOtp = async (req, res) => {
     .then(() => {
       const msg1 = `otp for mail verification is ${mailToken.otp}`;
       console.log(msg1);
-      sendEmail(user.email, message);
+      sendEmail(req.body.email, msg1);
       const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
       console.log(msg2);
-      // sendSMS(user.email, message);
+      // sendSMS(req.body.email, msg2);
       res.send({
         userId,
         message:
           "OTP is sent to your email and mobile number. Please verify both",
       });
     })
-    .catch((err) => res.status(500).json({ error: "internal server error" }));
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: "internal server error" });
+    });
 };
 
 exports.sendOtp = sendOtp;
@@ -219,7 +222,6 @@ exports.loginStaff = (req, res) => {
     MIS: mis,
     Password: password,
   };
-  // console.log(reqData);
   axios
     .post(ldapAuthUrl, reqData)
     .then((resp) => {
