@@ -10,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import { withRouter } from "react-router-dom";
+import { isMobile } from 'react-device-detect';
 
 import {
   PDFDownloadLink,
@@ -157,6 +158,9 @@ class StudentHome extends Component {
       petDetails: "",
       petYear: "",
     };
+    if(isMobile) {
+      this.state.menu = true;
+    }
   }
 
   async componentDidMount() {
@@ -194,6 +198,8 @@ class StudentHome extends Component {
             if (user.documentsUploaded.length === 0) {
               this.setState({ docVerification: "pending" });
             }
+
+            
 
             this.setState({
               pdfName: user.personalInfo.name,
