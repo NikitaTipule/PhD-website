@@ -42,10 +42,12 @@ class PhdCordHome extends Component {
       length: 0,
       flag: true,
       id: "",
+      role: localStorage.getItem("phd-website-role"),
     };
   }
 
   async componentDidMount() {
+    console.log(this.state.role);
     let id_phd = "";
     // console.log(this.props.location.state.details);
     try {
@@ -91,7 +93,6 @@ class PhdCordHome extends Component {
                       studentData: response.data,
                       length: response.data.length,
                     });
-                    console.log(response.data);
                   });
                 try {
                   axios
@@ -392,10 +393,20 @@ class PhdCordHome extends Component {
         </div>
         <div className="container">
           <MobileView>
-            {this.state.menu && <Sidebar className="mob" user="Coordinator" />}
+            {this.state.menu && (
+              <Sidebar
+                className="mob"
+                user={this.state.role === "admin" ? "Admin" : "Coordinator"}
+              />
+            )}
           </MobileView>
           <BrowserView>
-            {!this.state.menu && <Sidebar className="mob" user="Coordinator" />}
+            {!this.state.menu && (
+              <Sidebar
+                className="mob"
+                user={this.state.role === "admin" ? "Admin" : "Coordinator"}
+              />
+            )}
           </BrowserView>
           <div>
             <div>
