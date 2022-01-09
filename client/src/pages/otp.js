@@ -19,7 +19,7 @@ export default function OTP(props) {
   const [mailotp, setMailotp] = useState("");
   const [mobileotp, setMobileotp] = useState("");
   const [mailVerified, setMailVerified] = useState(false);
-  const [mobileVerified, setMobileVerified] = useState(false);
+  const [mobileVerified, setMobileVerified] = useState(true);
   const [resendDisabled, setResendDisabled] = useState(false);
   const location = useLocation();
 
@@ -97,7 +97,7 @@ export default function OTP(props) {
         >
           {/* <Avatar sx={{ m: 1, bgcolor: "cadetblue" }}></Avatar> */}
           <Typography component="h1" variant="h5">
-            Verify Mail and Mobile
+            Verify Mail
           </Typography>
           <br />
           <form>
@@ -122,7 +122,7 @@ export default function OTP(props) {
                 </Grid>
 
                 <Grid align="center" item xs={12}>
-                  <Input
+                  {/* <Input
                     name="Mobile OTP"
                     label="Monile OTP*"
                     value={mobileotp}
@@ -138,9 +138,9 @@ export default function OTP(props) {
                     >
                       Submit
                     </Button>
-                  </Grid>
+                  </Grid> */}
 
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <Button
                       sx={{ mb: 2, mt: 3 }}
                       disabled={resendDisabled}
@@ -154,7 +154,7 @@ export default function OTP(props) {
                     >
                       Resend OTP
                     </Button>
-                  </Grid>
+                  </Grid> */}
 
                   <Grid item xs>
                     <Link href="/Admin" variant="body2">

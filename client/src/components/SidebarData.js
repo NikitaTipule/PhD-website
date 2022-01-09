@@ -9,6 +9,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import DownloadIcon from "@mui/icons-material/Download";
 import ModeIcon from "@mui/icons-material/Mode";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddLink from "../pages/Link";
 
 export const SidebarData = [
@@ -43,6 +44,12 @@ export const SidebarData = [
     link: "/",
   },
   {
+    title: "Home",
+    user: "Admin",
+    icon: <HomeIcon />,
+    link: "/admin",
+  },
+  {
     title: "Add Coordinator",
     user: "Admin",
     icon: <PersonAddIcon />,
@@ -58,19 +65,19 @@ export const SidebarData = [
     title: "Add Account Section",
     user: "Admin",
     icon: <AddIcon />,
-    link: "/addcord/add-account-section",
+    link: "/add-account-section",
   },
   {
     title: "Remove Coordinator",
     user: "Admin",
     icon: <PersonRemoveIcon />,
-    link: "/addcord",
+    link: "/removecord",
   },
   {
     title: "Remove Account Section",
     user: "Admin",
     icon: <RemoveIcon />,
-    link: "/addcord/add-account-section",
+    link: "/remove-account-section",
   },
   {
     title: "Logout",
@@ -84,6 +91,7 @@ export const SidebarData = [
     icon: <HomeIcon />,
     link: "/coordinator",
   },
+
   {
     title: "About",
     user: "Coordinator",
@@ -96,6 +104,12 @@ export const SidebarData = [
     icon: <LogoutIcon />,
     link: "/",
   },
+  // {
+  //   title: "Back",
+  //   user: "Admin",
+  //   icon: <ArrowBackIcon />,
+  //   link: "/admin",
+  // },
   {
     title: "Home",
     user: "Faculty",

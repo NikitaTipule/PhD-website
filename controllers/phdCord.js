@@ -32,11 +32,9 @@ exports.getAllCords = async (req, res) => {
         },
       },
     ];
-    console.log(agg);
     const result = await Student.aggregate(agg);
     const vf = {};
     for (const curr of result) {
-      // console.log(curr);
       const { department, infoVerified } = curr._id;
       if (!vf[department]) vf[department] = {};
       vf[department][infoVerified] = curr.total;
@@ -45,7 +43,6 @@ exports.getAllCords = async (req, res) => {
     for (let i = 0; i < cords.length; i++) {
       cords[i].status = vf[cords[i].department];
     }
-    // console.log(vf);
     return res.json(cords);
   } catch (error) {
     console.log(error);
@@ -86,7 +83,7 @@ exports.removePhdCord = (req, res) => {
   if (!mis) {
     return res.status(400).json({ error: "missing paramters" });
   }
-  PhdCord.deleteOne(mis, (err, doc) => {
+  PhdCord.deleteOne({ mis: mis }, (err, doc) => {
     if (err || !doc || doc.deletedCount == 0) {
       return res.status(404).json({ error: "user not found" });
     }
@@ -98,7 +95,6 @@ exports.addLink = (req, res) => {
   if (req.userRole != "admin") {
     res.status(403).json({ error: "only admin can add link" });
   }
-  console.log(req.body);
   const title = req.body.title;
   const link = req.body.link;
   if (!title || !link) {
@@ -119,7 +115,6 @@ exports.removeLink = (req, res) => {
   if (req.userRole != "admin") {
     res.status(403).json({ error: "only admin can remove links" });
   }
-  console.log("REMOVE", req.body);
   const _id = req.body._id;
   if (!_id) {
     return res.status(400).json({ error: "missing paramters" });
@@ -133,7 +128,6 @@ exports.removeLink = (req, res) => {
 };
 
 exports.getAllLinks = (req, res) => {
-  console.log(req);
   Link.find()
     .lean()
     .exec()

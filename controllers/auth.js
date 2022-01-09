@@ -47,19 +47,19 @@ exports.registerStudent = (req, res) => {
         .save()
         .then((user) => {
           req.body.userId = user._id;
-          return sendOtp(req, res);
+          return sendOtp(req, res, email);
         })
         .catch((err) =>
-          res.status(400).json({ error: "could not create user" })
+          res.status(400).json({ error: err.message })
         );
     })
     .catch((err) => {
       console.log(err);
-      return res.status(400).json({ error: "could not create user" });
+      return res.status(400).json({ error: err.message });
     });
 };
 
-const sendOtp = async (req, res) => {
+const sendOtp = async (req, res, email) => {
   const userId = req.body.userId;
   MailOtp.deleteMany({ userId });
   PhoneOtp.deleteMany({ userId });
@@ -76,24 +76,25 @@ const sendOtp = async (req, res) => {
     .then(() => {
       const msg1 = `otp for mail verification is ${mailToken.otp}`;
       console.log(msg1);
-      // sendEmail(user.email, message);
+      sendEmail(email, msg1);
       const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
       console.log(msg2);
-      // sendSMS(user.email, message);
+      // sendSMS(req.body.email, msg2);
       res.send({
         userId,
         message:
-          "OTP is sent to your email and mobile number. Please verify both",
+          //"OTP is sent to your email and mobile number. Please verify both",
+          "OTP is sent to your email. Please verify !",
       });
     })
-    .catch((err) => res.status(500).json({ error: "internal server error" }));
+    .catch((err) => {console.log(err.message); res.status(500).json({ error: err.message })});
 };
 
 exports.sendOtp = sendOtp;
 
 exports.verifyMail = async (req, res) => {
   const { userId, otp } = req.body;
-  console.log(userId, otp);
+  // console.log(userId, otp);
   try {
     const user = await Student.findById(userId).exec();
     if (!user) return res.status(400).send("Invalid user");
@@ -102,7 +103,7 @@ exports.verifyMail = async (req, res) => {
       userId,
       otp,
     });
-    console.log(userId, otp);
+    // console.log(userId, otp);
     if (!token) return res.status(400).send("Invalid otp");
     user.mailVerified = true;
     await Promise.all([
@@ -219,7 +220,6 @@ exports.loginStaff = (req, res) => {
     MIS: mis,
     Password: password,
   };
-  console.log(reqData);
   axios
     .post(ldapAuthUrl, reqData)
     .then((resp) => {

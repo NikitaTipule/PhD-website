@@ -7,7 +7,7 @@ import { TextField } from "@mui/material";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
-import viewDoc from "./DocViewer";
+import DocViewer from "./DocViewer";
 import Sidebar from "../components/Sidebar";
 
 export default class phdCordForm extends Component {
@@ -297,18 +297,13 @@ export default class phdCordForm extends Component {
                                   </div>
                                   <div className="iconMobile">
                                     {/* <div>{id}</div> */}
-                                    <div
-                                      className="previewIcon"
-                                      onClick={() =>
-                                        viewDoc({
-                                          filename: doc.filename,
-                                          contentType: doc.contentType,
-                                          originalName: doc.originalName,
-                                        })
-                                      }
-                                    >
-                                      <ArrowCircleDown />
-                                    </div>
+                                    <DocViewer
+                                      data={{
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      }}
+                                    />
                                   </div>
                                   <div className="icon">
                                     <div>
@@ -594,19 +589,13 @@ export default class phdCordForm extends Component {
                                     {doc.type + "  :"}
                                   </div>
                                   <div className="iconMobile">
-                                    {/* <div>{id}</div> */}
-                                    <div
-                                      className="previewIcon"
-                                      onClick={() =>
-                                        viewDoc({
-                                          filename: doc.filename,
-                                          contentType: doc.contentType,
-                                          originalName: doc.originalName,
-                                        })
-                                      }
-                                    >
-                                      <ArrowCircleDown />
-                                    </div>
+                                    <DocViewer
+                                      data={{
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      }}
+                                    />
                                   </div>
                                   <div className="icon">
                                     <div>
@@ -884,18 +873,13 @@ export default class phdCordForm extends Component {
                                   </div>
                                   <div className="iconMobile">
                                     {/* <div>{id}</div> */}
-                                    <div
-                                      className="previewIcon"
-                                      onClick={() =>
-                                        viewDoc({
-                                          filename: doc.filename,
-                                          contentType: doc.contentType,
-                                          originalName: doc.originalName,
-                                        })
-                                      }
-                                    >
-                                      <ArrowCircleDown />
-                                    </div>
+                                    <DocViewer
+                                      data={{
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      }}
+                                    />
                                   </div>
                                   <div className="icon">
                                     <div>

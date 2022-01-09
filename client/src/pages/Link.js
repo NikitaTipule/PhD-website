@@ -77,7 +77,6 @@ class AddLink extends Component {
           this.setState({
             links: res.data,
           });
-          console.log(res);
           console.log(this.state.links);
         });
     } catch (err) {

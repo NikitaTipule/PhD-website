@@ -19,20 +19,20 @@ export default function RemoveAccountForm() {
       return alert("Fill the details");
     }
     axios
-      .post(BACKEND_URL + "account-section/remove", { email })
+      .post(BACKEND_URL + "/account-section/remove/", { email })
       .then((res) => {
         alert("user removed");
         setEmail("");
       })
       .catch((err) => {
-        alert(err.response.data.error || "Invalid details");
+        alert(err || "Invalid details");
       });
   };
 
   return (
     <>
       <NavBar loggedin={true} />
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" style={{ marginTop: "90px" }}>
         {/* <CssBaseline /> */}
         <Box
           sx={{

@@ -34,9 +34,9 @@ exports.getStudentsByDept = (req, res) => {
 
   let projection = "";
   if (req.userRole == "phdCord" || req.userRole == "admin") {
-    projection = "name infoVerified feeDetails.verification";
+    projection = "name applicationId infoVerified feeDetails.verification";
   } else if (req.userRole == "accountSec") {
-    projection = "name personalInfo.category feeDetails";
+    projection = "name applicationId personalInfo.category feeDetails";
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
@@ -309,6 +309,7 @@ exports.verifyStudentInfo = (req, res) => {
 
       user.infoVerified = infoVerifiedStatus(user);
 
+<<<<<<< HEAD
       if (user.infoVerified === "mod_req") {
         user.editable = true;
       } else {
@@ -317,6 +318,8 @@ exports.verifyStudentInfo = (req, res) => {
 
       console.log("EDITABLE : ", user.infoVerified, user.editable);
 
+=======
+>>>>>>> 3ef7cbfd022e50b1cc694d1ab175ce809ba25e17
       user
         .save()
         .then(() => res.json({ success: true }))

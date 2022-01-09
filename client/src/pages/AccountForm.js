@@ -7,12 +7,13 @@ import { TextField } from "@mui/material";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
-import viewDoc from "./DocViewer";
+import DocViewer from "./DocViewer";
 import Sidebar from "../components/Sidebar";
 export default class AccountFormNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      appid: this.props.student.applicationId,
       name: this.props.student.name,
       utrDuNumber: this.props.student.feeDetails.utrDuNumber,
       amount: this.props.student.feeDetails.amount,
@@ -95,6 +96,10 @@ export default class AccountFormNew extends Component {
                       </div>
                       <tbody>
                         <tr class="row1">
+                          <td class="first data">Application Id</td>
+                          <td class="data">{this.state.appid}</td>
+                        </tr>
+                        <tr class="row1">
                           <td class="first data">Name</td>
                           <td class="data">{this.state.name}</td>
                         </tr>
@@ -131,21 +136,15 @@ export default class AccountFormNew extends Component {
                             {this.state.documentsUploaded.originalName}
                           </div>
                           <div className="iconMobile">
-                            <div
-                              className="previewIcon"
-                              onClick={() =>
-                                viewDoc({
-                                  filename:
-                                    this.state.documentsUploaded.filename,
-                                  contentType:
-                                    this.state.documentsUploaded.contentType,
-                                  originalName:
-                                    this.state.documentsUploaded.originalName,
-                                })
-                              }
-                            >
-                              <ArrowCircleDown />
-                            </div>
+                            <DocViewer
+                              data={{
+                                filename: this.state.documentsUploaded.filename,
+                                contentType:
+                                  this.state.documentsUploaded.contentType,
+                                originalName:
+                                  this.state.documentsUploaded.originalName,
+                              }}
+                            />
                           </div>
                         </div>
                       </div>
