@@ -14,7 +14,6 @@ const addAccountSec = (req, res) => {
   if (!(name && email)) {
     res.status(400).json({ error: "missing data" });
   }
-  // console.log(name, email);
   AccountSec.findOne({ email }).then((oldUser) => {
     if (oldUser) {
       return res
