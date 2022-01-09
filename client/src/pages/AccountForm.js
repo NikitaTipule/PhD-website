@@ -7,7 +7,7 @@ import { TextField } from "@mui/material";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
-import viewDoc from "./DocViewer";
+import DocViewer from "./DocViewer";
 import Sidebar from "../components/Sidebar";
 export default class AccountFormNew extends Component {
   constructor(props) {
@@ -136,21 +136,15 @@ export default class AccountFormNew extends Component {
                             {this.state.documentsUploaded.originalName}
                           </div>
                           <div className="iconMobile">
-                            <div
-                              className="previewIcon"
-                              onClick={() =>
-                                viewDoc({
-                                  filename:
-                                    this.state.documentsUploaded.filename,
-                                  contentType:
-                                    this.state.documentsUploaded.contentType,
-                                  originalName:
-                                    this.state.documentsUploaded.originalName,
-                                })
-                              }
-                            >
-                              <ArrowCircleDown />
-                            </div>
+                            <DocViewer
+                              data={{
+                                filename: this.state.documentsUploaded.filename,
+                                contentType:
+                                  this.state.documentsUploaded.contentType,
+                                originalName:
+                                  this.state.documentsUploaded.originalName,
+                              }}
+                            />
                           </div>
                         </div>
                       </div>
