@@ -14,6 +14,7 @@ const addAccountSec = (req, res) => {
   if (!(name && email)) {
     res.status(400).json({ error: "missing data" });
   }
+  // console.log(name, email);
   AccountSec.findOne({ email }).then((oldUser) => {
     if (oldUser) {
       return res
@@ -54,7 +55,7 @@ const removeAccountSec = (req, res) => {
   if (!email) {
     return res.status(400).json({ error: "missing paramters" });
   }
-  AccountSec.deleteOne(email, (err, doc) => {
+  AccountSec.deleteOne({ email: email }, (err, doc) => {
     if (err || !doc || doc.deletedCount == 0) {
       return res.status(404).json({ error: "user not found" });
     }

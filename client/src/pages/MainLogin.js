@@ -120,7 +120,7 @@ export default function MainLogIn(props) {
                 <Grid item xs={6}>
                   <Button
                     color="neutral"
-                    onClick={handleRoute2}
+                    onClick={handleRoute3}
                     type="submit"
                     fullWidth
                     variant="contained"

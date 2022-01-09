@@ -83,10 +83,11 @@ exports.removePhdCord = (req, res) => {
     res.status(403).json({ error: "only admin can remove phdCord" });
   }
   const mis = req.body.mis;
+  // console.log(mis);
   if (!mis) {
     return res.status(400).json({ error: "missing paramters" });
   }
-  PhdCord.deleteOne(mis, (err, doc) => {
+  PhdCord.deleteOne({ mis: mis }, (err, doc) => {
     if (err || !doc || doc.deletedCount == 0) {
       return res.status(404).json({ error: "user not found" });
     }

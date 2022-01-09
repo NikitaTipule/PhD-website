@@ -45,17 +45,15 @@ class PhdCordHome extends Component {
   }
 
   async componentDidMount() {
+    let id_phd = "";
     // console.log(this.props.location.state.details);
-    // this.setState({
-    //   id: this.props.location.state.details,
-    // });
     try {
-      this.setState({
+      id_phd = this.props.location.state.details;
+      await this.setState({
         id: this.props.location.state.details,
       });
       console.log(this.state.id);
     } catch (error) {
-      console.log(error.message);
       this.setState({
         flag: false,
       });
@@ -66,10 +64,10 @@ class PhdCordHome extends Component {
       });
       // console.log(this.state.token)
 
-      if (localStorage.getItem("userRole") === "admin") {
+      if (localStorage.getItem("phd-website-role") === "admin") {
         try {
-          axios
-            .get(BACKEND_URL + "/phdCords/" + this.state.id, {
+          await axios
+            .get(BACKEND_URL + "/phdCords/" + id_phd, {
               headers: { "phd-website-jwt": this.state.token },
             })
             .then((res) => {
@@ -457,21 +455,33 @@ class PhdCordHome extends Component {
                     this.handleclick1();
                   }}
                 >
-                  <InfoBox count={counterTotal} tag="Total Candidates" />
+                  <InfoBox
+                    count={counterTotal}
+                    tag="Total Candidates"
+                    bgcolor="#24B08B"
+                  />
                 </div>
                 <div
                   onClick={() => {
                     this.handleclick2();
                   }}
                 >
-                  <InfoBox count={counterVerified} tag="Verified" />
+                  <InfoBox
+                    count={counterVerified}
+                    tag="Verified"
+                    bgcolor="#12CC2A"
+                  />
                 </div>
                 <div
                   onClick={() => {
                     this.handleclick3();
                   }}
                 >
-                  <InfoBox count={counterNotVerified} tag="Not Verified" />
+                  <InfoBox
+                    count={counterNotVerified}
+                    tag="Not Verified"
+                    bgcolor="#F9463E"
+                  />
                 </div>
                 <div
                   onClick={() => {
@@ -480,7 +490,8 @@ class PhdCordHome extends Component {
                 >
                   <InfoBox
                     count={counterModification}
-                    tag="Modification required"
+                    tag="Modification"
+                    bgcolor="#3E56F9"
                   />
                 </div>
               </div>

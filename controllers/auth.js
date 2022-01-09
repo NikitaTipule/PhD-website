@@ -76,7 +76,7 @@ const sendOtp = async (req, res) => {
     .then(() => {
       const msg1 = `otp for mail verification is ${mailToken.otp}`;
       console.log(msg1);
-      // sendEmail(user.email, message);
+      sendEmail(user.email, message);
       const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
       console.log(msg2);
       // sendSMS(user.email, message);
@@ -93,7 +93,7 @@ exports.sendOtp = sendOtp;
 
 exports.verifyMail = async (req, res) => {
   const { userId, otp } = req.body;
-  console.log(userId, otp);
+  // console.log(userId, otp);
   try {
     const user = await Student.findById(userId).exec();
     if (!user) return res.status(400).send("Invalid user");
@@ -102,7 +102,7 @@ exports.verifyMail = async (req, res) => {
       userId,
       otp,
     });
-    console.log(userId, otp);
+    // console.log(userId, otp);
     if (!token) return res.status(400).send("Invalid otp");
     user.mailVerified = true;
     await Promise.all([
@@ -219,7 +219,7 @@ exports.loginStaff = (req, res) => {
     MIS: mis,
     Password: password,
   };
-  console.log(reqData);
+  // console.log(reqData);
   axios
     .post(ldapAuthUrl, reqData)
     .then((resp) => {
