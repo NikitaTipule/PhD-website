@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import { withRouter } from "react-router-dom";
-import { BrowserView, isMobile, MobileView } from 'react-device-detect';
+import { BrowserView, isMobile, MobileView } from "react-device-detect";
 
 import {
   PDFDownloadLink,
@@ -158,7 +158,6 @@ class StudentHome extends Component {
       petDetails: "",
       petYear: "",
     };
-    
   }
 
   async componentDidMount() {
@@ -196,8 +195,6 @@ class StudentHome extends Component {
             if (user.documentsUploaded.length === 0) {
               this.setState({ docVerification: "pending" });
             }
-
-            
 
             this.setState({
               pdfName: user.personalInfo.name,
@@ -251,8 +248,6 @@ class StudentHome extends Component {
       }
     }
   }
-
-
 
   render() {
     const MyDoc = () => (
@@ -778,17 +773,17 @@ class StudentHome extends Component {
                   </div>
                 </li>
                 <li className="table-row">
-                  <div className="col col-2" data-label="Customer Name">
+                  <div className="col col-2" data-label="Field">
                     Academics PG
                   </div>
-                  <div className="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Remark">
                     {this.state.PGremarks.length
                       ? this.state.PGremarks
                       : "None"}
                   </div>
                   <div
                     className="col col-4"
-                    data-label="Payment Status"
+                    data-label="Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.PGverification}
@@ -809,17 +804,17 @@ class StudentHome extends Component {
                   </div>
                 </li>
                 <li className="table-row">
-                  <div className="col col-2" data-label="Customer Name">
+                  <div className="col col-2" data-label="Field">
                     Academics UG
                   </div>
-                  <div className="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Remark">
                     {this.state.UGremarks.length
                       ? this.state.UGremarks
                       : "None"}
                   </div>
                   <div
                     className="col col-4"
-                    data-label="Payment Status"
+                    data-label="Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.UGverification}
@@ -840,15 +835,15 @@ class StudentHome extends Component {
                   </div>
                 </li>
                 {/* <li className="table-row">
-                  <div className="col col-2" data-label="Customer Name">
+                  <div className="col col-2" data-label="Field">
                     Document Upload
                   </div>
-                  <div className="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Remark">
                     {this.state.DOCremarks}
                   </div>
                   <div
                     className="col col-4"
-                    data-label="Payment Status"
+                    data-label="Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.docVerification === "mod_req"
@@ -860,17 +855,17 @@ class StudentHome extends Component {
                   </div>
                 </li> */}
                 <li className="table-row">
-                  <div className="col col-2" data-label="Customer Name">
+                  <div className="col col-2" data-label="Field">
                     Entrance Details
                   </div>
-                  <div className="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Remark">
                     {this.state.ENTremarks.length
                       ? this.state.ENTremarks
                       : "None"}
                   </div>
                   <div
                     className="col col-4"
-                    data-label="Payment Status"
+                    data-label="Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.ENTverification}
@@ -891,17 +886,17 @@ class StudentHome extends Component {
                   </div>
                 </li>
                 <li className="table-row">
-                  <div className="col col-2" data-label="Customer Name">
+                  <div className="col col-2" data-label="Field">
                     Fee Details
                   </div>
-                  <div className="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Remark">
                     {this.state.FEEremarks.length
                       ? this.state.FEEremarks
                       : "None"}
                   </div>
                   <div
                     className="col col-4"
-                    data-label="Payment Status"
+                    data-label="Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.FEEverification}
@@ -922,17 +917,17 @@ class StudentHome extends Component {
                   </div>
                 </li>
                 <li className="table-row">
-                  <div className="col col-2" data-label="Customer Name">
+                  <div className="col col-2" data-label="Field">
                     Personal Info
                   </div>
-                  <div className="col col-3" data-label="Amount">
+                  <div className="col col-3" data-label="Remark">
                     {this.state.PIremarks.length
                       ? this.state.PIremarks
                       : "None"}
                   </div>
                   <div
                     className="col col-4"
-                    data-label="Payment Status"
+                    data-label="Status"
                     style={{ textTransform: "capitalize" }}
                   >
                     {this.state.PIverification}
