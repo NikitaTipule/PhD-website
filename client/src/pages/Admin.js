@@ -16,8 +16,8 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Sidebar from "../components/Sidebar";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import { MobileView, BrowserView } from "react-device-detect";
 
 class Admin extends Component {
@@ -110,9 +110,20 @@ class Admin extends Component {
     return (
       <>
         <NavBar loggedin={true} />
-        <div className="menu" >
-          {!this.state.menu ? <MenuIcon onClick={()=>{this.setState({menu: true}); }}/>
-          : <CloseIcon onClick={() => {this.setState({menu: false})}}/> }
+        <div className="menu">
+          {!this.state.menu ? (
+            <MenuIcon
+              onClick={() => {
+                this.setState({ menu: true });
+              }}
+            />
+          ) : (
+            <CloseIcon
+              onClick={() => {
+                this.setState({ menu: false });
+              }}
+            />
+          )}
         </div>
         <div className="container">
           <MobileView>
@@ -122,7 +133,6 @@ class Admin extends Component {
             {!this.state.menu && <Sidebar className="mob" user="Admin" />}
           </BrowserView>
           <div>
-
             {/* <Box
               marginTop="1rem"
               display="flex"
@@ -153,7 +163,6 @@ class Admin extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-                  
                 >
                   <h1 className="textBetween">Admin Information</h1>
                 </div>
@@ -311,9 +320,7 @@ class Admin extends Component {
                                     color: "black",
                                   }}
                                 >
-                                  {row.status.verified +
-                                    row.status.pending +
-                                    row.status["mod_req"]}
+                                  {row.status.total}
                                 </Link>
                               </TableCell>
                               <TableCell align="center">

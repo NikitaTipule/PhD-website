@@ -36,8 +36,11 @@ exports.getAllCords = async (req, res) => {
     const vf = {};
     for (const curr of result) {
       const { department, infoVerified } = curr._id;
-      if (!vf[department]) vf[department] = {};
+      if (!vf[department]) {
+        vf[department] = { total: 0 };
+      }
       vf[department][infoVerified] = curr.total;
+      vf[department].total += curr.total;
     }
     let cords = await PhdCord.find({}, "name department").lean().exec();
     for (let i = 0; i < cords.length; i++) {
