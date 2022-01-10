@@ -99,7 +99,7 @@ li {
     margin-top: 0;
     height: 80%;
     width: 100%;
-    opacity: 100%;
+    opacity: 1;
   }
   .container {
     display: flex;
