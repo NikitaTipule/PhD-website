@@ -98,7 +98,7 @@ export default function StudentLogIn() {
               Sign in
             </Typography>
             <Form onSubmit={handleSubmit}>
-              <Grid align="center" xs={12}>
+              <Grid align="center" xs={12} item>
                 <Grid align="center" item xs={12}>
                   <Input
                     name="email"

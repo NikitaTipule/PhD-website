@@ -70,21 +70,21 @@ export default function MainLogIn(props) {
   };
 
   return (
-    <div class="all">
+    <div className="all">
       <NavBar />
-      <div class="bod">
+      <div className="bod">
         <ThemeProvider theme={theme}>
           <div
-            class="container_login"
+            className="container_login"
             id="container"
             style={{ marginTop: "90px" }}
           >
-            <div class="form-container log-in-container">
-              <div class="form-container">
+            <div className="form-container log-in-container">
+              <div className="form-container">
                 <Typography component="h1" variant="h5" mt={2}>
                   <b>Sign in </b>
                 </Typography>
-                <div class="social-container">
+                <div className="social-container">
                   <Avatar
                     sx={{ m: 0, bgcolor: "#056676", height: 60, width: 60 }}
                   ></Avatar>
@@ -131,17 +131,17 @@ export default function MainLogIn(props) {
                 </Grid>
               </div>
             </div>
-            <div class="overlay-container">
-              <div class="overlay">
-                <div class="overlay-panel overlay-right">
+            <div className="overlay-container">
+              <div className="overlay">
+                <div className="overlay-panel overlay-right">
                   <Typography component="h1" variant="h5" mt={2}>
                     <b>Important Announcements</b>
                   </Typography>
-                  <div class="scroll-box">
+                  <div className="scroll-box">
                     {links
-                      ? links.map((item) => (
-                          <p class="link">
-                            <a class="main_link" href={item.link}>
+                      ? links.map((item, key) => (
+                          <p key={key} className="link">
+                            <a className="main_link" href={item.link}>
                               {item.title}
                             </a>
                           </p>

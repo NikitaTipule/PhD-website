@@ -30,7 +30,7 @@ export default class AdmissionDetailsPG extends Component {
       verification: "",
 
       editable: "",
-      disabled: "",
+      disabled: false,
 
       errorUniversity: false,
       errorNomanclaure: false,
@@ -575,7 +575,7 @@ export default class AdmissionDetailsPG extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.pg.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}

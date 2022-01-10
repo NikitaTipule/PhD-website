@@ -20,6 +20,9 @@ import InfoBox from "../components/InfoBox";
 import { Typography } from "@material-ui/core";
 import DropDown from "react-dropdown";
 import AccountForm from "./AccountForm";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { MobileView, BrowserView } from "react-device-detect";
 
 class AccountHomeNew extends Component {
   constructor(props) {
@@ -42,6 +45,7 @@ class AccountHomeNew extends Component {
       flag: true,
       id: "",
       selectedStudent: -1,
+      menu: false,
     };
   }
 
@@ -247,8 +251,28 @@ class AccountHomeNew extends Component {
       return (
         <>
           <NavBar loggedin={true} />
+          <div className="menu">
+            {!this.state.menu ? (
+              <MenuIcon
+                onClick={() => {
+                  this.setState({ menu: true });
+                }}
+              />
+            ) : (
+              <CloseIcon
+                onClick={() => {
+                  this.setState({ menu: false });
+                }}
+              />
+            )}
+          </div>
           <div className="container">
-            <Sidebar user="Coordinator" />
+            <MobileView>
+              {this.state.menu && <Sidebar className="mob" user="Account" />}
+            </MobileView>
+            <BrowserView>
+              {!this.state.menu && <Sidebar className="mob" user="Account" />}
+            </BrowserView>
             <div>
               <div>
                 <div>

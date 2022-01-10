@@ -527,7 +527,7 @@ export default class EntranceExamDetails extends Component {
         <div>
           <div className="title">Entrance Exam Details</div>
           <div>
-            <form onNext={this.onNext}>
+            <form>
               <div style={{ marginTop: "30px" }}>
                 <Typography>Details Regarded Extrance Exams</Typography>
                 <Multiselect
@@ -561,7 +561,7 @@ export default class EntranceExamDetails extends Component {
 
               <div>
                 {this.state.optionsSelected.map((str, id) => (
-                  <div>
+                  <div key={id}>
                     {str.id === 2 ? (
                       <div style={{ marginTop: "30px" }}>
                         <Typography

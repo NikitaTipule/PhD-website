@@ -33,7 +33,7 @@ export default class AdmissionDetailsUG extends Component {
       verification: "",
 
       editable: "",
-      disabled: "",
+      disabled: false,
 
       errorUniversity: false,
       errorNomanclaure: false,
@@ -447,7 +447,7 @@ export default class AdmissionDetailsUG extends Component {
         {/* Academics UG Details complete form  */}
         <div className="title">Academic Details - UG</div>
         <div className={"Form"} style={{ zIndex: "-1" }}>
-          <form onNext={this.onNext}>
+          <form>
             {/* 1. University/Institute of UG  */}
             <div style={{ marginBottom: "12px" }}>
               <Typography>University/Institute</Typography>
@@ -661,7 +661,7 @@ export default class AdmissionDetailsUG extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.ug.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}

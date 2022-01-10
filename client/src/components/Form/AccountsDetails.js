@@ -30,7 +30,7 @@ export default class AccountsDetails extends Component {
       verification: "",
 
       editable: "",
-      disabled: "",
+      disabled: false,
 
       try: "",
 

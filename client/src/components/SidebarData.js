@@ -19,6 +19,18 @@ export const SidebarData = [
     icon: <HomeIcon />,
     link: "/candidate",
   },
+  {
+    title: "Home",
+    user: "Account",
+    icon: <HomeIcon />,
+    link: "/account",
+  },
+  {
+    title: "Logout",
+    user: "Account",
+    icon: <LogoutIcon />,
+    link: "/login/account-section",
+  },
   // {
   //   title: "About",
   //   user: "Candidate",

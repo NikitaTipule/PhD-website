@@ -1,102 +1,108 @@
-.accountsContainer{
-    align-items: center;
-    text-align: left;
-    margin: 30px 10% 0 10%;
+.accountsContainer {
+  align-items: left;
+  text-align: left;
+  margin: 30px 10% 0 10%;
 }
-.docContainer{
-    align-items: left;
-    text-align: left;
-    margin: 30px 18% 0 18%; 
+.docContainer {
+  align-items: left;
+  text-align: left;
+  margin: 30px 18% 0 18%;
 }
-.docTitle{
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 10px;
+.docTitle {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
-.field{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 10px 10px 10px 10px;
-}
-
-.docVerify{
-    margin: 0;
-    padding: 0;
-    font-size: 15px;
-    letter-spacing: 1px;
-    line-height: 10px;
-    font-weight: 500;
+.field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px 10px 10px 10px;
 }
 
-.paymentsContainer{
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 10px;
+.docVerify {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  letter-spacing: 1px;
+  line-height: 10px;
+  font-weight: 500;
 }
 
-.chooseFile{
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
+.paymentsContainer {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.chooseFile {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 .uploadIcon {
-    margin-right: 40px;
+  margin-right: 40px;
 }
 
-.uploadIcon:hover{
-    cursor: pointer
+.uploadIcon:hover {
+  cursor: pointer;
 }
 
-.uploadIconDisabled{
-    margin-right: 40px;
-    pointer-events: none;
-    opacity: 0.7;
+.uploadIconDisabled {
+  margin-right: 40px;
+  pointer-events: none;
+  opacity: 0.7;
 }
 
-.previewFile{
-    display: flex;
-    flex-direction: row;
+.previewFile {
+  display: flex;
+  flex-direction: row;
 }
 
-.previewIcon:hover{
-    cursor: pointer
+.previewIcon:hover {
+  cursor: pointer;
 }
 
-.docsError{
-    color: red;
-    font-size: 15px;
+.docsError {
+  color: red;
+  font-size: 15px;
 }
 
-.docsPreviewFilename{
-    font-size: 14px;
-    margin-right: 6px;
+.docsPreviewFilename {
+  font-size: 14px;
+  margin-right: 6px;
 }
 
-.docsPreviewDiv{
-    display: flex;
-    flex-direction: row;
-    align-content: center;
+.docsPreviewDiv {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
 }
 
-@media only screen and (max-width: 952px){
-    .docContainer{
-        margin: 30px 10% 0 10%;
-    }
+@media only screen and (max-width: 952px) {
+  .docContainer {
+    margin: 30px 10% 0 10%;
+  }
+  .accountsContainer {
+    margin: 30px 10% 0 10%;
+  }
 }
 
-@media only screen and (max-width: 730px){
-    .docContainer{
-        margin: 30px 5% 0 5%;
-    }
+@media only screen and (max-width: 730px) {
+  .docContainer {
+    margin: 30px 5% 0 5%;
+  }
+  .accountsContainer {
+    margin: 30px 5% 0 5%;
+  }
 }
 
-@media only screen and (max-width: 600px){
-    .field{
-        display: block;
-    }
-    .accountsContainer{
-        margin: 30px 3% 0 3%;
-    }
+@media only screen and (max-width: 600px) {
+  .field {
+    display: block;
+  }
+  .accountsContainer {
+    margin: 30px 3% 0 3%;
+  }
 }

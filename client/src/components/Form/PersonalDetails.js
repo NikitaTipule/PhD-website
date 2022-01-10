@@ -64,7 +64,7 @@ export default class PersonalDetails extends Component {
       documentsUploaded: [],
       editable: "",
 
-      disabled: "",
+      disabled: false,
 
       errorName: false,
       errorMiddleName: false,
@@ -811,7 +811,7 @@ export default class PersonalDetails extends Component {
         {/* Personal Details complete form  */}
         <div className="formContainer">Personal Details</div>
         <div className={"Form"}>
-          <form onNext={this.onNext}>
+          <form>
             {/* 1. Name  */}
             <div className="formField">
               <Typography>Name</Typography>
@@ -824,7 +824,7 @@ export default class PersonalDetails extends Component {
                 name="name"
                 label="Name"
                 variant="outlined"
-                required="true"
+                required={true}
                 style={{ marginTop: "8px" }}
               />
               {this.state.errorName && (
@@ -869,7 +869,7 @@ export default class PersonalDetails extends Component {
                 name="motherName"
                 label="Mother's Name"
                 variant="outlined"
-                required="true"
+                required
                 style={{ marginTop: "8px" }}
               />
               {this.state.errorMotherName && (
@@ -1222,7 +1222,7 @@ export default class PersonalDetails extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.photo.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
@@ -1285,7 +1285,7 @@ export default class PersonalDetails extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.sign.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
@@ -1361,7 +1361,7 @@ export default class PersonalDetails extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.nationality_c.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
@@ -1424,7 +1424,7 @@ export default class PersonalDetails extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.c_certificate.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
@@ -1487,7 +1487,7 @@ export default class PersonalDetails extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.c_validity.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
@@ -1550,7 +1550,7 @@ export default class PersonalDetails extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.c_ncl.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
@@ -1613,7 +1613,7 @@ export default class PersonalDetails extends Component {
                         {this.state.documentsUploaded.map((doc, id) => {
                           if (doc.type === this.state.ews.name) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}
@@ -1678,7 +1678,7 @@ export default class PersonalDetails extends Component {
                             doc.type === this.state.doc_physicallyDisable.name
                           ) {
                             return (
-                              <div>
+                              <div key={id}>
                                 <div className="docsPreviewDiv">
                                   <div className="docsPreviewFilename">
                                     {doc.originalName.slice(0, 10) + "...  "}

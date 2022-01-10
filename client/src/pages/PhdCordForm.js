@@ -184,91 +184,95 @@ export default class phdCordForm extends Component {
                 <div>
                   <div>
                     <div>
-                      <div class="container1">
-                        <table class="tb">
+                      <div className="container1">
+                        <table className="tb">
                           <div className="type">
                             <div
-                              class="h"
+                              className="h"
                               style={{ color: "white", width: "200%" }}
                             >
                               Personal Details
                             </div>
                           </div>
                           <tbody>
-                            <tr class="row1">
-                              <td class="first data">Application ID</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Application ID</td>
+                              <td className="data">
                                 {this.state.appId ? this.state.appId : ""}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Name</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Name</td>
+                              <td className="data">
                                 {this.state.personalInfo.name}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Father/Husband's Name</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">
+                                Father/Husband's Name
+                              </td>
+                              <td className="data">
                                 {this.state.personalInfo.middleName}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Gender</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Gender</td>
+                              <td className="data">
                                 {this.state.personalInfo.gender}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">DOB</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">DOB</td>
+                              <td className="data">
                                 {("" + this.state.personalInfo.dob).slice(
                                   0,
                                   10
                                 )}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Email</td>
-                              <td class="data">{this.state.email}</td>
+                            <tr className="row1">
+                              <td className="first data">Email</td>
+                              <td className="data">{this.state.email}</td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Mobile No</td>
-                              <td class="data">{this.state.mobile}</td>
+                            <tr className="row1">
+                              <td className="first data">Mobile No</td>
+                              <td className="data">{this.state.mobile}</td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Nationality</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Nationality</td>
+                              <td className="data">
                                 {this.state.personalInfo.nationality}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Category</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Category</td>
+                              <td className="data">
                                 {this.state.personalInfo.category}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Aadhar Card Number</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Aadhar Card Number</td>
+                              <td className="data">
                                 {this.state.personalInfo.aadhar}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Permanent Address</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Permanent Address</td>
+                              <td className="data">
                                 {this.state.personalInfo.address}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Physically Disable</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Physically Disable</td>
+                              <td className="data">
                                 {this.state.personalInfo.physicallyDisabled}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Applying to department</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">
+                                Applying to department
+                              </td>
+                              <td className="data">
                                 {this.state.personalInfo.department}
                               </td>
                             </tr>
@@ -513,62 +517,68 @@ export default class phdCordForm extends Component {
                 <div>
                   <div>
                     <div>
-                      <div class="container1">
-                        <table class="tb">
+                      <div className="container1">
+                        <table className="tb">
                           <div className="type">
                             <div
-                              class="h"
+                              className="h"
                               style={{ color: "white", width: "200%" }}
                             >
                               UG Details
                             </div>
                           </div>
                           <tbody>
-                            <tr class="row1">
-                              <td class="first data">University/Institute</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">
+                                University/Institute
+                              </td>
+                              <td className="data">
                                 {this.state.academicsUG.institute}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Nomenclaure of Degree</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">
+                                Nomenclaure of Degree
+                              </td>
+                              <td className="data">
                                 {this.state.academicsUG.degree}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Specialization</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Specialization</td>
+                              <td className="data">
                                 {this.state.academicsUG.specialization}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Marks Obtained</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Marks Obtained</td>
+                              <td className="data">
                                 {this.state.academicsUG.totalAggregate}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Total Marks</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Total Marks</td>
+                              <td className="data">
                                 {this.state.academicsUG.totalMarks}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">CGPA</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">CGPA</td>
+                              <td className="data">
                                 {this.state.academicsUG.cgpa10}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Percentage</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Percentage</td>
+                              <td className="data">
                                 {this.state.academicsUG.percentageMarks}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Date of Declaration</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">
+                                Date of Declaration
+                              </td>
+                              <td className="data">
                                 {(
                                   "" + this.state.academicsUG.dateOfDeclaration
                                 ).slice(0, 10)}
@@ -811,51 +821,55 @@ export default class phdCordForm extends Component {
                   <div>
                     <div></div>
                     <div>
-                      <div class="container1">
-                        <table class="tb">
+                      <div className="container1">
+                        <table className="tb">
                           <div className="type">
                             <div
-                              class="h"
+                              className="h"
                               style={{ color: "white", width: "200%" }}
                             >
                               PG Details
                             </div>
                           </div>
                           <tbody>
-                            <tr class="row1">
-                              <td class="first data">University/Institute</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">
+                                University/Institute
+                              </td>
+                              <td className="data">
                                 {this.state.academicsPG.institute}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Nomenclaure of Degree</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">
+                                Nomenclaure of Degree
+                              </td>
+                              <td className="data">
                                 {this.state.academicsPG.degree}
                               </td>
                             </tr>
 
-                            <tr class="row1">
-                              <td class="first data">Marks Obtained</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Marks Obtained</td>
+                              <td className="data">
                                 {this.state.academicsPG.totalAggregate}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Total Marks</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Total Marks</td>
+                              <td className="data">
                                 {this.state.academicsPG.totalMarks}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">CGPA</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">CGPA</td>
+                              <td className="data">
                                 {this.state.academicsPG.cgpa10}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Percentage</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Percentage</td>
+                              <td className="data">
                                 {this.state.academicsPG.percentageMarks}
                               </td>
                             </tr>
@@ -1098,17 +1112,17 @@ export default class phdCordForm extends Component {
                     <div className="container1">
                       {/* <div className="title"> Entrance Exam Details</div> */}
                       <div style={{ alignItems: "left", textAlign: "left" }}>
-                        <table class="tb">
+                        <table className="tb">
                           <div className="type">
                             <div
-                              class="h"
+                              className="h"
                               style={{ color: "white", width: "200%" }}
                             >
                               Entrance Exam Details
                             </div>
                           </div>
                           <tbody>
-                            <tr class="row1">
+                            <tr className="row1">
                               <td className="first data">
                                 Want to appear for COEP's Reasearch Program
                                 Eligibility Test (RPET)
@@ -1119,7 +1133,7 @@ export default class phdCordForm extends Component {
                                   : "No"}
                               </td>
                             </tr>
-                            <tr class="row1">
+                            <tr className="row1">
                               <td className="first data">
                                 Want to appear for COEP entrance exam
                               </td>
@@ -1130,7 +1144,7 @@ export default class phdCordForm extends Component {
                                   : "No"}
                               </td>
                             </tr>
-                            <tr class="row1">
+                            <tr className="row1">
                               <td className="first data">Given Gate</td>
                               <td className="data">
                                 {this.state.entranceDetails.givenGate
@@ -1138,13 +1152,13 @@ export default class phdCordForm extends Component {
                                   : "No"}
                               </td>
                             </tr>
-                            <tr class="row1">
+                            <tr className="row1">
                               <td className="first data">Score</td>
                               <td className="data">
                                 {this.state.entranceDetails.Gate.score}
                               </td>
                             </tr>
-                            <tr class="row1">
+                            <tr className="row1">
                               <td className="first data">
                                 Last Day of Validation
                               </td>
@@ -1180,13 +1194,13 @@ export default class phdCordForm extends Component {
                                 </div>
                               </tr>
                             )} */}
-                            <tr class="row1">
+                            <tr className="row1">
                               <td className="first data">SPPU ET 2021</td>
                               <td className="data">
                                 {this.state.entranceDetails.sppuPet.details}
                               </td>
                             </tr>
-                            <tr class="row1">
+                            <tr className="row1">
                               <td className="first data">Year</td>
                               <td className="data">
                                 {this.state.entranceDetails.sppuPet.year}
@@ -1206,27 +1220,27 @@ export default class phdCordForm extends Component {
                             )} */}
 
                             {/* 
-                            <tr class="row1">
-                              <td class="first data">Marks Obtained</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Marks Obtained</td>
+                              <td className="data">
                                 {this.state.academicsPG.totalAggregate}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Total Marks</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Total Marks</td>
+                              <td className="data">
                                 {this.state.academicsPG.totalMarks}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">CGPA</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">CGPA</td>
+                              <td className="data">
                                 {this.state.academicsPG.cgpa10}
                               </td>
                             </tr>
-                            <tr class="row1">
-                              <td class="first data">Percentage</td>
-                              <td class="data">
+                            <tr className="row1">
+                              <td className="first data">Percentage</td>
+                              <td className="data">
                                 {this.state.academicsPG.percentageMarks}
                               </td>
                             </tr> */}

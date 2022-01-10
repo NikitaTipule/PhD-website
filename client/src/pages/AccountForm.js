@@ -9,6 +9,10 @@ import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import DocViewer from "./DocViewer";
 import Sidebar from "../components/Sidebar";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { MobileView, BrowserView } from "react-device-detect";
+
 export default class AccountFormNew extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +28,7 @@ export default class AccountFormNew extends Component {
       verification: this.props.student.feeDetails.verification,
       category: this.props.student.personalInfo.category,
       token: "",
+      menu: false,
       //verification: "",
     };
   }
@@ -77,47 +82,67 @@ export default class AccountFormNew extends Component {
     return (
       <>
         <NavBar loggedin={true} />
+        <div className="menu">
+          {!this.state.menu ? (
+            <MenuIcon
+              onClick={() => {
+                this.setState({ menu: true });
+              }}
+            />
+          ) : (
+            <CloseIcon
+              onClick={() => {
+                this.setState({ menu: false });
+              }}
+            />
+          )}
+        </div>
         <div className="container">
-          <Sidebar user="Coordinator" />
+          <MobileView>
+            {this.state.menu && <Sidebar className="mob" user="Account" />}
+          </MobileView>
+          <BrowserView>
+            {!this.state.menu && <Sidebar className="mob" user="Account" />}
+          </BrowserView>
           <div style={{ marginTop: "90px" }}>
             <div>
               <div>
                 <div></div>
                 <div>
-                  <div class="container1">
-                    <table class="tb">
+                  <div className="container1">
+                    <table className="tb">
                       <div className="type">
                         <div
-                          class="h"
+                          className="h"
                           style={{ color: "white", width: "200%" }}
                         >
                           Payments Details
                         </div>
                       </div>
                       <tbody>
-                        <tr class="row1">
-                          <td class="first data">Application Id</td>
-                          <td class="data">{this.state.appid}</td>
+                        <tr className="row1">
+                          <td className="first data">Application Id</td>
+                          <td className="data">{this.state.appid}</td>
                         </tr>
-                        <tr class="row1">
-                          <td class="first data">Name</td>
-                          <td class="data">{this.state.name}</td>
+                        <tr className="row1">
+                          <td className="first data">Name</td>
+                          <td className="data">{this.state.name}</td>
                         </tr>
-                        <tr class="row1">
-                          <td class="first data">Category</td>
-                          <td class="data">{this.state.category}</td>
+                        <tr className="row1">
+                          <td className="first data">Category</td>
+                          <td className="data">{this.state.category}</td>
                         </tr>
-                        <tr class="row1">
-                          <td class="first data">Amount Paid</td>
-                          <td class="data">{this.state.amount}</td>
+                        <tr className="row1">
+                          <td className="first data">Amount Paid</td>
+                          <td className="data">{this.state.amount}</td>
                         </tr>
-                        <tr class="row1">
-                          <td class="first data">UTR/Du Number</td>
-                          <td class="data">{this.state.utrDuNumber}</td>
+                        <tr className="row1">
+                          <td className="first data">UTR/Du Number</td>
+                          <td className="data">{this.state.utrDuNumber}</td>
                         </tr>
-                        <tr class="row1">
-                          <td class="first data">Date of Payment</td>
-                          <td class="data">
+                        <tr className="row1">
+                          <td className="first data">Date of Payment</td>
+                          <td className="data">
                             {this.state.transactionTime.slice(0, 10)}
                           </td>
                         </tr>

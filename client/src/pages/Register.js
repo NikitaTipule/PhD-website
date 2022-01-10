@@ -85,7 +85,12 @@ export default function Register() {
   return (
     <ThemeProvider theme={theme}>
       <NavBar loggedin={false} />
-      <Container component="main" maxWidth="xs" style={{ marginTop: "90px" }}>
+      <Container
+        component="main"
+        item="true"
+        maxWidth="xs"
+        style={{ marginTop: "90px" }}
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -100,7 +105,7 @@ export default function Register() {
             Register
           </Typography>
           <Form onSubmit={handleSubmit}>
-            <Grid align="center" xs={12}>
+            <Grid align="center" item xs={12}>
               <Grid align="center" item xs={12}>
                 <Input
                   name="fullname"

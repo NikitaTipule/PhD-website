@@ -161,27 +161,27 @@ class AddLink extends Component {
                 Add Link
               </Button>
             </div>
-            <div class="container-tab">
-              <ul class="responsive-table">
-                <li class="table-header item-head">
-                  <div class="col col-1">Title</div>
-                  <div class="col col-2">Links</div>
-                  <div class="col col-3"></div>
+            <div className="container-tab">
+              <ul className="responsive-table">
+                <li className="table-header item-head">
+                  <div className="col col-1">Title</div>
+                  <div className="col col-2">Links</div>
+                  <div className="col col-3"></div>
                 </li>
                 {this.state.links
                   ? this.state.links.map((item) => (
-                      <li class="table-row item-tab">
-                        <div class="col col-1" data-label="Title">
+                      <li className="table-row item-tab">
+                        <div className="col col-1" data-label="Title">
                           {item.title}
                         </div>
-                        <div class="col col-2" data-label="Link">
+                        <div className="col col-2" data-label="Link">
                           <a href={{}}>{item.link}</a>
                         </div>
                         <Button
                           id={item._id}
                           onClick={this.removeLink(item._id)}
                         >
-                          <div class="col col-3" data-label="">
+                          <div className="col col-3" data-label="">
                             <DeleteIcon />
                           </div>
                         </Button>
