@@ -44,8 +44,13 @@ exports.getAllCords = async (req, res) => {
     }
     let cords = await PhdCord.find({}, "name department").lean().exec();
     for (let i = 0; i < cords.length; i++) {
-      cords[i].status = vf[cords[i].department];
+      cords[i].status = vf[cords[i].department] ? vf[cords[i].department] : {};
+      cords[i].status.verified = cords[i].status.verified || 0;
+      cords[i].status.pending = cords[i].status.pending || 0;
+      cords[i].status.mod_req = cords[i].status.mod_req || 0;
+      cords[i].status.total = cords[i].status.total || 0;
     }
+    console.log(cords);
     return res.json(cords);
   } catch (error) {
     console.log(error);
