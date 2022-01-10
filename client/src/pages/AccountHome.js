@@ -59,7 +59,6 @@ class AccountHomeNew extends Component {
             this.setState({
               name: res.data.user.name,
               email: res.data.user.email,
-              mis: res.data.user.mis,
             });
           });
       } catch (error) {
@@ -287,13 +286,13 @@ class AccountHomeNew extends Component {
                             {this.state.email}
                           </p>
                         </Grid>
-                        <Grid item xs={12} md={6} className="grid-item">
+                        {/* <Grid item xs={12} md={6} className="grid-item">
                           <p style={{ fontSize: "20px" }}>
                             <b style={{ fontWeight: 600 }}>Mis : </b>
                             {"   "}
                             {this.state.mis}
                           </p>
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={12} md={6} className="grid-item">
                           <p style={{ fontSize: "20px" }}>
                             <b style={{ fontWeight: 600 }}>Department: </b>

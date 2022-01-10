@@ -136,7 +136,7 @@ export default function AddCordForm() {
                 </Grid>
 
                 <Grid item xs>
-                  <Link href="/Admin" variant="body2">
+                  <Link href="/admin" variant="body2">
                     {"Go to dashboard"}
                   </Link>
                 </Grid>

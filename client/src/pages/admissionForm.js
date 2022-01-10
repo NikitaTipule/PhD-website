@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AdmissionDetailsPG from "../components/Form/AdmissionDetailsPG";
 import AdmissionDetailsUG from "../components/Form/AdmissionDetailsUG";
-import Documents from "../components/Form/Documents";
+// import Documents from "../components/Form/Documents";
 import NavBar from "../components/Navbar/Navbar";
 import PersonalDetails from "../components/Form/PersonalDetails";
 import AccountsDetails from "../components/Form/AccountsDetails";
