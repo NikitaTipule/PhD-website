@@ -19,7 +19,7 @@ import Sidebar from "../components/Sidebar";
 import InfoBox from "../components/InfoBox";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { MobileView, BrowserView } from 'react-device-detect';
+import { MobileView, BrowserView } from "react-device-detect";
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -47,15 +47,12 @@ class PhdCordHome extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.state.role);
     let id_phd = "";
-    // console.log(this.props.location.state.details);
     try {
       id_phd = this.props.location.state.details;
       await this.setState({
         id: this.props.location.state.details,
       });
-      console.log(this.state.id);
     } catch (error) {
       this.setState({
         flag: false,
@@ -65,8 +62,6 @@ class PhdCordHome extends Component {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
       });
-      // console.log(this.state.token)
-
       if (localStorage.getItem("phd-website-role") === "admin") {
         try {
           await axios
@@ -74,6 +69,7 @@ class PhdCordHome extends Component {
               headers: { "phd-website-jwt": this.state.token },
             })
             .then((res) => {
+              console.log(res);
               this.setState({
                 name: res.data.user.name,
                 email: res.data.user.email,

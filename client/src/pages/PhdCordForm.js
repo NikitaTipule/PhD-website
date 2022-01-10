@@ -49,7 +49,6 @@ export default class phdCordForm extends Component {
   }
 
   async componentDidMount() {
-    // console.log(this.props.location.state.details);
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
@@ -60,7 +59,6 @@ export default class phdCordForm extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            // console.log(res.data);
             this.setState({
               email: res.data.user.email,
               mobile: res.data.user.mobile,
@@ -166,8 +164,7 @@ export default class phdCordForm extends Component {
       console.log(this.props.location.state.cordId);
       this.props.history.push({
         pathname: "/coordinator",
-        // search: `/${id}`,
-        // state: { details: this.props.location.state.details },
+        state: { details: this.props.location.state.cordId },
       });
     }
 
