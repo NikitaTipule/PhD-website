@@ -91,9 +91,6 @@ li {
     right: 20px;
     color: white;
   }
-  .mob {
-    visibility: none;
-  }
 }
 
 @media only screen and (max-width: 800px) {
