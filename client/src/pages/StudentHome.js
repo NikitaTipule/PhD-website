@@ -205,7 +205,8 @@ class StudentHome extends Component {
               gender: user.personalInfo.gender,
               category: user.personalInfo.category,
               physicallyDisabled: user.personalInfo.physicallyDisabled,
-              dob: user.personalInfo.dob,
+              dob:
+                user.personalInfo.dob ? user.personalInfo.dob.slice(0, 10) : user.personalInfo.dob, 
               mobile: user.mobile,
               cgpaUG: user.academicsUG.cgpa10,
               degreeUG: user.academicsUG.degree,
@@ -332,7 +333,9 @@ class StudentHome extends Component {
                 <Text style={styles.tableCell}>Date of Birth</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>{this.state.dob}</Text>
+                <Text style={styles.tableCell}>
+                  {this.state.dob}
+                </Text>
               </View>
               <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Mobile Number</Text>
