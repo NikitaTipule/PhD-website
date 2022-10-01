@@ -45,6 +45,7 @@ const academicsUG = {
   dateOfDeclaration: { type: Date },
   verification: verificationField,
   remarks: { type: String, default: "" },
+  
 };
 
 const academicsPG = {

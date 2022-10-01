@@ -616,7 +616,7 @@ export default class PersonalDetails extends Component {
   render() {
     var copy;
     const dropdown_options = [
-      "General",
+      "OPEN(General)",
       "OBC",
       "ST",
       "SC",
