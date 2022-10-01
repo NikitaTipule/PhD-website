@@ -209,9 +209,11 @@ class StudentHome extends Component {
                 user.personalInfo.dob ? user.personalInfo.dob.slice(0, 10) : user.personalInfo.dob, 
               mobile: user.mobile,
               cgpaUG: user.academicsUG.cgpa10,
+              percentUG: user.academicsUG.percentageMarks,
               degreeUG: user.academicsUG.degree,
               instituteUG: user.academicsUG.institute,
               specialUG: user.academicsUG.specialization,
+              specialPG: user.academicsPG.specialization,
               cgpaPG: user.academicsPG.cgpa10,
               degreePG: user.academicsPG.degree,
               institutePG: user.academicsPG.institute,
@@ -357,24 +359,38 @@ class StudentHome extends Component {
                 <Text style={styles.tableCell}>{this.state.cgpaUG}</Text>
               </View>
               <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Percentage Marks</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.percentUG}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Degree</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.degreeUG}</Text>
               </View>
-            </View>
-            <View style={styles.tableRow}>
               <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Institute</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.instituteUG}</Text>
               </View>
+            </View>
+            <View style={styles.tableRow}>
               <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Specialization</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.specialUG}</Text>
+              </View>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}></Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{""}</Text>
               </View>
             </View>
             <View style={styles.tableRow}>
@@ -390,24 +406,38 @@ class StudentHome extends Component {
                 <Text style={styles.tableCell}>{this.state.cgpaPG}</Text>
               </View>
               <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Percentage Marks</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{this.state.percentPG}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Degree</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.degreePG}</Text>
               </View>
-            </View>
-            <View style={styles.tableRow}>
               <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Institute</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{this.state.institutePG}</Text>
               </View>
+            </View>
+            <View style={styles.tableRow}>
               <View style={styles.tableCol1}>
-                <Text style={styles.tableCell}>Percentage Marks</Text>
+                <Text style={styles.tableCell}>Specialization</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>{this.state.percentPG}</Text>
+                <Text style={styles.tableCell}>{this.state.specialPG}</Text>
+              </View>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}></Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{""}</Text>
               </View>
             </View>
             <View style={styles.tableRow}>
