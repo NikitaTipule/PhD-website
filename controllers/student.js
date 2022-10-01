@@ -77,7 +77,7 @@ exports.lockProfile = (req, res) => {
     ) {
       user.editable = true;
     } else {
-      user.editable = false;
+      user.editable = true;
     }
     const dept = user.personalInfo.department;
     Counter.findOne({ department: dept }, (err, counter) => {
@@ -312,7 +312,7 @@ exports.verifyStudentInfo = (req, res) => {
       if (user.infoVerified === "mod_req") {
         user.editable = true;
       } else {
-        user.editable = false;
+        user.editable = true;
       }
 
       console.log("EDITABLE : ", user.infoVerified, user.editable);

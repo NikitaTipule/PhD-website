@@ -11,6 +11,7 @@ import { Table, TableBody } from "@material-ui/core";
 import { docType } from "../../phdAdmDetails";
 import DocViewer from "../../pages/DocViewer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import DropDown from "react-dropdown";
 
 export default class AdmissionDetailsPG extends Component {
   constructor(props) {
@@ -18,8 +19,9 @@ export default class AdmissionDetailsPG extends Component {
     this.state = {
       university: "",
       nomanclaure: "",
-      marksObtained: "",
-      totalMarks: "",
+      specialization: "",
+      //marksObtained: "",
+      //totalMarks: "",
       cgpa: "",
       percentage: "",
       confirmAlert: false,
@@ -34,8 +36,9 @@ export default class AdmissionDetailsPG extends Component {
 
       errorUniversity: false,
       errorNomanclaure: false,
-      errorMarksObtained: false,
-      errorTotalMarks: false,
+      errorSpecialization: false,
+      //errorMarksObtained: false,
+      //errorTotalMarks: false,
       errorCGPA: false,
       errorPercentage: false,
 
@@ -44,6 +47,11 @@ export default class AdmissionDetailsPG extends Component {
       token: localStorage.getItem("phd-website-jwt"),
     };
   }
+
+  onChangeSpecialization = (event) => {
+    this.setState({
+      specialization: event.value,
+    })};
 
   // FUNCTIONS FOR FILE DATA
   onFileChange = async (event) => {
@@ -119,15 +127,20 @@ export default class AdmissionDetailsPG extends Component {
       ? this.setState({ errorNomanclaure: true })
       : this.setState({ errorNomanclaure: false });
 
-    /^\d+$/.test(this.state.marksObtained) &&
-    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
-      ? this.setState({ errorMarksObtained: false })
-      : this.setState({ errorMarksObtained: true });
+      this.state.specialization.replace(/ /g, "") === ""
+      ? this.setState({ errorSpecialization: true })
+      : this.setState({ errorSpecialization: false });
 
-    /^\d+$/.test(this.state.totalMarks) &&
-    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
-      ? this.setState({ errorTotalMarks: false })
-      : this.setState({ errorTotalMarks: true });
+
+    // /^\d+$/.test(this.state.marksObtained) &&
+    // parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+    //   ? this.setState({ errorMarksObtained: false })
+    //   : this.setState({ errorMarksObtained: true });
+
+    // /^\d+$/.test(this.state.totalMarks) &&
+    // parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+    //   ? this.setState({ errorTotalMarks: false })
+    //   : this.setState({ errorTotalMarks: true });
 
     !isNaN(parseFloat(this.state.cgpa)) &&
     isFinite(this.state.cgpa) &&
@@ -153,8 +166,9 @@ export default class AdmissionDetailsPG extends Component {
       if (
         this.state.errorUniversity === false &&
         this.state.errorNomanclaure === false &&
-        this.state.errorMarksObtained === false &&
-        this.state.errorTotalMarks === false &&
+        this.state.errorSpecialization === false &&
+        //this.state.errorMarksObtained === false &&
+        //this.state.errorTotalMarks === false &&
         this.state.errorCGPA === false &&
         this.state.errorPercentage === false
       ) {
@@ -177,8 +191,9 @@ export default class AdmissionDetailsPG extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsPG.institute = this.state.university;
         this.props.data.academicsPG.degree = this.state.nomanclaure;
-        this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
-        this.props.data.academicsPG.totalMarks = this.state.totalMarks;
+        this.props.data.academicsPG.specialization = this.state.specialization;
+        // this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
+        // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
         this.props.data.academicsPG.cgpa10 = this.state.cgpa;
         this.props.data.academicsPG.percentageMarks = this.state.percentage;
       }
@@ -238,12 +253,15 @@ export default class AdmissionDetailsPG extends Component {
                 nomanclaure: res.data.user.academicsPG.degree
                   ? res.data.user.academicsPG.degree
                   : "",
-                marksObtained: res.data.user.academicsPG.totalAggregate
-                  ? res.data.user.academicsPG.totalAggregate
+                specialization: res.data.user.academicsPG.specialization
+                  ? res.data.user.academicsPG.specialization
                   : "",
-                totalMarks: res.data.user.academicsPG.totalMarks
-                  ? res.data.user.academicsPG.totalMarks
-                  : "",
+                // marksObtained: res.data.user.academicsPG.totalAggregate
+                //   ? res.data.user.academicsPG.totalAggregate
+                //   : "",
+                // totalMarks: res.data.user.academicsPG.totalMarks
+                //   ? res.data.user.academicsPG.totalMarks
+                //   : "",
                 cgpa: res.data.user.academicsPG.cgpa10
                   ? res.data.user.academicsPG.cgpa10
                   : "",
@@ -278,6 +296,15 @@ export default class AdmissionDetailsPG extends Component {
   }
 
   render() {
+    const dropdown_options = [
+      "OPEN(General)",
+      "OBC",
+      "ST",
+      "SC",
+      "NT",
+      "VJNT",
+      "EWS",
+    ];
     const theme = createTheme({
       status: {
         danger: "#e53e3e",
@@ -346,16 +373,22 @@ export default class AdmissionDetailsPG extends Component {
                 </div>
                 <div className="popUpField">
                   <div>
+                    <Typography>Specialization :</Typography>
+                  </div>
+                  <div>{this.state.specialization}</div>
+                </div>
+                {/* <div className="popUpField">
+                  <div>
                     <Typography>Marks Obtained :</Typography>
                   </div>
                   <div>{this.state.marksObtained}</div>
-                </div>
-                <div className="popUpField">
+                </div> */}
+                {/* <div className="popUpField">
                   <div>
                     <Typography>Total Marks :</Typography>
                   </div>
                   <div>{this.state.totalMarks}</div>
-                </div>
+                </div> */}
                 <div className="popUpField">
                   <div>
                     <Typography>CGPA :</Typography>
@@ -447,11 +480,30 @@ export default class AdmissionDetailsPG extends Component {
                 </div>
               )}
             </div>
+            {/* 3. Specialization Branch  */}
+            <div className="formNumber" style={{ marginLeft : "0%"}}>
+                <Typography style={{ marginBottom: "12px"}}>
+                  Specialization Branch
+                </Typography>
+                <DropDown
+                  disabled={this.state.disabled}
+                  options={dropdown_options}
+                  name="specialization"
+                  value={this.state.specialization}
+                  onChange={this.onChangeSpecialization}
+                  placeholder="Select specialization branch"
+                />
+                {this.state.errorSpecialization && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select specialization</Typography>
+                  </div>
+                )}
+              </div>
             {/*
              * 4. Marks Obtained
              * 5. Total Marks
              */}
-            <div className="marksContainer">
+            {/* <div className="marksContainer">
               <div>
                 <Typography>Marks Obtained</Typography>
                 <TextField
@@ -492,7 +544,7 @@ export default class AdmissionDetailsPG extends Component {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
             {/*
              *   6. CGPA
              *   7. Percentage of Marks
@@ -509,7 +561,6 @@ export default class AdmissionDetailsPG extends Component {
                   name="cgpa"
                   label="CGPA"
                   variant="outlined"
-                  required
                   style={{ marginTop: "8px" }}
                 />
                 {this.state.errorCGPA && (

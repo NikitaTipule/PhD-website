@@ -24,6 +24,10 @@
     align-content: left;
 }
 
+.formNumber{
+    margin-left: 0%;
+}
+
 @media only screen and (max-width: 470px){
     .marksContainer{
         display: block;

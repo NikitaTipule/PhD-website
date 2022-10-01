@@ -12,7 +12,7 @@ import { Table, TableBody } from "@material-ui/core";
 import { docType } from "../../phdAdmDetails";
 import DocViewer from "../../pages/DocViewer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import DropDown from "react-dropdown";
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
     super(props);
@@ -20,8 +20,8 @@ export default class AdmissionDetailsUG extends Component {
       university: "",
       nomanclaure: "",
       specialization: "",
-      marksObtained: "",
-      totalMarks: "",
+      //marksObtained: "",
+      //totalMarks: "",
       cgpa: "",
       percentage: "",
       dateOfDeclaration: "",
@@ -38,8 +38,8 @@ export default class AdmissionDetailsUG extends Component {
       errorUniversity: false,
       errorNomanclaure: false,
       errorSpecialization: false,
-      errorMarksObtained: false,
-      errorTotalMarks: false,
+      //errorMarksObtained: false,
+      //errorTotalMarks: false,
       errorCGPA: false,
       errorPercentage: false,
       errorDod: false,
@@ -98,6 +98,11 @@ export default class AdmissionDetailsUG extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  onChangeSpecialization = (event) => {
+    this.setState({
+      specialization: event.value,
+    })};
+
   onChangeDate = (event) => {
     this.setState({ dateOfDeclaration: event });
   };
@@ -135,15 +140,15 @@ export default class AdmissionDetailsUG extends Component {
       ? this.setState({ errorSpecialization: true })
       : this.setState({ errorSpecialization: false });
 
-    /^\d+$/.test(this.state.marksObtained) &&
-    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
-      ? this.setState({ errorMarksObtained: false })
-      : this.setState({ errorMarksObtained: true });
+    // /^\d+$/.test(this.state.marksObtained) &&
+    // parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+    //   ? this.setState({ errorMarksObtained: false })
+    //   : this.setState({ errorMarksObtained: true });
 
-    /^\d+$/.test(this.state.totalMarks) &&
-    parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
-      ? this.setState({ errorTotalMarks: false })
-      : this.setState({ errorTotalMarks: true });
+    // /^\d+$/.test(this.state.totalMarks) &&
+    // parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
+    //   ? this.setState({ errorTotalMarks: false })
+    //   : this.setState({ errorTotalMarks: true });
 
     !isNaN(parseFloat(this.state.cgpa)) &&
     isFinite(this.state.cgpa) &&
@@ -180,8 +185,8 @@ export default class AdmissionDetailsUG extends Component {
         this.state.errorUniversity === false &&
         this.state.errorNomanclaure === false &&
         this.state.errorSpecialization === false &&
-        this.state.errorMarksObtained === false &&
-        this.state.errorTotalMarks === false &&
+        //this.state.errorMarksObtained === false &&
+        //this.state.errorTotalMarks === false &&
         this.state.errorCGPA === false &&
         this.state.errorPercentage === false &&
         this.state.errorDod === false
@@ -206,8 +211,8 @@ export default class AdmissionDetailsUG extends Component {
         this.props.data.academicsUG.institute = this.state.university;
         this.props.data.academicsUG.degree = this.state.nomanclaure;
         this.props.data.academicsUG.specialization = this.state.specialization;
-        this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
-        this.props.data.academicsUG.totalMarks = this.state.totalMarks;
+        //this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
+        //this.props.data.academicsUG.totalMarks = this.state.totalMarks;
         this.props.data.academicsUG.cgpa10 = this.state.cgpa;
         this.props.data.academicsUG.percentageMarks = this.state.percentage;
         this.props.data.academicsUG.dateOfDeclaration =
@@ -266,12 +271,12 @@ export default class AdmissionDetailsUG extends Component {
                 specialization: res.data.user.academicsUG.specialization
                   ? res.data.user.academicsUG.specialization
                   : "",
-                marksObtained: res.data.user.academicsUG.totalAggregate
-                  ? res.data.user.academicsUG.totalAggregate
-                  : "",
-                totalMarks: res.data.user.academicsUG.totalMarks
-                  ? res.data.user.academicsUG.totalMarks
-                  : "",
+                // marksObtained: res.data.user.academicsUG.totalAggregate
+                //   ? res.data.user.academicsUG.totalAggregate
+                //   : "",
+                // totalMarks: res.data.user.academicsUG.totalMarks
+                //   ? res.data.user.academicsUG.totalMarks
+                //   : "",
                 cgpa: res.data.user.academicsUG.cgpa10
                   ? res.data.user.academicsUG.cgpa10
                   : "",
@@ -309,6 +314,16 @@ export default class AdmissionDetailsUG extends Component {
   }
 
   render() {
+    const dropdown_options = [
+      "OPEN(General)",
+      "OBC",
+      "ST",
+      "SC",
+      "NT",
+      "VJNT",
+      "EWS",
+    ];
+
     const theme = createTheme({
       status: {
         danger: "#e53e3e",
@@ -376,24 +391,25 @@ export default class AdmissionDetailsUG extends Component {
                   </div>
                   <div>{this.state.nomanclaure}</div>
                 </div>
+
                 <div className="popUpField">
                   <div>
                     <Typography>Specialization :</Typography>
                   </div>
                   <div>{this.state.specialization}</div>
                 </div>
-                <div className="popUpField">
+                {/* <div className="popUpField">
                   <div>
                     <Typography>Marks Obtained :</Typography>
                   </div>
                   <div>{this.state.marksObtained}</div>
-                </div>
-                <div className="popUpField">
+                </div> */}
+                {/* <div className="popUpField">
                   <div>
                     <Typography>Total Marks :</Typography>
                   </div>
                   <div>{this.state.totalMarks}</div>
-                </div>
+                </div> */}
                 <div className="popUpField">
                   <div>
                     <Typography>CGPA :</Typography>
@@ -495,7 +511,25 @@ export default class AdmissionDetailsUG extends Component {
               )}
             </div>
             {/* 3. Specialization Branch  */}
-            <div style={{ marginBottom: "12px" }}>
+            <div className="formNumber" style={{ marginLeft : "0%"}}>
+                <Typography style={{ marginBottom: "12px"}}>
+                  Specialization Branch
+                </Typography>
+                <DropDown
+                  disabled={this.state.disabled}
+                  options={dropdown_options}
+                  name="specialization"
+                  value={this.state.specialization}
+                  onChange={this.onChangeSpecialization}
+                  placeholder="Select specialization branch"
+                />
+                {this.state.errorSpecialization && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select specialization</Typography>
+                  </div>
+                )}
+              </div>
+            {/* <div style={{ marginBottom: "12px" }}>
               <Typography>Specialization Branch</Typography>
               <TextField
                 disabled={this.state.disabled}
@@ -514,12 +548,12 @@ export default class AdmissionDetailsUG extends Component {
                   <Typography>Specialization is required field</Typography>
                 </div>
               )}
-            </div>
+            </div> */}
             {/*
              * 4. Marks Obtained
              * 5. Total Marks
              */}
-            <div className="marksContainer">
+            {/* <div className="marksContainer">
               <div>
                 <Typography>Marks Obtained</Typography>
                 <TextField
@@ -560,7 +594,7 @@ export default class AdmissionDetailsUG extends Component {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
             {/*
              *   6. CGPA
              *   7. Percentage of Marks
@@ -577,7 +611,6 @@ export default class AdmissionDetailsUG extends Component {
                   name="cgpa"
                   label="CGPA"
                   variant="outlined"
-                  required
                   style={{ marginTop: "8px" }}
                 />
                 {this.state.errorCGPA && (
