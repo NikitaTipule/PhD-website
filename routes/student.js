@@ -10,6 +10,7 @@ const { auth } = require("../middleware/auth");
 const {
   myProfileStudent,
   getStudentInfo,
+  getAllStudents,
   getStudentsByDept,
   editStudentDocs,
   editStudentFeeDetails,

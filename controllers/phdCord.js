@@ -16,6 +16,15 @@ exports.getPhdCordInfo = (req, res) => {
   });
 };
 
+exports.getAllStudents = (req, res) => {
+  if (req.userRole != "admin") {
+    res.status(403).json({ error: "only admin can see all students" });
+  }
+  Student.find()
+    .then((student) => res.json(student))
+    .catch((err) => res.status(400).res.json(`Error:${err}`));
+}
+
 exports.getAllCords = async (req, res) => {
   try {
     if (!req.userRole == "admin") {
