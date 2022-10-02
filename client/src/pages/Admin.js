@@ -333,13 +333,15 @@ class Admin extends Component {
                   </div>
                 </div>
               </div>
-              <div onClick={() => this.exportToExcel()} style={{display:"flex", flexDirection:"row", marginLeft:"35%",marginRight:"35"}}>
-                <div>
+              <div onClick={() => this.exportToExcel()} style={{display:"flex", flexDirection:"row", marginLeft:"30%",marginRight:"30%", paddingTop:"50px"}}>
+                <div style={{fontSize: "20px", paddingRight: "30px"}}>
                   DOWNLOAD DATA OF ALL STUDENTS
                 </div>
                 <div>
                   <CloudDownloadTwoToneIcon
                     cursor={"pointer"}
+                    style={{width: "30px", height: "30px"}}
+
                   />
                 </div>
               </div>

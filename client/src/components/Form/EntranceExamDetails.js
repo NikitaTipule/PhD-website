@@ -91,7 +91,7 @@ export default class EntranceExamDetails extends Component {
         : this.setState({ errorGateMarks: true }));
 
     this.state.givenGate &&
-      (/^\d+$/.test(this.state.gateQualiMarks) && parseInt(this.state.gateQualiMarks)
+      (/^\d+$/.test(this.state.gateQualiMarks) && parseInt(this.state.gateQualiMarks) && (parseInt(this.state.gateMarks)>=0 && parseInt(this.state.gateMarks)<=100)
         ? this.setState({ errorGateQualiMarks: false })
         : this.setState({ errorGateQualiMarks: true }));
 

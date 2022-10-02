@@ -807,11 +807,11 @@ class StudentHome extends Component {
                 </li>
                 <li className="table-row">
                   <div className="col col-2" data-label="Field">
-                    Academics PG
+                    Personal Info
                   </div>
                   <div className="col col-3" data-label="Remark">
-                    {this.state.PGremarks.length
-                      ? this.state.PGremarks
+                    {this.state.PIremarks.length
+                      ? this.state.PIremarks
                       : "None"}
                   </div>
                   <div
@@ -819,14 +819,14 @@ class StudentHome extends Component {
                     data-label="Status"
                     style={{ textTransform: "capitalize" }}
                   >
-                    {this.state.PGverification}
+                    {this.state.PIverification}
                   </div>
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 3, entire: "no" },
+                        state: { step: 1, entire: "no" },
                       });
                     }}
                   >
@@ -867,6 +867,39 @@ class StudentHome extends Component {
                     />
                   </div>
                 </li>
+                
+                <li className="table-row">
+                  <div className="col col-2" data-label="Field">
+                    Academics PG
+                  </div>
+                  <div className="col col-3" data-label="Remark">
+                    {this.state.PGremarks.length
+                      ? this.state.PGremarks
+                      : "None"}
+                  </div>
+                  <div
+                    className="col col-4"
+                    data-label="Status"
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    {this.state.PGverification}
+                  </div>
+                  <div
+                    className="col col-5 editButton"
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/admissionForm",
+                        state: { step: 3, entire: "no" },
+                      });
+                    }}
+                  >
+                    <EditIcon
+                      sx={{ color: "cadetblue" }}
+                      className="editIcon"
+                    />
+                  </div>
+                </li>
+
                 {/* <li className="table-row">
                   <div className="col col-2" data-label="Field">
                     Document Upload
@@ -949,37 +982,7 @@ class StudentHome extends Component {
                     />
                   </div>
                 </li>
-                <li className="table-row">
-                  <div className="col col-2" data-label="Field">
-                    Personal Info
-                  </div>
-                  <div className="col col-3" data-label="Remark">
-                    {this.state.PIremarks.length
-                      ? this.state.PIremarks
-                      : "None"}
-                  </div>
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                    style={{ textTransform: "capitalize" }}
-                  >
-                    {this.state.PIverification}
-                  </div>
-                  <div
-                    className="col col-5 editButton"
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/admissionForm",
-                        state: { step: 1, entire: "no" },
-                      });
-                    }}
-                  >
-                    <EditIcon
-                      sx={{ color: "cadetblue" }}
-                      className="editIcon"
-                    />
-                  </div>
-                </li>
+
               </ul>
             </div>
           </div>
