@@ -21,17 +21,17 @@ export default class EntranceExamDetails extends Component {
           id: 1,
         },
         {
-          name: "Gate",
+          name: "GATE",
           id: 2,
         },
-        {
-          name: "Want to appear for COEP entrance exam",
-          id: 3,
-        },
-        {
-          name: "SPPU ET 2021",
-          id: 4,
-        },
+        // {
+        //   name: "Want to appear for COEP entrance exam",
+        //   id: 3,
+        // },
+        // {
+        //   name: "SPPU ET 2021",
+        //   id: 4,
+        // },
       ],
 
       givenGate: false,

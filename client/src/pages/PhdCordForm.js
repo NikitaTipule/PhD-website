@@ -9,6 +9,7 @@ import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import DocViewer from "./DocViewer";
 import Sidebar from "../components/Sidebar";
+import { flexbox } from "@mui/system";
 
 export default class phdCordForm extends Component {
   constructor(props) {
@@ -158,6 +159,8 @@ export default class phdCordForm extends Component {
   };
 
   render() {
+
+    
     if (this.state.redirect) {
       // return <Redirect to="/coordinator" />;
       console.log(this.props.location.state.details);
@@ -295,22 +298,25 @@ export default class phdCordForm extends Component {
                               doc.type === "EWS Certificate" ||
                               doc.type === "Proof of Physical Disability") && (
                               <div className="field2">
-                                <div className="documents" key={doc.id}>
-                                  <div className="docFieldName">
+                                <div className="documents" key={doc.id} >
+                                  <div className="docFieldName" style={{width:"300px"}}>
                                     {doc.type + "  :"}
                                   </div>
-                                  <div className="iconMobile">
+                                  <div className="iconMobile" style={{display:"flex", flexDirection:"row", margin:"auto",paddingBottom:"60px"}}>
                                     {/* <div>{id}</div> */}
-                                    <DocViewer
-                                      data={{
-                                        filename: doc.filename,
-                                        contentType: doc.contentType,
-                                        originalName: doc.originalName,
-                                      }}
-                                    />
+                                    <div>Preview</div>
+                                    <div style={{paddingLeft:"10px"}}>
+                                      <DocViewer
+                                        data={{
+                                          filename: doc.filename,
+                                          contentType: doc.contentType,
+                                          originalName: doc.originalName,
+                                        }}
+                                      />
+                                    </div>
                                   </div>
                                   <div className="icon">
-                                    <div>
+                                    <div >
                                       {/* Verification Component for documents  */}
                                       <div className="verify">
                                         <div style={{ width: "100%" }}>
@@ -319,7 +325,7 @@ export default class phdCordForm extends Component {
                                             onChange={(e) =>
                                               this.onChangeVerify(e, id)
                                             }
-                                          >
+                                            style={{display:"flex", flexDirection:"column", margin:"auto",align:"center"}}>
                                             <div style={{ display: "none" }}>
                                               <input
                                                 type="radio"
@@ -343,7 +349,7 @@ export default class phdCordForm extends Component {
                                               />
                                               Pending
                                             </div>
-                                            <div>
+                                            <div >
                                               <input
                                                 type="radio"
                                                 value="mod_req"
@@ -363,7 +369,7 @@ export default class phdCordForm extends Component {
                                                     documentsUploaded: copy,
                                                   });
                                                 }}
-                                              />{" "}
+                                              />{'\n'}
                                               Not Verified
                                             </div>
                                             <div>
@@ -1313,7 +1319,7 @@ export default class phdCordForm extends Component {
                           <div className="icon">
                             <div>
                               <div className="verify">
-                                <div style={{ width: "100%" }}>
+                                <div style={{ width: "100%",}}>
                                   <div className="radios">
                                     <div style={{ display: "none" }}>
                                       <input
