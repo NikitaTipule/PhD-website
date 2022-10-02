@@ -39,6 +39,8 @@ export default class EntranceExamDetails extends Component {
       isInterestedCoepRPET: false,
       isInterestedCoepEntrance: false,
       gateScore: "",
+      gateMarks: "",
+      gateQualiMarks: "",
       gateDate: "",
       petDetails: "",
       petYear: "",
@@ -50,6 +52,8 @@ export default class EntranceExamDetails extends Component {
       disabled: "",
 
       errorGateScore: false,
+      errorGateMarks: false,
+      errorGateQualiMarks: false,
       errorGateDate: false,
       errorPetDetails: false,
       errorPetYear: false,
@@ -79,6 +83,16 @@ export default class EntranceExamDetails extends Component {
       (/^\d+$/.test(this.state.gateScore) && parseInt(this.state.gateScore)
         ? this.setState({ errorGateScore: false })
         : this.setState({ errorGateScore: true }));
+
+    this.state.givenGate &&
+      (/^\d+$/.test(this.state.gateMarks) && parseInt(this.state.gateMarks)
+        ? this.setState({ errorGateMarks: false })
+        : this.setState({ errorGateMarks: true }));
+
+    this.state.givenGate &&
+      (/^\d+$/.test(this.state.gateQualiMarks) && parseInt(this.state.gateQualiMarks)
+        ? this.setState({ errorGateQualiMarks: false })
+        : this.setState({ errorGateQualiMarks: true }));
 
     this.state.givenGate &&
       (this.state.gateDate === ""
@@ -126,6 +140,8 @@ export default class EntranceExamDetails extends Component {
 
       if (
         this.state.errorGateScore === false &&
+        this.state.errorGateMarks === false &&
+        this.state.errorGateQualiMarks === false &&
         this.state.errorGateDate === false &&
         this.state.errorPetDetails === false &&
         this.state.errorPetYear === false &&
@@ -139,6 +155,8 @@ export default class EntranceExamDetails extends Component {
         this.props.data.entranceDetails.givenPet = this.state.givenPet;
         this.props.data.entranceDetails.givenGate = this.state.givenGate;
         this.props.data.entranceDetails.Gate.score = this.state.gateScore;
+        this.props.data.entranceDetails.Gate.marks = this.state.gateMarks;
+        this.props.data.entranceDetails.Gate.qualimarks = this.state.gateQualiMarks;
         this.props.data.entranceDetails.Gate.lastDateOfValidation =
           this.state.gateDate;
         this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
@@ -223,6 +241,18 @@ export default class EntranceExamDetails extends Component {
                 gateScore: res.data.user.entranceDetails.Gate
                   ? res.data.user.entranceDetails.Gate.score
                     ? res.data.user.entranceDetails.Gate.score
+                    : ""
+                  : "",
+
+                gateMarks: res.data.user.entranceDetails.Gate
+                  ? res.data.user.entranceDetails.Gate.marks
+                    ? res.data.user.entranceDetails.Gate.marks
+                    : ""
+                  : "",
+
+                gateQualiMarks: res.data.user.entranceDetails.Gate
+                  ? res.data.user.entranceDetails.Gate.qualimarks
+                    ? res.data.user.entranceDetails.Gate.qualimarks
                     : ""
                   : "",
                 gateDate: res.data.user.entranceDetails.Gate
@@ -394,6 +424,47 @@ export default class EntranceExamDetails extends Component {
                               {this.state.gateScore}
                             </div>
                           </div>
+
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              Marks :{" "}
+                            </div>
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                            >
+                              {this.state.gateMarks}
+                            </div>
+                          </div>
+
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              Qualifying Marks :{" "}
+                            </div>
+                            <div
+                              style={{
+                                marginLeft: "20px",
+                              }}
+                            >
+                              {this.state.gateQualiMarks}
+                            </div>
+                          </div>
+
                           <div
                             style={{ display: "flex", flexDirection: "row" }}
                           >
@@ -570,13 +641,13 @@ export default class EntranceExamDetails extends Component {
                           GATE
                         </Typography>
                         <div style={{ marginLeft: "20px" }}>
-                          <div style={{ marginTop: "3px" }}>
-                            <Typography>GATE Score</Typography>
+                          <div style={{ marginTop: "3px", paddingTop: "15px" }}>
+                            <Typography>GATE Score out of 1000</Typography>
                             <TextField
                               disabled={this.state.disabled}
                               className="mb-3"
                               variant="outlined"
-                              label="Gate Score"
+                              label="Gate Score out of 1000"
                               onChange={this.handleChange}
                               value={this.state.gateScore}
                               name="gateScore"
@@ -589,7 +660,48 @@ export default class EntranceExamDetails extends Component {
                               </div>
                             )}
                           </div>
-                          <div style={{ marginTop: "10px" }}>
+
+                          <div style={{ marginTop: "3px", paddingTop: "15px" }}>
+                            <Typography>GATE marks out of 100</Typography>
+                            <TextField
+                              disabled={this.state.disabled}
+                              className="mb-3"
+                              variant="outlined"
+                              label="GATE marks out of 100"
+                              onChange={this.handleChange}
+                              value={this.state.gateMarks}
+                              name="gateMarks"
+                              style={{ marginTop: "10px" }}
+                              required
+                            />
+                            {this.state.errorGateMarks && (
+                              <div style={{ color: "red" }}>
+                                <Typography>Invalid Marks entered</Typography>
+                              </div>
+                            )}
+                          </div>
+
+                          <div style={{ marginTop: "5px", paddingTop: "15px" }}>
+                            <Typography>Qualifying Marks</Typography>
+                            <TextField
+                              disabled={this.state.disabled}
+                              className="mb-3"
+                              variant="outlined"
+                              label="Qualifying Marks"
+                              onChange={this.handleChange}
+                              value={this.state.gateQualiMarks}
+                              name="gateQualiMarks"
+                              style={{ marginTop: "10px" }}
+                              required
+                            />
+                            {this.state.errorGateQualiMarks && (
+                              <div style={{ color: "red" }}>
+                                <Typography>Invalid Qualifying Marks entered</Typography>
+                              </div>
+                            )}
+                          </div>
+
+                          <div style={{ marginTop: "10px", paddingTop: "15px" }}>
                             <Typography>Date of Validation</Typography>
                             <DatePicker
                               disabled={this.state.disabled}

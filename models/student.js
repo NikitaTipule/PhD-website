@@ -68,7 +68,9 @@ const entranceDetails = {
   isInterestedCoepRPET: { type: Boolean },
   isInterestedCoepEntrance: { type: Boolean },
   Gate: {
-    score: { type: String },
+    score: { type: String},
+    marks: { type:String },
+    qualimarks: { type: String },
     lastDateOfValidation: { type: Date },
   },
   sppuPet: {
