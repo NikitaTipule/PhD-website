@@ -80,6 +80,7 @@ export default class AdmissionDetailsPG extends Component {
           verification: "pending",
         };
 
+
         if (i === -1) {
           this.setState((prevState) => ({
             documentsUploaded: [...prevState.documentsUploaded, docUploaded],

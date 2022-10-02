@@ -126,25 +126,106 @@ class Admin extends Component {
   exportToExcel = () => {
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
-      const { personalInfo, name, feeDetails, ...otherProp } = student;
-      const { docUploaded, ...otherDetails } = feeDetails;
-      const { category } = personalInfo;
-      otherData.push({ name, category, ...otherDetails });
+      const { _id, ...otherProp } = student;
+      const { personalInfo, academicsUG, academicsPG, email, entranceDetails } =
+        otherProp;
+      const {
+        cgpa10: pg_cgpa,
+        degree: pg_degree,
+        institute: pg_institute,
+        percentageMarks: pg_percentageMarks,
+        specialization: pg_specialization,
+        remarks: pg_remarks,
+        verification: pg_verification,
+      } = academicsPG;
+      const {
+        cgpa10: ug_cgpa,
+        dateOfDeclaration: ug_dateOfDeclaration,
+        degree: ug_degree,
+        institute: ug_institute,
+        percentageMarks: ug_percentageMarks,
+        specialization: ug_specialization,
+        remarks: ug_remarks,
+        verification: ug_verification,
+      } = academicsUG;
+      const pg = {
+        pg_cgpa,
+        pg_degree,
+        pg_institute,
+        pg_percentageMarks,
+        pg_remarks,
+        pg_verification,
+        pg_specialization
+      };
+      const ug = {
+        ug_cgpa,
+        ug_dateOfDeclaration,
+        ug_degree,
+        ug_institute,
+        ug_percentageMarks,
+        ug_specialization,
+        ug_remarks,
+        ug_verification,
+      };
+      const { Gate, sppuPet, ...otherEntranceDetails } = entranceDetails;
+      // const {
+      //   lastDateOfValidation: gate_lastDateOfValidation,
+      //   score: gate_score,
+      // } = Gate;
+      // const { details: sppuPet_details, year: sppuPet_year } = sppuPet;
+
+      otherData.push({
+        ...personalInfo,
+        email,
+        ...ug,
+        ...pg,
+        // gate_score,
+        // gate_lastDateOfValidation,
+        ...otherEntranceDetails,
+        // sppuPet_details,
+        // sppuPet_year,
+      });
     });
+    console.log(otherData);
     const XLSX = require("xlsx");
     const workSheet = XLSX.utils.json_to_sheet(otherData);
     workSheet["!cols"] = [
-      { wch: 40 },
+      { wch: 30 },
+      { wch: 30 },
+      { wch: 25 },
+      { wch: 10 },
+      { wch: 10 },
       { wch: 10 },
       { wch: 20 },
+      { wch: 40 },
+      { wch: 5 },
+      { wch: 20 },
       { wch: 10 },
-      { wch: 25 },
       { wch: 30 },
+      { wch: 5 },
+      { wch: 25 },
+      { wch: 15 },
+      { wch: 30 },
+      { wch: 5 },
+      { wch: 25 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 5 },
+      { wch: 15 },
+      { wch: 30 },
+      { wch: 5 },
+      { wch: 15 },
+      { wch: 5 },
+      { wch: 5 },
+      { wch: 15 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
       { wch: 10 },
       { wch: 10 },
     ];
     const workBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
+    XLSX.utils.book_append_sheet(workBook, workSheet, "All Students Data");
     XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
     XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
     XLSX.writeFile(workBook, "All Students Data.xlsx");
