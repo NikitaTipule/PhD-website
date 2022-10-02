@@ -18,7 +18,7 @@ export default class AdmissionDetailsUG extends Component {
     super(props);
     this.state = {
       university: "",
-      nomanclaure: "",
+      nomenclature: "",
       specialization: "",
       //marksObtained: "",
       //totalMarks: "",
@@ -36,7 +36,7 @@ export default class AdmissionDetailsUG extends Component {
       disabled: false,
 
       errorUniversity: false,
-      errorNomanclaure: false,
+      errorNomenclature: false,
       errorSpecialization: false,
       //errorMarksObtained: false,
       //errorTotalMarks: false,
@@ -130,10 +130,10 @@ export default class AdmissionDetailsUG extends Component {
       ? this.setState({ errorUniversity: true })
       : this.setState({ errorUniversity: false });
 
-    var n = this.state.nomanclaure.replace(/ /g, "");
+    var n = this.state.nomenclature.replace(/ /g, "");
     n === ""
-      ? this.setState({ errorNomanclaure: true })
-      : this.setState({ errorNomanclaure: false });
+      ? this.setState({ errorNomenclature: true })
+      : this.setState({ errorNomenclature: false });
 
     var sp = this.state.specialization.replace(/ /g, "");
     sp === ""
@@ -183,7 +183,7 @@ export default class AdmissionDetailsUG extends Component {
       if (
         !this.state.ug.error &&
         this.state.errorUniversity === false &&
-        this.state.errorNomanclaure === false &&
+        this.state.errorNomenclature === false &&
         this.state.errorSpecialization === false &&
         //this.state.errorMarksObtained === false &&
         //this.state.errorTotalMarks === false &&
@@ -209,7 +209,7 @@ export default class AdmissionDetailsUG extends Component {
         }
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsUG.institute = this.state.university;
-        this.props.data.academicsUG.degree = this.state.nomanclaure;
+        this.props.data.academicsUG.degree = this.state.nomenclature;
         this.props.data.academicsUG.specialization = this.state.specialization;
         //this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
         //this.props.data.academicsUG.totalMarks = this.state.totalMarks;
@@ -265,7 +265,7 @@ export default class AdmissionDetailsUG extends Component {
                 university: res.data.user.academicsUG.institute
                   ? res.data.user.academicsUG.institute
                   : "",
-                nomanclaure: res.data.user.academicsUG.degree
+                nomenclature: res.data.user.academicsUG.degree
                   ? res.data.user.academicsUG.degree
                   : "",
                 specialization: res.data.user.academicsUG.specialization
@@ -387,9 +387,9 @@ export default class AdmissionDetailsUG extends Component {
                 </div>
                 <div className="popUpField">
                   <div>
-                    <Typography>Nomanclaure of Degree :</Typography>
+                    <Typography>Nomenclature of Degree :</Typography>
                   </div>
-                  <div>{this.state.nomanclaure}</div>
+                  <div>{this.state.nomenclature}</div>
                 </div>
 
                 <div className="popUpField">
@@ -487,25 +487,25 @@ export default class AdmissionDetailsUG extends Component {
                 </div>
               )}
             </div>
-            {/* 2. Nomanclaure of Degree  */}
+            {/* 2. Nomenclature of Degree  */}
             <div style={{ marginBottom: "12px" }}>
-              <Typography>Nomanclaure of Degree</Typography>
+              <Typography>Nomenclature of Degree</Typography>
               <TextField
                 disabled={this.state.disabled}
                 className="mb-3"
                 fullWidth
                 onChange={this.handleChange}
-                value={this.state.nomanclaure}
-                name="nomanclaure"
-                label="Nomanclaure of Degree"
+                value={this.state.nomenclature}
+                name="nomenclature"
+                label="Nomenclature of Degree"
                 variant="outlined"
                 required
                 style={{ marginTop: "8px" }}
               />
-              {this.state.errorNomanclaure && (
+              {this.state.errorNomenclature && (
                 <div style={{ color: "red" }}>
                   <Typography>
-                    Nomanclaure of degree is required field
+                    Nomenclature of degree is required field
                   </Typography>
                 </div>
               )}
