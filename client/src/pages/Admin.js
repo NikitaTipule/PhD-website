@@ -19,11 +19,13 @@ import Sidebar from "../components/Sidebar";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { MobileView, BrowserView } from "react-device-detect";
+import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
 
 class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      allStudentData: [],
       AllPhdcords: [],
       logout: false,
       page: 0,
@@ -64,6 +66,22 @@ class Admin extends Component {
                   });
                   // console.log(response.data)
                 });
+
+                try {
+                  axios
+                    .get(BACKEND_URL + "/phdCords/getAllStudents",{
+                      headers: {"phd-website-jwt": this.state.token},
+                    })
+                    .then((response) => {
+                      //console.log(response.data);
+                      this.setState({
+                        allStudentData: response.data
+                      })
+                    })
+                }
+                catch(err) {
+                  console.log(err.message)
+                }
             } catch (err) {
               console.log(err.message);
             }
@@ -104,6 +122,33 @@ class Admin extends Component {
       state: { details: id },
     });
   }
+
+  exportToExcel = () => {
+    const otherData = [];
+    this.state.allStudentData.forEach((student) => {
+      const { personalInfo, name, feeDetails, ...otherProp } = student;
+      const { docUploaded, ...otherDetails } = feeDetails;
+      const { category } = personalInfo;
+      otherData.push({ name, category, ...otherDetails });
+    });
+    const XLSX = require("xlsx");
+    const workSheet = XLSX.utils.json_to_sheet(otherData);
+    workSheet["!cols"] = [
+      { wch: 40 },
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 25 },
+      { wch: 30 },
+      { wch: 10 },
+      { wch: 10 },
+    ];
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
+    XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workBook, "All Students Data.xlsx");
+  };
 
   render() {
     let count = 0;
@@ -205,6 +250,16 @@ class Admin extends Component {
                       </Grid>
                     </Grid>
                   </div>
+                </div>
+              </div>
+              <div onClick={() => this.exportToExcel()} style={{display:"flex", flexDirection:"row", marginLeft:"35%",marginRight:"35"}}>
+                <div>
+                  DOWNLOAD DATA OF ALL STUDENTS
+                </div>
+                <div>
+                  <CloudDownloadTwoToneIcon
+                    cursor={"pointer"}
+                  />
                 </div>
               </div>
               {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>

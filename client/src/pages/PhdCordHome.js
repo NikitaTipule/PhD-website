@@ -62,6 +62,7 @@ class PhdCordHome extends Component {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
       });
+      console.log(localStorage.getItem("phd-website-jwt"),localStorage.getItem("phd-website-role"))
       if (localStorage.getItem("phd-website-role") === "admin") {
         try {
           await axios
