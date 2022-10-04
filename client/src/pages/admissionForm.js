@@ -62,6 +62,9 @@ export default class admissionForm extends Component {
         cgpa10: "",
         percentageMarks: "",
         dateofDeclaration: "",
+        specialization: "",
+        otherSpecialization: "",
+        otherDegree: ""
       },
 
       academicsPG: {
@@ -73,7 +76,8 @@ export default class admissionForm extends Component {
         percentageMarks: "",
         dateofDeclaration: "",
         specialization:"",
-        otherSpecialization:""
+        otherSpecialization:"",
+        otherDegree: ""
       },
 
       entranceDetails: {

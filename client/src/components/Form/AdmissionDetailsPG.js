@@ -310,7 +310,7 @@ export default class AdmissionDetailsPG extends Component {
 
   render() {
     
-    console.log(this.state.specialization,this.state.otherSpecialization)
+    
     const dropdown_options = [
       "OPEN(General)",
       "OBC",
