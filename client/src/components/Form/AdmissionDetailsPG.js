@@ -55,6 +55,11 @@ export default class AdmissionDetailsPG extends Component {
       specialization: event.value,
     })};
 
+  onChangeNomenclature = (event) => {
+    this.setState({
+      nomenclature: event.value,
+    })};
+
   // FUNCTIONS FOR FILE DATA
   onFileChange = async (event) => {
     await this.setState({ selectedFile: event.target.files[0] });
@@ -310,7 +315,7 @@ export default class AdmissionDetailsPG extends Component {
 
   render() {
     
-    console.log(this.state.specialization,this.state.otherSpecialization)
+    // console.log(this.state.specialization,this.state.otherSpecialization)
     const dropdown_options = [
       "OPEN(General)",
       "OBC",
@@ -321,6 +326,18 @@ export default class AdmissionDetailsPG extends Component {
       "EWS",
       "OTHER"
     ];
+
+    const dropdown_options_nomenclature = [
+      "OPEN(General)",
+      "OBC",
+      "ST",
+      "SC",
+      "NT",
+      "VJNT",
+      "EWS",
+      "OTHER"
+    ];
+
     const theme = createTheme({
       status: {
         danger: "#e53e3e",
@@ -474,7 +491,7 @@ export default class AdmissionDetailsPG extends Component {
               )}
             </div>
             {/* 2. Nomenclature of Degree  */}
-            <div style={{ marginBottom: "12px" }}>
+            {/* <div style={{ marginBottom: "12px" }}>
               <Typography>Nomenclature of Degree</Typography>
               <TextField
                 disabled={this.state.disabled}
@@ -495,7 +512,28 @@ export default class AdmissionDetailsPG extends Component {
                   </Typography>
                 </div>
               )}
-            </div>
+            </div> */}
+            
+            <div className="formNumber" style={{ marginLeft : "0%"}}>
+                <Typography style={{ marginBottom: "12px"}}>
+                  Nomenclature of Degree
+                </Typography>
+                <DropDown
+                  disabled={this.state.disabled}
+                  options={dropdown_options_nomenclature}
+                  name="nomenclature"
+                  value={this.state.nomenclature}
+                  onChange={this.onChangeNomenclature}
+                  placeholder="Select specialization branch"
+                />
+
+{this.state.errorNomenclature && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select specialization</Typography>
+                  </div>
+                )}
+              </div>
+
             {/* 3. Specialization Branch  */}
             <div className="formNumber" style={{ marginLeft : "0%"}}>
                 <Typography style={{ marginBottom: "12px"}}>
@@ -524,6 +562,7 @@ export default class AdmissionDetailsPG extends Component {
                 <TextField
                   className="mb-3"
                   fullWidth
+                  required
                   onChange={this.handleChange}
                   value={this.state.otherSpecialization}
                   name="otherSpecialization"
