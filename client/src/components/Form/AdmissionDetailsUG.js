@@ -25,6 +25,7 @@ export default class AdmissionDetailsUG extends Component {
       cgpa: "",
       percentage: "",
       dateOfDeclaration: "",
+      otherSpecialization:"",
       confirmAlert: false,
 
       ug: { name: docType.ug, error: false, display: true },
@@ -38,6 +39,7 @@ export default class AdmissionDetailsUG extends Component {
       errorUniversity: false,
       errorNomenclature: false,
       errorSpecialization: false,
+      errorOtherSpecialization: false,
       //errorMarksObtained: false,
       //errorTotalMarks: false,
       errorCGPA: false,
@@ -135,6 +137,10 @@ export default class AdmissionDetailsUG extends Component {
       ? this.setState({ errorUniversity: true })
       : this.setState({ errorUniversity: false });
 
+      this.state.otherSpecialization.replace(/ /g, "") === ""
+      ? this.setState({ errorOtherSpecialization: true })
+      : this.setState({ errorOtherSpecialization: false });
+
     var n = this.state.nomenclature.replace(/ /g, "");
     n === ""
       ? this.setState({ errorNomenclature: true })
@@ -190,6 +196,8 @@ export default class AdmissionDetailsUG extends Component {
         this.state.errorUniversity === false &&
         this.state.errorNomenclature === false &&
         this.state.errorSpecialization === false &&
+        ((this.state.errorSpecialization === false && this.state.specialization != 'OTHER') 
+        || (this.state.specialization === "OTHER" && this.state.otherSpecialization)) &&
         //this.state.errorMarksObtained === false &&
         //this.state.errorTotalMarks === false &&
         this.state.errorCGPA === false &&
@@ -216,6 +224,7 @@ export default class AdmissionDetailsUG extends Component {
         this.props.data.academicsUG.institute = this.state.university;
         this.props.data.academicsUG.degree = this.state.nomenclature;
         this.props.data.academicsUG.specialization = this.state.specialization;
+        this.props.data.academicsUG.otherSpecialization = this.state.otherSpecialization;
         //this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
         //this.props.data.academicsUG.totalMarks = this.state.totalMarks;
         this.props.data.academicsUG.cgpa10 = this.state.cgpa;
@@ -297,6 +306,10 @@ export default class AdmissionDetailsUG extends Component {
                 verification: res.data.user.academicsUG.verification
                   ? res.data.user.academicsUG.verification
                   : "",
+
+                  otherSpecialization: res.data.user.academicsUG.otherSpecialization
+                  ? res.data.user.academicsUG.otherSpecialization
+                  : "",
               });
             this.setState({ editable: res.data.user.editable });
             res.data.user.editable &&
@@ -327,6 +340,7 @@ export default class AdmissionDetailsUG extends Component {
       "NT",
       "VJNT",
       "EWS",
+      "OTHER"
     ];
 
     const dropdown_options_nomenclature = [
@@ -559,11 +573,38 @@ export default class AdmissionDetailsUG extends Component {
                   onChange={this.onChangeSpecialization}
                   placeholder="Select specialization branch"
                 />
-                {this.state.errorSpecialization && (
+                {(() => {
+                  if(this.state.errorSpecialization && (
+                    <div style={{ color: "red" }}>
+                              <Typography>Please select specialization</Typography>
+                            </div>
+                  )){
+                    
+                  }
+        if(this.state.specialization==="OTHER"){
+          return(
+            <div>
+              <Typography>Please enter your other specialization</Typography>
+                <TextField
+                  className="mb-3"
+                  fullWidth
+                  required
+                  onChange={this.handleChange}
+                  value={this.state.otherSpecialization}
+                  name="otherSpecialization"
+                  label="Other Specialization Field"
+                  variant="outlined"
+                  style={{ marginTop: "8px" }}
+                />
+                {this.state.errorOtherSpecialization && (
                   <div style={{ color: "red" }}>
-                    <Typography>Please select specialization</Typography>
+                    <Typography>Please enter other specialization</Typography>
                   </div>
                 )}
+              </div>
+          )
+        }
+      })()}
               </div>
             {/* <div style={{ marginBottom: "12px" }}>
               <Typography>Specialization Branch</Typography>

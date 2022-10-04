@@ -313,9 +313,7 @@ export default class AdmissionDetailsPG extends Component {
     }
   }
 
-  render() {
-    
-    // console.log(this.state.specialization,this.state.otherSpecialization)
+  render() {   
     const dropdown_options = [
       "OPEN(General)",
       "OBC",
@@ -513,7 +511,7 @@ export default class AdmissionDetailsPG extends Component {
                 </div>
               )}
             </div> */}
-            
+
             <div className="formNumber" style={{ marginLeft : "0%"}}>
                 <Typography style={{ marginBottom: "12px"}}>
                   Nomenclature of Degree

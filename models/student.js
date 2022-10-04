@@ -37,6 +37,7 @@ const academicsUG = {
   institute: { type: String },
   degree: { type: String },
   specialization: { type: String },
+  otherSpecialization : {type: String},
   // marksFinalYear: { type: Number },
   //totalAggregate: { type: Number },
   //totalMarks: { type: Number },
@@ -45,6 +46,7 @@ const academicsUG = {
   dateOfDeclaration: { type: Date },
   verification: verificationField,
   remarks: { type: String, default: "" },
+  otherDegree : {type: String},
   
 };
 
@@ -61,6 +63,7 @@ const academicsPG = {
   dateOfDeclaration: { type: Date },
   verification: verificationField,
   remarks: { type: String, default: "" },
+  otherDegree : {type: String},
 };
 
 const entranceDetails = {
