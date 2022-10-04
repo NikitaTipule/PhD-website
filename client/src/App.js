@@ -48,6 +48,12 @@ function App() {
           exact
         ></ProtectedRoute>
         <ProtectedRoute
+          allowedRoles={[roles.admin]}
+          path="/candidate-list"
+          component={PhdCordHome}
+          exact
+        ></ProtectedRoute>
+        <ProtectedRoute
           allowedRoles={[roles.phdCord, roles.admin]}
           path="/coform"
           component={phdCordForm}

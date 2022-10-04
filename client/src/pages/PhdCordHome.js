@@ -43,6 +43,7 @@ class PhdCordHome extends Component {
       flag: true,
       id: "",
       role: localStorage.getItem("phd-website-role"),
+      isAllList: false,
     };
   }
 
@@ -62,58 +63,97 @@ class PhdCordHome extends Component {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
       });
-      console.log(localStorage.getItem("phd-website-jwt"),localStorage.getItem("phd-website-role"))
+      console.log(
+        localStorage.getItem("phd-website-jwt"),
+        localStorage.getItem("phd-website-role")
+      );
       if (localStorage.getItem("phd-website-role") === "admin") {
-        try {
-          await axios
-            .get(BACKEND_URL + "/phdCords/" + id_phd, {
-              headers: { "phd-website-jwt": this.state.token },
-            })
-            .then((res) => {
-              console.log(res);
-              this.setState({
-                name: res.data.user.name,
-                email: res.data.user.email,
-                mis: res.data.user.mis,
-                department: res.data.user.department,
+        if (!id_phd) {
+          this.setState({
+            isAllList: true,
+          });
+          try {
+            axios
+              .get(BACKEND_URL + "/staff/me", {
+                headers: { "phd-website-jwt": this.state.token },
+              })
+              .then((res) => {
+                this.setState({
+                  name: res.data.user.name,
+                  email: res.data.user.email,
+                  mis: res.data.user.mis,
+                  department: res.data.user.department,
+                });
               });
-              try {
-                axios
-                  .get(
-                    BACKEND_URL +
-                      "/students/department/" +
-                      this.state.department,
-                    { headers: { "phd-website-jwt": this.state.token } }
-                  )
-                  .then((response) => {
-                    this.setState({
-                      studentData: response.data,
-                      length: response.data.length,
-                    });
-                  });
+            axios
+              .get(BACKEND_URL + "/phdCords/getAllStudents", {
+                headers: { "phd-website-jwt": this.state.token },
+              })
+              .then((response) => {
+                //console.log(response.data);
+                this.setState({
+                  allStudentData: response.data,
+                });
+                this.setState({
+                  studentData: response.data,
+                  length: response.data.length,
+                });
+              });
+          } catch (err) {
+            console.log(err.message);
+          }
+        } else {
+          try {
+            await axios
+              .get(BACKEND_URL + "/phdCords/" + id_phd, {
+                headers: { "phd-website-jwt": this.state.token },
+              })
+              .then((res) => {
+                console.log(res);
+                this.setState({
+                  name: res.data.user.name,
+                  email: res.data.user.email,
+                  mis: res.data.user.mis,
+                  department: res.data.user.department,
+                });
                 try {
                   axios
                     .get(
                       BACKEND_URL +
-                        "/students/departmentinfo/" +
+                        "/students/department/" +
                         this.state.department,
                       { headers: { "phd-website-jwt": this.state.token } }
                     )
-                    .then((res) => {
+                    .then((response) => {
                       this.setState({
-                        allStudentData: res.data,
+                        studentData: response.data,
+                        length: response.data.length,
                       });
-                      console.log(res.data);
                     });
+                  try {
+                    axios
+                      .get(
+                        BACKEND_URL +
+                          "/students/departmentinfo/" +
+                          this.state.department,
+                        { headers: { "phd-website-jwt": this.state.token } }
+                      )
+                      .then((res) => {
+                        this.setState({
+                          allStudentData: res.data,
+                        });
+                        console.log(res.data);
+                      });
+                  } catch (err) {
+                    console.log(err.message);
+                  }
                 } catch (err) {
                   console.log(err.message);
                 }
-              } catch (err) {
-                console.log(err.message);
-              }
-            });
-        } catch (error) {
-          console.log(error.message);
+              });
+          } catch (error) {
+            console.log(error.message);
+          }
         }
       } else {
         try {
@@ -415,7 +455,11 @@ class PhdCordHome extends Component {
                     alignItems: "center",
                   }}
                 >
-                  <h1 className="textBetween">Co-Ordinator Information</h1>
+                  {this.state.isAllList ? (
+                    <h1 className="textBetween">All Candidates List</h1>
+                  ) : (
+                    <h1 className="textBetween">Co-Ordinator Information</h1>
+                  )}
                 </div>
                 <div
                   style={{
@@ -424,38 +468,40 @@ class PhdCordHome extends Component {
                     alignItems: "center",
                   }}
                 >
-                  <div className="box">
-                    <Grid container className="container-box">
-                      <Grid item xs={12} md={6} className="grid-item">
-                        <p style={{ fontSize: "20px" }}>
-                          <b style={{ fontWeight: 600 }}>Name : </b>
-                          {"   "}
-                          {this.state.name}
-                        </p>
+                  {!this.state.isAllList && (
+                    <div className="box">
+                      <Grid container className="container-box">
+                        <Grid item xs={12} md={6} className="grid-item">
+                          <p style={{ fontSize: "20px" }}>
+                            <b style={{ fontWeight: 600 }}>Name : </b>
+                            {"   "}
+                            {this.state.name}
+                          </p>
+                        </Grid>
+                        <Grid item xs={12} md={6} className="grid-item">
+                          <p style={{ fontSize: "20px" }}>
+                            <b style={{ fontWeight: 600 }}>Email : </b>
+                            {"   "}
+                            {this.state.email}
+                          </p>
+                        </Grid>
+                        <Grid item xs={12} md={6} className="grid-item">
+                          <p style={{ fontSize: "20px" }}>
+                            <b style={{ fontWeight: 600 }}>Mis : </b>
+                            {"   "}
+                            {this.state.mis}
+                          </p>
+                        </Grid>
+                        <Grid item xs={12} md={6} className="grid-item">
+                          <p style={{ fontSize: "20px" }}>
+                            <b style={{ fontWeight: 600 }}>Department: </b>
+                            {"   "}
+                            {this.state.department}
+                          </p>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} md={6} className="grid-item">
-                        <p style={{ fontSize: "20px" }}>
-                          <b style={{ fontWeight: 600 }}>Email : </b>
-                          {"   "}
-                          {this.state.email}
-                        </p>
-                      </Grid>
-                      <Grid item xs={12} md={6} className="grid-item">
-                        <p style={{ fontSize: "20px" }}>
-                          <b style={{ fontWeight: 600 }}>Mis : </b>
-                          {"   "}
-                          {this.state.mis}
-                        </p>
-                      </Grid>
-                      <Grid item xs={12} md={6} className="grid-item">
-                        <p style={{ fontSize: "20px" }}>
-                          <b style={{ fontWeight: 600 }}>Department: </b>
-                          {"   "}
-                          {this.state.department}
-                        </p>
-                      </Grid>
-                    </Grid>
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
               {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>
