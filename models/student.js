@@ -52,6 +52,7 @@ const academicsPG = {
   institute: { type: String },
   degree: { type: String },
   specialization: { type: String },
+  otherSpecialization: {type:String},
   // marksFinalYear: { type: Number },
   //totalAggregate: { type: Number },
   //totalMarks: { type: Number },

@@ -25,7 +25,7 @@ export default class AdmissionDetailsPG extends Component {
       cgpa: "",
       percentage: "",
       confirmAlert: false,
-      otherspe: false,
+      otherSpecialization:"",
 
       pg: { name: docType.pg, error: false, display: true },
 
@@ -38,6 +38,7 @@ export default class AdmissionDetailsPG extends Component {
       errorUniversity: false,
       errorNomenclature: false,
       errorSpecialization: false,
+      errorOtherSpecialization: false,
       //errorMarksObtained: false,
       //errorTotalMarks: false,
       errorCGPA: false,
@@ -129,6 +130,10 @@ export default class AdmissionDetailsPG extends Component {
       ? this.setState({ errorNomenclature: true })
       : this.setState({ errorNomenclature: false });
 
+    this.state.otherSpecialization.replace(/ /g, "") === ""
+    ? this.setState({ errorOtherSpecialization: true })
+    : this.setState({ errorOtherSpecialization: false });
+
       this.state.specialization.replace(/ /g, "") === ""
       ? this.setState({ errorSpecialization: true })
       : this.setState({ errorSpecialization: false });
@@ -158,7 +163,6 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onSubmit = async (event) => {
-    console.log(this.props.entire);
     if (this.state.disabled) {
       this.props.entire === "no"
         ? this.props.nextStep(3)
@@ -168,12 +172,13 @@ export default class AdmissionDetailsPG extends Component {
       if (
         this.state.errorUniversity === false &&
         this.state.errorNomenclature === false &&
-        this.state.errorSpecialization === false &&
+        ((this.state.errorSpecialization === false && this.state.specialization != 'OTHER') 
+        || (this.state.specialization === "OTHER" && this.state.otherSpecialization)) &&
         //this.state.errorMarksObtained === false &&
         //this.state.errorTotalMarks === false &&
         this.state.errorCGPA === false &&
-        this.state.errorPercentage === false
-      ) {
+        this.state.errorPercentage === false 
+        ) {
         if (!this.state.disabled) {
           const documentsUploaded = {
             documentsUploaded: this.state.documentsUploaded,
@@ -194,10 +199,12 @@ export default class AdmissionDetailsPG extends Component {
         this.props.data.academicsPG.institute = this.state.university;
         this.props.data.academicsPG.degree = this.state.nomenclature;
         this.props.data.academicsPG.specialization = this.state.specialization;
+        this.props.data.academicsPG.otherSpecialization = this.state.otherSpecialization;
         // this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
         // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
         this.props.data.academicsPG.cgpa10 = this.state.cgpa;
         this.props.data.academicsPG.percentageMarks = this.state.percentage;
+        this.props.data.academicsPG.otherSpecialization = this.state.otherSpecialization;
       }
     }
   };
@@ -258,6 +265,10 @@ export default class AdmissionDetailsPG extends Component {
                 specialization: res.data.user.academicsPG.specialization
                   ? res.data.user.academicsPG.specialization
                   : "",
+
+                otherSpecialization: res.data.user.academicsPG.otherSpecialization
+                ? res.data.user.academicsPG.otherSpecialization
+                : "",
                 // marksObtained: res.data.user.academicsPG.totalAggregate
                 //   ? res.data.user.academicsPG.totalAggregate
                 //   : "",
@@ -298,6 +309,8 @@ export default class AdmissionDetailsPG extends Component {
   }
 
   render() {
+    
+    console.log(this.state.specialization,this.state.otherSpecialization)
     const dropdown_options = [
       "OPEN(General)",
       "OBC",
@@ -497,6 +510,13 @@ export default class AdmissionDetailsPG extends Component {
                   placeholder="Select specialization branch"
                 />
                 {(() => {
+                  if(this.state.errorSpecialization && (
+                    <div style={{ color: "red" }}>
+                              <Typography>Please select specialization</Typography>
+                            </div>
+                  )){
+                    
+                  }
         if(this.state.specialization==="OTHER"){
           return(
             <div>
@@ -505,21 +525,19 @@ export default class AdmissionDetailsPG extends Component {
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
-                  value={this.state.specialization}
-                  name="Other Specialization Field"
+                  value={this.state.otherSpecialization}
+                  name="otherSpecialization"
                   label="Other Specialization Field"
                   variant="outlined"
                   style={{ marginTop: "8px" }}
                 />
+                {this.state.errorOtherSpecialization && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please enter other specialization</Typography>
+                  </div>
+                )}
               </div>
           )
-        }
-        else if(this.state.errorSpecialization && (
-          <div style={{ color: "red" }}>
-                    <Typography>Please select specialization</Typography>
-                  </div>
-        )){
-          
         }
       })()}
                 
