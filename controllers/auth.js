@@ -49,9 +49,7 @@ exports.registerStudent = (req, res) => {
           req.body.userId = user._id;
           return sendOtp(req, res, email);
         })
-        .catch((err) =>
-          res.status(400).json({ error: err.message })
-        );
+        .catch((err) => res.status(400).json({ error: err.message }));
     })
     .catch((err) => {
       console.log(err);
@@ -62,32 +60,46 @@ exports.registerStudent = (req, res) => {
 const sendOtp = async (req, res, email) => {
   const userId = req.body.userId;
   MailOtp.deleteMany({ userId });
-  PhoneOtp.deleteMany({ userId });
+  // PhoneOtp.deleteMany({ userId });
 
   const mailToken = new MailOtp({
     userId,
     otp: Math.floor(Math.random() * 899999 + 100000),
   });
-  const phoneToken = new PhoneOtp({
-    userId,
-    otp: Math.floor(Math.random() * 899999 + 100000),
-  });
-  Promise.all([mailToken.save(), phoneToken.save()])
+  // const phoneToken = new PhoneOtp({
+  //   userId,
+  //   otp: Math.floor(Math.random() * 899999 + 100000),
+  // });
+  // Promise.all([mailToken.save(), phoneToken.save()])
+  //   .then(() => {
+  //     const msg1 = `otp for mail verification is ${mailToken.otp}`;
+  //     console.log(msg1);
+  //     sendEmail(email, msg1);
+  //     const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
+  //     console.log(msg2);
+  //     sendSMS(req.body.email, msg2);
+  //     res.send({
+  //       userId,
+  //       message:
+  //         //"OTP is sent to your email and mobile number. Please verify both",
+  //     });
+  //   })
+  //   .catch((err) => { console.log(err.message); res.status(500).json({ error: err.message }) });
+  mailToken
+    .save()
     .then(() => {
       const msg1 = `otp for mail verification is ${mailToken.otp}`;
       console.log(msg1);
       sendEmail(email, msg1);
-      const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
-      console.log(msg2);
-      // sendSMS(req.body.email, msg2);
       res.send({
         userId,
-        message:
-          //"OTP is sent to your email and mobile number. Please verify both",
-          "OTP is sent to your email. Please verify !",
+        message: "OTP is sent to your email. Please verify !",
       });
     })
-    .catch((err) => {console.log(err.message); res.status(500).json({ error: err.message })});
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).json({ error: err.message });
+    });
 };
 
 exports.sendOtp = sendOtp;
