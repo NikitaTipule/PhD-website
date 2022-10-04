@@ -19,6 +19,7 @@ export default class AdmissionDetailsPG extends Component {
     this.state = {
       university: "",
       nomenclature: "",
+      otherNomenclature: "",
       specialization: "",
       //marksObtained: "",
       //totalMarks: "",
@@ -37,6 +38,7 @@ export default class AdmissionDetailsPG extends Component {
 
       errorUniversity: false,
       errorNomenclature: false,
+      errorOtherNomenclature: false,
       errorSpecialization: false,
       errorOtherSpecialization: false,
       //errorMarksObtained: false,
@@ -135,11 +137,15 @@ export default class AdmissionDetailsPG extends Component {
       ? this.setState({ errorNomenclature: true })
       : this.setState({ errorNomenclature: false });
 
+    this.state.otherNomenclature.replace(/ /g, "") === ""
+      ? this.setState({ errorOtherNomenclature: true })
+      : this.setState({ errorOtherNomenclature: false });
+  
     this.state.otherSpecialization.replace(/ /g, "") === ""
     ? this.setState({ errorOtherSpecialization: true })
     : this.setState({ errorOtherSpecialization: false });
 
-      this.state.specialization.replace(/ /g, "") === ""
+    this.state.specialization.replace(/ /g, "") === ""
       ? this.setState({ errorSpecialization: true })
       : this.setState({ errorSpecialization: false });
 
@@ -176,9 +182,12 @@ export default class AdmissionDetailsPG extends Component {
       await this.validateData();
       if (
         this.state.errorUniversity === false &&
-        this.state.errorNomenclature === false &&
+
         ((this.state.errorSpecialization === false && this.state.specialization != 'OTHER') 
         || (this.state.specialization === "OTHER" && this.state.otherSpecialization)) &&
+
+        ((this.state.errorNomenclature === false && this.state.nomenclature != 'OTHER') 
+        || (this.state.nomenclature === "OTHER" && this.state.otherNomenclature)) &&
         //this.state.errorMarksObtained === false &&
         //this.state.errorTotalMarks === false &&
         this.state.errorCGPA === false &&
@@ -204,12 +213,13 @@ export default class AdmissionDetailsPG extends Component {
         this.props.data.academicsPG.institute = this.state.university;
         this.props.data.academicsPG.degree = this.state.nomenclature;
         this.props.data.academicsPG.specialization = this.state.specialization;
-        this.props.data.academicsPG.otherSpecialization = this.state.otherSpecialization;
         // this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
         // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
         this.props.data.academicsPG.cgpa10 = this.state.cgpa;
         this.props.data.academicsPG.percentageMarks = this.state.percentage;
+
         this.props.data.academicsPG.otherSpecialization = this.state.otherSpecialization;
+        this.props.data.academicsPG.otherDegree = this.state.otherNomenclature;
       }
     }
   };
@@ -273,6 +283,10 @@ export default class AdmissionDetailsPG extends Component {
 
                 otherSpecialization: res.data.user.academicsPG.otherSpecialization
                 ? res.data.user.academicsPG.otherSpecialization
+                : "",
+
+                otherNomenclature: res.data.user.academicsPG.otherDegree
+                ? res.data.user.academicsPG.otherDegree
                 : "",
                 // marksObtained: res.data.user.academicsPG.totalAggregate
                 //   ? res.data.user.academicsPG.totalAggregate
@@ -400,13 +414,13 @@ export default class AdmissionDetailsPG extends Component {
                   <div>
                     <Typography>Nomenclature of Degree :</Typography>
                   </div>
-                  <div>{this.state.nomencltaure}</div>
+                  <div>{this.state.nomenclature}{" "} {this.state.otherNomenclature}</div>
                 </div>
                 <div className="popUpField">
                   <div>
                     <Typography>Specialization :</Typography>
                   </div>
-                  <div>{this.state.specialization}</div>
+                  <div>{this.state.specialization}{" "}{this.state.otherSpecialization}</div>
                 </div>
                 {/* <div className="popUpField">
                   <div>
@@ -531,6 +545,38 @@ export default class AdmissionDetailsPG extends Component {
                   </div>
                 )}
               </div>
+              {(() => {
+                  if(this.state.errorNomenclature && (
+                    <div style={{ color: "red" }}>
+                              <Typography>Please select Nomenclature</Typography>
+                            </div>
+                  )){
+                    
+                  }
+        if(this.state.nomenclature==="OTHER"){
+          return(
+            <div>
+              <Typography>Please enter your other nomenclature</Typography>
+                <TextField
+                  className="mb-3"
+                  fullWidth
+                  required
+                  onChange={this.handleChange}
+                  value={this.state.otherNomenclature}
+                  name="otherNomenclature"
+                  label="Other Nomenclature Field"
+                  variant="outlined"
+                  style={{ marginTop: "8px" }}
+                />
+                {this.state.errorOtherNomenclature && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please enter other nomenclature</Typography>
+                  </div>
+                )}
+              </div>
+          )
+        }
+      })()}
 
             {/* 3. Specialization Branch  */}
             <div className="formNumber" style={{ marginLeft : "0%"}}>
@@ -686,7 +732,7 @@ export default class AdmissionDetailsPG extends Component {
           <Table>
             <TableBody>
               <div>
-                {/* UG Marksheet */}
+                {/* PG Marksheet */}
                 {this.state.pg.display ? (
                   <div>
                     <div className="field">
