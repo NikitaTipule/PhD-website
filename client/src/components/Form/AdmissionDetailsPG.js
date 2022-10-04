@@ -25,6 +25,7 @@ export default class AdmissionDetailsPG extends Component {
       cgpa: "",
       percentage: "",
       confirmAlert: false,
+      otherspe: false,
 
       pg: { name: docType.pg, error: false, display: true },
 
@@ -305,6 +306,7 @@ export default class AdmissionDetailsPG extends Component {
       "NT",
       "VJNT",
       "EWS",
+      "OTHER"
     ];
     const theme = createTheme({
       status: {
@@ -494,11 +496,33 @@ export default class AdmissionDetailsPG extends Component {
                   onChange={this.onChangeSpecialization}
                   placeholder="Select specialization branch"
                 />
-                {this.state.errorSpecialization && (
-                  <div style={{ color: "red" }}>
+                {(() => {
+        if(this.state.specialization==="OTHER"){
+          return(
+            <div>
+              <Typography>Please enter your other specialization</Typography>
+                <TextField
+                  className="mb-3"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.specialization}
+                  name="Other Specialization Field"
+                  label="Other Specialization Field"
+                  variant="outlined"
+                  style={{ marginTop: "8px" }}
+                />
+              </div>
+          )
+        }
+        else if(this.state.errorSpecialization && (
+          <div style={{ color: "red" }}>
                     <Typography>Please select specialization</Typography>
                   </div>
-                )}
+        )){
+          
+        }
+      })()}
+                
               </div>
             {/*
              * 4. Marks Obtained
