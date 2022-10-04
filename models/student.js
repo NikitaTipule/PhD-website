@@ -37,7 +37,6 @@ const academicsUG = {
   institute: { type: String },
   degree: { type: String },
   specialization: { type: String },
-  otherSpecialization : {type: String},
   // marksFinalYear: { type: Number },
   //totalAggregate: { type: Number },
   //totalMarks: { type: Number },
@@ -45,16 +44,13 @@ const academicsUG = {
   percentageMarks: { type: Number },
   dateOfDeclaration: { type: Date },
   verification: verificationField,
-  remarks: { type: String, default: "" },
-  otherDegree : {type: String},
-  
+  remarks: { type: String, default: "" },  
 };
 
 const academicsPG = {
   institute: { type: String },
   degree: { type: String },
   specialization: { type: String },
-  otherSpecialization: {type:String},
   // marksFinalYear: { type: Number },
   //totalAggregate: { type: Number },
   //totalMarks: { type: Number },
@@ -63,7 +59,7 @@ const academicsPG = {
   dateOfDeclaration: { type: Date },
   verification: verificationField,
   remarks: { type: String, default: "" },
-  otherDegree : {type: String},
+
 };
 
 const entranceDetails = {

@@ -227,11 +227,9 @@ export default class AdmissionDetailsUG extends Component {
         }
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsUG.institute = this.state.university;
-        this.props.data.academicsUG.degree = this.state.nomenclature;
-        this.props.data.academicsUG.specialization = this.state.specialization;
-        this.props.data.academicsUG.otherSpecialization = this.state.otherSpecialization;
-
-        this.props.data.academicsUG.otherDegree = this.state.otherNomenclature;
+        this.props.data.academicsUG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
+        this.props.data.academicsUG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
+        
         //this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
         //this.props.data.academicsUG.totalMarks = this.state.totalMarks;
         this.props.data.academicsUG.cgpa10 = this.state.cgpa;
@@ -314,12 +312,6 @@ export default class AdmissionDetailsUG extends Component {
                   ? res.data.user.academicsUG.verification
                   : "",
 
-                  otherSpecialization: res.data.user.academicsUG.otherSpecialization
-                  ? res.data.user.academicsUG.otherSpecialization
-                  : "",
-                  otherNomenclature: res.data.user.academicsUG.otherDegree
-                  ? res.data.user.academicsUG.otherDegree
-                  : "",
               });
             this.setState({ editable: res.data.user.editable });
             res.data.user.editable &&

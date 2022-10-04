@@ -211,15 +211,12 @@ export default class AdmissionDetailsPG extends Component {
         }
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsPG.institute = this.state.university;
-        this.props.data.academicsPG.degree = this.state.nomenclature;
-        this.props.data.academicsPG.specialization = this.state.specialization;
+        this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
+        this.props.data.academicsPG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
         // this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
         // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
         this.props.data.academicsPG.cgpa10 = this.state.cgpa;
         this.props.data.academicsPG.percentageMarks = this.state.percentage;
-
-        this.props.data.academicsPG.otherSpecialization = this.state.otherSpecialization;
-        this.props.data.academicsPG.otherDegree = this.state.otherNomenclature;
       }
     }
   };
@@ -281,13 +278,7 @@ export default class AdmissionDetailsPG extends Component {
                   ? res.data.user.academicsPG.specialization
                   : "",
 
-                otherSpecialization: res.data.user.academicsPG.otherSpecialization
-                ? res.data.user.academicsPG.otherSpecialization
-                : "",
 
-                otherNomenclature: res.data.user.academicsPG.otherDegree
-                ? res.data.user.academicsPG.otherDegree
-                : "",
                 // marksObtained: res.data.user.academicsPG.totalAggregate
                 //   ? res.data.user.academicsPG.totalAggregate
                 //   : "",
