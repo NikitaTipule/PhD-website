@@ -148,6 +148,10 @@ export default class Disclaimer extends Component {
             that my admission stands cancelled and fees paid by me will be
             forfeited. Further, I will be subject to legal and/or penal action
             as per the provisions of the law.
+            <br />
+            <br />
+            (Please make sure that information that you've filled in Application
+            is correct. It can not be modified once you submit.)
           </div>
         </div>
 

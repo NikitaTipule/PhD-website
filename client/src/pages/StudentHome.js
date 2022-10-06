@@ -205,8 +205,9 @@ class StudentHome extends Component {
               gender: user.personalInfo.gender,
               category: user.personalInfo.category,
               physicallyDisabled: user.personalInfo.physicallyDisabled,
-              dob:
-                user.personalInfo.dob ? user.personalInfo.dob.slice(0, 10) : user.personalInfo.dob, 
+              dob: user.personalInfo.dob
+                ? user.personalInfo.dob.slice(0, 10)
+                : user.personalInfo.dob,
               mobile: user.mobile,
               cgpaUG: user.academicsUG.cgpa10,
               percentUG: user.academicsUG.percentageMarks,
@@ -335,9 +336,7 @@ class StudentHome extends Component {
                 <Text style={styles.tableCell}>Date of Birth</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>
-                  {this.state.dob}
-                </Text>
+                <Text style={styles.tableCell}>{this.state.dob}</Text>
               </View>
               <View style={styles.tableCol1}>
                 <Text style={styles.tableCell}>Mobile Number</Text>
@@ -826,7 +825,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 1, entire: "no" },
+                        state: { step: 1, entire: "yes" },
                       });
                     }}
                   >
@@ -857,7 +856,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 2, entire: "no" },
+                        state: { step: 2, entire: "yes" },
                       });
                     }}
                   >
@@ -867,7 +866,7 @@ class StudentHome extends Component {
                     />
                   </div>
                 </li>
-                
+
                 <li className="table-row">
                   <div className="col col-2" data-label="Field">
                     Academics PG
@@ -889,7 +888,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 3, entire: "no" },
+                        state: { step: 3, entire: "yes" },
                       });
                     }}
                   >
@@ -941,7 +940,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 4, entire: "no" },
+                        state: { step: 4, entire: "yes" },
                       });
                     }}
                   >
@@ -972,7 +971,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 5, entire: "no" },
+                        state: { step: 5, entire: "yes" },
                       });
                     }}
                   >
@@ -982,7 +981,6 @@ class StudentHome extends Component {
                     />
                   </div>
                 </li>
-
               </ul>
             </div>
           </div>

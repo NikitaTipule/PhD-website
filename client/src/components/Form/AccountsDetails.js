@@ -117,6 +117,10 @@ export default class AccountsDetails extends Component {
       this.state.errorDate === false &&
       this.state.errorDoc === false
     ) {
+      if (!this.state.editable) {
+        // return to candidate page
+        this.props.nextStep(2);
+      }
       if (!this.state.disabled) {
         this.setState({ confirmAlert: !this.state.confirmAlert });
       }
