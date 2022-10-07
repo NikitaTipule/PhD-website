@@ -624,15 +624,24 @@ export default class PersonalDetails extends Component {
       "VJNT",
       "EWS",
     ];
+    //const department_options = [
+    //   "Civil Engineering",
+    //   "Computer Engineering",
+    //   "Electrical Engineering",
+    //   "Electronics & Telecommunication Engineering",
+    //   "Instrumentation & Control Engineering",
+    //   "Mechanical Engineering",
+    //   "Metallurgical Engineering",
+    //   "Production Engineering",
+    // ];
+
     const department_options = [
-      "Civil Engineering",
-      "Computer Engineering",
-      "Electrical Engineering",
-      "Electronics & Telecommunication Engineering",
-      "Instrumentation & Control Engineering",
-      "Mechanical Engineering",
-      "Metallurgical Engineering",
-      "Production Engineering",
+      "School of Electrical and Communication Engineering",
+      "School of Mechanical and Manufacturing Engineering",
+      "School of Civil Engineering and Environmental Sciences",
+      "School of Information and Computational Sciences",
+      "School of Planning, Architecture and Design",
+      "School of Management, General Sciences and Humanities"
     ];
 
     const theme = createTheme({
@@ -1170,7 +1179,7 @@ export default class PersonalDetails extends Component {
               </div>
               <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
-                  Application in which Department
+                  Application in which School
                 </Typography>
                 <DropDown
                   disabled={this.state.disabled}

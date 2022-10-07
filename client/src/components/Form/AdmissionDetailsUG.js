@@ -351,17 +351,6 @@ export default class AdmissionDetailsUG extends Component {
   }
 
   render() {
-    const dropdown_options_specialization = [
-      "OPEN(General)",
-      "OBC",
-      "ST",
-      "SC",
-      "NT",
-      "VJNT",
-      "EWS",
-      "OTHER"
-    ];
-
     const dropdown_options_nomenclature = [
       "B.E./ B.Tech",
       "B.C.A.",
@@ -369,6 +358,24 @@ export default class AdmissionDetailsUG extends Component {
       "B.Planning",
       "B.Arch",
       "B.B.A.",
+      "Degree in Humanities, Social Sciences and Liberal Arts",
+      "OTHER"
+    ];
+
+    const dropdown_options_specialization = [
+      "Civil Engineering",
+      "Computer Engineering",
+      "Electrical Engineering",
+      "Electronics & Telecommunication Engineering",
+      "Instrumentation & Control Engineering",
+      "Mechanical Engineering",
+      "Metallurgical Engineering",
+      "Production Engineering",
+      "Chemical Engineering",
+      "Agricultural Engineering",
+      "B.C.A. Mathematics",
+      "B.Sc. Mathematics",
+      "B.Sc. in Basic and Applied Sciences",
       "OTHER"
     ];
 
@@ -568,12 +575,12 @@ export default class AdmissionDetailsUG extends Component {
                   name="nomenclature"
                   value={this.state.nomenclature}
                   onChange={this.onChangeNomenclature}
-                  placeholder="Select specialization branch"
+                  placeholder="Select Nomenclature of Degree"
                 />
 
 {this.state.errorNomenclature && (
                   <div style={{ color: "red" }}>
-                    <Typography>Please select specialization</Typography>
+                    <Typography>Please select nomenclature</Typography>
                   </div>
                 )}
               </div>
@@ -613,7 +620,7 @@ export default class AdmissionDetailsUG extends Component {
 
             {/* 3. Specialization Branch  */}
             <div className="formNumber" style={{ marginLeft : "0%"}}>
-                <Typography style={{ marginBottom: "12px"}}>
+                <Typography style={{ marginBottom: "12px", paddingTop: "15px"}}>
                   Specialization Branch
                 </Typography>
                 <DropDown
@@ -624,13 +631,17 @@ export default class AdmissionDetailsUG extends Component {
                   onChange={this.onChangeSpecialization}
                   placeholder="Select specialization branch"
                 />
+                {this.state.errorSpecialization && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select Specialization</Typography>
+                  </div>
+                )}
                 {(() => {
                   if(this.state.errorSpecialization && (
                     <div style={{ color: "red" }}>
                               <Typography>Please select specialization</Typography>
                             </div>
                   )){
-                    
                   }
         if(this.state.specialization==="OTHER"){
           return(

@@ -339,17 +339,6 @@ export default class AdmissionDetailsPG extends Component {
   }
 
   render() {   
-    const dropdown_options_specialization = [
-      "OPEN(General)",
-      "OBC",
-      "ST",
-      "SC",
-      "NT",
-      "VJNT",
-      "EWS",
-      "OTHER"
-    ];
-
     const dropdown_options_nomenclature = [
       "M.E./ M.Tech",
       "M.C.A.",
@@ -357,6 +346,24 @@ export default class AdmissionDetailsPG extends Component {
       "M.Planning",
       "M.Arch",
       "M.B.A.",
+      "Post Graduate Degree in Humanities, Social Sciences and Liberal Arts",
+      "OTHER"
+    ];
+  
+    const dropdown_options_specialization = [
+      "Civil Engineering",
+      "Computer Engineering",
+      "Electrical Engineering",
+      "Electronics & Telecommunication Engineering",
+      "Instrumentation & Control Engineering",
+      "Mechanical Engineering",
+      "Metallurgical Engineering",
+      "Production Engineering",
+      "Chemical Engineering",
+      "Agricultural Engineering",
+      "M.C.A. Mathematics",
+      "M.Sc. Mathematics",
+      "M.Sc. in Basic and Applied Sciences",
       "OTHER"
     ];
 
@@ -551,10 +558,10 @@ export default class AdmissionDetailsPG extends Component {
 
 {this.state.errorNomenclature && (
                   <div style={{ color: "red" }}>
-                    <Typography>Please select specialization</Typography>
+                    <Typography>Please select Nomenclature</Typography>
                   </div>
                 )}
-              </div>
+              
               {(() => {
                   if(this.state.errorNomenclature && (
                     <div style={{ color: "red" }}>
@@ -587,10 +594,10 @@ export default class AdmissionDetailsPG extends Component {
           )
         }
       })()}
-
+ </div>
             {/* 3. Specialization Branch  */}
             <div className="formNumber" style={{ marginLeft : "0%"}}>
-                <Typography style={{ marginBottom: "12px"}}>
+                <Typography style={{ marginBottom: "12px", paddingTop: "15px"}}>
                   Specialization Branch
                 </Typography>
                 <DropDown
@@ -601,6 +608,12 @@ export default class AdmissionDetailsPG extends Component {
                   onChange={this.onChangeSpecialization}
                   placeholder="Select specialization branch"
                 />
+                {this.state.errorSpecialization && (
+                  <div style={{ color: "red" }}>
+                    <Typography>Please select Specialization</Typography>
+                  </div>
+                )}
+                
                 {(() => {
                   if(this.state.errorSpecialization && (
                     <div style={{ color: "red" }}>
