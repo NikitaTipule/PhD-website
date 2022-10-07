@@ -351,7 +351,7 @@ export default class AdmissionDetailsUG extends Component {
   }
 
   render() {
-    const dropdown_options = [
+    const dropdown_options_specialization = [
       "OPEN(General)",
       "OBC",
       "ST",
@@ -363,13 +363,12 @@ export default class AdmissionDetailsUG extends Component {
     ];
 
     const dropdown_options_nomenclature = [
-      "OPEN(General)",
-      "OBC",
-      "ST",
-      "SC",
-      "NT",
-      "VJNT",
-      "EWS",
+      "B.E./ B.Tech",
+      "B.C.A.",
+      "B.Sc.",
+      "B.Planning",
+      "B.Arch",
+      "B.B.A.",
       "OTHER"
     ];
 
@@ -619,7 +618,7 @@ export default class AdmissionDetailsUG extends Component {
                 </Typography>
                 <DropDown
                   disabled={this.state.disabled}
-                  options={dropdown_options}
+                  options={dropdown_options_specialization}
                   name="specialization"
                   value={this.state.specialization}
                   onChange={this.onChangeSpecialization}
