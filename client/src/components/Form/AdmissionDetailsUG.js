@@ -227,8 +227,25 @@ export default class AdmissionDetailsUG extends Component {
         }
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsUG.institute = this.state.university;
-        this.props.data.academicsUG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
-        this.props.data.academicsUG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
+
+        if(this.state.nomenclature == "OTHER")
+        {
+          this.props.data.academicsUG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
+        }
+
+        else{
+          this.props.data.academicsUG.degree = this.state.nomenclature;
+        }
+        
+        if(this.state.specialization == "OTHER")
+        {
+          this.props.data.academicsUG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
+        }
+
+        else{
+          this.props.data.academicsUG.specialization = this.state.specialization;
+        }
+        
         
         //this.props.data.academicsUG.totalAggregate = this.state.marksObtained;
         //this.props.data.academicsUG.totalMarks = this.state.totalMarks;

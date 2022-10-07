@@ -211,8 +211,28 @@ export default class AdmissionDetailsPG extends Component {
         }
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsPG.institute = this.state.university;
-        this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
-        this.props.data.academicsPG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
+
+        if(this.state.nomenclature == "OTHER")
+        {
+          this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
+        }
+
+        else{
+          this.props.data.academicsPG.degree = this.state.nomenclature;
+        }
+        
+
+        if(this.state.specialization == "OTHER")
+        {
+          this.props.data.academicsPG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
+        }
+
+        else{
+          this.props.data.academicsPG.specialization = this.state.specialization;
+        }
+
+        //this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
+        //this.props.data.academicsPG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
         // this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
         // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
         this.props.data.academicsPG.cgpa10 = this.state.cgpa;
