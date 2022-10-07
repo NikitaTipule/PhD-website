@@ -114,11 +114,12 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   view: {
-    width: "80%",
-    height: "80",
+    width: "60%",
+    // height: "120",
     padding: 0,
     marginBottom: 5,
     backgroundColor: "white",
+    alignSelf: "center",
   },
   image: {
     objectFit: "cover",
