@@ -492,6 +492,7 @@ export default class PersonalDetails extends Component {
         this.props.data.personalInfo.physicallyDisabled =
           this.state.physicallyDisabled;
         this.props.data.personalInfo.department = this.state.department;
+        this.props.data.personalInfo.completed = true;
       }
     }
   };

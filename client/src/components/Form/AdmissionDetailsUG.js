@@ -248,6 +248,7 @@ export default class AdmissionDetailsUG extends Component {
         this.props.data.academicsUG.percentageMarks = this.state.percentage;
         this.props.data.academicsUG.dateOfDeclaration =
           this.state.dateOfDeclaration;
+        this.props.data.academicsUG.completed = true;
       }
     }
   };

@@ -132,6 +132,7 @@ export default class AccountsDetails extends Component {
       this.props.data.feeDetails.transactionTime = this.state.transactionTime;
       this.props.data.feeDetails.bank = this.state.bank;
       this.props.data.feeDetails.docUploaded = this.state.docUploaded;
+      this.props.data.feeDetails.completed = true;
     }
   };
 

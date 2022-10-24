@@ -31,6 +31,7 @@ const personalInfo = {
   adressCorrespondance: { type: String },
   verification: verificationField,
   remarks: { type: String, default: "" },
+  completed: {type: Boolean, default: false},
 };
 
 const academicsUG = {
@@ -45,6 +46,7 @@ const academicsUG = {
   dateOfDeclaration: { type: Date },
   verification: verificationField,
   remarks: { type: String, default: "" },  
+  completed: {type: Boolean, default: false},
 };
 
 const academicsPG = {
@@ -59,6 +61,7 @@ const academicsPG = {
   dateOfDeclaration: { type: Date },
   verification: verificationField,
   remarks: { type: String, default: "" },
+  completed: {type: Boolean, default: false},
 
 };
 
@@ -79,6 +82,7 @@ const entranceDetails = {
   },
   verification: verificationField,
   remarks: { type: String, default: "" },
+  completed: {type: Boolean, default: false},
 };
 
 const docUploaded = {
@@ -102,6 +106,7 @@ const feeDetails = {
     originalName: { type: String },
     contentType: { type: String },
   },
+  completed: {type: Boolean, default: false},
 };
 
 // TODO : How to store verification data ? (need more info about requirements)
@@ -136,7 +141,8 @@ const StudentSchema = Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
+
 );
 
 StudentSchema.pre("save", preSaveHashPassword);

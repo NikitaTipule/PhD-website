@@ -158,6 +158,7 @@ class StudentHome extends Component {
       gateLastDateOfValidation: "",
       petDetails: "",
       petYear: "",
+      full_completed: false,
     };
   }
 
@@ -197,6 +198,10 @@ class StudentHome extends Component {
               this.setState({ docVerification: "pending" });
             }
 
+            if(user.personalInfo.completed && user.academicsUG.completed && user.academicsPG.completed && user.entranceDetails.completed && user.feeDetails.completed){
+              this.setState({full_completed: true})
+            }
+            // console.log("Full completed: ",this.state.full_completed)
             this.setState({
               pdfName: user.personalInfo.name,
               pdfEmail: user.personalInfo.email,
@@ -245,6 +250,7 @@ class StudentHome extends Component {
                 user.entranceDetails?.Gate?.lastDateOfValidation,
               petDetails: user.entranceDetails?.sppuPet?.details,
               petYear: user.entranceDetails?.sppuPet?.year,
+              
             });
             console.log(user.entranceDetails, this.state.givenPet);
           });
@@ -1006,10 +1012,15 @@ class StudentHome extends Component {
                   borderRadius: "10px",
                 }}
                 onClick={() => {
-                  this.props.history.push({
-                    pathname: "/admissionForm",
-                    state: { step: 10 },
-                  });
+                  if(this.state.full_completed){
+                    this.props.history.push({
+                      pathname: "/admissionForm",
+                      state: { step: 10 },
+                    });
+                  }
+                  else{
+                    alert("Please fill all information");
+                  }
                 }}
               >
                 Submit Application

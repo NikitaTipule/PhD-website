@@ -233,6 +233,7 @@ export default class AdmissionDetailsPG extends Component {
         // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
         this.props.data.academicsPG.cgpa10 = this.state.cgpa;
         this.props.data.academicsPG.percentageMarks = this.state.percentage;
+        this.props.data.academicsPG.completed = true;
       }
     }
   };

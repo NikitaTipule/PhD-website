@@ -169,6 +169,7 @@ export default class EntranceExamDetails extends Component {
           this.state.gateDate;
         this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
         this.props.data.entranceDetails.sppuPet.year = this.state.petYear;
+        this.props.data.entranceDetails.completed = true;
       }
     }
   };
