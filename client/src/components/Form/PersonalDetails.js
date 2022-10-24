@@ -146,57 +146,36 @@ export default class PersonalDetails extends Component {
   };
 
   onChangeCategory = (event) => {
-    this.setState({
-      category: event.value,
-    });
+    let category = event.value;
 
-    // var c_certificate = { ...this.state.c_certificate };
-    // var c_validity = { ...this.state.c_validity };
-    // var c_ncl = { ...this.state.c_ncl };
-    // var ews = { ...this.state.ews };
+    var c_certificate = { ...this.state.c_certificate };
+    var c_validity = { ...this.state.c_validity };
+    var c_ncl = { ...this.state.c_ncl };
+    var ews = { ...this.state.ews };
 
-    // if (
-    //   this.state.category === "SC" ||
-    //   this.state.category === "ST" ||
-    //   this.state.category === "OBC" ||
-    //   this.state.category === "NT" ||
-    //   this.state.category === "VJNT"
-    // ) {
-    //   c_certificate.display = true;
-    //   this.setState({ c_certificate: c_certificate });
-    //   c_validity.display = true;
-    //   this.setState({ c_validity: c_validity });
-    // } else {
-    //   c_certificate.display = false;
-    //   this.setState({ c_certificate: c_certificate });
-    //   c_validity.display = false;
-    //   this.setState({ c_validity: c_validity });
-    // }
+    c_certificate.display =
+      category === "SC" ||
+      category === "ST" ||
+      category === "OBC" ||
+      category === "NT" ||
+      category === "VJNT";
+    c_validity.display = c_certificate.display;
 
-    // if (
-    //   this.state.category === "OBC" ||
-    //   this.state.category === "NT" ||
-    //   this.state.category === "VJNT"
-    // ) {
-    //   c_ncl.display = true;
-    //   this.setState({ c_ncl: c_ncl });
-    // } else {
-    //   c_ncl.display = false;
-    //   this.setState({ c_ncl: c_ncl });
-    // }
+    c_ncl.display =
+      category === "OBC" || category === "NT" || category === "VJNT";
 
-    // if (this.state.category === "EWS") {
-    //   ews.display = true;
-    //   this.setState({ ews: ews });
-    // } else {
-    //   ews.display = false;
-    //   this.setState({ ews: ews });
-    // }
+    ews.display = category === "EWS";
+
+    this.setState({ category, c_certificate, c_validity, c_ncl, ews });
   };
 
   onChangeDisability = (event) => {
+    let physDis = event.target.value;
+    let doc_physicallyDisable = { ...this.state.doc_physicallyDisable };
+    doc_physicallyDisable.display = this.state.physicallyDisabled === "Yes";
     this.setState({
-      physicallyDisabled: event.target.value,
+      physicallyDisabled: physDis,
+      doc_physicallyDisable,
     });
   };
 
@@ -1023,35 +1002,6 @@ export default class PersonalDetails extends Component {
                 )}
               </div>
             </div>
-
-            {/**
-             * Changes in document collection as per category selection
-             * */}
-            <div style={{ display: "none" }}>
-              {this.state.category === "SC" ||
-              this.state.category === "ST" ||
-              this.state.category === "OBC" ||
-              this.state.category === "NT" ||
-              this.state.category === "VJNT"
-                ? (this.state.c_certificate.display = true)
-                : (this.state.c_certificate.display = false)}
-              {this.state.category === "SC" ||
-              this.state.category === "ST" ||
-              this.state.category === "OBC" ||
-              this.state.category === "NT" ||
-              this.state.category === "VJNT"
-                ? (this.state.c_validity.display = true)
-                : (this.state.c_validity.display = false)}
-              {this.state.category === "NT" ||
-              this.state.category === "OBC" ||
-              this.state.category === "VJNT"
-                ? (this.state.c_ncl.display = true)
-                : (this.state.c_ncl.display = false)}
-              {this.state.category === "EWS"
-                ? (this.state.ews.display = true)
-                : (this.state.ews.display = false)}
-            </div>
-
             {/*
              * 9. Aadhar Number
              */}
@@ -1147,11 +1097,6 @@ export default class PersonalDetails extends Component {
                     </div>
                   )}
                 </div>
-
-                {/* Document of physical disability needed or not */}
-                {this.state.physicallyDisabled === "Yes"
-                  ? (this.state.doc_physicallyDisable.display = true)
-                  : (this.state.doc_physicallyDisable.display = false)}
               </div>
               <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
