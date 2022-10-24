@@ -49,42 +49,23 @@ exports.registerStudent = (req, res) => {
           req.body.userId = user._id;
           return sendOtp(req, res, email);
         })
-        .catch((err) => res.status(400).json({ error: err.message }));
+        .catch((err) => res.status(400).json({ error: "Unknown error" }));
     })
     .catch((err) => {
       console.log(err);
-      return res.status(400).json({ error: err.message });
+      return res.status(400).json({ error: "Unknown error" });
     });
 };
 
 const sendOtp = async (req, res, email) => {
   const userId = req.body.userId;
   MailOtp.deleteMany({ userId });
-  // PhoneOtp.deleteMany({ userId });
 
   const mailToken = new MailOtp({
     userId,
     otp: Math.floor(Math.random() * 899999 + 100000),
   });
-  // const phoneToken = new PhoneOtp({
-  //   userId,
-  //   otp: Math.floor(Math.random() * 899999 + 100000),
-  // });
-  // Promise.all([mailToken.save(), phoneToken.save()])
-  //   .then(() => {
-  //     const msg1 = `otp for mail verification is ${mailToken.otp}`;
-  //     console.log(msg1);
-  //     sendEmail(email, msg1);
-  //     const msg2 = `otp for mobile verification is ${phoneToken.otp}`;
-  //     console.log(msg2);
-  //     sendSMS(req.body.email, msg2);
-  //     res.send({
-  //       userId,
-  //       message:
-  //         //"OTP is sent to your email and mobile number. Please verify both",
-  //     });
-  //   })
-  //   .catch((err) => { console.log(err.message); res.status(500).json({ error: err.message }) });
+
   mailToken
     .save()
     .then(() => {
@@ -236,7 +217,7 @@ exports.loginStaff = (req, res) => {
     .post(ldapAuthUrl, reqData)
     .then((resp) => {
       const User = roleToModel[role];
-      User.findOne({ email: resp.data.Email }).then(async (user) => {
+      User.findOne({ mis }).then(async (user) => {
         if (!user) {
           return res.status(404).json({ error: "user not found" });
         }
@@ -255,75 +236,75 @@ exports.loginStaff = (req, res) => {
     });
 };
 
-exports.loginFaculty = (req, res) => {
-  const { mis, password, role } = req.body;
-  // Validate user input
-  if (!(mis && password, role)) {
-    return res.status(400).json({ error: "All input is required" });
-  }
-  // check if user exists
-  if (role == "phdCord") {
-    PhdCord.findOne({ mis })
-      .then(async (user) => {
-        if (!user) {
-          return res.status(404).json({ error: "Email not found" });
-        }
+// exports.loginFaculty = (req, res) => {
+//   const { mis, password, role } = req.body;
+//   // Validate user input
+//   if (!(mis && password, role)) {
+//     return res.status(400).json({ error: "All input is required" });
+//   }
+//   // check if user exists
+//   if (role == "phdCord") {
+//     PhdCord.findOne({ mis })
+//       .then(async (user) => {
+//         if (!user) {
+//           return res.status(404).json({ error: "Email not found" });
+//         }
 
-        isMatch = true;
-        // const isMatch = await compare(password, user.password);
-        if (isMatch) {
-          user.role = PhdCord.modelName;
-          const token = generateToken(user);
-          return res.json(token);
-        } else {
-          return res.status(400).json({ error: "Invalid Credentials" });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json({ error: "Invalid Credentials" });
-      });
-  } else if (role == "admin") {
-    Admin.findOne({ mis })
-      .then(async (user) => {
-        if (!user) {
-          return res.status(404).json({ error: "Email not found" });
-        }
+//         isMatch = true;
+//         // const isMatch = await compare(password, user.password);
+//         if (isMatch) {
+//           user.role = PhdCord.modelName;
+//           const token = generateToken(user);
+//           return res.json(token);
+//         } else {
+//           return res.status(400).json({ error: "Invalid Credentials" });
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         res.status(400).json({ error: "Invalid Credentials" });
+//       });
+//   } else if (role == "admin") {
+//     Admin.findOne({ mis })
+//       .then(async (user) => {
+//         if (!user) {
+//           return res.status(404).json({ error: "Email not found" });
+//         }
 
-        isMatch = true;
-        // const isMatch = await compare(password, user.password);
-        if (isMatch) {
-          user.role = Admin.modelName;
-          const token = generateToken(user);
-          return res.json(token);
-        } else {
-          return res.status(400).json({ error: "Invalid Credentials" });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json({ error: "Invalid Credentials" });
-      });
-  } else {
-    AccountSec.findOne({ mis })
-      .then(async (user) => {
-        if (!user) {
-          return res.status(404).json({ error: "Email not found" });
-        }
+//         isMatch = true;
+//         // const isMatch = await compare(password, user.password);
+//         if (isMatch) {
+//           user.role = Admin.modelName;
+//           const token = generateToken(user);
+//           return res.json(token);
+//         } else {
+//           return res.status(400).json({ error: "Invalid Credentials" });
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         res.status(400).json({ error: "Invalid Credentials" });
+//       });
+//   } else {
+//     AccountSec.findOne({ mis })
+//       .then(async (user) => {
+//         if (!user) {
+//           return res.status(404).json({ error: "Email not found" });
+//         }
 
-        isMatch = true;
-        // const isMatch = await compare(password, user.password);
-        if (isMatch) {
-          user.role = AccountSec.modelName;
-          const token = generateToken(user);
-          return res.json(token);
-        } else {
-          return res.status(400).json({ error: "Invalid Credentials" });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json({ error: "Invalid Credentials" });
-      });
-  }
-};
+//         isMatch = true;
+//         // const isMatch = await compare(password, user.password);
+//         if (isMatch) {
+//           user.role = AccountSec.modelName;
+//           const token = generateToken(user);
+//           return res.json(token);
+//         } else {
+//           return res.status(400).json({ error: "Invalid Credentials" });
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         res.status(400).json({ error: "Invalid Credentials" });
+//       });
+//   }
+// };
