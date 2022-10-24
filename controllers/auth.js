@@ -1,15 +1,12 @@
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
 const { compare } = require("bcryptjs");
 const axios = require("axios");
-const { jwtSecretKey, ldapAuthUrl, baseURL } = require("../config/configKeys");
+const { jwtSecretKey, ldapAuthUrl } = require("../config/configKeys");
 const roleToModel = require("./roles");
 const sendEmail = require("./email");
 const Student = require("../models/student");
 const { MailOtp, PhoneOtp } = require("../models/token");
 const AccountSec = require("../models/accountSec");
-const PhdCord = require("../models/phdCord");
-const Admin = require("../models/admin");
 
 const generateToken = (user) => {
   // Create token
@@ -235,76 +232,3 @@ exports.loginStaff = (req, res) => {
       }
     });
 };
-
-// exports.loginFaculty = (req, res) => {
-//   const { mis, password, role } = req.body;
-//   // Validate user input
-//   if (!(mis && password, role)) {
-//     return res.status(400).json({ error: "All input is required" });
-//   }
-//   // check if user exists
-//   if (role == "phdCord") {
-//     PhdCord.findOne({ mis })
-//       .then(async (user) => {
-//         if (!user) {
-//           return res.status(404).json({ error: "Email not found" });
-//         }
-
-//         isMatch = true;
-//         // const isMatch = await compare(password, user.password);
-//         if (isMatch) {
-//           user.role = PhdCord.modelName;
-//           const token = generateToken(user);
-//           return res.json(token);
-//         } else {
-//           return res.status(400).json({ error: "Invalid Credentials" });
-//         }
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(400).json({ error: "Invalid Credentials" });
-//       });
-//   } else if (role == "admin") {
-//     Admin.findOne({ mis })
-//       .then(async (user) => {
-//         if (!user) {
-//           return res.status(404).json({ error: "Email not found" });
-//         }
-
-//         isMatch = true;
-//         // const isMatch = await compare(password, user.password);
-//         if (isMatch) {
-//           user.role = Admin.modelName;
-//           const token = generateToken(user);
-//           return res.json(token);
-//         } else {
-//           return res.status(400).json({ error: "Invalid Credentials" });
-//         }
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(400).json({ error: "Invalid Credentials" });
-//       });
-//   } else {
-//     AccountSec.findOne({ mis })
-//       .then(async (user) => {
-//         if (!user) {
-//           return res.status(404).json({ error: "Email not found" });
-//         }
-
-//         isMatch = true;
-//         // const isMatch = await compare(password, user.password);
-//         if (isMatch) {
-//           user.role = AccountSec.modelName;
-//           const token = generateToken(user);
-//           return res.json(token);
-//         } else {
-//           return res.status(400).json({ error: "Invalid Credentials" });
-//         }
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(400).json({ error: "Invalid Credentials" });
-//       });
-//   }
-// };
