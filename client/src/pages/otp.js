@@ -20,26 +20,26 @@ export default function OTP(props) {
   const [mobileotp, setMobileotp] = useState("");
   const [mailVerified, setMailVerified] = useState(false);
   const [mobileVerified, setMobileVerified] = useState(true);
-  const [resendDisabled, setResendDisabled] = useState(false);
+  // const [resendDisabled, setResendDisabled] = useState(false);
   const location = useLocation();
 
-  const resendOtp = () => {
-    axios
-      .post(BACKEND_URL + "/students/resendotp", {
-        userId: location.state.userId,
-      })
-      .then((res) => {
-        setTimeout(() => {
-          setResendDisabled(false);
-        }, 10000);
-        setResendDisabled(true);
-        alert("resent OTP");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("couldn't resend OTP");
-      });
-  };
+  // const resendOtp = () => {
+  //   axios
+  //     .post(BACKEND_URL + "/students/resendotp", {
+  //       userId: location.state.userId,
+  //     })
+  //     .then((res) => {
+  //       setTimeout(() => {
+  //         setResendDisabled(false);
+  //       }, 10000);
+  //       setResendDisabled(true);
+  //       alert("resent OTP");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       alert("couldn't resend OTP");
+  //     });
+  // };
 
   const submitMailOtp = (e) => {
     e.preventDefault();
@@ -60,24 +60,24 @@ export default function OTP(props) {
     } else alert("Invalid details");
   };
 
-  const submitMobileOtp = (e) => {
-    e.preventDefault();
-    if (mobileotp && mobileotp.length === 6) {
-      axios
-        .post(BACKEND_URL + "/students/verifymobile", {
-          userId: location.state.userId,
-          otp: mobileotp,
-        })
-        .then((res) => {
-          setMobileVerified(true);
-          alert("Mobile Verified");
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("Invalid details");
-        });
-    } else alert("Invalid details");
-  };
+  // const submitMobileOtp = (e) => {
+  //   e.preventDefault();
+  //   if (mobileotp && mobileotp.length === 6) {
+  //     axios
+  //       .post(BACKEND_URL + "/students/verifymobile", {
+  //         userId: location.state.userId,
+  //         otp: mobileotp,
+  //       })
+  //       .then((res) => {
+  //         setMobileVerified(true);
+  //         alert("Mobile Verified");
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         alert("Invalid details");
+  //       });
+  //   } else alert("Invalid details");
+  // };
 
   if (mailVerified && mobileVerified) {
     return <Redirect to="/login/candidate" />;

@@ -11,7 +11,7 @@ import Divider from "@mui/material/Divider";
 import { Table, TableBody } from "@material-ui/core";
 import { docType } from "../../phdAdmDetails";
 import DocViewer from "../../pages/DocViewer";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
 import DropDown from "react-dropdown";
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
@@ -199,7 +199,7 @@ export default class AdmissionDetailsUG extends Component {
         this.state.errorUniversity === false &&
         this.state.errorSpecialization === false &&
         ((this.state.errorSpecialization === false &&
-          this.state.specialization != "OTHER") ||
+          this.state.specialization !== "OTHER") ||
           (this.state.specialization === "OTHER" &&
             this.state.otherSpecialization)) &&
         //this.state.errorMarksObtained === false &&
@@ -227,14 +227,14 @@ export default class AdmissionDetailsUG extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsUG.institute = this.state.university;
 
-        if (this.state.nomenclature == "OTHER") {
+        if (this.state.nomenclature === "OTHER") {
           this.props.data.academicsUG.degree =
             this.state.nomenclature + " " + this.state.otherNomenclature;
         } else {
           this.props.data.academicsUG.degree = this.state.nomenclature;
         }
 
-        if (this.state.specialization == "OTHER") {
+        if (this.state.specialization === "OTHER") {
           this.props.data.academicsUG.specialization =
             this.state.specialization + " " + this.state.otherSpecialization;
         } else {

@@ -315,7 +315,7 @@ exports.verifyStudentInfo = (req, res) => {
         user.editable = false;
       }
 
-      console.log("EDITABLE : ", user.infoVerified, user.editable);
+      //console.log("EDITABLE : ", user.infoVerified, user.editable);
 
       user
         .save()

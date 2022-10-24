@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Divider from "@mui/material/Divider";
-import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
+// import ArrowCircleDown from "@mui/icons-material/ArrowCircleDown";
 import Button from "@mui/material/Button";
 import "./DisplayData.css";
 import { TextField } from "@mui/material";
@@ -51,7 +51,7 @@ export default class AccountFormNew extends Component {
         headers: { "phd-website-jwt": this.state.token },
       })
       .then((res) => {
-        console.log("verification details submitted");
+        //console.log("verification details submitted");
         this.props.updateStudent(
           data.verification,
           data.remarks,

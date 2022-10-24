@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import { withRouter } from "react-router-dom";
-import { BrowserView, isMobile, MobileView } from "react-device-detect";
+import { BrowserView,  MobileView } from "react-device-detect";
 
 import {
   PDFDownloadLink,
@@ -84,13 +84,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
   },
   tableCellHeader: {
-    margin: "auto",
     margin: 5,
     fontSize: 12,
     fontWeight: 500,
   },
   tableCell: {
-    margin: "auto",
     margin: 5,
     fontSize: 10,
   },
@@ -174,7 +172,7 @@ class StudentHome extends Component {
           })
           .then((res) => {
             const user = res.data.user;
-            console.log(user);
+            //console.log(user);
             // Get the verification status of documents
             let dv = 0,
               dp = 0,
@@ -252,7 +250,7 @@ class StudentHome extends Component {
               petYear: user.entranceDetails?.sppuPet?.year,
               
             });
-            console.log(user.entranceDetails, this.state.givenPet);
+            //console.log(user.entranceDetails, this.state.givenPet);
           });
       } catch (error) {
         console.log(error.message);

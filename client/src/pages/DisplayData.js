@@ -75,7 +75,7 @@ class DisplayData extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.id);
+    //console.log(this.props.id);
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
@@ -86,7 +86,7 @@ class DisplayData extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             const details = res.data.user;
             this.setState({
               name: res.data.user.name,
@@ -143,7 +143,7 @@ class DisplayData extends Component {
     this.setState({
       message: this.state.message,
     });
-    console.log(this.state.message);
+    //console.log(this.state.message);
     this.setState({
       redirect: !this.state.redirect,
     });

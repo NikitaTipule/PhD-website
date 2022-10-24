@@ -2,14 +2,14 @@
 import { React, useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import logo from "./logo_trans.png";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 // import { Route } from 'react-router-dom'
 // import MenuIcon from '@mui/icons-material/Menu';
 
 import "./Nsvbar.css";
 
 export default function NavBar(props) {
-  let history = useHistory();
+  //let history = useHistory();
   const [loggedIn, setLoggedIn] = useState(props.loggedin);
 
   useEffect(() => {
@@ -20,34 +20,34 @@ export default function NavBar(props) {
     }
   });
 
-  const toggle = (event) => {
-    if (loggedIn) {
-      localStorage.clear();
-      history.push("/");
-      setLoggedIn(!loggedIn);
-    } else {
-      history.push("/");
-    }
-  };
+  // const toggle = (event) => {
+  //   if (loggedIn) {
+  //     localStorage.clear();
+  //     history.push("/");
+  //     setLoggedIn(!loggedIn);
+  //   } else {
+  //     history.push("/");
+  //   }
+  // };
 
-  const homeClick = (event) => {
-    if (loggedIn) {
-      let role = localStorage.getItem("phd-website-role");
-      console.log(localStorage.getItem("phd-website-role"));
-      console.log(localStorage);
-      if (role === "admin") {
-        history.push("/admin");
-      } else if (role === "phdCord") {
-        history.push("/coordinator");
-      } else if (role === "accountSec") {
-        history.push("/account");
-      } else if (role === "student") {
-        history.push("/candidate");
-      }
-    }
-  };
+  // const homeClick = (event) => {
+  //   if (loggedIn) {
+  //     let role = localStorage.getItem("phd-website-role");
+  //     //console.log(localStorage.getItem("phd-website-role"));
+  //     //console.log(localStorage);
+  //     if (role === "admin") {
+  //       history.push("/admin");
+  //     } else if (role === "phdCord") {
+  //       history.push("/coordinator");
+  //     } else if (role === "accountSec") {
+  //       history.push("/account");
+  //     } else if (role === "student") {
+  //       history.push("/candidate");
+  //     }
+  //   }
+  // };
 
-  let btnTxt = loggedIn ? "Logout" : "Login";
+//   let btnTxt = loggedIn ? "Logout" : "Login";
   return (
     <nav className="NavbarItems" style={{ width: "100%" }}>
       <Helmet>

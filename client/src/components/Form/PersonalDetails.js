@@ -123,7 +123,7 @@ export default class PersonalDetails extends Component {
         //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
         // }));
 
-        console.log(this.state.documentsUploaded);
+        //console.log(this.state.documentsUploaded);
       })
       .catch((err) => console.log(err.response || "error"));
   };
@@ -609,7 +609,7 @@ export default class PersonalDetails extends Component {
   }
 
   render() {
-    var copy;
+    //var copy;
     const dropdown_options = [
       "OPEN(General)",
       "OBC",

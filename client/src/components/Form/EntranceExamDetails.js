@@ -181,7 +181,7 @@ export default class EntranceExamDetails extends Component {
       entranceDetails: this.props.data.entranceDetails,
     };
 
-    console.log(entranceDetails);
+    //console.log(entranceDetails);
 
     try {
       axios

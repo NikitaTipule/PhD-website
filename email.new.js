@@ -28,8 +28,8 @@ const send_email = (to_email, msg, subject = "OTP for signup confirmation") => {
     if (error) {
       console.log(error);
     }
-    console.log(info);
-    console.log("Email Sent Successfully");
+    // console.log(info);
+    // console.log("Email Sent Successfully");
   });
 };
 

@@ -89,7 +89,7 @@ const sendOtp = async (req, res, email) => {
     .save()
     .then(() => {
       const msg1 = `otp for mail verification is ${mailToken.otp}`;
-      console.log(msg1);
+      //console.log(msg1);
       sendEmail(email, msg1);
       res.send({
         userId,

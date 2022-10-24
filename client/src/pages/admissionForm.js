@@ -52,7 +52,6 @@ export default class admissionForm extends Component {
         cgpa10: "",
         percentageMarks: "",
         dateofDeclaration: "",
-        specialization: "",
       },
 
       academicsPG: {

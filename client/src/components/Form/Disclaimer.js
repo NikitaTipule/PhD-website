@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextField, Typography } from "@material-ui/core";
+// import { TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -30,7 +30,7 @@ export default class Disclaimer extends Component {
         )
         .then((res) => {
           this.setState({ alertopen: !this.state.alertopen });
-          console.log("profile locked");
+          // console.log("profile locked");
         });
     } catch (err) {
       console.log(err);

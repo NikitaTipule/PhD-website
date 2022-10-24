@@ -65,7 +65,7 @@ export default function Register() {
         mobile: values.mobile,
         password: values.password,
       };
-      console.log(data);
+      //console.log(data);
       const url = BACKEND_URL + "/students/register";
       setLoading(true);
       axios
