@@ -182,7 +182,7 @@ class AccountHomeNew extends Component {
   exportToExcel = () => {
     const otherData = [];
     this.state.allStudents.forEach((student) => {
-      const { personalInfo, name, feeDetails, ...otherProp } = student;
+      const { personalInfo, name, feeDetails } = student;
       const { docUploaded, ...otherDetails } = feeDetails;
       const { category } = personalInfo;
       otherData.push({ name, category, ...otherDetails });

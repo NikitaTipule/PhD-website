@@ -178,7 +178,7 @@ class StudentHome extends Component {
               dp = 0,
               dm = 0;
             this.setState({ docVerification: "pending" });
-            user.documentsUploaded.map((doc) => {
+            user.documentsUploaded.forEach((doc) => {
               if (doc.verification === "mod_req") {
                 dm = dm + 1;
               } else if (doc.verification === "pending") {
