@@ -13,19 +13,23 @@ export default class Disclaimer extends Component {
     this.state = {
       alertopen: false,
       check: false,
-      try: "",
-      token: localStorage.getItem("phd-website-jwt"),
     };
   }
 
   onSubmit = async (event) => {
-    await this.setState({ alertopen: !this.state.alertopen });
     try {
       await axios
-        .post(BACKEND_URL + "/students/lock", this.state.try, {
-          headers: { "phd-website-jwt": this.state.token },
-        })
+        .post(
+          BACKEND_URL + "/students/lock",
+          { editable: false },
+          {
+            headers: {
+              "phd-website-jwt": localStorage.getItem("phd-website-jwt"),
+            },
+          }
+        )
         .then((res) => {
+          this.setState({ alertopen: !this.state.alertopen });
           console.log("profile locked");
         });
     } catch (err) {
@@ -38,7 +42,7 @@ export default class Disclaimer extends Component {
   };
 
   onBack = () => {
-    this.props.prevStep();
+    this.props.nextStep();
   };
 
   handleNext = () => {
@@ -50,25 +54,6 @@ export default class Disclaimer extends Component {
       check: !this.state.check,
     });
   };
-
-  async componentDidMount() {
-    if (localStorage.getItem("phd-website-jwt")) {
-      await this.setState({
-        token: localStorage.getItem("phd-website-jwt"),
-      });
-      try {
-        await axios
-          .get(BACKEND_URL + "/students/me", {
-            headers: { "phd-website-jwt": this.state.token },
-          })
-          .then((res) => {
-            this.setState({ try: { editable: res.data.user.editable } });
-          });
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-  }
 
   render() {
     const theme = createTheme({
@@ -166,7 +151,7 @@ export default class Disclaimer extends Component {
               }}
               style={{ marginRight: "10px" }}
             >
-              Back
+              Cancel
             </Button>
           </ThemeProvider>
           <Button

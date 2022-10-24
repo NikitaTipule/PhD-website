@@ -80,18 +80,26 @@ export default class EntranceExamDetails extends Component {
 
   validateData = () => {
     this.state.givenGate &&
-      (/^\d+$/.test(this.state.gateScore) && parseInt(this.state.gateScore) && (parseInt(this.state.gateScore)>=0 && parseInt(this.state.gateScore)<=1000)
+      (/^\d+$/.test(this.state.gateScore) &&
+      parseInt(this.state.gateScore) &&
+      parseInt(this.state.gateScore) >= 0 &&
+      parseInt(this.state.gateScore) <= 1000
         ? this.setState({ errorGateScore: false })
         : this.setState({ errorGateScore: true }));
 
-
     this.state.givenGate &&
-      (/^\d+$/.test(this.state.gateMarks) && parseInt(this.state.gateMarks) && (parseInt(this.state.gateMarks)>=0 && parseInt(this.state.gateMarks)<=100)
+      (/^\d+$/.test(this.state.gateMarks) &&
+      parseInt(this.state.gateMarks) &&
+      parseInt(this.state.gateMarks) >= 0 &&
+      parseInt(this.state.gateMarks) <= 100
         ? this.setState({ errorGateMarks: false })
         : this.setState({ errorGateMarks: true }));
 
     this.state.givenGate &&
-      (/^\d+$/.test(this.state.gateQualiMarks) && parseInt(this.state.gateQualiMarks) && (parseInt(this.state.gateMarks)>=0 && parseInt(this.state.gateMarks)<=100)
+      (/^\d+$/.test(this.state.gateQualiMarks) &&
+      parseInt(this.state.gateQualiMarks) &&
+      parseInt(this.state.gateMarks) >= 0 &&
+      parseInt(this.state.gateMarks) <= 100
         ? this.setState({ errorGateQualiMarks: false })
         : this.setState({ errorGateQualiMarks: true }));
 
@@ -117,9 +125,7 @@ export default class EntranceExamDetails extends Component {
 
   onNext = async (event) => {
     if (this.state.disabled) {
-      this.props.entire === "no"
-        ? this.props.nextStep(2)
-        : this.props.nextStep(1);
+      this.props.nextStep(1);
     } else {
       var l = this.state.optionsSelected.length;
       for (var i = 0; i < l; i++) {
@@ -157,7 +163,8 @@ export default class EntranceExamDetails extends Component {
         this.props.data.entranceDetails.givenGate = this.state.givenGate;
         this.props.data.entranceDetails.Gate.score = this.state.gateScore;
         this.props.data.entranceDetails.Gate.marks = this.state.gateMarks;
-        this.props.data.entranceDetails.Gate.qualimarks = this.state.gateQualiMarks;
+        this.props.data.entranceDetails.Gate.qualimarks =
+          this.state.gateQualiMarks;
         this.props.data.entranceDetails.Gate.lastDateOfValidation =
           this.state.gateDate;
         this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
@@ -167,9 +174,7 @@ export default class EntranceExamDetails extends Component {
   };
 
   confirmData = (event) => {
-    this.props.entire === "no"
-      ? this.props.nextStep(2)
-      : this.props.nextStep(1);
+    this.props.nextStep(1);
 
     const entranceDetails = {
       entranceDetails: this.props.data.entranceDetails,
@@ -207,9 +212,7 @@ export default class EntranceExamDetails extends Component {
   };
 
   onBack = (event) => {
-    this.props.entire === "no"
-      ? this.props.prevStep(4)
-      : this.props.prevStep(1);
+    this.props.prevStep(1);
   };
 
   async componentDidMount() {
@@ -697,12 +700,16 @@ export default class EntranceExamDetails extends Component {
                             />
                             {this.state.errorGateQualiMarks && (
                               <div style={{ color: "red" }}>
-                                <Typography>Invalid Qualifying Marks entered</Typography>
+                                <Typography>
+                                  Invalid Qualifying Marks entered
+                                </Typography>
                               </div>
                             )}
                           </div>
 
-                          <div style={{ marginTop: "10px", paddingTop: "15px" }}>
+                          <div
+                            style={{ marginTop: "10px", paddingTop: "15px" }}
+                          >
                             <Typography>Date of Validation</Typography>
                             <DatePicker
                               disabled={this.state.disabled}

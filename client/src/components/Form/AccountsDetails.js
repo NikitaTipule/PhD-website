@@ -125,9 +125,7 @@ export default class AccountsDetails extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
       }
       if (this.state.disabled) {
-        this.props.entire === "no"
-          ? this.props.nextStep(1)
-          : this.props.nextStep(1);
+        this.props.nextStep(1);
       }
       this.props.data.feeDetails.utrDuNumber = this.state.utrDuNumber;
       this.props.data.feeDetails.amount = this.state.amount;
@@ -160,21 +158,18 @@ export default class AccountsDetails extends Component {
       }
     }
 
-    try {
-      await axios
-        .post(BACKEND_URL + "/students/lock", this.state.try, {
-          headers: { "phd-website-jwt": this.state.token },
-        })
-        .then((res) => {
-          console.log("profile locked");
-        });
-    } catch (err) {
-      console.log(err);
-    }
-
-    this.props.entire === "no"
-      ? this.props.nextStep(1)
-      : this.props.nextStep(1);
+    // try {
+    //   await axios
+    //     .post(BACKEND_URL + "/students/lock", this.state.try, {
+    //       headers: { "phd-website-jwt": this.state.token },
+    //     })
+    //     .then((res) => {
+    //       console.log("profile locked");
+    //     });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    this.props.nextStep(1);
   };
 
   // Handle Pop-up Cancels
@@ -187,14 +182,10 @@ export default class AccountsDetails extends Component {
 
   // Handle next and back navigation
   handleNext = () => {
-    this.props.entire === "no"
-      ? this.props.nextStep(1)
-      : this.props.nextStep(1);
+    this.props.nextStep(1);
   };
   handleBack = () => {
-    this.props.entire === "no"
-      ? this.props.prevStep(5)
-      : this.props.prevStep(1);
+    this.props.prevStep(1);
   };
 
   async componentDidMount() {
@@ -263,7 +254,7 @@ export default class AccountsDetails extends Component {
     return (
       <div className="accountsContainer">
         {/* Popup on Success */}
-        {/* <div>
+        <div>
           <SweetAlert
             success
             show={this.state.open}
@@ -284,7 +275,7 @@ export default class AccountsDetails extends Component {
               </React.Fragment>
             }
           ></SweetAlert>
-        </div> */}
+        </div>
 
         {/* Pop for confirming data*/}
         <div>

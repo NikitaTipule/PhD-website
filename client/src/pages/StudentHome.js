@@ -826,7 +826,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 1, entire: "yes" },
+                        state: { step: 1 },
                       });
                     }}
                   >
@@ -857,7 +857,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 2, entire: "yes" },
+                        state: { step: 2 },
                       });
                     }}
                   >
@@ -889,7 +889,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 3, entire: "yes" },
+                        state: { step: 3 },
                       });
                     }}
                   >
@@ -941,7 +941,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 4, entire: "yes" },
+                        state: { step: 4 },
                       });
                     }}
                   >
@@ -972,7 +972,7 @@ class StudentHome extends Component {
                     onClick={() => {
                       this.props.history.push({
                         pathname: "/admissionForm",
-                        state: { step: 5, entire: "yes" },
+                        state: { step: 5 },
                       });
                     }}
                   >
@@ -983,6 +983,37 @@ class StudentHome extends Component {
                   </div>
                 </li>
               </ul>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "30px",
+              }}
+            >
+              <button
+                style={{
+                  // marginTop: "20px",
+                  // marginBottom: "30px",
+                  padding: "5px",
+                  cursor: "pointer",
+                  width: "300px",
+                  height: "40px",
+                  fontSize: "20px",
+                  backgroundColor: "cadetblue",
+                  color: "white",
+                  borderRadius: "10px",
+                }}
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/admissionForm",
+                    state: { step: 10 },
+                  });
+                }}
+              >
+                Submit Application
+              </button>
             </div>
           </div>
         </div>

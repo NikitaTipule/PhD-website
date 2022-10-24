@@ -26,16 +26,6 @@ export default class admissionForm extends Component {
         : 1
       : 1,
 
-    entire: this.props
-      ? this.props.location
-        ? this.props.location.state
-          ? this.props.location.state.entire
-            ? this.props.location.state.entire
-            : "yes"
-          : "yes"
-        : "yes"
-      : "yes",
-
     token: "",
     data: {
       personalInfo: {
@@ -73,7 +63,7 @@ export default class admissionForm extends Component {
         cgpa10: "",
         percentageMarks: "",
         dateofDeclaration: "",
-        specialization:"",
+        specialization: "",
       },
 
       entranceDetails: {
@@ -147,7 +137,6 @@ export default class admissionForm extends Component {
               <PersonalDetails
                 nextStep={this.nextStep}
                 data={this.state.data}
-                entire={this.state.entire}
                 prevStep={this.prevStep}
               />
             </div>
@@ -178,7 +167,6 @@ export default class admissionForm extends Component {
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
-                entire={this.state.entire}
               />
             </div>
           </div>
@@ -208,7 +196,6 @@ export default class admissionForm extends Component {
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
-                entire={this.state.entire}
               />
             </div>
           </div>
@@ -238,7 +225,6 @@ export default class admissionForm extends Component {
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
-                entire={this.state.entire}
               />
             </div>
           </div>
@@ -268,12 +254,11 @@ export default class admissionForm extends Component {
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
-                entire={this.state.entire}
               />
             </div>
           </div>
         );
-      case 6:
+      case 10:
         return (
           <div>
             <NavBar loggedin={true} />
@@ -298,7 +283,6 @@ export default class admissionForm extends Component {
                 nextStep={this.nextStep}
                 data={this.state.data}
                 prevStep={this.prevStep}
-                entire={this.state.entire}
               />
             </div>
           </div>

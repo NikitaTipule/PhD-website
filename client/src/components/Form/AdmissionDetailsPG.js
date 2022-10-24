@@ -26,7 +26,7 @@ export default class AdmissionDetailsPG extends Component {
       cgpa: "",
       percentage: "",
       confirmAlert: false,
-      otherSpecialization:"",
+      otherSpecialization: "",
 
       pg: { name: docType.pg, error: false, display: true },
 
@@ -55,12 +55,14 @@ export default class AdmissionDetailsPG extends Component {
   onChangeSpecialization = (event) => {
     this.setState({
       specialization: event.value,
-    })};
+    });
+  };
 
   onChangeNomenclature = (event) => {
     this.setState({
       nomenclature: event.value,
-    })};
+    });
+  };
 
   // FUNCTIONS FOR FILE DATA
   onFileChange = async (event) => {
@@ -88,7 +90,6 @@ export default class AdmissionDetailsPG extends Component {
           originalName: res.data.originalname,
           verification: "pending",
         };
-
 
         if (i === -1) {
           this.setState((prevState) => ({
@@ -140,15 +141,14 @@ export default class AdmissionDetailsPG extends Component {
     this.state.otherNomenclature.replace(/ /g, "") === ""
       ? this.setState({ errorOtherNomenclature: true })
       : this.setState({ errorOtherNomenclature: false });
-  
+
     this.state.otherSpecialization.replace(/ /g, "") === ""
-    ? this.setState({ errorOtherSpecialization: true })
-    : this.setState({ errorOtherSpecialization: false });
+      ? this.setState({ errorOtherSpecialization: true })
+      : this.setState({ errorOtherSpecialization: false });
 
     this.state.specialization.replace(/ /g, "") === ""
       ? this.setState({ errorSpecialization: true })
       : this.setState({ errorSpecialization: false });
-
 
     // /^\d+$/.test(this.state.marksObtained) &&
     // parseInt(this.state.marksObtained) < parseInt(this.state.totalMarks)
@@ -175,24 +175,24 @@ export default class AdmissionDetailsPG extends Component {
 
   onSubmit = async (event) => {
     if (this.state.disabled) {
-      this.props.entire === "no"
-        ? this.props.nextStep(3)
-        : this.props.nextStep(1);
+      this.props.nextStep(1);
     } else {
       await this.validateData();
       if (
         this.state.errorUniversity === false &&
-
-        ((this.state.errorSpecialization === false && this.state.specialization != 'OTHER') 
-        || (this.state.specialization === "OTHER" && this.state.otherSpecialization)) &&
-
-        ((this.state.errorNomenclature === false && this.state.nomenclature != 'OTHER') 
-        || (this.state.nomenclature === "OTHER" && this.state.otherNomenclature)) &&
+        ((this.state.errorSpecialization === false &&
+          this.state.specialization != "OTHER") ||
+          (this.state.specialization === "OTHER" &&
+            this.state.otherSpecialization)) &&
+        ((this.state.errorNomenclature === false &&
+          this.state.nomenclature != "OTHER") ||
+          (this.state.nomenclature === "OTHER" &&
+            this.state.otherNomenclature)) &&
         //this.state.errorMarksObtained === false &&
         //this.state.errorTotalMarks === false &&
         this.state.errorCGPA === false &&
-        this.state.errorPercentage === false 
-        ) {
+        this.state.errorPercentage === false
+      ) {
         if (!this.state.disabled) {
           const documentsUploaded = {
             documentsUploaded: this.state.documentsUploaded,
@@ -212,23 +212,19 @@ export default class AdmissionDetailsPG extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsPG.institute = this.state.university;
 
-        if(this.state.nomenclature == "OTHER")
-        {
-          this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
-        }
-
-        else{
+        if (this.state.nomenclature == "OTHER") {
+          this.props.data.academicsPG.degree =
+            this.state.nomenclature + " " + this.state.otherNomenclature;
+        } else {
           this.props.data.academicsPG.degree = this.state.nomenclature;
         }
-        
 
-        if(this.state.specialization == "OTHER")
-        {
-          this.props.data.academicsPG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
-        }
-
-        else{
-          this.props.data.academicsPG.specialization = this.state.specialization;
+        if (this.state.specialization == "OTHER") {
+          this.props.data.academicsPG.specialization =
+            this.state.specialization + " " + this.state.otherSpecialization;
+        } else {
+          this.props.data.academicsPG.specialization =
+            this.state.specialization;
         }
 
         //this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
@@ -242,15 +238,11 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   onBack = (event) => {
-    this.props.entire === "no"
-      ? this.props.prevStep(4)
-      : this.props.prevStep(1);
+    this.props.prevStep(1);
   };
 
   confirmData = (event) => {
-    this.props.entire === "no"
-      ? this.props.nextStep(3)
-      : this.props.nextStep(1);
+    this.props.nextStep(1);
 
     const academicsPG = {
       academicsPG: this.props.data.academicsPG,
@@ -298,7 +290,6 @@ export default class AdmissionDetailsPG extends Component {
                   ? res.data.user.academicsPG.specialization
                   : "",
 
-
                 // marksObtained: res.data.user.academicsPG.totalAggregate
                 //   ? res.data.user.academicsPG.totalAggregate
                 //   : "",
@@ -338,7 +329,7 @@ export default class AdmissionDetailsPG extends Component {
     }
   }
 
-  render() {   
+  render() {
     const dropdown_options_nomenclature = [
       "M.E./ M.Tech",
       "M.C.A.",
@@ -347,9 +338,9 @@ export default class AdmissionDetailsPG extends Component {
       "M.Arch",
       "M.B.A.",
       "Post Graduate Degree in Humanities, Social Sciences and Liberal Arts",
-      "OTHER"
+      "OTHER",
     ];
-  
+
     const dropdown_options_specialization = [
       "Civil Engineering",
       "Computer Engineering",
@@ -364,7 +355,7 @@ export default class AdmissionDetailsPG extends Component {
       "M.C.A. Mathematics",
       "M.Sc. Mathematics",
       "M.Sc. in Basic and Applied Sciences",
-      "OTHER"
+      "OTHER",
     ];
 
     const theme = createTheme({
@@ -431,13 +422,17 @@ export default class AdmissionDetailsPG extends Component {
                   <div>
                     <Typography>Nomenclature of Degree :</Typography>
                   </div>
-                  <div>{this.state.nomenclature}{" "} {this.state.otherNomenclature}</div>
+                  <div>
+                    {this.state.nomenclature} {this.state.otherNomenclature}
+                  </div>
                 </div>
                 <div className="popUpField">
                   <div>
                     <Typography>Specialization :</Typography>
                   </div>
-                  <div>{this.state.specialization}{" "}{this.state.otherSpecialization}</div>
+                  <div>
+                    {this.state.specialization} {this.state.otherSpecialization}
+                  </div>
                 </div>
                 {/* <div className="popUpField">
                   <div>
@@ -543,111 +538,120 @@ export default class AdmissionDetailsPG extends Component {
               )}
             </div> */}
 
-            <div className="formNumber" style={{ marginLeft : "0%"}}>
-                <Typography style={{ marginBottom: "12px"}}>
-                  Nomenclature of Degree
-                </Typography>
-                <DropDown
-                  disabled={this.state.disabled}
-                  options={dropdown_options_nomenclature}
-                  name="nomenclature"
-                  value={this.state.nomenclature}
-                  onChange={this.onChangeNomenclature}
-                  placeholder="Select specialization branch"
-                />
+            <div className="formNumber" style={{ marginLeft: "0%" }}>
+              <Typography style={{ marginBottom: "12px" }}>
+                Nomenclature of Degree
+              </Typography>
+              <DropDown
+                disabled={this.state.disabled}
+                options={dropdown_options_nomenclature}
+                name="nomenclature"
+                value={this.state.nomenclature}
+                onChange={this.onChangeNomenclature}
+                placeholder="Select specialization branch"
+              />
 
-{this.state.errorNomenclature && (
-                  <div style={{ color: "red" }}>
-                    <Typography>Please select Nomenclature</Typography>
-                  </div>
-                )}
-              
+              {this.state.errorNomenclature && (
+                <div style={{ color: "red" }}>
+                  <Typography>Please select Nomenclature</Typography>
+                </div>
+              )}
+
               {(() => {
-                  if(this.state.errorNomenclature && (
+                if (
+                  this.state.errorNomenclature && (
                     <div style={{ color: "red" }}>
-                              <Typography>Please select Nomenclature</Typography>
-                            </div>
-                  )){
-                    
-                  }
-        if(this.state.nomenclature==="OTHER"){
-          return(
-            <div>
-              <Typography>Please enter your other nomenclature</Typography>
-                <TextField
-                  className="mb-3"
-                  fullWidth
-                  required
-                  onChange={this.handleChange}
-                  value={this.state.otherNomenclature}
-                  name="otherNomenclature"
-                  label="Other Nomenclature Field"
-                  variant="outlined"
-                  style={{ marginTop: "8px" }}
-                />
-                {this.state.errorOtherNomenclature && (
-                  <div style={{ color: "red" }}>
-                    <Typography>Please enter other nomenclature</Typography>
-                  </div>
-                )}
-              </div>
-          )
-        }
-      })()}
- </div>
+                      <Typography>Please select Nomenclature</Typography>
+                    </div>
+                  )
+                ) {
+                }
+                if (this.state.nomenclature === "OTHER") {
+                  return (
+                    <div>
+                      <Typography>
+                        Please enter your other nomenclature
+                      </Typography>
+                      <TextField
+                        className="mb-3"
+                        fullWidth
+                        required
+                        onChange={this.handleChange}
+                        value={this.state.otherNomenclature}
+                        name="otherNomenclature"
+                        label="Other Nomenclature Field"
+                        variant="outlined"
+                        style={{ marginTop: "8px" }}
+                      />
+                      {this.state.errorOtherNomenclature && (
+                        <div style={{ color: "red" }}>
+                          <Typography>
+                            Please enter other nomenclature
+                          </Typography>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+              })()}
+            </div>
             {/* 3. Specialization Branch  */}
-            <div className="formNumber" style={{ marginLeft : "0%"}}>
-                <Typography style={{ marginBottom: "12px", paddingTop: "15px"}}>
-                  Specialization Branch
-                </Typography>
-                <DropDown
-                  disabled={this.state.disabled}
-                  options={dropdown_options_specialization}
-                  name="specialization"
-                  value={this.state.specialization}
-                  onChange={this.onChangeSpecialization}
-                  placeholder="Select specialization branch"
-                />
-                {this.state.errorSpecialization && (
-                  <div style={{ color: "red" }}>
-                    <Typography>Please select Specialization</Typography>
-                  </div>
-                )}
-                
-                {(() => {
-                  if(this.state.errorSpecialization && (
+            <div className="formNumber" style={{ marginLeft: "0%" }}>
+              <Typography style={{ marginBottom: "12px", paddingTop: "15px" }}>
+                Specialization Branch
+              </Typography>
+              <DropDown
+                disabled={this.state.disabled}
+                options={dropdown_options_specialization}
+                name="specialization"
+                value={this.state.specialization}
+                onChange={this.onChangeSpecialization}
+                placeholder="Select specialization branch"
+              />
+              {this.state.errorSpecialization && (
+                <div style={{ color: "red" }}>
+                  <Typography>Please select Specialization</Typography>
+                </div>
+              )}
+
+              {(() => {
+                if (
+                  this.state.errorSpecialization && (
                     <div style={{ color: "red" }}>
-                              <Typography>Please select specialization</Typography>
-                            </div>
-                  )){
-                    
-                  }
-        if(this.state.specialization==="OTHER"){
-          return(
-            <div>
-              <Typography>Please enter your other specialization</Typography>
-                <TextField
-                  className="mb-3"
-                  fullWidth
-                  required
-                  onChange={this.handleChange}
-                  value={this.state.otherSpecialization}
-                  name="otherSpecialization"
-                  label="Other Specialization Field"
-                  variant="outlined"
-                  style={{ marginTop: "8px" }}
-                />
-                {this.state.errorOtherSpecialization && (
-                  <div style={{ color: "red" }}>
-                    <Typography>Please enter other specialization</Typography>
-                  </div>
-                )}
-              </div>
-          )
-        }
-      })()}
-                
-              </div>
+                      <Typography>Please select specialization</Typography>
+                    </div>
+                  )
+                ) {
+                }
+                if (this.state.specialization === "OTHER") {
+                  return (
+                    <div>
+                      <Typography>
+                        Please enter your other specialization
+                      </Typography>
+                      <TextField
+                        className="mb-3"
+                        fullWidth
+                        required
+                        onChange={this.handleChange}
+                        value={this.state.otherSpecialization}
+                        name="otherSpecialization"
+                        label="Other Specialization Field"
+                        variant="outlined"
+                        style={{ marginTop: "8px" }}
+                      />
+                      {this.state.errorOtherSpecialization && (
+                        <div style={{ color: "red" }}>
+                          <Typography>
+                            Please enter other specialization
+                          </Typography>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+              })()}
+            </div>
             {/*
              * 4. Marks Obtained
              * 5. Total Marks
