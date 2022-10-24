@@ -13,7 +13,7 @@ import Divider from "@mui/material/Divider";
 import { Table, TableBody } from "@material-ui/core";
 import { docType } from "../../phdAdmDetails";
 import DocViewer from "../../pages/DocViewer";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { departmentNamesList } from "../../phdAdmDetails";
 //import e from "cors";
 
 export default class PersonalDetails extends Component {
@@ -435,9 +435,7 @@ export default class PersonalDetails extends Component {
   // NEXT CONFIRM CANCEL
   onNext = async (event) => {
     if (this.state.disabled) {
-      this.props.entire === "no"
-        ? this.props.nextStep(5)
-        : this.props.nextStep(1);
+      this.props.nextStep(1);
     } else {
       await this.validateData();
       if (
@@ -499,9 +497,7 @@ export default class PersonalDetails extends Component {
   };
 
   onBack = (event) => {
-    this.props.entire === "no"
-      ? this.props.prevStep(1)
-      : this.props.prevStep(1);
+    this.props.prevStep(1);
   };
 
   confirmData = (event) => {
@@ -521,9 +517,7 @@ export default class PersonalDetails extends Component {
       console.log(err);
     }
 
-    this.props.entire === "no"
-      ? this.props.nextStep(5)
-      : this.props.nextStep(1);
+    this.props.nextStep(1);
   };
 
   onCancel = (event) => {
@@ -623,25 +617,6 @@ export default class PersonalDetails extends Component {
       "NT",
       "VJNT",
       "EWS",
-    ];
-    //const department_options = [
-    //   "Civil Engineering",
-    //   "Computer Engineering",
-    //   "Electrical Engineering",
-    //   "Electronics & Telecommunication Engineering",
-    //   "Instrumentation & Control Engineering",
-    //   "Mechanical Engineering",
-    //   "Metallurgical Engineering",
-    //   "Production Engineering",
-    // ];
-
-    const department_options = [
-      "School of Electrical and Communication Engineering",
-      "School of Mechanical and Manufacturing Engineering",
-      "School of Civil Engineering and Environmental Sciences",
-      "School of Information and Computational Sciences",
-      "School of Planning, Architecture and Design",
-      "School of Management, General Sciences and Humanities"
     ];
 
     const theme = createTheme({
@@ -1183,10 +1158,10 @@ export default class PersonalDetails extends Component {
                 </Typography>
                 <DropDown
                   disabled={this.state.disabled}
-                  options={department_options}
+                  options={departmentNamesList}
                   value={this.state.department}
                   onChange={this.onChangeDepartment}
-                  placeholder="Select Department"
+                  placeholder="Select School"
                 />
                 {this.state.errorDepartment && (
                   <div style={{ color: "red" }}>

@@ -13,7 +13,9 @@ const init_counters = () => {
       index: 0,
     });
   }
-  Counter.insertMany(docs).then((res) => {
-    console.log("documents inserted");
+  Counter.remove({}).then(() => {
+    Counter.insertMany(docs).then((res) => {
+      console.log("documents inserted");
+    });
   });
 };

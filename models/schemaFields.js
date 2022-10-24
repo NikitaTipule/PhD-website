@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const departments = require("../config/departments");
 
 exports.reqString = {
   type: String,
@@ -19,16 +20,7 @@ exports.email = {
 
 exports.departmentField = {
   type: String,
-  enum: [
-    "Civil Engineering",
-    "Computer Engineering",
-    "Electrical Engineering",
-    "Electronics & Telecommunication Engineering",
-    "Instrumentation & Control Engineering",
-    "Mechanical Engineering",
-    "Metallurgical Engineering",
-    "Production Engineering",
-  ],
+  enum: Object.keys(departments),
 };
 
 exports.preSaveHashPassword = function (next) {

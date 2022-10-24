@@ -23,6 +23,7 @@ import AccountForm from "./AccountForm";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { MobileView, BrowserView } from "react-device-detect";
+import { departmentNamesList } from "../phdAdmDetails";
 
 class AccountHomeNew extends Component {
   constructor(props) {
@@ -206,16 +207,6 @@ class AccountHomeNew extends Component {
   };
 
   render() {
-    const department_options = [
-      "Civil Engineering",
-      "Computer Engineering",
-      "Electrical Engineering",
-      "Electronics & Telecommunication Engineering",
-      "Instrumentation & Control Engineering",
-      "Mechanical Engineering",
-      "Metallurgical Engineering",
-      "Production Engineering",
-    ];
     let counterTotal = 0;
     let counterVerified = 0;
     let counterNotVerified = 0;
@@ -357,7 +348,7 @@ class AccountHomeNew extends Component {
                       Department
                     </Typography>
                     <DropDown
-                      options={department_options}
+                      options={departmentNamesList}
                       onChange={this.onChangeDepartment}
                       value={this.state.department}
                       placeholder="Select Department"

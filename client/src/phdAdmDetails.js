@@ -1,23 +1,10 @@
-export const departmentNames = {
-  civil: "Civil Engineering",
-  computer: "Computer Engineering",
-  electrical: "Electrical Engineering",
-  entc: "Electronics & Telecommunication Engineering",
-  instru: "Instrumentation & Control Engineering",
-  mechanical: "Mechanical Engineering",
-  metallurgy: "Metallurgical Engineering",
-  manufacturing: "Production Engineering",
-};
-
 export const departmentNamesList = [
-  "Civil Engineering",
-  "Computer Engineering",
-  "Electrical Engineering",
-  "Electronics & Telecommunication Engineering",
-  "Instrumentation & Control Engineering",
-  "Mechanical Engineering",
-  "Metallurgical Engineering",
-  "Production Engineering",
+  "School of Electrical and Communication Engineering",
+  "School of Mechanical and Manufacturing Engineering",
+  "School of Civil Engineering and Environmental Sciences",
+  "School of Information and Computational Sciences",
+  "School of Planning, Architecture and Design",
+  "School of Management, General Sciences and Humanities",
 ];
 
 export const verification_options = {

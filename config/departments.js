@@ -1,12 +1,11 @@
 const departmentCodes = {
-  "Civil Engineering": "01",
-  "Computer Engineering": "03",
-  "Electrical Engineering": "05",
-  "Electronics & Telecommunication Engineering": "07",
+  "School of Electrical and Communication Engineering": "01",
+  "School of Mechanical and Manufacturing Engineering": "03",
+  "School of Civil Engineering and Environmental Sciences": "05",
+  "School of Information and Computational Sciences": "07",
   "Instrumentation & Control Engineering": "09",
-  "Mechanical Engineering": "10",
-  "Metallurgical Engineering": "11",
-  "Production Engineering": "12",
+  "School of Planning, Architecture and Design": "10",
+  "School of Management, General Sciences and Humanities": "11",
 };
 
 module.exports = departmentCodes;
