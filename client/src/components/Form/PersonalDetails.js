@@ -1066,7 +1066,7 @@ export default class PersonalDetails extends Component {
                 onChange={this.handleChange}
                 value={this.state.aadhar}
                 name="aadhar"
-                label="Aadhar Card Number"
+                label="Aadhar Card Number (without spaces)"
                 variant="outlined"
                 required
               />

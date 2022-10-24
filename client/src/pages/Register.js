@@ -77,6 +77,9 @@ export default function Register() {
         })
         .catch((err) => {
           setLoading(false);
+          if (err.response?.data?.error) {
+            alert(err.response.data.error);
+          }
           console.log(err.response || err);
         });
     }
