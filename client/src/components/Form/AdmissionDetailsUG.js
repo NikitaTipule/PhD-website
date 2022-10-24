@@ -836,44 +836,42 @@ export default class AdmissionDetailsUG extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.ug.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
+                        {this.state.documentsUploaded
+                          .filter((doc) => doc.type === this.state.ug.name)
+                          .map((doc, id) => (
+                            <div key={id}>
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
                                 </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
+                                <DocViewer
+                                  data={{
+                                    filename: doc.filename,
+                                    contentType: doc.contentType,
+                                    originalName: doc.originalName,
+                                  }}
+                                />
                               </div>
-                            );
-                          }
-                        })}
+                              <div>
+                                {doc.verification === "verified" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "green" }}
+                                  >
+                                    Verified
+                                  </div>
+                                )}
+                                {doc.verification === "mod_req" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "red" }}
+                                  >
+                                    Modification Required
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />

@@ -587,6 +587,41 @@ export default class PersonalDetails extends Component {
     }
   }
 
+  displayDocs = (doctype) => {
+    return this.state.documentsUploaded
+      .filter((doc) => doc.type === this.state[doctype].name)
+      .map((doc, id) => {
+        return (
+          <div key={id}>
+            <div className="docsPreviewDiv">
+              <div className="docsPreviewFilename">
+                {doc.originalName.slice(0, 10) + "...  "}
+              </div>
+              <DocViewer
+                data={{
+                  filename: doc.filename,
+                  contentType: doc.contentType,
+                  originalName: doc.originalName,
+                }}
+              />
+            </div>
+            <div>
+              {doc.verification === "verified" && (
+                <div className="docVerify" style={{ color: "green" }}>
+                  Verified
+                </div>
+              )}
+              {doc.verification === "mod_req" && (
+                <div className="docVerify" style={{ color: "red" }}>
+                  Modification Required
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      });
+  };
+
   render() {
     //var copy;
     const dropdown_options = [
@@ -1149,44 +1184,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.photo.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("photo")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
@@ -1212,44 +1210,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.sign.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("sign")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
@@ -1288,44 +1249,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.nationality_c.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("nationality_c")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
@@ -1351,44 +1275,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.c_certificate.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("c_certificate")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
@@ -1414,44 +1301,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.c_validity.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("c_validity")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
@@ -1477,44 +1327,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.c_ncl.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("c_ncl")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
@@ -1540,44 +1353,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.ews.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("ews")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
@@ -1603,46 +1379,7 @@ export default class PersonalDetails extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (
-                            doc.type === this.state.doc_physicallyDisable.name
-                          ) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
-                                </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                        })}
+                        {this.displayDocs("doc_physicallyDisable")}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
