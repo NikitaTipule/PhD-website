@@ -96,7 +96,9 @@ export default class AdmissionDetailsPG extends Component {
             documentsUploaded: [...prevState.documentsUploaded, docUploaded],
           }));
         } else {
-          this.state.documentsUploaded[i] = docUploaded;
+          const docs = [...this.state.documentsUploaded];
+          docs[i] = docUploaded;
+          this.setState({ documentsUploaded: docs });
         }
 
         // this.setState((prevState) => ({

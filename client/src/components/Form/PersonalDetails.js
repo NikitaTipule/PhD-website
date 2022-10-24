@@ -116,14 +116,10 @@ export default class PersonalDetails extends Component {
             documentsUploaded: [...prevState.documentsUploaded, docUploaded],
           }));
         } else {
-          this.state.documentsUploaded[i] = docUploaded;
+          const docs = [...this.state.documentsUploaded];
+          docs[i] = docUploaded;
+          this.setState({ documentsUploaded: docs });
         }
-
-        // this.setState((prevState) => ({
-        //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
-        // }));
-
-        //console.log(this.state.documentsUploaded);
       })
       .catch((err) => console.log(err.response || "error"));
   };
@@ -518,68 +514,58 @@ export default class PersonalDetails extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            res.data.user.personalInfo &&
-              this.setState({
-                name: res.data.user.personalInfo.name
-                  ? res.data.user.personalInfo.name
-                  : "",
-                middleName: res.data.user.personalInfo.middleName
-                  ? res.data.user.personalInfo.middleName
-                  : "",
-                // email: res.data.user.personalInfo.email
-                //   ? res.data.user.personalInfo.email
-                //   : "",
-                gender: res.data.user.personalInfo.gender
-                  ? res.data.user.personalInfo.gender
-                  : "",
-                motherName: res.data.user.personalInfo.motherName
-                  ? res.data.user.personalInfo.motherName
-                  : "",
-                // mobile: res.data.user.personalInfo.mobile
-                //   ? res.data.user.personalInfo.mobile
-                //   : "",
-                nationality: res.data.user.personalInfo.nationality
-                  ? res.data.user.personalInfo.nationality
-                  : "",
-                category: res.data.user.personalInfo.category
-                  ? res.data.user.personalInfo.category
-                  : "",
-                aadhar: res.data.user.personalInfo.aadhar
-                  ? res.data.user.personalInfo.aadhar
-                  : "",
-                dob: res.data.user.personalInfo.dob
-                  ? res.data.user.personalInfo.dob
-                  : "",
-                physicallyDisabled: res.data.user.personalInfo
-                  .physicallyDisabled
-                  ? res.data.user.personalInfo.physicallyDisabled
-                  : "",
-                department: res.data.user.personalInfo.department
-                  ? res.data.user.personalInfo.department
-                  : "",
-                address: res.data.user.personalInfo.address
-                  ? res.data.user.personalInfo.address
-                  : "",
-                remarks: res.data.user.personalInfo.remarks
-                  ? res.data.user.personalInfo.remarks
-                  : "",
-                verification: res.data.user.personalInfo.verification
-                  ? res.data.user.personalInfo.verification
-                  : "",
-              });
-            this.setState({ editable: res.data.user.editable });
-            res.data.user.editable &&
-            (res.data.user.personalInfo.verification === "mod_req" ||
-              res.data.user.personalInfo.verification === "pending")
-              ? this.setState({ disabled: false })
-              : this.setState({ disabled: true });
-
-            res.data.user.documentsUploaded &&
-              this.setState({
-                documentsUploaded: res.data.user.documentsUploaded
-                  ? res.data.user.documentsUploaded
-                  : [],
-              });
+            let disabled = !(
+              res.data.user.editable &&
+              (res.data.user.personalInfo.verification === "mod_req" ||
+                res.data.user.personalInfo.verification === "pending")
+            );
+            let documentsUploaded = res.data.user.documentsUploaded
+              ? res.data.user.documentsUploaded
+              : [];
+            this.setState({
+              name: res.data.user.personalInfo.name
+                ? res.data.user.personalInfo.name
+                : "",
+              middleName: res.data.user.personalInfo.middleName
+                ? res.data.user.personalInfo.middleName
+                : "",
+              gender: res.data.user.personalInfo.gender
+                ? res.data.user.personalInfo.gender
+                : "",
+              motherName: res.data.user.personalInfo.motherName
+                ? res.data.user.personalInfo.motherName
+                : "",
+              nationality: res.data.user.personalInfo.nationality
+                ? res.data.user.personalInfo.nationality
+                : "",
+              category: res.data.user.personalInfo.category
+                ? res.data.user.personalInfo.category
+                : "",
+              aadhar: res.data.user.personalInfo.aadhar
+                ? res.data.user.personalInfo.aadhar
+                : "",
+              dob: res.data.user.personalInfo.dob
+                ? res.data.user.personalInfo.dob
+                : "",
+              physicallyDisabled: res.data.user.personalInfo.physicallyDisabled
+                ? res.data.user.personalInfo.physicallyDisabled
+                : "",
+              department: res.data.user.personalInfo.department
+                ? res.data.user.personalInfo.department
+                : "",
+              address: res.data.user.personalInfo.address
+                ? res.data.user.personalInfo.address
+                : "",
+              remarks: res.data.user.personalInfo.remarks
+                ? res.data.user.personalInfo.remarks
+                : "",
+              verification: res.data.user.personalInfo.verification
+                ? res.data.user.personalInfo.verification
+                : "",
+              editable: res.data.user.editable,
+              disabled,
+              documentsUploaded,
+            });
           });
       } catch (error) {
         console.log(error.message);
@@ -587,9 +573,9 @@ export default class PersonalDetails extends Component {
     }
   }
 
-  displayDocs = (doctype) => {
+  displayDocs(doc_type) {
     return this.state.documentsUploaded
-      .filter((doc) => doc.type === this.state[doctype].name)
+      .filter((doc) => doc.type === this.state[doc_type].name)
       .map((doc, id) => {
         return (
           <div key={id}>
@@ -620,7 +606,7 @@ export default class PersonalDetails extends Component {
           </div>
         );
       });
-  };
+  }
 
   render() {
     //var copy;
