@@ -157,6 +157,7 @@ class StudentHome extends Component {
       petDetails: "",
       petYear: "",
       full_completed: false,
+      editable: true,
     };
   }
 
@@ -199,7 +200,7 @@ class StudentHome extends Component {
             if(user.personalInfo.completed && user.academicsUG.completed && user.academicsPG.completed && user.entranceDetails.completed && user.feeDetails.completed){
               this.setState({full_completed: true})
             }
-            // console.log("Full completed: ",this.state.full_completed)
+            //console.log("Full completed: ",this.state.full_completed)
             this.setState({
               pdfName: user.personalInfo.name,
               pdfEmail: user.personalInfo.email,
@@ -248,7 +249,7 @@ class StudentHome extends Component {
                 user.entranceDetails?.Gate?.lastDateOfValidation,
               petDetails: user.entranceDetails?.sppuPet?.details,
               petYear: user.entranceDetails?.sppuPet?.year,
-              
+              editable: user.editable,
             });
             //console.log(user.entranceDetails, this.state.givenPet);
           });
@@ -706,9 +707,28 @@ class StudentHome extends Component {
                         {this.state.appId}
                       </p>
                     </Grid>
+                    
                   ) : (
                     ""
                   )}
+                {this.state.appId ? (
+                  <Grid item xs={12} md={6} className="grid-item">
+                  <p style={{ fontSize: "20px" }}>
+                    <b style={{ fontWeight: 600 }}>Profile Status : </b>
+                    {"   "}
+                    {"Locked"}
+                  </p>
+                </Grid> 
+                ) : (
+                  <Grid item xs={12} md={6} className="grid-item">
+                  <p style={{ fontSize: "20px" }}>
+                    <b style={{ fontWeight: 600 }}>Profile Status : </b>
+                    {"   "}
+                    {"Pending"}
+                  </p>
+                </Grid> 
+                )}
+                  
                 </Grid>
               </div>
             </div>
@@ -997,6 +1017,7 @@ class StudentHome extends Component {
               }}
             >
               <button
+              disabled = {(this.state.editable) ? false : true} 
                 style={{
                   // marginTop: "20px",
                   // marginBottom: "30px",
