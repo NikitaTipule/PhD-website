@@ -33,6 +33,7 @@ class Admin extends Component {
       email: "",
       mis: 0,
       length: 0,
+      menu: false,
     };
   }
 
