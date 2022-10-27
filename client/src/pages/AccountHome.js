@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import NavBar from "../components/Navbar/Navbar";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import CloudDownloadTwoToneIcon from "@mui/icons-material/CloudDownloadTwoTone";
 import "../CSS/coHome.css";
@@ -173,7 +173,7 @@ class AccountHomeNew extends Component {
     //   // search: `/${id}`,
     //   state: { details: id, cordId: this.state.id },
     // });
-    console.log(row.index);
+    //console.log(row.index);
     this.setState({
       selectedStudent: row.index,
     });
@@ -182,7 +182,7 @@ class AccountHomeNew extends Component {
   exportToExcel = () => {
     const otherData = [];
     this.state.allStudents.forEach((student) => {
-      const { personalInfo, name, feeDetails, ...otherProp } = student;
+      const { personalInfo, name, feeDetails } = student;
       const { docUploaded, ...otherDetails } = feeDetails;
       const { category } = personalInfo;
       otherData.push({ name, category, ...otherDetails });
@@ -212,9 +212,9 @@ class AccountHomeNew extends Component {
     let counterNotVerified = 0;
     let counterModification = 0;
     let count = 0;
-    let data = {};
-    let vStatus = "verified";
-    let rem = "";
+    // let data = {};
+    // let vStatus = "verified";
+    // let rem = "";
     if (this.state.department !== "") {
       for (let i = 0; i < this.state.length; i++) {
         counterTotal++;

@@ -59,7 +59,7 @@ exports.getAllCords = async (req, res) => {
       cords[i].status.mod_req = cords[i].status.mod_req || 0;
       cords[i].status.total = cords[i].status.total || 0;
     }
-    console.log(cords);
+    //console.log(cords);
     return res.json(cords);
   } catch (error) {
     console.log(error);

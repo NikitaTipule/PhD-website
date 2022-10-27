@@ -181,7 +181,7 @@ export default class EntranceExamDetails extends Component {
       entranceDetails: this.props.data.entranceDetails,
     };
 
-    console.log(entranceDetails);
+    //console.log(entranceDetails);
 
     try {
       axios
@@ -605,13 +605,13 @@ export default class EntranceExamDetails extends Component {
           <div>
             <form>
               <div style={{ marginTop: "30px" }}>
-                <Typography>Details Regarded Extrance Exams</Typography>
+                <Typography>Details of Exams</Typography>
                 <Multiselect
                   disable={this.state.disabled}
                   options={this.state.options}
                   onRemove={this.onRemove}
                   onSelect={this.handleSelect}
-                  placeholder="Details regarded extrance exams..."
+                  placeholder="Details of Exams..."
                   displayValue="name"
                   selectedValues={this.state.optionsSelected}
                   style={{

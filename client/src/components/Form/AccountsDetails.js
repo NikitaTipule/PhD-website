@@ -6,11 +6,11 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+// import FileUploadIcon from "@mui/icons-material/FileUpload";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
 import Divider from "@mui/material/Divider";
 import { Table, TableBody } from "@material-ui/core";
-import { docType } from "../../phdAdmDetails";
+// import { docType } from "../../phdAdmDetails";
 // import { browserHistory } from "react-router";
 
 import "./Documents.css";
@@ -145,7 +145,7 @@ export default class AccountsDetails extends Component {
       const feeDetails = {
         feeDetails: this.props.data.feeDetails,
       };
-      console.log(feeDetails);
+      //console.log(feeDetails);
       try {
         axios
           .post(BACKEND_URL + "/students/edit/fee", feeDetails, {
@@ -155,7 +155,7 @@ export default class AccountsDetails extends Component {
             console.log("Accounts Info Added");
           });
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
     }
 

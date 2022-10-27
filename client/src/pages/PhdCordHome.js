@@ -44,6 +44,7 @@ class PhdCordHome extends Component {
       id: "",
       role: localStorage.getItem("phd-website-role"),
       isAllList: false,
+      menu: false
     };
   }
 
@@ -63,10 +64,10 @@ class PhdCordHome extends Component {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
       });
-      console.log(
-        localStorage.getItem("phd-website-jwt"),
-        localStorage.getItem("phd-website-role")
-      );
+      // //console.log(
+      //   localStorage.getItem("phd-website-jwt"),
+      //   localStorage.getItem("phd-website-role")
+      // );
       if (localStorage.getItem("phd-website-role") === "admin") {
         if (!id_phd) {
           this.setState({
@@ -109,7 +110,7 @@ class PhdCordHome extends Component {
                 headers: { "phd-website-jwt": this.state.token },
               })
               .then((res) => {
-                console.log(res);
+                //console.log(res);
                 this.setState({
                   name: res.data.user.name,
                   email: res.data.user.email,
@@ -273,7 +274,7 @@ class PhdCordHome extends Component {
   };
 
   oncellClick(id) {
-    console.log(id);
+    //console.log(id);
     this.props.history.push({
       pathname: "/coform",
       // search: `/${id}`,
@@ -282,7 +283,7 @@ class PhdCordHome extends Component {
   }
 
   exportToExcel = () => {
-    console.log(this.state.allStudentData);
+    //console.log(this.state.allStudentData);
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
@@ -347,7 +348,7 @@ class PhdCordHome extends Component {
         // sppuPet_year,
       });
     });
-    console.log(otherData);
+    //console.log(otherData);
     const XLSX = require("xlsx");
     const workSheet = XLSX.utils.json_to_sheet(otherData);
     workSheet["!cols"] = [

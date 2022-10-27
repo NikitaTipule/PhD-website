@@ -9,7 +9,7 @@ import axios from "axios";
 import NavBar from "../components/Navbar/Navbar";
 import DocViewer from "./DocViewer";
 import Sidebar from "../components/Sidebar";
-import { flexbox } from "@mui/system";
+// import { flexbox } from "@mui/system";
 
 export default class phdCordForm extends Component {
   constructor(props) {
@@ -87,7 +87,7 @@ export default class phdCordForm extends Component {
                 ? res.data.user.applicationId
                 : null,
             });
-            console.log(this.state.documentsUploaded);
+            //console.log(this.state.documentsUploaded);
           });
       } catch (error) {
         console.log(error.response);
@@ -140,7 +140,7 @@ export default class phdCordForm extends Component {
         this.setState({
           redirect: !this.state.redirect,
         });
-        console.log("verification details submitted");
+        //console.log("verification details submitted");
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -163,8 +163,8 @@ export default class phdCordForm extends Component {
     
     if (this.state.redirect) {
       // return <Redirect to="/coordinator" />;
-      console.log(this.props.location.state.details);
-      console.log(this.props.location.state.cordId);
+      //console.log(this.props.location.state.details);
+      //console.log(this.props.location.state.cordId);
       this.props.history.push({
         pathname: "/coordinator",
         state: { details: this.props.location.state.cordId },

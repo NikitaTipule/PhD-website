@@ -33,6 +33,7 @@ class Admin extends Component {
       email: "",
       mis: 0,
       length: 0,
+      menu: false,
     };
   }
 
@@ -98,7 +99,7 @@ class Admin extends Component {
   };
 
   oncellClick(id) {
-    console.log(id);
+    //console.log(id);
     this.props.history.push({
       pathname: "/coordinator",
       // search: `/${id}`,

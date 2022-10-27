@@ -2,7 +2,9 @@ const Student = require("../models/student");
 const Counter = require("../models/counter");
 
 exports.myProfileStudent = (req, res) => {
-  if (!req.userId) res.status(400).json({ error: "id is required" });
+  if (!req.userId) {
+    return res.status(400).json({ error: "id is required" });
+  }
   Student.findById(req.userId, (err, user) => {
     if (err) {
       return res.status(404).json({ error: "user doesn't exist" });
@@ -159,7 +161,7 @@ exports.editStudentFeeDetails = async (req, res) => {
 
 exports.editStudentInfo = async (req, res) => {
   if (req.userRole != "student") {
-    res.status(403).json({ error: "only student can update his info" });
+    return res.status(403).json({ error: "only student can update his info" });
   }
   // user can edit any of these fields using this route
   const field_list = [
@@ -181,7 +183,7 @@ exports.editStudentInfo = async (req, res) => {
       console.log(err);
       return res.json({ error: "couldn't update record" });
     });
-    res.json({ success: "true" });
+    return res.json({ success: "true" });
   } catch (error) {
     res.status(400).json({ error: "request body contains invalid data" });
   }
@@ -315,7 +317,7 @@ exports.verifyStudentInfo = (req, res) => {
         user.editable = false;
       }
 
-      console.log("EDITABLE : ", user.infoVerified, user.editable);
+      //console.log("EDITABLE : ", user.infoVerified, user.editable);
 
       user
         .save()

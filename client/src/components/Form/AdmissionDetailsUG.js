@@ -11,7 +11,7 @@ import Divider from "@mui/material/Divider";
 import { Table, TableBody } from "@material-ui/core";
 import { docType } from "../../phdAdmDetails";
 import DocViewer from "../../pages/DocViewer";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
 import DropDown from "react-dropdown";
 export default class AdmissionDetailsUG extends Component {
   constructor(props) {
@@ -86,7 +86,9 @@ export default class AdmissionDetailsUG extends Component {
             documentsUploaded: [...prevState.documentsUploaded, docUploaded],
           }));
         } else {
-          this.state.documentsUploaded[i] = docUploaded;
+          const docs = [...this.state.documentsUploaded];
+          docs[i] = docUploaded;
+          this.setState({ documentsUploaded: docs });
         }
 
         // this.setState((prevState) => ({
@@ -199,7 +201,7 @@ export default class AdmissionDetailsUG extends Component {
         this.state.errorUniversity === false &&
         this.state.errorSpecialization === false &&
         ((this.state.errorSpecialization === false &&
-          this.state.specialization != "OTHER") ||
+          this.state.specialization !== "OTHER") ||
           (this.state.specialization === "OTHER" &&
             this.state.otherSpecialization)) &&
         //this.state.errorMarksObtained === false &&
@@ -227,14 +229,14 @@ export default class AdmissionDetailsUG extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsUG.institute = this.state.university;
 
-        if (this.state.nomenclature == "OTHER") {
+        if (this.state.nomenclature === "OTHER") {
           this.props.data.academicsUG.degree =
             this.state.nomenclature + " " + this.state.otherNomenclature;
         } else {
           this.props.data.academicsUG.degree = this.state.nomenclature;
         }
 
-        if (this.state.specialization == "OTHER") {
+        if (this.state.specialization === "OTHER") {
           this.props.data.academicsUG.specialization =
             this.state.specialization + " " + this.state.otherSpecialization;
         } else {
@@ -836,44 +838,42 @@ export default class AdmissionDetailsUG extends Component {
                         ) : (
                           ""
                         )}
-                        {this.state.documentsUploaded.map((doc, id) => {
-                          if (doc.type === this.state.ug.name) {
-                            return (
-                              <div key={id}>
-                                <div className="docsPreviewDiv">
-                                  <div className="docsPreviewFilename">
-                                    {doc.originalName.slice(0, 10) + "...  "}
-                                  </div>
-                                  <DocViewer
-                                    data={{
-                                      filename: doc.filename,
-                                      contentType: doc.contentType,
-                                      originalName: doc.originalName,
-                                    }}
-                                  />
+                        {this.state.documentsUploaded
+                          .filter((doc) => doc.type === this.state.ug.name)
+                          .map((doc, id) => (
+                            <div key={id}>
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
                                 </div>
-                                <div>
-                                  {doc.verification === "verified" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "green" }}
-                                    >
-                                      Verified
-                                    </div>
-                                  )}
-                                  {doc.verification === "mod_req" && (
-                                    <div
-                                      className="docVerify"
-                                      style={{ color: "red" }}
-                                    >
-                                      Modification Required
-                                    </div>
-                                  )}
-                                </div>
+                                <DocViewer
+                                  data={{
+                                    filename: doc.filename,
+                                    contentType: doc.contentType,
+                                    originalName: doc.originalName,
+                                  }}
+                                />
                               </div>
-                            );
-                          }
-                        })}
+                              <div>
+                                {doc.verification === "verified" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "green" }}
+                                  >
+                                    Verified
+                                  </div>
+                                )}
+                                {doc.verification === "mod_req" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "red" }}
+                                  >
+                                    Modification Required
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
                       </div>
                     </div>
                     <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
