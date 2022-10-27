@@ -130,10 +130,15 @@ export default function StudentLogIn() {
                       )}
                     </Button>
                   </Grid>
-                  <Grid container spacing={20}>
+                  <Grid container spacing={5}>
                     <Grid item xs>
                       <Link href="/" variant="body2">
                         {"Home Page"}
+                      </Link>
+                    </Grid>
+                    <Grid item xs>
+                      <Link href="/forgetpassword" variant="body2">
+                        {"Forget Password?"}
                       </Link>
                     </Grid>
                     <Grid item xs>
