@@ -17,6 +17,7 @@ import RemoveAccountForm from "./pages/RemoveAccountForm";
 import AddAccountForm from "./pages/AddAccountForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoginAccountSection from "./pages/LoginAccountSection";
+import ForgetPassword from "./pages/ForgetPassword";
 import { roles } from "./phdAdmDetails";
 import axios from "axios";
 import DocViewer from "./pages/DocViewer";
@@ -62,6 +63,7 @@ function App() {
         <Route path="/register" component={Register} exact></Route>
         <Route path="/login/candidate" component={StudentLogIn} exact></Route>
         <Route path="/login/staff" component={FacLogIn} exact></Route>
+        <Route path="/forgetpassword" component={ForgetPassword} exact></Route>
         <Route
           path="/login/account-section"
           component={LoginAccountSection}
