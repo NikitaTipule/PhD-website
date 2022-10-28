@@ -47,6 +47,7 @@ export default class AdmissionDetailsUG extends Component {
       errorCGPA: false,
       errorPercentage: false,
       errorDod: false,
+      errorFileSize: false,
 
       documentsUploaded: [],
 
@@ -61,6 +62,10 @@ export default class AdmissionDetailsUG extends Component {
     const formData = new FormData();
     formData.append("file", this.state.selectedFile);
 
+    if(this.state.selectedFile && this.state.selectedFile.size > 1000000)
+    {
+      this.state.errorFileSize = true
+    }
     const i = await this.state.documentsUploaded
       .map((e) => e.type)
       .indexOf(event.target.name);
@@ -200,6 +205,7 @@ export default class AdmissionDetailsUG extends Component {
         !this.state.ug.error &&
         this.state.errorUniversity === false &&
         this.state.errorSpecialization === false &&
+        this.state.errorFileSize === false &&
         ((this.state.errorSpecialization === false &&
           this.state.specialization !== "OTHER") ||
           (this.state.specialization === "OTHER" &&
@@ -833,11 +839,28 @@ export default class AdmissionDetailsUG extends Component {
                           name={this.state.ug.name}
                           onChange={this.onFileChange}
                         />
+              {(() => {
+                if (this.state.errorFileSize)
+                {
+                  return(<div className="docsError">File size exceeded than 10 MB</div>)
+                }
+                else if (this.state.ug.error) {
+                  return(<div className="docsError">Please upload file</div>)
+                }
+              })()}
+
+                        {/* {this.state.errorFileSize ? (
+                          <div className="docsError">File size exceeded than 10 MB</div>
+                        ) : (
+                          ""
+                        )}
+
                         {this.state.ug.error ? (
                           <div className="docsError">Please upload file</div>
                         ) : (
                           ""
-                        )}
+                        )} */}
+                        
                         {this.state.documentsUploaded
                           .filter((doc) => doc.type === this.state.ug.name)
                           .map((doc, id) => (
