@@ -5,6 +5,8 @@ const {
   verifyMail,
   verifyMobile,
   sendOtp,
+  requestPasswordReset,
+  passwordReset,
 } = require("../controllers/auth");
 const { auth } = require("../middleware/auth");
 const {
@@ -26,8 +28,9 @@ const router = express.Router();
 router.post("/login", loginStudent);
 router.post("/register", registerStudent);
 router.post("/verifymail", verifyMail);
-router.post("/verifymobile", verifyMobile);
 router.post("/resendotp", sendOtp);
+router.post("/request-password-reset", requestPasswordReset);
+router.post("/password-reset", passwordReset);
 
 router.get("/me", [auth, myProfileStudent]);
 router.get("/:userId", [auth, getStudentInfo]);

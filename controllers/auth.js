@@ -44,7 +44,7 @@ exports.registerStudent = (req, res) => {
         .save()
         .then((user) => {
           req.body.userId = user._id;
-          return sendOtp(req, res, email);
+          return sendOtp(req, res);
         })
         .catch((err) => res.status(400).json({ error: "Unknown error" }));
     })
@@ -54,8 +54,9 @@ exports.registerStudent = (req, res) => {
     });
 };
 
-const sendOtp = async (req, res, email) => {
+const sendOtp = async (req, res) => {
   const userId = req.body.userId;
+  const email = req.body.email;
   MailOtp.deleteMany({ userId });
 
   const mailToken = new MailOtp({
@@ -82,6 +83,42 @@ const sendOtp = async (req, res, email) => {
 
 exports.sendOtp = sendOtp;
 
+exports.requestPasswordReset = (req, res) => {
+  if (!req.body.email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+  Student.findOne({ email: req.body.email })
+    .then(async (user) => {
+      if (!user) {
+        return res
+          .status(404)
+          .json({ error: "User with this email doesn't exist" });
+      }
+      req.body.userId = user._id;
+      return sendOtp(req, res);
+    })
+    .catch((err) => {});
+};
+
+exports.passwordReset = async (req, res) => {
+  const { userId, otp, password } = req.body;
+  if (!(userId && otp && password)) {
+    return res.status(400).json({ error: "otp and password required" });
+  }
+  MailOtp.findOne({ userId, otp }, async (err, token) => {
+    if (err || !token) {
+      return res.status(400).send({ error: "Invalid user or OTP" });
+    }
+    user = await Student.findById(userId).exec();
+    user.password = password;
+    Promise.all([user.save(), MailOtp.deleteOne({ _id: token._id }).exec()])
+      .then((val) => {
+        res.send("password reset successful. Please login");
+      })
+      .catch((err) => res.status(400).send({ error: "An error occured" }));
+  });
+};
+
 exports.verifyMail = async (req, res) => {
   const { userId, otp } = req.body;
   // console.log(userId, otp);
@@ -101,29 +138,6 @@ exports.verifyMail = async (req, res) => {
       MailOtp.deleteOne({ _id: token._id }).exec(),
     ]);
     res.send("Email verified sucessfully.");
-  } catch (error) {
-    console.log(error);
-    res.status(400).send("An error occured");
-  }
-};
-
-exports.verifyMobile = async (req, res) => {
-  const { userId, otp } = req.body;
-  try {
-    const user = await Student.findById(userId).exec();
-    if (!user) return res.status(400).send("Invalid user");
-    if (user.mobileVerified) return res.send("Email already verified");
-    const token = await PhoneOtp.findOne({
-      userId,
-      otp,
-    });
-    if (!token) return res.status(400).send("Invalid otp");
-    user.mobileVerified = true;
-    await Promise.all([
-      user.save(),
-      PhoneOtp.deleteOne({ _id: token._id }).exec(),
-    ]);
-    res.send("Mobile number verified sucessfully.");
   } catch (error) {
     console.log(error);
     res.status(400).send("An error occured");

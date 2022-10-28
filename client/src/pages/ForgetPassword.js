@@ -20,27 +20,38 @@ const theme = createTheme();
 const initialFValues = {
   email: "",
   otp: "",
-  newpassword: "",
+  newPassword: "",
+  rePassword: "",
 };
 export default function ForgetPassword() {
   let history = useHistory();
-  const [loading, setLoading] = useState(false);
-  const [sendOTP, setSendOTP] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const validate = (fieldValues = values) => {
-    console.log(fieldValues.newpassword);
-    console.log(fieldValues.otp);
     let temp = { ...errors };
     if ("email" in fieldValues) {
       temp.email = fieldValues.email ? "" : "This field is required.";
       const isValidMail = /$^|.+@.+..+/.test(fieldValues.email);
       if (!isValidMail) temp.email = "Email is not valid.";
     }
-    if ("password" in fieldValues)
-      temp.password = fieldValues.password ? "" : "This field is required.";
+    if ("newPsassword" in fieldValues) {
+      temp.newPassword = fieldValues.newPassword
+        ? ""
+        : "This field is required.";
+    }
+    if ("rePassword" in fieldValues) {
+      temp.rePassword =
+        fieldValues.rePassword !== values.newPassword
+          ? "passwords do not match"
+          : "";
+    }
+    if ("otp" in fieldValues) {
+      temp.otp = fieldValues.otp ? "" : "This field is required.";
+    }
     setErrors(temp);
-    if (fieldValues === values)
-      return Object.values(temp).every((x) => x === "");
+    return Object.values(temp).every((x) => x === "");
   };
 
   const { values, errors, setErrors, handleInputChange } = useForm(
@@ -51,54 +62,61 @@ export default function ForgetPassword() {
 
   const handleConfirm = (e) => {
     e.preventDefault();
-    if (validate()) {
-      const data = {
+    if (
+      validate({
         otp: values.otp,
-        newpassword: values.newpassword,
+        newPassword: values.newPassword,
+        rePassword: values.rePassword,
+      })
+    ) {
+      const url = BACKEND_URL + "/students/password-reset";
+      setLoading2(true);
+      const data = {
+        userId,
+        otp: values.otp,
+        password: values.newPassword,
       };
-      console.log(data);
+      axios
+        .post(url, data)
+        .then((res) => {
+          setLoading2(false);
+          alert("password reset successful. Please login");
+          history.push("/login/candidate");
+        })
+        .catch((err) => {
+          setLoading2(false);
+          alert("Invalid OTP. Could not reset password");
+          console.log(err.response || err);
+        });
     }
-    history.push("/login/candidate");
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // if (validate()) {
-    //   const data = {
-    //     email: values.email,
-    //     password: values.password,
-    //   };
-    //   console.log(data);
-    //   const url = BACKEND_URL + "/students/login";
-    //   setLoading(true);
-    //   axios
-    //     .post(url, data)
-    //     .then((res) => {
-    //       setLoading(false);
-    //       if (res.data.otp_error) {
-    //         history.push("/candidate-otp", { userId: res.data.userId });
-    //       } else {
-    //         localStorage.setItem("phd-website-jwt", res.data.token);
-    //         localStorage.setItem("phd-website-role", "student");
-    //         setSendOTP(true);
-    //         // history.push("/candidate");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       setLoading(false);
-    //       alert("Invalid credentials. Login again");
-    //       console.log(err.response || err);
-    //     });
-    // }
-    console.log(values.email);
-    setSendOTP(true);
+    e.preventDefault();
+    if (validate({ email: values.email })) {
+      const url = BACKEND_URL + "/students/request-password-reset";
+      setLoading1(true);
+      axios
+        .post(url, {
+          email: values.email,
+        })
+        .then((res) => {
+          setLoading1(false);
+          setUserId(res.data.userId);
+        })
+        .catch((err) => {
+          setLoading1(false);
+          alert("User not found");
+          console.log(err.response || err);
+        });
+    }
   };
   return (
     <>
       {/* <NavBar /> */}
       <ThemeProvider theme={theme}>
         <NavBar loggedin={false} />
-        {sendOTP ? (
+        {userId ? (
           <div>
             <Container
               component="main"
@@ -129,11 +147,18 @@ export default function ForgetPassword() {
                         error={errors.otp}
                       />
                       <Input
-                        name="newpassword"
+                        name="newPassword"
                         label="New Password*"
-                        value={values.newpassword}
+                        value={values.newPassword}
                         onChange={handleInputChange}
-                        error={errors.newpassword}
+                        error={errors.newPassword}
+                      />
+                      <Input
+                        name="rePassword"
+                        label="Retype New Password*"
+                        value={values.rePassword}
+                        onChange={handleInputChange}
+                        error={errors.rePassword}
                       />
 
                       <Grid item xs={12}>
@@ -144,7 +169,7 @@ export default function ForgetPassword() {
                           onClick={handleConfirm}
                           style={{ width: "100%", marginLeft: "2%" }}
                         >
-                          {loading ? (
+                          {loading2 ? (
                             <CircularProgress size="1.7em" color="inherit" />
                           ) : (
                             "Confirm"
@@ -207,7 +232,7 @@ export default function ForgetPassword() {
                         onClick={handleSubmit}
                         style={{ width: "100%", marginLeft: "2%" }}
                       >
-                        {loading ? (
+                        {loading1 ? (
                           <CircularProgress size="1.7em" color="inherit" />
                         ) : (
                           "Send OTP"
