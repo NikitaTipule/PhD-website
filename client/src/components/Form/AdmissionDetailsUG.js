@@ -62,9 +62,13 @@ export default class AdmissionDetailsUG extends Component {
     const formData = new FormData();
     formData.append("file", this.state.selectedFile);
 
-    if(this.state.selectedFile && this.state.selectedFile.size > 1000000)
-    {
-      this.state.errorFileSize = true
+    if (
+      this.state.selectedFile !== undefined &&
+      this.state.selectedFile.size > 1000000
+    ) {
+      this.state.errorFileSize = true;
+    } else {
+      this.state.errorFileSize = false;
     }
     const i = await this.state.documentsUploaded
       .map((e) => e.type)
@@ -839,15 +843,22 @@ export default class AdmissionDetailsUG extends Component {
                           name={this.state.ug.name}
                           onChange={this.onFileChange}
                         />
-              {(() => {
-                if (this.state.errorFileSize)
-                {
-                  return(<div className="docsError">File size exceeded than 10 MB</div>)
-                }
-                else if (this.state.ug.error) {
-                  return(<div className="docsError">Please upload file</div>)
-                }
-              })()}
+                        {(() => {
+                          if (this.state.errorFileSize) {
+                            this.state.ug.error = false;
+                            return (
+                              <div className="docsError">
+                                File size exceeded than 10 MB
+                              </div>
+                            );
+                          } else if (this.state.ug.error) {
+                            return (
+                              <div className="docsError">
+                                Please upload file
+                              </div>
+                            );
+                          }
+                        })()}
 
                         {/* {this.state.errorFileSize ? (
                           <div className="docsError">File size exceeded than 10 MB</div>
@@ -860,7 +871,7 @@ export default class AdmissionDetailsUG extends Component {
                         ) : (
                           ""
                         )} */}
-                        
+
                         {this.state.documentsUploaded
                           .filter((doc) => doc.type === this.state.ug.name)
                           .map((doc, id) => (

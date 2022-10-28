@@ -45,6 +45,7 @@ export default class AdmissionDetailsPG extends Component {
       //errorTotalMarks: false,
       errorCGPA: false,
       errorPercentage: false,
+      errorFileSize: false,
 
       documentsUploaded: [],
 
@@ -70,6 +71,15 @@ export default class AdmissionDetailsPG extends Component {
 
     const formData = new FormData();
     formData.append("file", this.state.selectedFile);
+
+    if(this.state.selectedFile !== undefined && this.state.selectedFile.size > 1000000)
+    {
+      this.state.errorFileSize = true
+    }
+
+    else{
+      this.state.errorFileSize = false
+    }
 
     const i = await this.state.documentsUploaded
       .map((e) => e.type)
@@ -181,6 +191,7 @@ export default class AdmissionDetailsPG extends Component {
     } else {
       await this.validateData();
       if (
+        this.state.errorFileSize === false &&
         this.state.errorUniversity === false &&
         ((this.state.errorSpecialization === false &&
           this.state.specialization !== "OTHER") ||
@@ -774,11 +785,21 @@ export default class AdmissionDetailsPG extends Component {
                           name={this.state.pg.name}
                           onChange={this.onFileChange}
                         />
-                        {this.state.pg.error ? (
+              {(() => {
+                if (this.state.errorFileSize)
+                {
+                  this.state.pg.error = false
+                  return(<div className="docsError">File size exceeded than 10 MB</div>)
+                }
+                else if (this.state.pg.error) {
+                  return(<div className="docsError">Please upload file</div>)
+                }
+              })()}
+                        {/* {this.state.pg.error ? (
                           <div className="docsError">Please upload file</div>
                         ) : (
                           ""
-                        )}
+                        )} */}
                         {this.state.documentsUploaded
                           .filter((doc) => doc.type === this.state.pg.name)
                           .map((doc, id) => (
