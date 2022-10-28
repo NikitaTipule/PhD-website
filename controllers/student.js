@@ -70,17 +70,7 @@ exports.lockProfile = (req, res) => {
       console.log(err);
       return res.status(400).json({ err });
     }
-    if (
-      user.personalInfo.verification === "mod_req" ||
-      user.academicsUG.verification === "mod_req" ||
-      user.academicsPG.verification === "mod_req" ||
-      user.entranceDetails.verification === "mod_req" ||
-      user.feeDetails.verification === "mod_req"
-    ) {
-      user.editable = true;
-    } else {
-      user.editable = false;
-    }
+    user.editable = false;
     const dept = user.personalInfo.department;
     Counter.findOne({ department: dept }, (err, counter) => {
       if (err) {
@@ -147,13 +137,13 @@ exports.editStudentFeeDetails = async (req, res) => {
   }
   try {
     const user = await Student.findById(req.userId).exec();
-    if (!user.editable) {
-      return res.status(403).json({ error: "Your profile is locked" });
+    if (!user.editable || user.feeDetails.verification === "verified") {
+      return res.status(403).json({ error: "Your fee details are locked" });
     }
     user.feeDetails = req.body.feeDetails;
     user.feeDetails.verification = "pending";
     await user.save();
-    res.json({ success: "true" });
+    return res.json({ success: "true" });
   } catch (error) {
     res.status(400).json({ error: "request body contains invalid data" });
   }
@@ -177,7 +167,11 @@ exports.editStudentInfo = async (req, res) => {
       return res.status(403).json({ error: "Your profile is locked" });
     }
     for (const field of fields) {
-      user[field] = req.body[field];
+      if (user[field].verification !== "verified") {
+        user[field] = req.body[field];
+        user[field].verification = "pending";
+        user.infoVerified = "pending";
+      }
     }
     await user.save().catch((err) => {
       console.log(err);
@@ -201,21 +195,25 @@ exports.verifyFeeDetails = async (req, res) => {
       .status(403)
       .json({ error: "studentId or verification status is missing" });
   }
-  try {
-    await Student.updateOne(
-      { _id: studentId },
-      {
-        $set: {
-          "feeDetails.verification": verification,
-          "feeDetails.remarks": remarks,
-          editable: verification === "mod_req",
-        },
-      }
-    );
-    res.json({ success: "true" });
-  } catch (error) {
-    res.status(403).json({ error: "invalid request" });
-  }
+
+  Student.findById(studentId, (err, user) => {
+    if (err || !user) {
+      return res.status(404).json({ error: "user doesn't exist" });
+    }
+    user.feeDetails.verification = verification;
+    user.feeDetails.remarks = remarks;
+    user.feeDetails.completed = verification !== "mod_req";
+    user.editable = user.editable || verification === "mod_req";
+    user
+      .save()
+      .then(() => res.json({ success: true }))
+      .catch((err) => {
+        console.log(err);
+        res
+          .status(400)
+          .json({ error: "couldn't save updated record to database" });
+      });
+  });
 };
 
 const applyVerification = (newDocs, origDocs) => {
@@ -240,36 +238,30 @@ const infoVerifiedStatus = (user) => {
     "entranceDetails",
   ];
 
-  let dv = 0,
-    dp = 0,
+  let dp = 0,
     dm = 0,
     docVerification = "pending";
-  user.documentsUploaded.map((doc) => {
+  for (let doc of user.documentsUploaded) {
     if (doc.verification === "mod_req") {
       dm = dm + 1;
     } else if (doc.verification === "pending") {
       dp = dp + 1;
-    } else {
-      dv = dv + 1;
     }
-  });
+  }
 
   if (dm > 0) {
     docVerification = "mod_req";
-  } else if (dp === 0 && dm === 0) {
+  } else if (dp === 0) {
     docVerification = "verified";
   }
 
   let p = 0,
-    m = 0,
-    v = 0;
+    m = 0;
   for (let f of field_list) {
     if (user[f].verification === "mod_req") {
       m = m + 1;
     } else if (user[f].verification === "pending") {
       p = p + 1;
-    } else {
-      v = v + 1;
     }
   }
 
@@ -294,16 +286,18 @@ exports.verifyStudentInfo = (req, res) => {
       return res.status(404).json({ error: "user doesn't exist" });
     }
     try {
-      user.personalInfo.verification = req.body.personalInfoStatus;
-      user.personalInfo.remarks = req.body.personalInfoRemark;
-      user.academicsUG.verification = req.body.academicsUGStatus;
-      user.academicsUG.remarks = req.body.academicsUGRemark;
-      user.academicsPG.verification = req.body.academicsPGStatus;
-      user.academicsPG.remarks = req.body.academicsPGRemark;
-      user.entranceDetails.verification = req.body.entranceDetailsStatus;
-      user.entranceDetails.remarks = req.body.entranceDetailsRemark;
       user.remarks = req.body.remarks;
-
+      const field_list = [
+        "personalInfo",
+        "academicsUG",
+        "academicsPG",
+        "entranceDetails",
+      ];
+      for (let field of field_list) {
+        user[field].verification = req.body[field].status;
+        user[field].remarks = req.body[field].remarks;
+        user[field].completed = user[field].verification !== "mod_req";
+      }
       user.documentsUploaded = applyVerification(
         req.body.documentsUploaded,
         user.documentsUploaded
@@ -311,13 +305,7 @@ exports.verifyStudentInfo = (req, res) => {
 
       user.infoVerified = infoVerifiedStatus(user);
 
-      if (user.infoVerified === "mod_req") {
-        user.editable = true;
-      } else {
-        user.editable = false;
-      }
-
-      //console.log("EDITABLE : ", user.infoVerified, user.editable);
+      user.editable = user.editable || user.infoVerified === "mod_req";
 
       user
         .save()

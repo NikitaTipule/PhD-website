@@ -120,14 +120,22 @@ export default class phdCordForm extends Component {
   handleSubmit = async (event) => {
     const data = {
       studentId: this.props.location.state.details,
-      personalInfoRemark: this.state.personalInfoRemark,
-      personalInfoStatus: this.state.personalInfoStatus,
-      academicsUGRemark: this.state.academicsUGRemark,
-      academicsUGStatus: this.state.academicsUGStatus,
-      academicsPGRemark: this.state.academicsPGRemark,
-      academicsPGStatus: this.state.academicsPGStatus,
-      entranceDetailsRemark: this.state.entranceDetailsRemark,
-      entranceDetailsStatus: this.state.entranceDetailsStatus,
+      personalInfo: {
+        status: this.state.personalInfoStatus,
+        remarks: this.state.personalInfoRemark,
+      },
+      academicsUG: {
+        status: this.state.academicsUGStatus,
+        remarks: this.state.academicsUGRemark,
+      },
+      academicsPG: {
+        status: this.state.academicsPGStatus,
+        remarks: this.state.academicsPGRemark,
+      },
+      entranceDetails: {
+        status: this.state.entranceDetailsStatus,
+        remarks: this.state.entranceDetailsRemark,
+      },
       documentsUploaded: this.state.documentsUploaded,
       remarks: this.state.remarks,
     };
@@ -159,8 +167,6 @@ export default class phdCordForm extends Component {
   };
 
   render() {
-
-    
     if (this.state.redirect) {
       // return <Redirect to="/coordinator" />;
       //console.log(this.props.location.state.details);
@@ -298,14 +304,25 @@ export default class phdCordForm extends Component {
                               doc.type === "EWS Certificate" ||
                               doc.type === "Proof of Physical Disability") && (
                               <div className="field2">
-                                <div className="documents" key={doc.id} >
-                                  <div className="docFieldName" style={{width:"300px"}}>
+                                <div className="documents" key={doc.id}>
+                                  <div
+                                    className="docFieldName"
+                                    style={{ width: "300px" }}
+                                  >
                                     {doc.type + "  :"}
                                   </div>
-                                  <div className="iconMobile" style={{display:"flex", flexDirection:"row", margin:"auto",paddingBottom:"60px"}}>
+                                  <div
+                                    className="iconMobile"
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      margin: "auto",
+                                      paddingBottom: "60px",
+                                    }}
+                                  >
                                     {/* <div>{id}</div> */}
                                     <div>Preview</div>
-                                    <div style={{paddingLeft:"10px"}}>
+                                    <div style={{ paddingLeft: "10px" }}>
                                       <DocViewer
                                         data={{
                                           filename: doc.filename,
@@ -316,7 +333,7 @@ export default class phdCordForm extends Component {
                                     </div>
                                   </div>
                                   <div className="icon">
-                                    <div >
+                                    <div>
                                       {/* Verification Component for documents  */}
                                       <div className="verify">
                                         <div style={{ width: "100%" }}>
@@ -325,7 +342,13 @@ export default class phdCordForm extends Component {
                                             onChange={(e) =>
                                               this.onChangeVerify(e, id)
                                             }
-                                            style={{display:"flex", flexDirection:"column", margin:"auto",align:"center"}}>
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              margin: "auto",
+                                              align: "center",
+                                            }}
+                                          >
                                             <div style={{ display: "none" }}>
                                               <input
                                                 type="radio"
@@ -349,7 +372,7 @@ export default class phdCordForm extends Component {
                                               />
                                               Pending
                                             </div>
-                                            <div >
+                                            <div>
                                               <input
                                                 type="radio"
                                                 value="mod_req"
@@ -369,7 +392,8 @@ export default class phdCordForm extends Component {
                                                     documentsUploaded: copy,
                                                   });
                                                 }}
-                                              />{'\n'}
+                                              />
+                                              {"\n"}
                                               Not Verified
                                             </div>
                                             <div>
@@ -1036,10 +1060,9 @@ export default class phdCordForm extends Component {
                                   <input
                                     type="radio"
                                     value="mod_req"
-                                    name="entranceDetailsStatus"
+                                    name="academicsPGStatus"
                                     checked={
-                                      this.state.entranceDetailsStatus ===
-                                      "mod_req"
+                                      this.state.academicsPGStatus === "mod_req"
                                     }
                                     onChange={this.onChangeVerify}
                                     className="radio"
@@ -1319,7 +1342,7 @@ export default class phdCordForm extends Component {
                           <div className="icon">
                             <div>
                               <div className="verify">
-                                <div style={{ width: "100%",}}>
+                                <div style={{ width: "100%" }}>
                                   <div className="radios">
                                     <div style={{ display: "none" }}>
                                       <input

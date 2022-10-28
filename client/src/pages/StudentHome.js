@@ -707,28 +707,26 @@ class StudentHome extends Component {
                         {this.state.appId}
                       </p>
                     </Grid>
-                    
                   ) : (
                     ""
                   )}
-                {this.state.appId ? (
-                  <Grid item xs={12} md={6} className="grid-item">
-                  <p style={{ fontSize: "20px" }}>
-                    <b style={{ fontWeight: 600 }}>Profile Status : </b>
-                    {"   "}
-                    {"Locked"}
-                  </p>
-                </Grid> 
-                ) : (
-                  <Grid item xs={12} md={6} className="grid-item">
-                  <p style={{ fontSize: "20px" }}>
-                    <b style={{ fontWeight: 600 }}>Profile Status : </b>
-                    {"   "}
-                    {"Pending"}
-                  </p>
-                </Grid> 
-                )}
-                  
+                  {this.state.editable ? (
+                    <Grid item xs={12} md={6} className="grid-item">
+                      <p style={{ fontSize: "20px" }}>
+                        <b style={{ fontWeight: 600 }}>Profile Status : </b>
+                        {"   "}
+                        {"Editable"}
+                      </p>
+                    </Grid>
+                  ) : (
+                    <Grid item xs={12} md={6} className="grid-item">
+                      <p style={{ fontSize: "20px" }}>
+                        <b style={{ fontWeight: 600 }}>Profile Status : </b>
+                        {"   "}
+                        {"Locked"}
+                      </p>
+                    </Grid>
+                  )}
                 </Grid>
               </div>
             </div>
@@ -1017,7 +1015,7 @@ class StudentHome extends Component {
               }}
             >
               <button
-              disabled = {(this.state.editable) ? false : true} 
+                disabled={!(this.state.editable && this.state.full_completed)}
                 style={{
                   // marginTop: "20px",
                   // marginBottom: "30px",
