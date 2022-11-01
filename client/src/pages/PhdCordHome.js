@@ -44,7 +44,7 @@ class PhdCordHome extends Component {
       id: "",
       role: localStorage.getItem("phd-website-role"),
       isAllList: false,
-      menu: false
+      menu: false,
     };
   }
 
@@ -196,7 +196,6 @@ class PhdCordHome extends Component {
                       this.setState({
                         allStudentData: res.data,
                       });
-                      console.log(res);
                     });
                 } catch (err) {
                   console.log(err.message);
