@@ -568,7 +568,7 @@ export default class AdmissionDetailsPG extends Component {
                 name="nomenclature"
                 value={this.state.nomenclature}
                 onChange={this.onChangeNomenclature}
-                placeholder="Select specialization branch"
+                placeholder="Select nomenclature of Degree"
               />
 
               {this.state.errorNomenclature && (
@@ -615,8 +615,33 @@ export default class AdmissionDetailsPG extends Component {
                 }
               })()}
             </div>
+            
             {/* 3. Specialization Branch  */}
-            <div className="formNumber" style={{ marginLeft: "0%" }}>
+            <div style={{ marginBottom: "12px" }}>
+              <Typography style={{paddingTop: "15px"}}>Specialization Branch</Typography>
+              <TextField
+                disabled={this.state.disabled}
+                className="mb-3"
+                fullWidth
+                onChange={this.handleChange}
+                value={this.state.specialization}
+                name="specialization"
+                label="Select specialization branch"
+                variant="outlined"
+                required
+                style={{ marginTop: "8px" }}
+              />
+              {this.state.errorNomenclature && (
+                <div style={{ color: "red" }}>
+                  <Typography>
+                    Specialization Branch is required field
+                  </Typography>
+                </div>
+              )}
+            </div>
+
+            {/* 3. Specialization Branch  */}
+            {/* <div className="formNumber" style={{ marginLeft: "0%" }}>
               <Typography style={{ marginBottom: "12px", paddingTop: "15px" }}>
                 Specialization Branch
               </Typography>
@@ -671,7 +696,7 @@ export default class AdmissionDetailsPG extends Component {
                   );
                 }
               })()}
-            </div>
+            </div> */}
             {/*
              * 4. Marks Obtained
              * 5. Total Marks
