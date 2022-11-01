@@ -28,6 +28,7 @@ exports.getStudentInfo = (req, res) => {
   });
 };
 
+// return students of specific departments which are verified by account section
 exports.getStudentsByDept = (req, res) => {
   const department = req.params && req.params.department;
   if (!department) {
@@ -43,7 +44,13 @@ exports.getStudentsByDept = (req, res) => {
     return res.status(403).json("error : user don't have access to resource");
   }
 
-  Student.find({ "personalInfo.department": department }, projection)
+  Student.find(
+    {
+      "personalInfo.department": department,
+      "feeDetails.verification": "verified",
+    },
+    projection
+  )
     .lean()
     .exec()
     .then((users) => {
@@ -339,7 +346,13 @@ exports.getAllStudentsInfoByDept = (req, res) => {
     return res.status(403).json("error : user don't have access to resource");
   }
 
-  Student.find({ "personalInfo.department": department }, projection)
+  Student.find(
+    {
+      "personalInfo.department": department,
+      "feeDetails.verification": "verified",
+    },
+    projection
+  )
     .lean()
     .exec()
     .then((users) => {

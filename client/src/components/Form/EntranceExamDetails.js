@@ -80,7 +80,7 @@ export default class EntranceExamDetails extends Component {
 
   validateData = () => {
     this.state.givenGate &&
-      (/^\d+$/.test(this.state.gateScore) &&
+      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateScore) &&
       parseInt(this.state.gateScore) &&
       parseInt(this.state.gateScore) >= 0 &&
       parseInt(this.state.gateScore) <= 1000
@@ -88,7 +88,7 @@ export default class EntranceExamDetails extends Component {
         : this.setState({ errorGateScore: true }));
 
     this.state.givenGate &&
-      (/^\d+$/.test(this.state.gateMarks) &&
+      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateMarks) &&
       parseInt(this.state.gateMarks) &&
       parseInt(this.state.gateMarks) >= 0 &&
       parseInt(this.state.gateMarks) <= 100
@@ -96,7 +96,7 @@ export default class EntranceExamDetails extends Component {
         : this.setState({ errorGateMarks: true }));
 
     this.state.givenGate &&
-      (/^\d+$/.test(this.state.gateQualiMarks) &&
+      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateQualiMarks) &&
       parseInt(this.state.gateQualiMarks) &&
       parseInt(this.state.gateMarks) >= 0 &&
       parseInt(this.state.gateMarks) <= 100

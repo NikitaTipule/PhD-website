@@ -97,7 +97,7 @@ export default function AddCordForm() {
                 />
                 <Input
                   name="mis"
-                  label="MIS*"
+                  label="Moodle Login Id*"
                   value={values.mis}
                   onChange={handleInputChange}
                   error={errors.mis}

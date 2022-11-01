@@ -174,7 +174,8 @@ export default class PersonalDetails extends Component {
   onChangeDisability = (event) => {
     let physDis = event.target.value;
     let doc_physicallyDisable = { ...this.state.doc_physicallyDisable };
-    doc_physicallyDisable.display = this.state.physicallyDisabled === "Yes";
+    doc_physicallyDisable.display = physDis == "Yes";
+    console.log(doc_physicallyDisable.display);
     this.setState({
       physicallyDisabled: physDis,
       doc_physicallyDisable,
