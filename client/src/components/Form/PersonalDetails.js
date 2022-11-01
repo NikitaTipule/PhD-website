@@ -86,6 +86,12 @@ export default class PersonalDetails extends Component {
 
   // FUNCTIONS FOR FILE DATA
   onFileChange = async (event) => {
+    if (!event.target.files[0]) return;
+    if (event.target.files[0].size > 1000000) {
+      event.target.value = "";
+      alert(`File size of ${event.target.name} exceeded by 1 MB`);
+      return;
+    }
     await this.setState({ selectedFile: event.target.files[0] });
 
     const formData = new FormData();
@@ -1150,6 +1156,10 @@ export default class PersonalDetails extends Component {
           >
             Documents Required
           </div>
+          <div style={{ opacity: "0.7", fontSize: "12px" }}>
+            (document size must be less than 1MB)
+          </div>
+
           <Table>
             <TableBody>
               <div>
