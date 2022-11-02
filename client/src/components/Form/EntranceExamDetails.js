@@ -8,6 +8,9 @@ import DatePicker from "react-date-picker";
 import "./AdmissionDetails.css";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
+import DocViewer from "../../pages/DocViewer";
+import { docType } from "../../phdAdmDetails";
+import { Table, TableBody } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default class EntranceExamDetails extends Component {
@@ -58,9 +61,14 @@ export default class EntranceExamDetails extends Component {
       errorPetDetails: false,
       errorPetYear: false,
       errorOptionsSelected: false,
+      errorGateDoc: false,
 
       next: false,
       confirmAlert: false,
+      gate: {
+        name : docType.gate,error: false, display: true
+      },
+      documentsUploaded: [],
 
       try: 1,
 
@@ -78,35 +86,109 @@ export default class EntranceExamDetails extends Component {
     });
   };
 
+  // FUNCTIONS FOR FILE DATA
+  onFileChange = async (event) => {
+    if (!event.target.files[0]) return;
+    if (event.target.files[0].size > 1000000) {
+      event.target.value = "";
+      alert(`File size of ${event.target.name} exceeded by 1 MB`);
+      return;
+    }
+    await this.setState({ selectedFile: event.target.files[0] });
+    const formData = new FormData();
+    formData.append("file", this.state.selectedFile);
+
+    const i = await this.state.documentsUploaded
+      .map((e) => e.type)
+      .indexOf(event.target.name);
+
+    axios
+      .post(BACKEND_URL + "/files/upload", formData, {
+        headers: {
+          "phd-website-jwt": this.state.token,
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        const docUploaded = {
+          type: event.target.name,
+          filename: res.data.filename,
+          contentType: res.data.contentType,
+          originalName: res.data.originalname,
+          verification: "pending",
+        };
+
+        if (i === -1) {
+          this.setState((prevState) => ({
+            documentsUploaded: [...prevState.documentsUploaded, docUploaded],
+          }));
+        } else {
+          const docs = [...this.state.documentsUploaded];
+          docs[i] = docUploaded;
+          this.setState({ documentsUploaded: docs });
+        }
+      })
+      .catch((err) => console.log(err.response || "error"));
+  };
+
   validateData = () => {
+
+    if(this.state.givenGate){
+      if (this.state.documentsUploaded.some((e) => e.type === docType.gate)) {
+        this.setState({
+          gate: {
+            name: this.state.gate.name,
+            error: false,
+            display: this.state.gate.display,
+          },
+        });
+      } else {
+        this.setState({
+          gate: {
+            name: this.state.gate.name,
+            error: true,
+            display: this.state.gate.display,
+          },
+        });
+      }
+    }
+
     this.state.givenGate &&
-      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateScore) &&
+      ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateScore)) ||  (/^\d+$/.test(this.state.gateScore))&&
       parseInt(this.state.gateScore) &&
       parseInt(this.state.gateScore) >= 0 &&
-      parseInt(this.state.gateScore) <= 1000
+      parseInt(this.state.gateScore) <= 1000)
         ? this.setState({ errorGateScore: false })
-        : this.setState({ errorGateScore: true }));
+        : this.setState({ errorGateScore: true });
 
     this.state.givenGate &&
-      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateMarks) &&
+    ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateMarks)) ||  (/^\d+$/.test(this.state.gateMarks)) &&
       parseInt(this.state.gateMarks) &&
       parseInt(this.state.gateMarks) >= 0 &&
-      parseInt(this.state.gateMarks) <= 100
+      parseInt(this.state.gateMarks) <= 100)
         ? this.setState({ errorGateMarks: false })
-        : this.setState({ errorGateMarks: true }));
+        : this.setState({ errorGateMarks: true });
 
     this.state.givenGate &&
-      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateQualiMarks) &&
+    ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateQualiMarks)) ||  (/^\d+$/.test(this.state.gateQualiMarks)) &&
       parseInt(this.state.gateQualiMarks) &&
-      parseInt(this.state.gateMarks) >= 0 &&
-      parseInt(this.state.gateMarks) <= 100
+      parseInt(this.state.gateQualiMarks) >= 0 &&
+      parseInt(this.state.gateQualiMarks) <= 100)
         ? this.setState({ errorGateQualiMarks: false })
-        : this.setState({ errorGateQualiMarks: true }));
+        : this.setState({ errorGateQualiMarks: true });
 
     this.state.givenGate &&
       (this.state.gateDate === ""
         ? this.setState({ errorGateDate: true })
         : this.setState({ errorGateDate: false }));
+
+    this.state.givenGate && 
+    (
+      !this.state.gate.error
+    )
+        ? this.setState({ errorGateDoc: false })
+        : this.setState({ errorGateDoc: true })
+    ;
 
     this.state.givenPet &&
       (this.state.petDetails === ""
@@ -152,8 +234,25 @@ export default class EntranceExamDetails extends Component {
         this.state.errorGateDate === false &&
         this.state.errorPetDetails === false &&
         this.state.errorPetYear === false &&
-        this.state.errorOptionsSelected === false
+        this.state.errorOptionsSelected === false &&
+        this.state.errorGateDoc === false
       ) {
+        if (!this.state.disabled) {
+          const documentsUploaded = {
+            documentsUploaded: this.state.documentsUploaded,
+          };
+          try {
+            axios
+              .post(BACKEND_URL + "/students/edit/docs", documentsUploaded, {
+                headers: { "phd-website-jwt": this.state.token },
+              })
+              .then((res) => {
+                console.log("Documents Added");
+              });
+          } catch (err) {
+            console.log(err.res);
+          }
+        }
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.entranceDetails.isInterestedCoepRPET =
           this.state.isInterestedCoepRPET;
@@ -170,6 +269,7 @@ export default class EntranceExamDetails extends Component {
         this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
         this.props.data.entranceDetails.sppuPet.year = this.state.petYear;
         this.props.data.entranceDetails.completed = true;
+        // this.props.data.entranceDetails.docUploaded = this.state.docUploaded;
       }
     }
   };
@@ -227,6 +327,13 @@ export default class EntranceExamDetails extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
+            res.data.user.documentsUploaded &&
+              this.setState({
+                documentsUploaded: res.data.user.documentsUploaded
+                  ? res.data.user.documentsUploaded
+                  : [],
+              });
+
             res.data.user.entranceDetails &&
               this.setState({
                 givenGate: res.data.user.entranceDetails.givenGate
@@ -290,6 +397,8 @@ export default class EntranceExamDetails extends Component {
               ? this.setState({ disabled: false })
               : this.setState({ disabled: true });
 
+            
+
             if (this.state.givenGate) {
               this.setState((previousState) => ({
                 optionsSelected: [
@@ -327,6 +436,41 @@ export default class EntranceExamDetails extends Component {
         console.log(error.message);
       }
     }
+  }
+
+  displayDocs(doc_type) {
+    return this.state.documentsUploaded
+      .filter((doc) => doc.type === this.state[doc_type].name)
+      .map((doc, id) => {
+        return (
+          <div key={id}>
+            <div className="docsPreviewDiv">
+              <div className="docsPreviewFilename">
+                {doc.originalName.slice(0, 10) + "...  "}
+              </div>
+              <DocViewer
+                data={{
+                  filename: doc.filename,
+                  contentType: doc.contentType,
+                  originalName: doc.originalName,
+                }}
+              />
+            </div>
+            <div>
+              {doc.verification === "verified" && (
+                <div className="docVerify" style={{ color: "green" }}>
+                  Verified
+                </div>
+              )}
+              {doc.verification === "mod_req" && (
+                <div className="docVerify" style={{ color: "red" }}>
+                  Modification Required
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      });
   }
 
   render() {
@@ -730,11 +874,55 @@ export default class EntranceExamDetails extends Component {
                               </div>
                             )}
                           </div>
+
+                          <div
+                            className="formContainer"
+                            style={{ marginTop: "30px", fontSize: "21px" }}
+                          >
+                            Documents Required
+                          </div>
+                          <div style={{ opacity: "0.7", fontSize: "12px" }}>
+                            (document size must be less than 1MB)
+                          </div>
+
+                          <Table>
+                          <TableBody>
+                            <div>
+                              {/* Gate Marksheet */}
+                              {this.state.gate.display ? (
+                                <div>
+                                  <div className="field">
+                                    <div>Gate Marksheet</div>
+                                    <div>
+                                      <input
+                                        disabled={this.state.disabled}
+                                        type="file"
+                                        name={this.state.gate.name}
+                                        onChange={this.onFileChange}
+                                      />
+                                      {this.state.gate.error ? (
+                                        <div className="docsError">Please upload file</div>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {this.displayDocs("gate")}
+                                    </div>
+                                  </div>
+                                  <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                                </div>
+                              ) : (
+                                " "
+                              )}
+                            </div>
+                          </TableBody>
+                          </Table>
                         </div>
                       </div>
                     ) : (
                       " "
                     )}
+
+        
 
                     {str.id === 4 ? (
                       <div>

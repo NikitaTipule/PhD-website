@@ -78,6 +78,7 @@ export default class phdCordForm extends Component {
               entranceDetails: res.data.user.entranceDetails,
               entranceDetailsStatus: res.data.user.entranceDetails.verification,
               entranceDetailsRemark: res.data.user.entranceDetails.remarks,
+              gateMarksheet: res.data.user.entranceDetails.documentsUploaded,
 
               documentsUploaded: res.data.user.documentsUploaded,
 
