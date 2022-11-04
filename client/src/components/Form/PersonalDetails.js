@@ -1128,14 +1128,14 @@ export default class PersonalDetails extends Component {
               </div>
               <div className="formNumber">
                 <Typography style={{ marginBottom: "13px" }}>
-                  Application in which School
+                  Application in which Department
                 </Typography>
                 <DropDown
                   disabled={this.state.disabled}
                   options={departmentNamesList}
                   value={this.state.department}
                   onChange={this.onChangeDepartment}
-                  placeholder="Select School"
+                  placeholder="Select Department"
                 />
                 {this.state.errorDepartment && (
                   <div style={{ color: "red" }}>

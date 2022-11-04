@@ -1,10 +1,12 @@
 export const departmentNamesList = [
-  "School of Electrical and Communication Engineering",
-  "School of Mechanical and Manufacturing Engineering",
-  "School of Civil Engineering and Environmental Sciences",
-  "School of Information and Computational Sciences",
-  "School of Planning, Architecture and Design",
-  "School of Management, General Sciences and Humanities",
+  "Civil Engineering",
+  "Computer Engineering",
+  "Electrical Engineering",
+  "Electronics and Telecommunication Engineering",
+  "Instrumentation and Control Engineering",
+  "Mechanical Engineering",
+  "Metallurgy and Materials Science",
+  "Manufacturing Engineering and Industrial Management",
 ];
 
 export const verification_options = {
