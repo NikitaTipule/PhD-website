@@ -1,5 +1,6 @@
 const Student = require("../models/student");
 const Counter = require("../models/counter");
+const send_email = require("./email");
 
 exports.myProfileStudent = (req, res) => {
   if (!req.userId) {
@@ -36,21 +37,20 @@ exports.getStudentsByDept = (req, res) => {
   }
 
   let projection = "";
+  let filter = {
+    "personalInfo.department": department,
+    "feeDetails.verification": "verified",
+  };
   if (req.userRole == "phdCord" || req.userRole == "admin") {
     projection = "name applicationId infoVerified feeDetails.verification";
   } else if (req.userRole == "accountSec") {
     projection = "name applicationId personalInfo.category feeDetails";
+    filter = { "personalInfo.department": department };
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
 
-  Student.find(
-    {
-      "personalInfo.department": department,
-      "feeDetails.verification": "verified",
-    },
-    projection
-  )
+  Student.find(filter, projection)
     .lean()
     .exec()
     .then((users) => {
@@ -211,6 +211,11 @@ exports.verifyFeeDetails = async (req, res) => {
     user.feeDetails.remarks = remarks;
     user.feeDetails.completed = verification !== "mod_req";
     user.editable = user.editable || verification === "mod_req";
+    send_email(
+      user.email,
+      "Your fee details are reviewed. Please check the status on portal.",
+      "COEP Technological University - PhD Porgram Application Update"
+    );
     user
       .save()
       .then(() => res.json({ success: true }))
@@ -313,7 +318,11 @@ exports.verifyStudentInfo = (req, res) => {
       user.infoVerified = infoVerifiedStatus(user);
 
       user.editable = user.editable || user.infoVerified === "mod_req";
-
+      send_email(
+        user.email,
+        "Your application is reviewed. Please check the status on portal.",
+        "COEP Technological University - PhD Porgram Application Update"
+      );
       user
         .save()
         .then(() => res.json({ success: true }))
@@ -337,22 +346,21 @@ exports.getAllStudentsInfoByDept = (req, res) => {
   }
 
   let projection = "";
+  let filter = {
+    "personalInfo.department": department,
+    "feeDetails.verification": "verified",
+  };
   if (req.userRole == "phdCord" || req.userRole == "admin") {
     projection =
       "personalInfo.name personalInfo.middleName email personalInfo.gender personalInfo.dob personalInfo.mobile personalInfo.nationality personalInfo.category personalInfo.aadhar personalInfo.address personalInfo.physicallyDisabled personalInfo.deparment personalInfo.verification personalInfo.remarks academicsUG.institute academicsUG.degree academicsUG.specialization academicsUG.totalAggregate academicsUG.cgpa10 academicsUG.percentageMarks academicsUG.totalMarks academicsUG.dateOfDeclaration academicsPG.institute academicsPG.degree academicsPG.totalAggregate academicsPG.totalMarks academicsPG.cgpa10 academicsPG.percentageMarks academicsPG.verification academicsPG.remarks entranceDetails";
   } else if (req.userRole == "accountSec") {
     projection = "name personalInfo.category feeDetails";
+    filter = { "personalInfo.department": department };
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
 
-  Student.find(
-    {
-      "personalInfo.department": department,
-      "feeDetails.verification": "verified",
-    },
-    projection
-  )
+  Student.find(filter, projection)
     .lean()
     .exec()
     .then((users) => {
