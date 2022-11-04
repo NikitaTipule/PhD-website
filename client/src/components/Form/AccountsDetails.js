@@ -499,8 +499,7 @@ export default class AccountsDetails extends Component {
                       ) : (
                         ""
                       )}
-                      {this.state.docUploaded.filename !== null ||
-                      this.state.docUploaded.filename !== undefined ? (
+                      {this.state.docUploaded.filename ? (
                         <div>
                           <div className="docsPreviewDiv">
                             <div className="docsPreviewFilename">
