@@ -30,6 +30,7 @@ export default class AdmissionDetailsUG extends Component {
       confirmAlert: false,
 
       ug: { name: docType.ug, error: false, display: true },
+      ugCertificate: { name: docType.ugCertificate, error: false, display: true },
 
       remarks: "",
       verification: "",
@@ -48,7 +49,6 @@ export default class AdmissionDetailsUG extends Component {
       errorPercentage: false,
       errorDod: false,
       errorFileSize: false,
-
       documentsUploaded: [],
 
       token: localStorage.getItem("phd-website-jwt"),
@@ -110,7 +110,7 @@ export default class AdmissionDetailsUG extends Component {
         //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
         // }));
 
-        console.log(this.state.documentsUploaded);
+        // console.log(this.state.documentsUploaded);
       })
       .catch((err) => console.log(err.response || "error"));
   };
@@ -144,12 +144,30 @@ export default class AdmissionDetailsUG extends Component {
           display: this.state.ug.display,
         },
       });
-    } else {
+    } else if(!(this.state.documentsUploaded.some((e) => e.type === docType.ug))){
       this.setState({
         ug: {
           name: this.state.ug.name,
           error: true,
           display: this.state.ug.display,
+        },
+      });
+    }
+
+    if (this.state.documentsUploaded.some((e) => e.type === docType.ugCertificate)) {
+      this.setState({
+        ugCertificate: {
+          name: this.state.ugCertificate.name,
+          error: false,
+          display: this.state.ugCertificate.display,
+        },
+      });
+    } else if(!(this.state.documentsUploaded.some((e) => e.type === docType.ugCertificate))){
+      this.setState({
+        ugCertificate: {
+          name: this.state.ugCertificate.name,
+          error: true,
+          display: this.state.ugCertificate.display,
         },
       });
     }
@@ -213,6 +231,7 @@ export default class AdmissionDetailsUG extends Component {
       await this.validateData();
       if (
         !this.state.ug.error &&
+        !this.state.ugCertificate.error &&
         this.state.errorUniversity === false &&
         this.state.errorSpecialization === false &&
         this.state.errorFileSize === false &&
@@ -364,12 +383,8 @@ export default class AdmissionDetailsUG extends Component {
   render() {
     const dropdown_options_nomenclature = [
       "B.E./ B.Tech",
-      "B.C.A.",
-      "B.Sc.",
       "B.Planning",
       "B.Arch",
-      "B.B.A.",
-      "Degree in Humanities, Social Sciences and Liberal Arts",
       "OTHER",
     ];
 
@@ -377,16 +392,11 @@ export default class AdmissionDetailsUG extends Component {
       "Civil Engineering",
       "Computer Engineering",
       "Electrical Engineering",
-      "Electronics & Telecommunication Engineering",
-      "Instrumentation & Control Engineering",
+      "Electronics and Telecommunication Engineering",
+      "Instrumentation and Control Engineering",
       "Mechanical Engineering",
-      "Metallurgical Engineering",
-      "Production Engineering",
-      "Chemical Engineering",
-      "Agricultural Engineering",
-      "B.C.A. Mathematics",
-      "B.Sc. Mathematics",
-      "B.Sc. in Basic and Applied Sciences",
+      "Metallurgy and Materials Science",
+      "Manufacturing Engineering and Industrial Management",
       "OTHER",
     ];
 
@@ -407,6 +417,7 @@ export default class AdmissionDetailsUG extends Component {
     });
 
     return (
+     
       <div className="admission_container" style={{ marginTop: "90px" }}>
         {/* Confirmation Alert */}
         <div>
@@ -494,7 +505,7 @@ export default class AdmissionDetailsUG extends Component {
                 </div>
                 <div className="popUpField">
                   <div>
-                    <Typography>Date of Declaration :</Typography>
+                    <Typography>Date of Result Declaration :</Typography>
                   </div>
                   <div>
                     {this.state.dateOfDeclaration.toLocaleString().slice(0, 10)}
@@ -639,7 +650,7 @@ export default class AdmissionDetailsUG extends Component {
             {/* 3. Specialization Branch  */}
             <div className="formNumber" style={{ marginLeft: "0%" }}>
               <Typography style={{ marginBottom: "12px", paddingTop: "15px" }}>
-                Specialization Branch
+                Branch
               </Typography>
               <DropDown
                 disabled={this.state.disabled}
@@ -805,7 +816,7 @@ export default class AdmissionDetailsUG extends Component {
             </div>
 
             <div style={{ marginTop: "10px", marginBottom: "30px" }}>
-              <Typography>Date of Declaration</Typography>
+              <Typography>Date of Result Declaration</Typography>
               <DatePicker
                 disabled={this.state.disabled}
                 onChange={(e) => this.onChangeDate(e)}
@@ -835,7 +846,7 @@ export default class AdmissionDetailsUG extends Component {
             Documents Required
           </div>
           <div style={{ opacity: "0.7", fontSize: "12px" }}>
-            (document size must be less than 1MB)
+            (Document size must be less than 1MB)
           </div>
           <Table>
             <TableBody>
@@ -857,7 +868,7 @@ export default class AdmissionDetailsUG extends Component {
                             this.state.ug.error = false;
                             return (
                               <div className="docsError">
-                                File size exceeded than 10 MB
+                                File size exceeded than 1 MB
                               </div>
                             );
                           } else if (this.state.ug.error) {
@@ -883,6 +894,90 @@ export default class AdmissionDetailsUG extends Component {
 
                         {this.state.documentsUploaded
                           .filter((doc) => doc.type === this.state.ug.name)
+                          .map((doc, id) => (
+                            <div key={id}>
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
+                                </div>
+                                <DocViewer
+                                  data={{
+                                    filename: doc.filename,
+                                    contentType: doc.contentType,
+                                    originalName: doc.originalName,
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                {doc.verification === "verified" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "green" }}
+                                  >
+                                    Verified
+                                  </div>
+                                )}
+                                {doc.verification === "mod_req" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "red" }}
+                                  >
+                                    Modification Required
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+
+                {this.state.ugCertificate.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.ugCertificate.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.ugCertificate.name}
+                          onChange={this.onFileChange}
+                        />
+                        {(() => {
+                          if (this.state.errorFileSize) {
+                            this.state.ugCertificate.error = false;
+                            return (
+                              <div className="docsError">
+                                File size exceeded than 10 MB
+                              </div>
+                            );
+                          } else if (this.state.ugCertificate.error) {
+                            return (
+                              <div className="docsError">
+                                Please upload file
+                              </div>
+                            );
+                          }
+                        })()}
+
+                        {/* {this.state.errorFileSize ? (
+                          <div className="docsError">File size exceeded than 10 MB</div>
+                        ) : (
+                          ""
+                        )}
+
+                        {this.state.ug.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )} */}
+
+                        {this.state.documentsUploaded
+                          .filter((doc) => doc.type === this.state.ugCertificate.name)
                           .map((doc, id) => (
                             <div key={id}>
                               <div className="docsPreviewDiv">
@@ -956,7 +1051,8 @@ export default class AdmissionDetailsUG extends Component {
             </React.Fragment>
           </div>
         </div>
-      </div>
+      
+      </div>       
     );
   }
 }

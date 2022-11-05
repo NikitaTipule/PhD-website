@@ -625,6 +625,139 @@ export default class phdCordForm extends Component {
                       <div style={{ justifyContent: "left" }}>
                         {this.state.documentsUploaded.map((doc, id) => (
                           <div key={doc.id}>
+                            {(doc.type === "UG Marksheet" ||
+                              doc.type === "UG Degree Certificate") && (
+                              <div className="field2">
+                                <div className="documents" key={doc.id}>
+                                  <div
+                                    className="docFieldName"
+                                    style={{ width: "300px" }}
+                                  >
+                                    {doc.type + "  :"}
+                                  </div>
+                                  <div
+                                    className="iconMobile"
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      margin: "auto",
+                                      paddingBottom: "60px",
+                                    }}
+                                  >
+                                    {/* <div>{id}</div> */}
+                                    <div>Preview</div>
+                                    <div style={{ paddingLeft: "10px" }}>
+                                      <DocViewer
+                                        data={{
+                                          filename: doc.filename,
+                                          contentType: doc.contentType,
+                                          originalName: doc.originalName,
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="icon">
+                                    <div>
+                                      {/* Verification Component for documents  */}
+                                      <div className="verify">
+                                        <div style={{ width: "100%" }}>
+                                          <div
+                                            className="radios"
+                                            onChange={(e) =>
+                                              this.onChangeVerify(e, id)
+                                            }
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              margin: "auto",
+                                              align: "center",
+                                            }}
+                                          >
+                                            <div style={{ display: "none" }}>
+                                              <input
+                                                type="radio"
+                                                value="pending"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "pending"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "pending";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />
+                                              Pending
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="mod_req"
+                                                className="radio"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "mod_req"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "mod_req";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                              />
+                                              {"\n"}
+                                              Not Verified
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="verified"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification ===
+                                                  "verified"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "verified";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Verified
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      {/* <div style={{ justifyContent: "left" }}>
+                        {this.state.documentsUploaded.map((doc, id) => (
+                          <div key={doc.id}>
                             {doc.type === "UG Marksheet" && (
                               <div className="field2">
                                 <div className="documents" key={doc.id}>
@@ -642,7 +775,7 @@ export default class phdCordForm extends Component {
                                   </div>
                                   <div className="icon">
                                     <div>
-                                      {/* Document verification   */}
+                                      Document verification  
                                       <div className="verify">
                                         <div style={{ width: "100%" }}>
                                           <div
@@ -731,7 +864,7 @@ export default class phdCordForm extends Component {
                             )}
                           </div>
                         ))}
-                      </div>
+                      </div> */}
                       <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
 
                       {/* Remark and Verification for UG  */}
