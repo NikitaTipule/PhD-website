@@ -50,8 +50,10 @@ const academicsUG = {
 };
 
 const academicsPG = {
+  status: {type: String},
   institute: { type: String },
   degree: { type: String },
+  branch: {type:String},
   specialization: { type: String },
   // marksFinalYear: { type: Number },
   //totalAggregate: { type: Number },

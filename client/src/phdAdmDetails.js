@@ -28,6 +28,7 @@ export const docType = {
   ug: "UG Marksheet",
   ugCertificate: "UG Degree Certificate",
   pg: "PG Marksheet",
+  pg_degree_certificate: "PG Degree Certificate",
   gate: "Gate Marksheet",
   // leaving_certificate: "Leaving Certificate with mention of Indian",
   // passport: "Passport Certificate",

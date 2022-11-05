@@ -1006,7 +1006,7 @@ export default class phdCordForm extends Component {
                             </tr>
                             <tr className="row1">
                               <td className="first data">
-                                Nomenclaure of Degree
+                                Nomenclature of Degree
                               </td>
                               <td className="data">
                                 {this.state.academicsPG.degree}
@@ -1014,6 +1014,24 @@ export default class phdCordForm extends Component {
                             </tr>
 
                             <tr className="row1">
+                              <td className="first data">
+                                Branch
+                              </td>
+                              <td className="data">
+                                {this.state.academicsPG.branch}
+                              </td>
+                            </tr>
+
+                            <tr className="row1">
+                              <td className="first data">
+                                Specialization
+                              </td>
+                              <td className="data">
+                                {this.state.academicsPG.specialization}
+                              </td>
+                            </tr>
+
+                            {/* <tr className="row1">
                               <td className="first data">Marks Obtained</td>
                               <td className="data">
                                 {this.state.academicsPG.totalAggregate}
@@ -1024,19 +1042,25 @@ export default class phdCordForm extends Component {
                               <td className="data">
                                 {this.state.academicsPG.totalMarks}
                               </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">CGPA</td>
-                              <td className="data">
-                                {this.state.academicsPG.cgpa10}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">Percentage</td>
-                              <td className="data">
-                                {this.state.academicsPG.percentageMarks}
-                              </td>
-                            </tr>
+                            </tr> */}
+                            {this.state.academicsPG.status === "Passed" &&
+                            (
+                              <tr className="row1">
+                                <td className="first data">CGPA</td>
+                                <td className="data">
+                                  {this.state.academicsPG.cgpa10}
+                                </td>
+                              </tr>
+                            )}
+                            {this.state.academicsPG.status === "Passed" &&
+                            (
+                              <tr className="row1">
+                                <td className="first data">Percentage</td>
+                                <td className="data">
+                                  {this.state.academicsPG.percentageMarks}
+                                </td>
+                              </tr>
+                            )}
                           </tbody>
                         </table>
                         <br />
@@ -1048,6 +1072,119 @@ export default class phdCordForm extends Component {
                         {this.state.documentsUploaded.map((doc, id) => (
                           <div key={doc.id}>
                             {doc.type === "PG Marksheet" && (
+                              <div className="field2">
+                                <div className="documents" key={doc.id}>
+                                  <div className="docFieldName">
+                                    {doc.type + "  :"}
+                                  </div>
+                                  <div className="iconMobile">
+                                    {/* <div>{id}</div> */}
+                                    <DocViewer
+                                      data={{
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="icon">
+                                    <div>
+                                      {/* Verification component for documents  */}
+                                      <div className="verify">
+                                        <div style={{ width: "100%" }}>
+                                          <div
+                                            className="radios"
+                                            onChange={(e) =>
+                                              this.onChangeVerify(e, id)
+                                            }
+                                          >
+                                            <div style={{ display: "none" }}>
+                                              <input
+                                                type="radio"
+                                                value="pending"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "pending"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "pending";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />
+                                              Pending
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="mod_req"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "mod_req"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "mod_req";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Not Verified
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="verified"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification ===
+                                                  "verified"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "verified";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Verified
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+
+                      <div style={{ justifyContent: "left" }}>
+                        {this.state.documentsUploaded.map((doc, id) => (
+                          <div key={doc.id}>
+                            {doc.type === "PG Degree Certificate" && (
                               <div className="field2">
                                 <div className="documents" key={doc.id}>
                                   <div className="docFieldName">
