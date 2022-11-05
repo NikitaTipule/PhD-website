@@ -473,7 +473,7 @@ export default class AdmissionDetailsUG extends Component {
 
                 <div className="popUpField">
                   <div>
-                    <Typography>Specialization :</Typography>
+                    <Typography>Branch :</Typography>
                   </div>
                   <div>
                     {this.state.specialization} {this.state.otherSpecialization}
@@ -658,18 +658,18 @@ export default class AdmissionDetailsUG extends Component {
                 name="specialization"
                 value={this.state.specialization}
                 onChange={this.onChangeSpecialization}
-                placeholder="Select specialization branch"
+                placeholder="Select Branch"
               />
               {this.state.errorSpecialization && (
                 <div style={{ color: "red" }}>
-                  <Typography>Please select Specialization</Typography>
+                  <Typography>Please select Branch</Typography>
                 </div>
               )}
               {(() => {
                 if (
                   this.state.errorSpecialization && (
                     <div style={{ color: "red" }}>
-                      <Typography>Please select specialization</Typography>
+                      <Typography>Please select Branch</Typography>
                     </div>
                   )
                 ) {
@@ -678,7 +678,7 @@ export default class AdmissionDetailsUG extends Component {
                   return (
                     <div>
                       <Typography>
-                        Please enter your other specialization
+                        Please enter your other Branch
                       </Typography>
                       <TextField
                         className="mb-3"
@@ -687,14 +687,14 @@ export default class AdmissionDetailsUG extends Component {
                         onChange={this.handleChange}
                         value={this.state.otherSpecialization}
                         name="otherSpecialization"
-                        label="Other Specialization Field"
+                        label="Other Branch Field"
                         variant="outlined"
                         style={{ marginTop: "8px" }}
                       />
                       {this.state.errorOtherSpecialization && (
                         <div style={{ color: "red" }}>
                           <Typography>
-                            Please enter other specialization
+                            Please enter other Branch
                           </Typography>
                         </div>
                       )}

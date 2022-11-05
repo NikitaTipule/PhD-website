@@ -349,13 +349,26 @@ class StudentHome extends Component {
                       ? this.state.PIremarks
                       : "None"}
                   </div>
+                  {this.state.PIverification === "mod_req" && 
+                  
                   <div
                     className="col col-4"
                     data-label="Status"
-                    style={{ textTransform: "capitalize" }}
+                    style={{ color: "red" }}
+                  >
+                    Modification Required
+                  </div>
+                  }
+
+                  {this.state.PIverification !== "mod_req" && 
+                  
+                  <div
+                    className="col col-4"
+                    data-label="Status"
                   >
                     {this.state.PIverification}
                   </div>
+                  }
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -380,13 +393,26 @@ class StudentHome extends Component {
                       ? this.state.UGremarks
                       : "None"}
                   </div>
+                  {this.state.UGverification === "mod_req" && 
+                  
                   <div
                     className="col col-4"
                     data-label="Status"
-                    style={{ textTransform: "capitalize" }}
+                    style={{ color: "red" }}
+                  >
+                    Modification Required
+                  </div>
+                  }
+
+                  {this.state.UGverification !== "mod_req" && 
+                  
+                  <div
+                    className="col col-4"
+                    data-label="Status"
                   >
                     {this.state.UGverification}
                   </div>
+                  }
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -412,13 +438,26 @@ class StudentHome extends Component {
                       ? this.state.PGremarks
                       : "None"}
                   </div>
+                  {this.state.PGverification === "mod_req" && 
+                  
                   <div
                     className="col col-4"
                     data-label="Status"
-                    style={{ textTransform: "capitalize" }}
+                    style={{ color: "red" }}
+                  >
+                    Modification Required
+                  </div>
+                  }
+
+                  {this.state.PGverification !== "mod_req" && 
+                  
+                  <div
+                    className="col col-4"
+                    data-label="Status"
                   >
                     {this.state.PGverification}
                   </div>
+                  }
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -464,13 +503,26 @@ class StudentHome extends Component {
                       ? this.state.ENTremarks
                       : "None"}
                   </div>
+                  {this.state.ENTverification === "mod_req" && 
+                  
                   <div
                     className="col col-4"
                     data-label="Status"
-                    style={{ textTransform: "capitalize" }}
+                    style={{ color: "red" }}
+                  >
+                    Modification Required
+                  </div>
+                  }
+
+                  {this.state.ENTverification !== "mod_req" && 
+                  
+                  <div
+                    className="col col-4"
+                    data-label="Status"
                   >
                     {this.state.ENTverification}
                   </div>
+                  }
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -495,13 +547,26 @@ class StudentHome extends Component {
                       ? this.state.FEEremarks
                       : "None"}
                   </div>
+                  {this.state.FEEverification === "mod_req" && 
+                  
                   <div
                     className="col col-4"
                     data-label="Status"
-                    style={{ textTransform: "capitalize" }}
+                    style={{ color: "red" }}
+                  >
+                    Modification Required
+                  </div>
+                  }
+
+                  {this.state.FEEverification !== "mod_req" && 
+                  
+                  <div
+                    className="col col-4"
+                    data-label="Status"
                   >
                     {this.state.FEEverification}
                   </div>
+                  }
                   <div
                     className="col col-5 editButton"
                     onClick={() => {

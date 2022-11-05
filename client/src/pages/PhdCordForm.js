@@ -576,21 +576,9 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Specialization</td>
+                              <td className="first data">Branch</td>
                               <td className="data">
                                 {this.state.academicsUG.specialization}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">Marks Obtained</td>
-                              <td className="data">
-                                {this.state.academicsUG.totalAggregate}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">Total Marks</td>
-                              <td className="data">
-                                {this.state.academicsUG.totalMarks}
                               </td>
                             </tr>
                             <tr className="row1">
