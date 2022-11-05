@@ -74,6 +74,9 @@ export default class admissionForm extends Component {
         Gate: {
           score: "",
           lastDateOfValidation: "",
+          discipline: "",
+          category: "",
+          marks: "",
         },
         sppuPet: {
           details: "",

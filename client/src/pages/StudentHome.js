@@ -152,6 +152,8 @@ class StudentHome extends Component {
       isInterestedCoepEntrance: false,
       givenGate: false,
       givenPet: false,
+      gateDiscipline : "",
+      gateCategory: "",
       gateScore: "",
       gateLastDateOfValidation: "",
       petDetails: "",
@@ -244,6 +246,8 @@ class StudentHome extends Component {
               PIremarks: user.personalInfo.remarks,
               givenGate: user.entranceDetails?.givenGate,
               givenPet: user.entranceDetails?.givenPet,
+              gateDiscipline: user.entranceDetails?.Gate?.discipline,
+              gateCategory: user.entranceDetails?.Gate?.category,
               gateScore: user.entranceDetails?.Gate?.score,
               gateLastDateOfValidation:
                 user.entranceDetails?.Gate?.lastDateOfValidation,
@@ -519,7 +523,7 @@ class StudentHome extends Component {
                 </Text>
               )}
               <View style={styles.tableCol1}>
-                <Text style={styles.tableCell}>Last Date of Validation</Text>
+                <Text style={styles.tableCell}>Gate Score Valid Upto</Text>
               </View>
               {this.state.givenGate ? (
                 <Text

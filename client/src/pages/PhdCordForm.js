@@ -1183,14 +1183,32 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Score</td>
+                              <td className="first data">Gate Discipline</td>
+                              <td className="data">
+                                {this.state.entranceDetails.Gate.discipline}
+                              </td>
+                            </tr>
+                            <tr className="row1">
+                              <td className="first data">Gate Category</td>
+                              <td className="data">
+                                {this.state.entranceDetails.Gate.category}
+                              </td>
+                            </tr>
+                            <tr className="row1">
+                              <td className="first data">GATE Score out of 1000</td>
                               <td className="data">
                                 {this.state.entranceDetails.Gate.score}
                               </td>
                             </tr>
                             <tr className="row1">
+                              <td className="first data">GATE marks out of 100</td>
+                              <td className="data">
+                                {this.state.entranceDetails.Gate.marks}
+                              </td>
+                            </tr>
+                            <tr className="row1">
                               <td className="first data">
-                                Last Day of Validation
+                                Gate Score Valid Upto
                               </td>
                               <td className="data">
                                 {(
@@ -1274,8 +1292,122 @@ export default class phdCordForm extends Component {
                                 {this.state.academicsPG.percentageMarks}
                               </td>
                             </tr> */}
+                            
                           </tbody>
                         </table>
+                        <br />
+
+                        <div className="title">Documents Uploaded</div>
+                        <div style={{ justifyContent: "left" }}>
+                        {this.state.documentsUploaded.map((doc, id) => (
+                          <div key={doc.id}>
+                            {doc.type === "Gate Marksheet" && (
+                              <div className="field2">
+                                <div className="documents" key={doc.id}>
+                                  <div className="docFieldName">
+                                    {doc.type + "  :"}
+                                  </div>
+                                  <div className="iconMobile">
+                                    <DocViewer
+                                      data={{
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="icon">
+                                    <div>
+                                      {/* Document verification   */}
+                                      <div className="verify">
+                                        <div style={{ width: "100%" }}>
+                                          <div
+                                            className="radios"
+                                            onChange={(e) =>
+                                              this.onChangeVerify(e, id)
+                                            }
+                                          >
+                                            <div style={{ display: "none" }}>
+                                              <input
+                                                type="radio"
+                                                value="pending"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "pending"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "pending";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />
+                                              Pending
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="mod_req"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification === "mod_req"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "mod_req";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Not Verified
+                                            </div>
+                                            <div>
+                                              <input
+                                                type="radio"
+                                                value="verified"
+                                                name={"verification" + id}
+                                                defaultChecked={
+                                                  doc.verification ===
+                                                  "verified"
+                                                }
+                                                onChange={() => {
+                                                  var copy = [
+                                                    ...this.state
+                                                      .documentsUploaded,
+                                                  ];
+                                                  copy[id].verification =
+                                                    "verified";
+                                                  this.setState({
+                                                    documentsUploaded: copy,
+                                                  });
+                                                }}
+                                                className="radio"
+                                              />{" "}
+                                              Verified
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
 
                         {/* {this.state.entranceDetails.isInterestedCoepRPET && (
                           <div className="field1">
@@ -1321,7 +1453,7 @@ export default class phdCordForm extends Component {
                             </div>
                           </div>
                         )} */}
-
+                      </div>
                         {/*Verify + Remark Start*/}
                         <Divider
                           sx={{ marginTop: "5px", marginBottom: "7px" }}
@@ -1402,7 +1534,7 @@ export default class phdCordForm extends Component {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
