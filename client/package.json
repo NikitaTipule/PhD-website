@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.22.0",
     "bootstrap": "^5.1.0",
+    "file-saver": "^2.0.5",
     "link-react": "^3.0.0",
     "multiselect-react-dropdown": "^2.0.6",
     "prop-types": "^15.7.2",
