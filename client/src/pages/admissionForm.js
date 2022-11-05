@@ -56,6 +56,7 @@ export default class admissionForm extends Component {
       },
 
       academicsPG: {
+        status: "",
         institute: "",
         degree: "",
         totalAggregate: "",
@@ -64,6 +65,8 @@ export default class admissionForm extends Component {
         percentageMarks: "",
         dateofDeclaration: "",
         specialization: "",
+        status: "",
+        branch: "",
       },
 
       entranceDetails: {

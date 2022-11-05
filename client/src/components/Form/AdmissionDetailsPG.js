@@ -27,8 +27,15 @@ export default class AdmissionDetailsPG extends Component {
       percentage: "",
       confirmAlert: false,
       otherSpecialization: "",
+      branch : "",
+      otherBranch : "",
+
+      status: "",
+      errorStatus: false,
 
       pg: { name: docType.pg, error: false, display: true },
+
+      pg_degree_certificate: {name: docType.pg_degree_certificate, error: false, display: true},
 
       remarks: "",
       verification: "",
@@ -39,6 +46,8 @@ export default class AdmissionDetailsPG extends Component {
       errorUniversity: false,
       errorNomenclature: false,
       errorOtherNomenclature: false,
+      errorBranch: false,
+      errorOtherBranch: false,
       errorSpecialization: false,
       errorOtherSpecialization: false,
       //errorMarksObtained: false,
@@ -51,6 +60,18 @@ export default class AdmissionDetailsPG extends Component {
 
       token: localStorage.getItem("phd-website-jwt"),
     };
+  }
+
+  onChangeBranch = (event) => {
+    this.setState({
+      branch: event.value
+    })
+  }
+
+  onChangeStatus = (event) => {
+    this.setState({
+      status: event.target.value
+    })
   }
 
   onChangeSpecialization = (event) => {
@@ -148,6 +169,29 @@ export default class AdmissionDetailsPG extends Component {
         },
       });
     }
+
+    if (this.state.documentsUploaded.some((e) => e.type === docType.pg_degree_certificate)) {
+      this.setState({
+        pg_degree_certificate: {
+          name: this.state.pg_degree_certificate.name,
+          error: false,
+          display: this.state.pg_degree_certificate.display,
+        },
+      });
+    } else {
+      this.setState({
+        pg_degree_certificate: {
+          name: this.state.pg_degree_certificate.name,
+          error: true,
+          display: this.state.pg_degree_certificate.display,
+        },
+      });
+    }
+
+    this.state.status === ""
+      ? this.setState({ errorStatus: true})
+      : this.setState({ errorStatus: false});
+
     this.state.university.replace(/ /g, "") === ""
       ? this.setState({ errorUniversity: true })
       : this.setState({ errorUniversity: false });
@@ -164,6 +208,14 @@ export default class AdmissionDetailsPG extends Component {
       ? this.setState({ errorOtherSpecialization: true })
       : this.setState({ errorOtherSpecialization: false });
 
+    this.state.branch.replace(/ /g, "") === ""
+      ? this.setState({ errorBranch: true })
+      : this.setState({ errorBranch: false });
+
+    this.state.otherBranch.replace(/ /g, "") === ""
+      ? this.setState({ errorOtherBranch: true })
+      : this.setState({ errorOtherBranch: false });
+
     this.state.specialization.replace(/ /g, "") === ""
       ? this.setState({ errorSpecialization: true })
       : this.setState({ errorSpecialization: false });
@@ -178,17 +230,21 @@ export default class AdmissionDetailsPG extends Component {
     //   ? this.setState({ errorTotalMarks: false })
     //   : this.setState({ errorTotalMarks: true });
 
-    !isNaN(parseFloat(this.state.cgpa)) &&
-    isFinite(this.state.cgpa) &&
-    parseInt(this.state.cgpa) < 10
-      ? this.setState({ errorCGPA: false })
-      : this.setState({ errorCGPA: true });
-
-    !isNaN(parseFloat(this.state.percentage)) &&
-    isFinite(this.state.percentage) &&
-    parseInt(this.state.percentage) < 100
-      ? this.setState({ errorPercentage: false })
-      : this.setState({ errorPercentage: true });
+    if(this.state.status === "Passed"){
+      !isNaN(parseFloat(this.state.cgpa)) &&
+      isFinite(this.state.cgpa) &&
+      parseInt(this.state.cgpa) < 10
+        ? this.setState({ errorCGPA: false })
+        : this.setState({ errorCGPA: true });
+    }
+    
+    if(this.state.status === "Passed"){
+      !isNaN(parseFloat(this.state.percentage)) &&
+      isFinite(this.state.percentage) &&
+      parseInt(this.state.percentage) < 100
+        ? this.setState({ errorPercentage: false })
+        : this.setState({ errorPercentage: true });
+    }
   };
 
   onSubmit = async (event) => {
@@ -197,8 +253,13 @@ export default class AdmissionDetailsPG extends Component {
     } else {
       await this.validateData();
       if (
+        this.state.pg.error === false &&
         this.state.errorFileSize === false &&
         this.state.errorUniversity === false &&
+        ((this.state.errorBranch === false &&
+          this.state.branch !== "OTHER") ||
+          (this.state.branch === "OTHER" &&
+            this.state.otherBranch)) &&
         ((this.state.errorSpecialization === false &&
           this.state.specialization !== "OTHER") ||
           (this.state.specialization === "OTHER" &&
@@ -210,7 +271,8 @@ export default class AdmissionDetailsPG extends Component {
         //this.state.errorMarksObtained === false &&
         //this.state.errorTotalMarks === false &&
         this.state.errorCGPA === false &&
-        this.state.errorPercentage === false
+        this.state.errorPercentage === false &&
+        this.state.errorStatus === false
       ) {
         if (!this.state.disabled) {
           const documentsUploaded = {
@@ -231,6 +293,8 @@ export default class AdmissionDetailsPG extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.academicsPG.institute = this.state.university;
 
+        this.props.data.academicsPG.status = this.state.status;
+
         if (this.state.nomenclature === "OTHER") {
           this.props.data.academicsPG.degree =
             this.state.nomenclature + " " + this.state.otherNomenclature;
@@ -246,12 +310,30 @@ export default class AdmissionDetailsPG extends Component {
             this.state.specialization;
         }
 
+        if (this.state.branch === "OTHER") {
+          this.props.data.academicsPG.branch =
+            this.state.branch + " " + this.state.otherBranch;
+        } else {
+          this.props.data.academicsPG.branch =
+            this.state.branch;
+        }
+
         //this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
         //this.props.data.academicsPG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
         // this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
         // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
-        this.props.data.academicsPG.cgpa10 = this.state.cgpa;
-        this.props.data.academicsPG.percentageMarks = this.state.percentage;
+        if(this.state.status === "Passed"){
+          this.props.data.academicsPG.cgpa10 = this.state.cgpa;
+        }
+        else{
+          this.props.data.academicsPG.cgpa10 = "";
+        }
+        if(this.state.status === "Passed"){
+          this.props.data.academicsPG.percentageMarks = this.state.percentage;
+        }
+        else{
+          this.props.data.academicsPG.percentageMarks = "";
+        }
         this.props.data.academicsPG.completed = true;
       }
     }
@@ -310,6 +392,10 @@ export default class AdmissionDetailsPG extends Component {
                   ? res.data.user.academicsPG.specialization
                   : "",
 
+                branch: res.data.user.academicsPG.branch
+                  ? res.data.user.academicsPG.branch
+                  : "",
+
                 // marksObtained: res.data.user.academicsPG.totalAggregate
                 //   ? res.data.user.academicsPG.totalAggregate
                 //   : "",
@@ -328,6 +414,11 @@ export default class AdmissionDetailsPG extends Component {
                 verification: res.data.user.academicsPG.verification
                   ? res.data.user.academicsPG.verification
                   : "",
+
+                status: res.data.user.academicsPG.status
+                  ? res.data.user.academicsPG.status
+                  : "",
+
               });
             this.setState({ editable: res.data.user.editable });
             res.data.user.editable &&
@@ -352,16 +443,16 @@ export default class AdmissionDetailsPG extends Component {
   render() {
     const dropdown_options_nomenclature = [
       "M.E./ M.Tech",
-      "M.C.A.",
-      "M.Sc.",
+      // "M.C.A.",
+      // "M.Sc.",
       "M.Planning",
       "M.Arch",
-      "M.B.A.",
-      "Post Graduate Degree in Humanities, Social Sciences and Liberal Arts",
+      // "M.B.A.",
+      // "Post Graduate Degree in Humanities, Social Sciences and Liberal Arts",
       "OTHER",
     ];
 
-    const dropdown_options_specialization = [
+    const dropdown_options_branch = [
       "Civil Engineering",
       "Computer Engineering",
       "Electrical Engineering",
@@ -369,12 +460,12 @@ export default class AdmissionDetailsPG extends Component {
       "Instrumentation & Control Engineering",
       "Mechanical Engineering",
       "Metallurgical Engineering",
-      "Production Engineering",
-      "Chemical Engineering",
-      "Agricultural Engineering",
-      "M.C.A. Mathematics",
-      "M.Sc. Mathematics",
-      "M.Sc. in Basic and Applied Sciences",
+      "Manufacturing Engineering and Industrial Management",
+      // "Chemical Engineering",
+      // "Agricultural Engineering",
+      // "M.C.A. Mathematics",
+      // "M.Sc. Mathematics",
+      // "M.Sc. in Basic and Applied Sciences",
       "OTHER",
     ];
 
@@ -434,6 +525,12 @@ export default class AdmissionDetailsPG extends Component {
               <div style={{ alignItems: "left", textAlign: "left" }}>
                 <div className="popUpField">
                   <div>
+                    <Typography>Status of PG Exam : </Typography>
+                  </div>
+                  <div>{this.state.status}</div>
+                </div>
+                <div className="popUpField">
+                  <div>
                     <Typography>University/Institute : </Typography>
                   </div>
                   <div>{this.state.university}</div>
@@ -446,13 +543,30 @@ export default class AdmissionDetailsPG extends Component {
                     {this.state.nomenclature} {this.state.otherNomenclature}
                   </div>
                 </div>
+
                 <div className="popUpField">
                   <div>
-                    <Typography>Specialization :</Typography>
+                    <Typography>Branch :</Typography>
                   </div>
                   <div>
-                    {this.state.specialization} {this.state.otherSpecialization}
+                    {this.state.branch} {this.state.otherBranch}
                   </div>
+                </div>
+                <div className="popUpField">
+                  <div>
+                    <Typography>Specialization Branch:</Typography>
+                  </div>
+                  {this.state.specialization !== "" && (
+                    <div>
+                      {this.state.specialization} {this.state.otherSpecialization}
+                    </div>
+                  )}
+                  {this.state.specialization === "" && (
+                    <div>
+                      { "None" }
+                    </div>
+                  )}
+                  
                 </div>
                 {/* <div className="popUpField">
                   <div>
@@ -466,18 +580,25 @@ export default class AdmissionDetailsPG extends Component {
                   </div>
                   <div>{this.state.totalMarks}</div>
                 </div> */}
-                <div className="popUpField">
-                  <div>
-                    <Typography>CGPA :</Typography>
+                {this.state.status === "Passed" && (
+                  <div className="popUpField">
+                    <div>
+                      <Typography>CGPA :</Typography>
+                    </div>
+                    <div>{this.state.cgpa}</div>
                   </div>
-                  <div>{this.state.cgpa}</div>
-                </div>
-                <div className="popUpField">
-                  <div>
-                    <Typography>Percentage :</Typography>
+                )
+                }
+                
+                {this.state.status === "Passed" && (
+                  <div className="popUpField">
+                    <div>
+                      <Typography>Percentage :</Typography>
+                    </div>
+                    <div>{this.state.percentage}%</div>
                   </div>
-                  <div>{this.state.percentage}%</div>
-                </div>
+                )}
+                
               </div>
             )}
           </SweetAlert>
@@ -511,6 +632,45 @@ export default class AdmissionDetailsPG extends Component {
         <div className="title">Academic Details - PG</div>
         <div className={"Form"}>
           <form onSubmit={this.onSubmit}>
+
+            {/* Status of PG exam - appearing or passed */}
+            <div style={{ marginBottom: "12px" }}>
+              <div className="formGenderDob">
+                <div className="formGender">
+                  <div style={{ width: "100%" }}>
+                    <Typography>Status of PG Exam</Typography>
+                    <div className="radios">
+                      <input
+                        disabled={this.state.disabled}
+                        type="radio"
+                        value="Appearing"
+                        name="status"
+                        checked={this.state.status === "Appearing"}
+                        onChange={this.onChangeStatus}
+                        className="maleRadio"
+                      />
+                      Appearing
+                      <input
+                        disabled={this.state.disabled}
+                        type="radio"
+                        value="Passed"
+                        name="status"
+                        checked={this.state.status === "Passed"}
+                        onChange={this.onChangeStatus}
+                        className="maleRadio"
+                      />
+                      Passed
+                    </div>
+                    {this.state.errorStatus && (
+                      <div style={{ color: "red" }}>
+                        <Typography>Please select Status of PG Exam</Typography>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* 1. University/Institute of PG  */}
             <div style={{ marginBottom: "12px" }}>
               <Typography>University/Institute</Typography>
@@ -616,6 +776,60 @@ export default class AdmissionDetailsPG extends Component {
               })()}
             </div>
             
+            {/* BRANCH AND OTHER BRANCH FIELD */}
+            <div style={{ marginTop: "3px", paddingTop: "15px" }}>
+              <Typography style={{ marginBottom: "12px" }}>
+                  Branch
+              </Typography>
+              <DropDown
+                disabled={this.state.disabled}
+                options={dropdown_options_branch}
+                name="branch"
+                value={this.state.branch}
+                onChange={this.onChangeBranch}
+                placeholder="Select Branch"
+                required
+              />
+
+              {this.state.errorBranch && (
+                <div style={{ color: "red" }}>
+                  <Typography>Please select Branch</Typography>
+                </div>
+              )}
+
+
+              {
+                this.state.branch === "OTHER" && (
+                  
+                    <div>
+                      <Typography>
+                        Please enter your other branch
+                      </Typography>
+                      <TextField
+                        className="mb-3"
+                        fullWidth
+                        required
+                        onChange={this.handleChange}
+                        value={this.state.otherBranch}
+                        name="otherBranch"
+                        label="Other Branch Field"
+                        variant="outlined"
+                        style={{ marginTop: "8px" }}
+                      />
+                      {this.state.errorOtherBranch && (
+                        <div style={{ color: "red" }}>
+                          <Typography>
+                            Please enter other branch
+                          </Typography>
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+              
+
+            </div>
+            
             {/* 3. Specialization Branch  */}
             <div style={{ marginBottom: "12px" }}>
               <Typography style={{paddingTop: "15px"}}>Specialization Branch</Typography>
@@ -626,12 +840,12 @@ export default class AdmissionDetailsPG extends Component {
                 onChange={this.handleChange}
                 value={this.state.specialization}
                 name="specialization"
-                label="Select specialization branch"
+                label="Enter specialization branch"
                 variant="outlined"
-                required
                 style={{ marginTop: "8px" }}
+                required
               />
-              {this.state.errorNomenclature && (
+              {this.state.errorSpecialization && (
                 <div style={{ color: "red" }}>
                   <Typography>
                     Specialization Branch is required field
@@ -747,47 +961,61 @@ export default class AdmissionDetailsPG extends Component {
              *   6. CGPA
              *   7. Percentage of Marks
              */}
-            <div className="marksContainer">
+            {this.state.status==="Passed" && (
               <div>
-                <Typography>CGPA</Typography>
-                <TextField
-                  disabled={this.state.disabled}
-                  className="mb-3"
-                  fullWidth
-                  onChange={this.handleChange}
-                  value={this.state.cgpa}
-                  name="cgpa"
-                  label="CGPA"
-                  variant="outlined"
-                  style={{ marginTop: "8px" }}
-                />
-                {this.state.errorCGPA && (
-                  <div style={{ color: "red" }}>
-                    <Typography>Please enter valid CGPA</Typography>
+                <div className="marksContainer">
+                  <div>
+                    <Typography>CGPA</Typography>
+                    <TextField
+                      disabled={this.state.disabled}
+                      className="mb-3"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.cgpa}
+                      name="cgpa"
+                      label="CGPA"
+                      variant="outlined"
+                      style={{ marginTop: "8px" }}
+                      required
+                    />
+                    {this.state.errorCGPA && (
+                      <div style={{ color: "red" }}>
+                        <Typography>Please enter valid CGPA</Typography>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
-              <div className="totalMarks">
-                <Typography>Percentage</Typography>
-                <TextField
-                  disabled={this.state.disabled}
-                  className="mb-3"
-                  fullWidth
-                  onChange={this.handleChange}
-                  value={this.state.percentage}
-                  name="percentage"
-                  label="Percentage"
-                  variant="outlined"
-                  required
-                  style={{ marginTop: "8px" }}
-                />
-                {this.state.errorPercentage && (
-                  <div style={{ color: "red" }}>
-                    <Typography>Please enter valid percentage</Typography>
+            )}
+            
+            {this.state.status==="Passed" && (
+              <div>
+                <div className="marksContainer">
+                  <div>
+                    <Typography>Percentage</Typography>
+                    <TextField
+                      disabled={this.state.disabled}
+                      className="mb-3"
+                      fullWidth
+                      onChange={this.handleChange}
+                      value={this.state.percentage}
+                      name="percentage"
+                      label="Percentage"
+                      variant="outlined"
+                      required
+                      style={{ marginTop: "8px" }}
+                    />
+                    {this.state.errorPercentage && (
+                      <div style={{ color: "red" }}>
+                        <Typography>Please enter valid percentage</Typography>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
-            </div>
+            )}
+
+            
           </form>
 
           {/**
@@ -795,15 +1023,23 @@ export default class AdmissionDetailsPG extends Component {
            * Document Collection Component
            *
            */}
-          <div
-            className="formContainer"
-            style={{ marginTop: "30px", fontSize: "21px" }}
-          >
-            Documents Required
+           {this.state.status === "Passed" && 
+           (
+          <div>
+            <div
+              className="formContainer"
+              style={{ marginTop: "30px", fontSize: "21px" }}
+            >
+              Documents Required
+            </div>
+            <div style={{ opacity: "0.7", fontSize: "12px" }}>
+              (document size must be less than 1MB)
+            </div>
           </div>
-          <div style={{ opacity: "0.7", fontSize: "12px" }}>
-            (document size must be less than 1MB)
-          </div>
+           )
+          }
+          {this.state.status === "Passed" && 
+          (
           <Table>
             <TableBody>
               <div>
@@ -811,7 +1047,7 @@ export default class AdmissionDetailsPG extends Component {
                 {this.state.pg.display ? (
                   <div>
                     <div className="field">
-                      <div>{this.state.pg.name}</div>
+                      <div>{this.state.pg.name}{" (Compulsory) "}</div>
                       <div>
                         <input
                           disabled={this.state.disabled}
@@ -878,9 +1114,80 @@ export default class AdmissionDetailsPG extends Component {
                   " "
                 )}
               </div>
+              {this.state.status === "Passed" && (
+              <div>
+                {/* PG Degree Certificate */}
+                {this.state.pg.display ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.pg_degree_certificate.name}{" (Optional) "}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.pg_degree_certificate.name}
+                          onChange={this.onFileChange}
+                        />
+              {(() => {
+                if (this.state.errorFileSize)
+                {
+                  this.state.pg_degree_certificate.error = false
+                  return(<div className="docsError">File size exceeded than 10 MB</div>)
+                }
+              })()}
+                        {/* {this.state.pg.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )} */}
+                        {this.state.documentsUploaded
+                          .filter((doc) => doc.type === this.state.pg_degree_certificate.name)
+                          .map((doc, id) => (
+                            <div key={id}>
+                              <div className="docsPreviewDiv">
+                                <div className="docsPreviewFilename">
+                                  {doc.originalName.slice(0, 10) + "...  "}
+                                </div>
+                                <DocViewer
+                                  data={{
+                                    filename: doc.filename,
+                                    contentType: doc.contentType,
+                                    originalName: doc.originalName,
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                {doc.verification === "verified" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "green" }}
+                                  >
+                                    Verified
+                                  </div>
+                                )}
+                                {doc.verification === "mod_req" && (
+                                  <div
+                                    className="docVerify"
+                                    style={{ color: "red" }}
+                                  >
+                                    Modification Required
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+              </div>
+              )}
             </TableBody>
           </Table>
-
+          )}
           <React.Fragment>
             <ThemeProvider theme={theme}>
               <Button
