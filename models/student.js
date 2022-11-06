@@ -26,6 +26,8 @@ const personalInfo = {
   dob: { type: Date },
   ageYears: { type: Number },
   physicallyDisabled: { type: String },
+  employed: {type: String},
+  domicile: {type: String},
   department: departmentField,
   address: { type: String },
   adressCorrespondance: { type: String },

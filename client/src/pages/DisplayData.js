@@ -100,6 +100,8 @@ class DisplayData extends Component {
               aadhar: res.data.user.personalInfo.aadhar,
               address: res.data.user.personalInfo.adressPermenant,
               physicallyDisabled: res.data.user.personalInfo.physicalDisability,
+              employed:res.data.user.personalInfo.employed,
+              domicile: res.data.user.personalInfo.domicile,
               department: res.data.user.personalInfo.department,
 
               university: res.data.user.academicsUG.institute,
@@ -225,7 +227,14 @@ class DisplayData extends Component {
             <div>{this.state.department}</div>
           </div>
         </div>
-
+        <div className="field">
+            <div className="fieldName">Employed :</div>
+            <div>{this.state.employed}</div>
+          </div>
+          <div className="field">
+            <div className="fieldName">MH State Candidature :</div>
+            <div>{this.state.domicile}</div>
+          </div>
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
         {/* UG Details  */}

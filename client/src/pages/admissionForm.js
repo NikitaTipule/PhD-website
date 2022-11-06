@@ -41,6 +41,8 @@ export default class admissionForm extends Component {
         aadhar: "",
         address: "",
         physicallyDisabled: "",
+        employed:"",
+        domicile: "",
         department: "",
       },
 

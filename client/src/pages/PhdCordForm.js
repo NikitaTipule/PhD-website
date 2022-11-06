@@ -286,6 +286,18 @@ export default class phdCordForm extends Component {
                                 {this.state.personalInfo.department}
                               </td>
                             </tr>
+                            <tr className="row1">
+                              <td className="first data">Employed</td>
+                              <td className="data">
+                                {this.state.personalInfo.employed}
+                              </td>
+                            </tr>
+                            <tr className="row1">
+                              <td className="first data">MH State Candidature</td>
+                              <td className="data">
+                                {this.state.personalInfo.domicile}
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                         <br />
@@ -303,7 +315,8 @@ export default class phdCordForm extends Component {
                               doc.type === "Caste Validity" ||
                               doc.type === "Non-Creamy Layer Certificate" ||
                               doc.type === "EWS Certificate" ||
-                              doc.type === "Proof of Physical Disability") && (
+                              doc.type === "Proof of DOB" ||
+                              doc.type === "Proof of Physical Disability" || doc.type==="Proof of Employment" || doc.type==="Domicile Certificate") && (
                               <div className="field2">
                                 <div className="documents" key={doc.id}>
                                   <div

@@ -30,6 +30,7 @@ export const docType = {
   pg: "PG Marksheet",
   pg_degree_certificate: "PG Degree Certificate",
   gate: "Gate Marksheet",
+  proofDOB:"Proof of DOB",
   // leaving_certificate: "Leaving Certificate with mention of Indian",
   // passport: "Passport Certificate",
   // birth: "Birth Certificate",
@@ -44,4 +45,6 @@ export const docType = {
   ews: "EWS Certificate",
 
   doc_physicallyDisable: "Proof of Physical Disability",
+  doc_employed: "Proof of Employment",
+  doc_domicile: "Domicile Certificate"
 };

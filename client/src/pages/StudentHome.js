@@ -106,6 +106,8 @@ class StudentHome extends Component {
               gender: user.personalInfo.gender,
               category: user.personalInfo.category,
               physicallyDisabled: user.personalInfo.physicallyDisabled,
+              employed:user.personalInfo.employed,
+              domicile:user.personalInfo.domicile,
               dob: user.personalInfo.dob
                 ? user.personalInfo.dob.slice(0, 10)
                 : user.personalInfo.dob,

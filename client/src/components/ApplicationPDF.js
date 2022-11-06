@@ -200,6 +200,22 @@ const MyDoc = (props) => {
                 {props.personalInfo.physicallyDisabled}
               </Text>
             </View>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Employed?</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>
+                {props.personalInfo.employed}
+              </Text>
+            </View>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>MH State Candidature?</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>
+                {props.personalInfo.domicile}
+              </Text>
+            </View>
           </View>
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>

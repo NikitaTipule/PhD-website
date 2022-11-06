@@ -25,6 +25,11 @@ export default class PersonalDetails extends Component {
       //document collection
       photo: { name: docType.photo, error: false, display: true },
       sign: { name: docType.sign, error: false, display: true },
+      proofDOB:{
+        name:docType.proofDOB,
+        error:false,
+        display:true
+      },
       c_certificate: {
         name: docType.c_certificate,
         error: false,
@@ -43,7 +48,16 @@ export default class PersonalDetails extends Component {
         error: false,
         display: false,
       },
-
+      doc_employed:{
+        name: docType.doc_employed,
+        error: false,
+        display: false,
+      },
+      doc_domicile:{
+        name: docType.doc_domicile,
+        error: false,
+        display: false,
+      },
       name: "",
       middleName: "",
       gender: "",
@@ -56,8 +70,9 @@ export default class PersonalDetails extends Component {
       aadhar: "",
       address: "",
       physicallyDisabled: "",
+      employed: "",
       department: "",
-
+      domicile: "",
       remarks: "",
       verification: "",
 
@@ -78,6 +93,8 @@ export default class PersonalDetails extends Component {
       errorAadhar: false,
       errorAddress: false,
       errorPhysicallyDisabled: false,
+      errorEmployed: false,
+      errorDomicile: false,
       errorDepartment: false,
 
       token: localStorage.getItem("phd-website-jwt"),
@@ -174,14 +191,30 @@ export default class PersonalDetails extends Component {
   onChangeDisability = (event) => {
     let physDis = event.target.value;
     let doc_physicallyDisable = { ...this.state.doc_physicallyDisable };
-    doc_physicallyDisable.display = physDis == "Yes";
-    console.log(doc_physicallyDisable.display);
+    doc_physicallyDisable.display = physDis === "Yes";
     this.setState({
       physicallyDisabled: physDis,
       doc_physicallyDisable,
     });
   };
-
+  onChangeEmployed=(event)=>{
+    let emp=event.target.value;
+    let doc_employed={...this.state.doc_employed};
+    doc_employed.display=emp==="Yes"
+    this.setState({
+      employed:emp,
+      doc_employed,
+    });
+  };
+  onChangeDomicile=(event)=>{
+    let mh=event.target.value;
+    let doc_domicile={...this.state.doc_domicile};
+    doc_domicile.display=mh==="Yes"
+    this.setState({
+      domicile:mh,
+      doc_domicile,
+    });
+  };
   onChangeDepartment = (event) => {
     this.setState({
       department: event.value,
@@ -204,6 +237,23 @@ export default class PersonalDetails extends Component {
           name: this.state.photo.name,
           error: true,
           display: this.state.photo.display,
+        },
+      });
+    }
+    if (this.state.documentsUploaded.some((e) => e.type === docType.proofDOB)) {
+      this.setState({
+        proofDOB: {
+          name: this.state.proofDOB.name,
+          error: false,
+          display: this.state.proofDOB.display,
+        },
+      });
+    } else {
+      this.setState({
+        proofDOB: {
+          name: this.state.proofDOB.name,
+          error: true,
+          display: this.state.proofDOB.display,
         },
       });
     }
@@ -335,7 +385,52 @@ export default class PersonalDetails extends Component {
         });
       }
     }
-
+    if (this.state.doc_employed.display) {
+      if (
+        this.state.documentsUploaded.some(
+          (e) => e.type === docType.doc_employed
+        )
+      ) {
+        this.setState({
+          doc_employed: {
+            name: this.state.doc_employed.name,
+            error: false,
+            display: this.state.doc_employed.display,
+          },
+        });
+      } else {
+        this.setState({
+          doc_employed: {
+            name: this.state.doc_employed.name,
+            error: true,
+            display: this.state.doc_employed.display,
+          },
+        });
+      }
+    }
+    if (this.state.doc_domicile.display) {
+      if (
+        this.state.documentsUploaded.some(
+          (e) => e.type === docType.doc_domicile
+        )
+      ) {
+        this.setState({
+          doc_domicile: {
+            name: this.state.doc_domicile.name,
+            error: false,
+            display: this.state.doc_domicile.display,
+          },
+        });
+      } else {
+        this.setState({
+          doc_domicile: {
+            name: this.state.doc_domicile.name,
+            error: true,
+            display: this.state.doc_domicile.display,
+          },
+        });
+      }
+    }
     if (this.state.ews.display) {
       if (this.state.documentsUploaded.some((e) => e.type === docType.ews)) {
         this.setState({
@@ -412,6 +507,12 @@ export default class PersonalDetails extends Component {
     this.state.department === ""
       ? this.setState({ errorDepartment: true })
       : this.setState({ errorDepartment: false });
+    this.state.employed === ""
+      ? this.setState({ errorEmployed: true})
+      : this.setState({errorEmployed:false })
+    this.state.domicile === ""
+      ? this.setState({ errorDomicile: true})
+      : this.setState({errorDomicile:false })
   };
 
   // NEXT CONFIRM CANCEL
@@ -422,6 +523,9 @@ export default class PersonalDetails extends Component {
       await this.validateData();
       if (
         !this.state.doc_physicallyDisable.error &&
+        !this.state.doc_employed.error &&
+        !this.state.doc_domicile.error && 
+        !this.state.proofDOB.error &&
         !this.state.nationality_c.error &&
         !this.state.photo.error &&
         !this.state.sign.error &&
@@ -440,6 +544,8 @@ export default class PersonalDetails extends Component {
         this.state.errorAadhar === false &&
         this.state.errorAddress === false &&
         this.state.errorPhysicallyDisabled === false &&
+        this.state.errorEmployed === false &&
+        this.state.errorDomicile ===false &&
         this.state.errorDepartment === false
       ) {
         if (!this.state.disabled) {
@@ -473,6 +579,8 @@ export default class PersonalDetails extends Component {
         this.props.data.personalInfo.address = this.state.address;
         this.props.data.personalInfo.physicallyDisabled =
           this.state.physicallyDisabled;
+        this.props.data.personalInfo.employed=this.state.employed;
+        this.props.data.personalInfo.domicile=this.state.domicile;
         this.props.data.personalInfo.department = this.state.department;
         this.props.data.personalInfo.completed = true;
       }
@@ -556,6 +664,12 @@ export default class PersonalDetails extends Component {
                 : "",
               physicallyDisabled: res.data.user.personalInfo.physicallyDisabled
                 ? res.data.user.personalInfo.physicallyDisabled
+                : "",
+              employed: res.data.user.personalInfo.employed
+                ? res.data.user.personalInfo.employed
+                : "",
+              domicile: res.data.user.personalInfo.domicile
+                ? res.data.user.personalInfo.domicile
                 : "",
               department: res.data.user.personalInfo.department
                 ? res.data.user.personalInfo.department
@@ -684,7 +798,7 @@ export default class PersonalDetails extends Component {
               <div className="popUpContainer">
                 <div className="popUpField">
                   <div>
-                    <Typography>Name : </Typography>
+                    <Typography>Name (As per University Marksheet) : </Typography>
                   </div>
                   <div>{this.state.name}</div>
                 </div>
@@ -770,7 +884,20 @@ export default class PersonalDetails extends Component {
                   </div>
                   <div>{this.state.department}</div>
                 </div>
+                <div className="popUpField">
+                  <div>
+                    <Typography>Employed :</Typography>
+                  </div>
+                  <div>{this.state.employed}</div>
+                </div>
+                <div className="popUpField">
+                  <div>
+                    <Typography>MH State Candidature :</Typography>
+                  </div>
+                  <div>{this.state.domicile}</div>
+                </div>
               </div>
+              
             )}
           </SweetAlert>
         </div>
@@ -806,7 +933,7 @@ export default class PersonalDetails extends Component {
           <form>
             {/* 1. Name  */}
             <div className="formField">
-              <Typography>Name</Typography>
+              <Typography>Name (As per University Marksheet)</Typography>
               <TextField
                 disabled={this.state.disabled}
                 className="mb-3"
@@ -1144,6 +1271,90 @@ export default class PersonalDetails extends Component {
                 )}
               </div>
             </div>
+            <div className="formEmailNumber">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <div style={{ width: "100%" }}>
+                  <Typography>Employed</Typography>
+                  <div style={{ marginTop: "4px" }}>
+                    <input
+                      disabled={this.state.disabled}
+                      type="radio"
+                      value="Yes"
+                      name="employed"
+                      checked={this.state.employed === "Yes"}
+                      onChange={this.onChangeEmployed}
+                      style={{ marginLeft: "20px" }}
+                    />
+                    Yes
+                    <input
+                      disabled={this.state.disabled}
+                      type="radio"
+                      value="No"
+                      name="employed"
+                      checked={this.state.employed === "No"}
+                      onChange={this.onChangeEmployed}
+                      style={{ marginLeft: "30px" }}
+                    />{" "}
+                    No
+                  </div>
+                  {this.state.errorEmployed && (
+                    <div style={{ color: "red" }}>
+                      <Typography>Please select correct option</Typography>
+                    </div>
+                  )}
+                </div>
+              </div>
+              </div>
+              
+
+              <div className="formEmailNumber">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <div style={{ width: "100%" }}>
+                  <Typography>MH State Candidature</Typography>
+                  <div style={{ marginTop: "4px" }}>
+                    <input
+                      disabled={this.state.disabled}
+                      type="radio"
+                      value="Yes"
+                      name="domicile"
+                      checked={this.state.domicile === "Yes"}
+                      onChange={this.onChangeDomicile}
+                      style={{ marginLeft: "20px" }}
+                    />
+                    Yes
+                    <input
+                      disabled={this.state.disabled}
+                      type="radio"
+                      value="No"
+                      name="domicile"
+                      checked={this.state.domicile === "No"}
+                      onChange={this.onChangeDomicile}
+                      style={{ marginLeft: "30px" }}
+                    />{" "}
+                    No
+                  </div>
+                  {this.state.errorDomicile && (
+                    <div style={{ color: "red" }}>
+                      <Typography>Please select correct option</Typography>
+                    </div>
+                  )}
+                </div>
+              </div>
+              </div>
           </form>
 
           {/**
@@ -1228,6 +1439,7 @@ export default class PersonalDetails extends Component {
                           </div>
                           <ul style={{ marginTop: "0px" }}>
                             <li>Leaving Certificate with mention of Indian</li>
+                            <li>Nationality Certificate</li>
                             <li>Passport Certificate</li>
                             <li>Birth Certificate</li>
                             <li>Domicile Certificate of Maharashtra</li>
@@ -1360,7 +1572,7 @@ export default class PersonalDetails extends Component {
                 )}
 
                 {/* Physically Disable  */}
-                {this.state.doc_physicallyDisable.display ? (
+                {this.state.physicallyDisabled==="Yes" ? (
                   <div>
                     <div className="field">
                       <div>{this.state.doc_physicallyDisable.name}</div>
@@ -1384,7 +1596,90 @@ export default class PersonalDetails extends Component {
                 ) : (
                   " "
                 )}
+                {this.state.employed==="Yes" ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.doc_employed.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.doc_employed.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.doc_employed.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.displayDocs("doc_employed")}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
+                {this.state.domicile==="Yes" ? (
+                  <div>
+                    <div className="field">
+                      <div>{this.state.doc_domicile.name}</div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.doc_domicile.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.doc_domicile.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.displayDocs("doc_domicile")}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                  </div>
+                ) : (
+                  " "
+                )}
               </div>
+              {this.state.proofDOB.display?(
+                    <div>
+                    <div className="field">
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <div>{this.state.proofDOB.name}</div>
+                        <div style={{ opacity: "0.8", fontSize: "13px" }}>
+                          <div style={{ marginLeft: "3px" }}>
+                            Any one of these:
+                          </div>
+                          <ul style={{ marginTop: "0px" }}>
+                            <li>Birth Certificate</li>
+                            <li>Leaving Certificate</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div>
+                        <input
+                          disabled={this.state.disabled}
+                          type="file"
+                          name={this.state.proofDOB.name}
+                          onChange={this.onFileChange}
+                        />
+                        {this.state.proofDOB.error ? (
+                          <div className="docsError">Please upload file</div>
+                        ) : (
+                          ""
+                        )}
+                        {this.displayDocs("proofDOB")}
+                      </div>
+                    </div>
+                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+              </div>
+              ):(
+                " "
+              )}
             </TableBody>
           </Table>
 
