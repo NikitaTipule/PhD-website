@@ -30,6 +30,14 @@ export default function NavBar(props) {
             <h1 id="small-screen">PhD Admission Portal - COEP</h1>
           </a>
         </li>
+        <li className="li-class">
+          <a href="/contact">
+            <h2 id="big-screen" style={{marginLeft: "20em"}}>
+              Contact Us
+            </h2>
+            <h2 id="small-screen" style={{marginLeft: "12em"}}>Contact Us</h2>
+          </a>
+        </li>
       </ul>
     </nav>
   );

@@ -193,7 +193,7 @@ const MyDoc = (props) => {
               </Text>
             </View>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Physically Disabled?</Text>
+              <Text style={styles.tableCell}>Physically Disabled</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
@@ -274,7 +274,7 @@ const MyDoc = (props) => {
           </View>
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Specialization</Text>
+              <Text style={styles.tableCell}>Branch</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
@@ -294,21 +294,22 @@ const MyDoc = (props) => {
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>CGPA</Text>
+            <View style={styles.tableCol2}>
+              <Text style={styles.tableCell}>Status</Text>
             </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{props.academicsPG.cgpa10}</Text>
+            <View style={styles.tableCol3}>
+              <Text style={styles.tableCell}>{props.academicsPG.status}</Text>
             </View>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Percentage Marks</Text>
+            {/* <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}></Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
-                {props.academicsPG.percentageMarks}
+                {""}
               </Text>
-            </View>
+            </View> */}
           </View>
+          
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
               <Text style={styles.tableCell}>Degree</Text>
@@ -325,20 +326,41 @@ const MyDoc = (props) => {
               </Text>
             </View>
           </View>
-          <View style={styles.tableRow}>
+
+          {props.academicsPG.status === "Passed" &&
+          (
+            <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Specialization</Text>
+              <Text style={styles.tableCell}>CGPA</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{props.academicsPG.cgpa10}</Text>
+            </View>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Percentage Marks</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>
+                {props.academicsPG.percentageMarks}
+              </Text>
+            </View>
+          </View>
+          )}
+
+          <View style={styles.tableRow}>
+          <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Branch</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{props.academicsPG.branch}</Text>
+            </View>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Specialization Branch</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
                 {props.academicsPG.specialization}
               </Text>
-            </View>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}></Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{""}</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
@@ -371,9 +393,69 @@ const MyDoc = (props) => {
               )}
             </View>
           </View>
+
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Score</Text>
+              <Text style={styles.tableCell}>Gate Discipline</Text>
+            </View>
+            {props.entranceDetails.givenGate ? (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                {props.entranceDetails.Gate.discipline}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                -
+              </Text>
+            )}
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Gate Category</Text>
+            </View>
+            {props.entranceDetails.givenGate ? (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                {props.entranceDetails.Gate.category}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                -
+              </Text>
+            )}
+          </View>
+
+          <View style={styles.tableRow}>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Gate Score</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -401,7 +483,7 @@ const MyDoc = (props) => {
               </Text>
             )}
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Last Date of Validation</Text>
+              <Text style={styles.tableCell}>Gate Score Valid upto</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -436,7 +518,7 @@ const MyDoc = (props) => {
         <Text style={styles.declare}>
           I have read all the rules of admission and after understanding these
           rules, I have filled this application form for admission to phD in
-          COEP for the academic year 2020-21. The information given by me in
+          COEP for the academic year 2022-23. The information given by me in
           this application is true to the best of my knowledge and belief. At
           any later state, if it is found that I have furnished wrong
           information and/or submitted false certificate(s), I am aware that my

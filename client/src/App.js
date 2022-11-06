@@ -23,6 +23,7 @@ import axios from "axios";
 import DocViewer from "./pages/DocViewer";
 import OTP from "./pages/otp";
 import Link from "./pages/Link";
+import Contact from "./components/Contact";
 
 function setToken() {
   const token = localStorage.getItem("phd-website-jwt");
@@ -42,6 +43,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" component={Home} exact></Route>
+        <Route path="/contact" component={Contact} exact></Route>
         <ProtectedRoute
           allowedRoles={[roles.phdCord, roles.admin]}
           path="/coordinator"

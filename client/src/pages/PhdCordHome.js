@@ -20,6 +20,8 @@ import InfoBox from "../components/InfoBox";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { MobileView, BrowserView } from "react-device-detect";
+import downloadApplicationPDF from "../components/ApplicationPDF";
+import DownloadIcon from "@mui/icons-material/Download";
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -233,6 +235,7 @@ class PhdCordHome extends Component {
     { id: "id", label: "No.", minWidth: 30 },
     { id: "name", label: "Name", minWidth: 120 },
     { id: "infoVerified", label: "Verification Status", minWidth: 70 },
+    { id: "iconDA", label: "Download Application", minWidth: 30 },
     { id: "icon", label: "", minWidth: 30 },
   ];
 
@@ -706,12 +709,10 @@ class PhdCordHome extends Component {
                                 tabIndex={-1}
                                 key={row.code}
                                 value={row.name}
-                                onClick={() => {
-                                  this.oncellClick(row._id);
-                                }}
                               >
                                 {this.columns.map((column) => {
                                   const value = row[column.id];
+
                                   return (
                                     <TableCell key={column.id} align="center">
                                       {column.id === "infoVerified" ? (
@@ -742,15 +743,37 @@ class PhdCordHome extends Component {
                                             <div>{++count}</div>
                                           ) : (
                                             <div>
-                                              <Link
-                                                to={{ pathname: "/coform" }}
-                                                style={{
-                                                  textDecoration: "none",
-                                                  color: "black",
-                                                }}
-                                              >
-                                                {value}
-                                              </Link>
+                                              {column.id === "iconDA" ? (
+                                                <div
+                                                  onClick={() =>
+                                                    downloadApplicationPDF(
+                                                      row["_id"],
+                                                      this.state.token
+                                                    )
+                                                  }
+                                                >
+                                                  <DownloadIcon
+                                                    cursor={"pointer"}
+                                                  />
+                                                  {console.log(value)}
+                                                </div>
+                                              ) : (
+                                                <div
+                                                  onClick={() => {
+                                                    this.oncellClick(row._id);
+                                                  }}
+                                                >
+                                                  <Link
+                                                    to={{ pathname: "/coform" }}
+                                                    style={{
+                                                      textDecoration: "none",
+                                                      color: "black",
+                                                    }}
+                                                  >
+                                                    {value}
+                                                  </Link>
+                                                </div>
+                                              )}
                                             </div>
                                           )}
                                         </div>
