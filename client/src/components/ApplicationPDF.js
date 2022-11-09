@@ -193,15 +193,17 @@ const MyDoc = (props) => {
               </Text>
             </View>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Physically Disabled</Text>
+              <Text style={styles.tableCell}>Physically Challenged(PH)</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
                 {props.personalInfo.physicallyDisabled}
               </Text>
             </View>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Employed?</Text>
+          </View>
+          <View style={styles.tableRow}>
+          <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Employed</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
@@ -209,7 +211,7 @@ const MyDoc = (props) => {
               </Text>
             </View>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>MH State Candidature?</Text>
+              <Text style={styles.tableCell}>MH State Candidature</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
@@ -382,21 +384,50 @@ const MyDoc = (props) => {
           </View>
           {/* Gate Details  */}
           <View style={styles.tableRow}>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>Given Gate</Text>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Given GATE</Text>
             </View>
-            <View style={styles.tableCol3}>
+            <View style={styles.tableCol}>
               {props.entranceDetails.givenGate ? (
                 <Text style={styles.tableCell}>Yes</Text>
               ) : (
                 <Text style={styles.tableCell}>No</Text>
               )}
             </View>
+
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>GATE Qualified</Text>
+            </View>
+            {props.entranceDetails.givenGate ? (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                {props.entranceDetails.Gate.gateQualified}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                -
+              </Text>
+            )}
           </View>
 
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Discipline</Text>
+              <Text style={styles.tableCell}>GATE Discipline</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -424,7 +455,7 @@ const MyDoc = (props) => {
               </Text>
             )}
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Category</Text>
+              <Text style={styles.tableCell}>GATE Category</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -455,7 +486,7 @@ const MyDoc = (props) => {
 
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Score</Text>
+              <Text style={styles.tableCell}>GATE Score</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -483,7 +514,7 @@ const MyDoc = (props) => {
               </Text>
             )}
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Score Valid upto</Text>
+              <Text style={styles.tableCell}>GATE Score Valid upto</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text

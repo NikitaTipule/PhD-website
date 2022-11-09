@@ -325,7 +325,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Physically Disable</td>
+                              <td className="first data">Physically Challenged(PH)</td>
                               <td className="data">
                                 {this.state.personalInfo.physicallys}
                               </td>
@@ -866,6 +866,15 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
 
+                            <tr className="row1">
+                              <td className="first data">
+                                Status of PG
+                              </td>
+                              <td className="data">
+                                {this.state.academicsPG.status}
+                              </td>
+                            </tr>
+
                             {/* <tr className="row1">
                               <td className="first data">Marks Obtained</td>
                               <td className="data">
@@ -1197,7 +1206,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Given Gate</td>
+                              <td className="first data">Given GATE</td>
                               <td className="data">
                                 {this.state.entranceDetails.givenGate
                                   ? "Yes"
@@ -1205,13 +1214,13 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Gate Discipline</td>
+                              <td className="first data">GATE Discipline</td>
                               <td className="data">
                                 {this.state.entranceDetails.Gate.discipline}
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Gate Category</td>
+                              <td className="first data">GATE Category</td>
                               <td className="data">
                                 {this.state.entranceDetails.Gate.category}
                               </td>
@@ -1234,7 +1243,15 @@ export default class phdCordForm extends Component {
                             </tr>
                             <tr className="row1">
                               <td className="first data">
-                                Gate Score Valid Upto
+                                GATE Qualified
+                              </td>
+                              <td className="data">
+                                {this.state.entranceDetails.Gate.gateQualified}
+                              </td>
+                            </tr>
+                            <tr className="row1">
+                              <td className="first data">
+                                GATE Score Valid Upto
                               </td>
                               <td className="data">
                                 {(
@@ -1326,7 +1343,7 @@ export default class phdCordForm extends Component {
                         <div style={{ justifyContent: "left" }}>
                           {this.state.documentsUploaded.map((doc, id) => (
                             <div key={doc.id}>
-                              {doc.type === "Gate Marksheet" && (
+                              {doc.type === "GATE Marksheet" && (
                                 <div className="field2">
                                   <div className="documents" key={doc.id}>
                                     <div className="docFieldName">
