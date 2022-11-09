@@ -278,6 +278,14 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
+                              <td className="first data">
+                                Mother's Name
+                              </td>
+                              <td className="data">
+                                {this.state.personalInfo.motherName}
+                              </td>
+                            </tr>
+                            <tr className="row1">
                               <td className="first data">Gender</td>
                               <td className="data">
                                 {this.state.personalInfo.gender}
@@ -313,7 +321,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Aadhar Card Number</td>
+                              <td className="first data">Aadhar Id</td>
                               <td className="data">
                                 {this.state.personalInfo.aadhar}
                               </td>
@@ -1185,7 +1193,7 @@ export default class phdCordForm extends Component {
                           <tbody>
                             <tr className="row1">
                               <td className="first data">
-                                Want to appear for COEP's Reasearch Program
+                                Want to appear for COEP Tech's Reasearch Program
                                 Eligibility Test (RPET)
                               </td>
                               <td className="data">
@@ -1196,7 +1204,7 @@ export default class phdCordForm extends Component {
                             </tr>
                             <tr className="row1">
                               <td className="first data">
-                                Want to appear for COEP entrance exam
+                                Want to appear for COEP Tech's entrance exam
                               </td>
                               <td className="data">
                                 {this.state.entranceDetails

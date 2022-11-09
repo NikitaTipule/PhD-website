@@ -21,7 +21,7 @@ export default class EntranceExamDetails extends Component {
       optionsSelected: [],
       options: [
         {
-          name: "Want to appear for COEP's Reasearch \nProgram Eligibility Test (RPET)",
+          name: "Want to appear for COEP Tech's Reasearch \nProgram Eligibility Test (RPET)",
           id: 1,
         },
         {

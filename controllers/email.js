@@ -19,7 +19,7 @@ const send_email = (to_email, msg, subject = "OTP for signup confirmation") => {
     from: `"COEP " ${emailNodemailer}`, // sender address (who sends)
     to: to_email, // list of receivers (who receives)
     subject, // Subject line
-    text: "COEP's Phd Program Application", // plaintext body
+    text: "COEP's PhD Program Application", // plaintext body
     html: mail_html, // html body
   };
   
