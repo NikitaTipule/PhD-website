@@ -86,7 +86,7 @@ exports.lockProfile = (req, res) => {
       }
       counter.index = counter.index + 1;
       const ind = counter.index.toString().padStart(3, "0");
-      const appId = `PH21${counter.code}${ind}`;
+      const appId = `PhD2022${counter.code}${ind}`;
       user.applicationId = appId;
       Promise.all([user.save(), counter.save()])
         .then(() => {

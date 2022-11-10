@@ -852,7 +852,7 @@ export default class PersonalDetails extends Component {
                 </div>
                 <div className="popUpField">
                   <div>
-                    <Typography>Aadhar Card Number :</Typography>
+                    <Typography>Aadhar Id :</Typography>
                   </div>
                   <div>{this.state.aadhar}</div>
                 </div>

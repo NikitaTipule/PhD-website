@@ -498,7 +498,7 @@ class StudentHome extends Component {
                 </li> */}
                 <li className="table-row">
                   <div className="col col-2" data-label="Field">
-                    Entrance Details
+                    Entrance Exam Details
                   </div>
                   <div className="col col-3" data-label="Remark">
                     {this.state.ENTremarks.length
