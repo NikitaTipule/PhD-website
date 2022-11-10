@@ -86,7 +86,7 @@ exports.lockProfile = (req, res) => {
       }
       counter.index = counter.index + 1;
       const ind = counter.index.toString().padStart(3, "0");
-      const appId = `PhD2022${counter.code}${ind}`;
+      const appId = `PhD22${counter.code}${ind}`;
       user.applicationId = appId;
       Promise.all([user.save(), counter.save()])
         .then(() => {
@@ -214,7 +214,7 @@ exports.verifyFeeDetails = async (req, res) => {
     send_email(
       user.email,
       "Your fee details are reviewed. Please check the status on portal.",
-      "COEP Technological University - PhD Porgram Application Update"
+      "COEP Technological University - Ph.D. Porgram Application Update"
     );
     user
       .save()
@@ -321,7 +321,7 @@ exports.verifyStudentInfo = (req, res) => {
       send_email(
         user.email,
         "Your application is reviewed. Please check the status on portal.",
-        "COEP Technological University - PhD Porgram Application Update"
+        "COEP Technological University - Ph.D. Porgram Application Update"
       );
       user
         .save()
