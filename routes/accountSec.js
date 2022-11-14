@@ -31,9 +31,9 @@ const addAccountSec = (req, res) => {
       .then((user) => {
         sendEmail(
           email,
-          `Your password for PhD website portal with email ${email} is ${pass}.
+          `Your password for Ph.D. website portal with email ${email} is ${pass}.
            Please reset after signing in`,
-          "PhD Website Account Section details"
+          "Ph.D. Website Account Section details"
         );
         res.send({
           userId: user._id,

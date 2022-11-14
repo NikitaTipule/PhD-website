@@ -8,8 +8,8 @@ export default function NavBar(props) {
   return (
     <nav className="NavbarItems" style={{ width: "100%" }}>
       <Helmet>
-        <title>COEP Tech - PhD admission Portal</title>
-        <meta name="title" content="COEP Tech PhD Admission Portal"></meta>
+        <title>COEP Tech - Ph.D. admission Portal</title>
+        <meta name="title" content="COEP Tech Ph.D. Admission Portal"></meta>
       </Helmet>
 
       <ul className="ul-class">
@@ -27,7 +27,7 @@ export default function NavBar(props) {
             <h1 id="big-screen">
               PhD Admission Portal - COEP Technological University
             </h1>
-            <h1 id="small-screen">PhD Admission Portal - COEP</h1>
+            <h1 id="small-screen">Ph.D. Admission Portal - COEP</h1>
           </a>
         </li>
         <li className="li-class">
