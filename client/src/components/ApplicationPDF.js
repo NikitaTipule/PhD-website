@@ -237,6 +237,24 @@ const MyDoc = (props) => {
               <Text style={styles.tableCell}>{props.mobile}</Text>
             </View>
           </View>
+
+          <View style={styles.tableRow}>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Mother's Name</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>
+                {props.personalInfo.motherName}
+              </Text>
+            </View>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>{""}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{""}</Text>
+            </View>
+          </View>
+          
           <View style={styles.tableRow}>
             <View style={styles.tableColHeader}>
               <Text style={styles.tableCellHeader}>Academics UG</Text>
