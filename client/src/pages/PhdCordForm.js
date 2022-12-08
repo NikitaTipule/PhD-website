@@ -278,6 +278,14 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
+                              <td className="first data">
+                                Mother's Name
+                              </td>
+                              <td className="data">
+                                {this.state.personalInfo.motherName}
+                              </td>
+                            </tr>
+                            <tr className="row1">
                               <td className="first data">Gender</td>
                               <td className="data">
                                 {this.state.personalInfo.gender}
@@ -313,7 +321,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Aadhar Card Number</td>
+                              <td className="first data">Aadhar Id</td>
                               <td className="data">
                                 {this.state.personalInfo.aadhar}
                               </td>
@@ -325,7 +333,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Physically Disable</td>
+                              <td className="first data">Physically Challenged(PH)</td>
                               <td className="data">
                                 {this.state.personalInfo.physicallys}
                               </td>
@@ -866,6 +874,15 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
 
+                            <tr className="row1">
+                              <td className="first data">
+                                Status of PG
+                              </td>
+                              <td className="data">
+                                {this.state.academicsPG.status}
+                              </td>
+                            </tr>
+
                             {/* <tr className="row1">
                               <td className="first data">Marks Obtained</td>
                               <td className="data">
@@ -1176,7 +1193,7 @@ export default class phdCordForm extends Component {
                           <tbody>
                             <tr className="row1">
                               <td className="first data">
-                                Want to appear for COEP's Reasearch Program
+                                Want to appear for COEP Tech's Reasearch Program
                                 Eligibility Test (RPET)
                               </td>
                               <td className="data">
@@ -1187,7 +1204,7 @@ export default class phdCordForm extends Component {
                             </tr>
                             <tr className="row1">
                               <td className="first data">
-                                Want to appear for COEP entrance exam
+                                Want to appear for COEP Tech's entrance exam
                               </td>
                               <td className="data">
                                 {this.state.entranceDetails
@@ -1197,7 +1214,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Given Gate</td>
+                              <td className="first data">Given GATE</td>
                               <td className="data">
                                 {this.state.entranceDetails.givenGate
                                   ? "Yes"
@@ -1205,13 +1222,13 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Gate Discipline</td>
+                              <td className="first data">GATE Discipline</td>
                               <td className="data">
                                 {this.state.entranceDetails.Gate.discipline}
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Gate Category</td>
+                              <td className="first data">GATE Category</td>
                               <td className="data">
                                 {this.state.entranceDetails.Gate.category}
                               </td>
@@ -1234,7 +1251,15 @@ export default class phdCordForm extends Component {
                             </tr>
                             <tr className="row1">
                               <td className="first data">
-                                Gate Score Valid Upto
+                                GATE Qualified
+                              </td>
+                              <td className="data">
+                                {this.state.entranceDetails.Gate.gateQualified}
+                              </td>
+                            </tr>
+                            <tr className="row1">
+                              <td className="first data">
+                                GATE Score Valid Upto
                               </td>
                               <td className="data">
                                 {(
@@ -1326,7 +1351,7 @@ export default class phdCordForm extends Component {
                         <div style={{ justifyContent: "left" }}>
                           {this.state.documentsUploaded.map((doc, id) => (
                             <div key={doc.id}>
-                              {doc.type === "Gate Marksheet" && (
+                              {doc.type === "GATE Marksheet" && (
                                 <div className="field2">
                                   <div className="documents" key={doc.id}>
                                     <div className="docFieldName">

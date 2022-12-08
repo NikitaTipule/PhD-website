@@ -81,6 +81,7 @@ const entranceDetails = {
     marks: { type:String },
     // qualimarks: { type: String },
     lastDateOfValidation: { type: Date },
+    gateQualified: {type: String},
   },
   sppuPet: {
     details: { type: String },

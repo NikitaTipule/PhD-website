@@ -90,7 +90,7 @@ exports.lockProfile = (req, res) => {
       }
       counter.index = counter.index + 1;
       const ind = counter.index.toString().padStart(3, "0");
-      const appId = `PH21${counter.code}${ind}`;
+      const appId = `PhD22${counter.code}${ind}`;
       user.applicationId = appId;
       Promise.all([user.save(), counter.save()])
         .then(() => {
@@ -218,7 +218,7 @@ exports.verifyFeeDetails = async (req, res) => {
     send_email(
       user.email,
       "Your fee details are reviewed. Please check the status on portal.",
-      "COEP Technological University - PhD Porgram Application Update"
+      "COEP Technological University - Ph.D. Porgram Application Update"
     );
     user
       .save()
@@ -325,7 +325,7 @@ exports.verifyStudentInfo = (req, res) => {
       send_email(
         user.email,
         "Your application is reviewed. Please check the status on portal.",
-        "COEP Technological University - PhD Porgram Application Update"
+        "COEP Technological University - Ph.D. Porgram Application Update"
       );
       user
         .save()
@@ -356,7 +356,7 @@ exports.getAllStudentsInfoByDept = (req, res) => {
   };
   if (req.userRole == "phdCord" || req.userRole == "admin") {
     projection =
-      "personalInfo.name personalInfo.middleName email personalInfo.gender personalInfo.dob personalInfo.mobile personalInfo.nationality personalInfo.category personalInfo.aadhar personalInfo.address personalInfo.physicallyDisabled personalInfo.employed personalInfo.domicile personalInfo.deparment personalInfo.verification personalInfo.remarks academicsUG.institute academicsUG.degree academicsUG.specialization academicsUG.totalAggregate academicsUG.cgpa10 academicsUG.percentageMarks academicsUG.totalMarks academicsUG.dateOfDeclaration academicsPG.institute academicsPG.degree academicsPG.totalAggregate academicsPG.totalMarks academicsPG.cgpa10 academicsPG.percentageMarks academicsPG.verification academicsPG.remarks entranceDetails";
+      "mobile personalInfo.name personalInfo.middleName email personalInfo.gender personalInfo.dob personalInfo.mobile personalInfo.nationality personalInfo.category personalInfo.aadhar personalInfo.address personalInfo.physicallyDisabled personalInfo.employed personalInfo.domicile personalInfo.deparment personalInfo.verification personalInfo.remarks academicsUG.institute academicsUG.degree academicsUG.specialization academicsUG.totalAggregate academicsUG.cgpa10 academicsUG.percentageMarks academicsUG.totalMarks academicsUG.dateOfDeclaration academicsPG.institute academicsPG.degree academicsPG.totalAggregate academicsPG.totalMarks academicsPG.cgpa10 academicsPG.percentageMarks academicsPG.verification academicsPG.remarks entranceDetails";
   } else if (req.userRole == "accountSec") {
     projection = "name personalInfo.category feeDetails";
     filter = { "personalInfo.department": department };

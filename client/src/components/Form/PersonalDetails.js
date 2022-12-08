@@ -852,7 +852,7 @@ export default class PersonalDetails extends Component {
                 </div>
                 <div className="popUpField">
                   <div>
-                    <Typography>Aadhar Card Number :</Typography>
+                    <Typography>Aadhar Id :</Typography>
                   </div>
                   <div>{this.state.aadhar}</div>
                 </div>
@@ -1223,7 +1223,7 @@ export default class PersonalDetails extends Component {
                 }}
               >
                 <div style={{ width: "100%" }}>
-                  <Typography>Physically Disable</Typography>
+                  <Typography>Physically Challenged(PH)</Typography>
                   <div style={{ marginTop: "4px" }}>
                     <input
                       disabled={this.state.disabled}

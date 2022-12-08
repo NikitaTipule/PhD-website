@@ -152,41 +152,44 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   validateData = () => {
-    if (this.state.documentsUploaded.some((e) => e.type === docType.pg)) {
-      this.setState({
-        pg: {
-          name: this.state.pg.name,
-          error: false,
-          display: this.state.pg.display,
-        },
-      });
-    } else {
-      this.setState({
-        pg: {
-          name: this.state.pg.name,
-          error: true,
-          display: this.state.pg.display,
-        },
-      });
+    if(this.state.status === "Passed"){
+      if (this.state.documentsUploaded.some((e) => e.type === docType.pg)) {
+        this.setState({
+          pg: {
+            name: this.state.pg.name,
+            error: false,
+            display: this.state.pg.display,
+          },
+        });
+      } else {
+        this.setState({
+          pg: {
+            name: this.state.pg.name,
+            error: true,
+            display: this.state.pg.display,
+          },
+        });
+      }
+  
+      if (this.state.documentsUploaded.some((e) => e.type === docType.pg_degree_certificate)) {
+        this.setState({
+          pg_degree_certificate: {
+            name: this.state.pg_degree_certificate.name,
+            error: false,
+            display: this.state.pg_degree_certificate.display,
+          },
+        });
+      } else {
+        this.setState({
+          pg_degree_certificate: {
+            name: this.state.pg_degree_certificate.name,
+            error: true,
+            display: this.state.pg_degree_certificate.display,
+          },
+        });
+      }
     }
-
-    if (this.state.documentsUploaded.some((e) => e.type === docType.pg_degree_certificate)) {
-      this.setState({
-        pg_degree_certificate: {
-          name: this.state.pg_degree_certificate.name,
-          error: false,
-          display: this.state.pg_degree_certificate.display,
-        },
-      });
-    } else {
-      this.setState({
-        pg_degree_certificate: {
-          name: this.state.pg_degree_certificate.name,
-          error: true,
-          display: this.state.pg_degree_certificate.display,
-        },
-      });
-    }
+    
 
     this.state.status === ""
       ? this.setState({ errorStatus: true})

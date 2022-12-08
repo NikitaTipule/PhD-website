@@ -193,15 +193,17 @@ const MyDoc = (props) => {
               </Text>
             </View>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Physically Disabled</Text>
+              <Text style={styles.tableCell}>Physically Challenged(PH)</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
                 {props.personalInfo.physicallyDisabled}
               </Text>
             </View>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Employed?</Text>
+          </View>
+          <View style={styles.tableRow}>
+          <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Employed</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
@@ -209,7 +211,7 @@ const MyDoc = (props) => {
               </Text>
             </View>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>MH State Candidature?</Text>
+              <Text style={styles.tableCell}>MH State Candidature</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>
@@ -235,6 +237,24 @@ const MyDoc = (props) => {
               <Text style={styles.tableCell}>{props.mobile}</Text>
             </View>
           </View>
+
+          <View style={styles.tableRow}>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Mother's Name</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>
+                {props.personalInfo.motherName}
+              </Text>
+            </View>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>{""}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{""}</Text>
+            </View>
+          </View>
+          
           <View style={styles.tableRow}>
             <View style={styles.tableColHeader}>
               <Text style={styles.tableCellHeader}>Academics UG</Text>
@@ -370,7 +390,7 @@ const MyDoc = (props) => {
           </View>
           <View style={styles.tableRow}>
             <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>Is Interested in COEP RPET</Text>
+              <Text style={styles.tableCell}>Is Interested in COEP Tech RPET</Text>
             </View>
             <View style={styles.tableCol3}>
               {props.entranceDetails.isInterestedCoepRPET ? (
@@ -382,21 +402,50 @@ const MyDoc = (props) => {
           </View>
           {/* Gate Details  */}
           <View style={styles.tableRow}>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>Given Gate</Text>
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>Given GATE</Text>
             </View>
-            <View style={styles.tableCol3}>
+            <View style={styles.tableCol}>
               {props.entranceDetails.givenGate ? (
                 <Text style={styles.tableCell}>Yes</Text>
               ) : (
                 <Text style={styles.tableCell}>No</Text>
               )}
             </View>
+
+            <View style={styles.tableCol1}>
+              <Text style={styles.tableCell}>GATE Qualified</Text>
+            </View>
+            {props.entranceDetails.givenGate ? (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                {props.entranceDetails.Gate.gateQualified}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  ...styles.tableCol,
+                  fontSize: "10px",
+                  fontWeight: "300",
+                  paddingTop: "5px",
+                  paddingLeft: "5px",
+                }}
+              >
+                -
+              </Text>
+            )}
           </View>
 
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Discipline</Text>
+              <Text style={styles.tableCell}>GATE Discipline</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -424,7 +473,7 @@ const MyDoc = (props) => {
               </Text>
             )}
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Category</Text>
+              <Text style={styles.tableCell}>GATE Category</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -455,7 +504,7 @@ const MyDoc = (props) => {
 
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Score</Text>
+              <Text style={styles.tableCell}>GATE Score</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -483,7 +532,7 @@ const MyDoc = (props) => {
               </Text>
             )}
             <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Gate Score Valid upto</Text>
+              <Text style={styles.tableCell}>GATE Score Valid upto</Text>
             </View>
             {props.entranceDetails.givenGate ? (
               <Text
@@ -517,8 +566,8 @@ const MyDoc = (props) => {
         <Text style={styles.declareHead}>Declaration:</Text>
         <Text style={styles.declare}>
           I have read all the rules of admission and after understanding these
-          rules, I have filled this application form for admission to phD in
-          COEP for the academic year 2022-23. The information given by me in
+          rules, I have filled this application form for admission to Ph.D. in
+          COEP Technological University for the academic year 2022-23. The information given by me in
           this application is true to the best of my knowledge and belief. At
           any later state, if it is found that I have furnished wrong
           information and/or submitted false certificate(s), I am aware that my

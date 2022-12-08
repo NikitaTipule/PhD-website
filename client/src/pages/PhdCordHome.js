@@ -27,6 +27,7 @@ class PhdCordHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mobile: "",
       name: "",
       email: "",
       mis: "",
@@ -184,7 +185,7 @@ class PhdCordHome extends Component {
                       studentData: response.data,
                       length: response.data.length,
                     });
-                    console.log(response.data);
+                    // console.log(response.data);
                   });
                 try {
                   axios
@@ -195,6 +196,7 @@ class PhdCordHome extends Component {
                       { headers: { "phd-website-jwt": this.state.token } }
                     )
                     .then((res) => {
+                      // console.log(res.data)
                       this.setState({
                         allStudentData: res.data,
                       });
@@ -289,8 +291,10 @@ class PhdCordHome extends Component {
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
-      const { personalInfo, academicsUG, academicsPG, email, entranceDetails } =
+      const { personalInfo, academicsUG, academicsPG, email, entranceDetails,mobile } =
         otherProp;
+
+      // console.log(mobile)
       const {
         cgpa10: pg_cgpa,
         degree: pg_degree,
@@ -341,6 +345,7 @@ class PhdCordHome extends Component {
       otherData.push({
         ...personalInfo,
         email,
+        mobile,
         ...ug,
         ...pg,
         // gate_score,

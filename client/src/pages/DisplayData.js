@@ -218,7 +218,7 @@ class DisplayData extends Component {
           </div>
 
           <div className="field">
-            <div className="fieldName">Physically Disable :</div>
+            <div className="fieldName">Physically Challenged(PH) :</div>
             <div>{this.state.physicallyDisabled}</div>
           </div>
 
