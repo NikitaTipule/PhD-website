@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { jwtSecretKey } = require("../config/configKeys");
+const { application_stage } = require("../state");
 
 exports.auth = (req, res, next) => {
   // get token from header
@@ -17,6 +18,18 @@ exports.auth = (req, res, next) => {
     const decoded = jwt.verify(token, jwtSecretKey);
     req.userId = decoded.id;
     req.userRole = decoded.role;
+    const editRoutes = [
+      "/edit/docs",
+      "/edit/info",
+      "/edit/fee",
+      "/lock",
+      "/upload",
+    ];
+    if (editRoutes.includes(req.path)) {
+      if (application_stage === "closed") {
+        return res.status(401).json("application is closed");
+      }
+    }
     next();
   } catch (err) {
     console.log(err);

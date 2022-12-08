@@ -1,6 +1,7 @@
 const Student = require("../models/student");
 const Counter = require("../models/counter");
 const send_email = require("./email");
+const { application_stage } = require("../state");
 
 exports.myProfileStudent = (req, res) => {
   if (!req.userId) {
@@ -11,6 +12,9 @@ exports.myProfileStudent = (req, res) => {
       return res.status(404).json({ error: "user doesn't exist" });
     }
     delete user.password;
+    if (application_stage === "closed") {
+      user.editable = false;
+    }
     res.json({ user });
   });
 };

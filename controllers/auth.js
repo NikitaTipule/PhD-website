@@ -7,6 +7,7 @@ const sendEmail = require("./email");
 const Student = require("../models/student");
 const { MailOtp, PhoneOtp } = require("../models/token");
 const AccountSec = require("../models/accountSec");
+const { application_stage } = require("../state");
 
 const generateToken = (user) => {
   // Create token
@@ -28,6 +29,11 @@ const generateToken = (user) => {
 };
 
 exports.registerStudent = (req, res) => {
+  if (application_stage !== "open") {
+    return res
+      .status(400)
+      .json({ error: "New applications are not accepted now" });
+  }
   const { name, email, mobile, password } = req.body;
   if (!(name, email, mobile && password)) {
     return res.status(400).json({ error: "All input is required" });
