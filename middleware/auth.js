@@ -18,6 +18,7 @@ exports.auth = (req, res, next) => {
     const decoded = jwt.verify(token, jwtSecretKey);
     req.userId = decoded.id;
     req.userRole = decoded.role;
+    req.email = decoded.email;
     const editRoutes = [
       "/edit/docs",
       "/edit/info",
