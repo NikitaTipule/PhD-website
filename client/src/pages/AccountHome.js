@@ -135,7 +135,7 @@ class AccountHomeNew extends Component {
 
   handleclick1 = (event) => {
     this.setState({
-      tableData: "pending",
+      tableData: "all",
     });
   };
 
@@ -458,8 +458,9 @@ class AccountHomeNew extends Component {
                               {this.state.allStudents
                                 .filter(
                                   (student) =>
+                                    this.state.tableData === "all" ||
                                     student.feeDetails.verification ===
-                                    this.state.tableData
+                                      this.state.tableData
                                 )
                                 .slice(
                                   this.state.page * this.state.rowsPerPage,

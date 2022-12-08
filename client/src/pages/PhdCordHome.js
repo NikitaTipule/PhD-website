@@ -253,7 +253,7 @@ class PhdCordHome extends Component {
 
   handleclick1 = (event) => {
     this.setState({
-      tableData: "pending",
+      tableData: "all",
     });
   };
 
@@ -694,6 +694,7 @@ class PhdCordHome extends Component {
                         {this.state.studentData
                           .filter(
                             (student) =>
+                              this.state.tableData === "all" ||
                               student.infoVerified === this.state.tableData
                           )
                           .slice(
@@ -755,7 +756,6 @@ class PhdCordHome extends Component {
                                                   <DownloadIcon
                                                     cursor={"pointer"}
                                                   />
-                                                  {console.log(value)}
                                                 </div>
                                               ) : (
                                                 <div
