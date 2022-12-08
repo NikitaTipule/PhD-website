@@ -2,6 +2,7 @@ const Student = require("../models/student");
 const Counter = require("../models/counter");
 const send_email = require("./email");
 const { application_stage } = require("../state");
+const logger = require('../util/logger');
 
 exports.myProfileStudent = (req, res) => {
   if (!req.userId) {
@@ -222,7 +223,9 @@ exports.verifyFeeDetails = async (req, res) => {
     );
     user
       .save()
-      .then(() => res.json({ success: true }))
+      .then(() => {
+        logger.info(`Accounts Section ${req.email} verified ${user.personalInfo.name}`)
+        res.json({ success: true })})
       .catch((err) => {
         console.log(err);
         res
@@ -329,7 +332,10 @@ exports.verifyStudentInfo = (req, res) => {
       );
       user
         .save()
-        .then(() => res.json({ success: true }))
+        .then(() => {
+          logger.info(`${req.userRole} ${req.email} verified ${user.personalInfo.name}`)
+          res.json({ success: true })
+        })
         .catch((err) => {
           console.log(err);
           res
