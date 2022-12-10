@@ -74,7 +74,9 @@ export default class EntranceExamDetails extends Component {
       next: false,
       confirmAlert: false,
       gate: {
-        name : docType.gate,error: false, display: true
+        name: docType.gate,
+        error: false,
+        display: true,
       },
       documentsUploaded: [],
 
@@ -91,8 +93,8 @@ export default class EntranceExamDetails extends Component {
   onChangeGateCategory = (event) => {
     this.setState({
       gateCategory: event.value,
-    })
-  }
+    });
+  };
 
   onChangegateQualified = (event) => {
     let x = event.target.value;
@@ -153,8 +155,7 @@ export default class EntranceExamDetails extends Component {
   };
 
   validateData = () => {
-
-    if(this.state.givenGate){
+    if (this.state.givenGate) {
       if (this.state.documentsUploaded.some((e) => e.type === docType.gate)) {
         this.setState({
           gate: {
@@ -172,52 +173,51 @@ export default class EntranceExamDetails extends Component {
           },
         });
       }
-    }
 
-    this.state.givenGate && (this.state.gateDiscipline === "" ? 
-      this.setState({ errorGateDiscipline: true}) : this.setState({ errorGateDiscipline: false}))
+      this.state.gateDiscipline === ""
+        ? this.setState({ errorGateDiscipline: true })
+        : this.setState({ errorGateDiscipline: false });
 
-    this.state.givenGate && (this.state.gateCategory === "" ?
-      this.setState({ errorGateCategory: true}) : this.setState({ errorGateCategory: false}))
+      this.state.gateCategory === ""
+        ? this.setState({ errorGateCategory: true })
+        : this.setState({ errorGateCategory: false });
 
-    this.state.givenGate && (this.state.gateQualified === "" ?
-      this.setState({ errorgateQualified: true}) : this.setState({ errorgateQualified: false}))
-    this.state.givenGate &&
-      ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateScore)) ||  (/^\d+$/.test(this.state.gateScore))&&
+      this.state.gateQualified === ""
+        ? this.setState({ errorgateQualified: true })
+        : this.setState({ errorgateQualified: false });
+
+      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateScore) ||
+        /^\d+$/.test(this.state.gateScore)) &&
       parseInt(this.state.gateScore) &&
       parseInt(this.state.gateScore) >= 0 &&
-      parseInt(this.state.gateScore) <= 1000)
+      parseInt(this.state.gateScore) <= 1000
         ? this.setState({ errorGateScore: false })
         : this.setState({ errorGateScore: true });
 
-    this.state.givenGate &&
-    ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateMarks)) ||  (/^\d+$/.test(this.state.gateMarks)) &&
+      (/([0-9]+)(\.[0-9]+)/.test(this.state.gateMarks) ||
+        /^\d+$/.test(this.state.gateMarks)) &&
       parseInt(this.state.gateMarks) &&
       parseInt(this.state.gateMarks) >= 0 &&
-      parseInt(this.state.gateMarks) <= 100)
+      parseInt(this.state.gateMarks) <= 100
         ? this.setState({ errorGateMarks: false })
         : this.setState({ errorGateMarks: true });
 
-    // this.state.givenGate &&
-    // ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateQualiMarks)) ||  (/^\d+$/.test(this.state.gateQualiMarks)) &&
-    //   parseInt(this.state.gateQualiMarks) &&
-    //   parseInt(this.state.gateQualiMarks) >= 0 &&
-    //   parseInt(this.state.gateQualiMarks) <= 100)
-    //     ? this.setState({ errorGateQualiMarks: false })
-    //     : this.setState({ errorGateQualiMarks: true });
+      //
+      // ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateQualiMarks)) ||  (/^\d+$/.test(this.state.gateQualiMarks)) &&
+      //   parseInt(this.state.gateQualiMarks) &&
+      //   parseInt(this.state.gateQualiMarks) >= 0 &&
+      //   parseInt(this.state.gateQualiMarks) <= 100)
+      //     ? this.setState({ errorGateQualiMarks: false })
+      //     : this.setState({ errorGateQualiMarks: true });
 
-    this.state.givenGate &&
-      (this.state.gateDate === ""
+      this.state.gateDate === ""
         ? this.setState({ errorGateDate: true })
-        : this.setState({ errorGateDate: false }));
+        : this.setState({ errorGateDate: false });
 
-    this.state.givenGate && 
-    (
       !this.state.gate.error
-    )
         ? this.setState({ errorGateDoc: false })
-        : this.setState({ errorGateDoc: true })
-    ;
+        : this.setState({ errorGateDoc: true });
+    }
 
     this.state.givenPet &&
       (this.state.petDetails === ""
@@ -292,15 +292,17 @@ export default class EntranceExamDetails extends Component {
           this.state.isInterestedCoepEntrance;
         this.props.data.entranceDetails.givenPet = this.state.givenPet;
         this.props.data.entranceDetails.givenGate = this.state.givenGate;
-        this.props.data.entranceDetails.Gate.gateQualified = this.state.gateQualified;
+        this.props.data.entranceDetails.Gate.gateQualified =
+          this.state.gateQualified;
         this.props.data.entranceDetails.Gate.score = this.state.gateScore;
         this.props.data.entranceDetails.Gate.marks = this.state.gateMarks;
         // this.props.data.entranceDetails.Gate.qualimarks =
         //   this.state.gateQualiMarks;
         this.props.data.entranceDetails.Gate.lastDateOfValidation =
           this.state.gateDate;
-        this.props.data.entranceDetails.Gate.discipline = this.state.gateDiscipline ;
-        this.props.data.entranceDetails.Gate.category = this.state.gateCategory ;
+        this.props.data.entranceDetails.Gate.discipline =
+          this.state.gateDiscipline;
+        this.props.data.entranceDetails.Gate.category = this.state.gateCategory;
         this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
         this.props.data.entranceDetails.sppuPet.year = this.state.petYear;
         this.props.data.entranceDetails.completed = true;
@@ -450,8 +452,6 @@ export default class EntranceExamDetails extends Component {
               res.data.user.entranceDetails.verification === "pending")
               ? this.setState({ disabled: false })
               : this.setState({ disabled: true });
-
-            
 
             if (this.state.givenGate) {
               this.setState((previousState) => ({
@@ -616,7 +616,7 @@ export default class EntranceExamDetails extends Component {
                         <div>
                           <div
                             style={{ display: "flex", flexDirection: "row" }}
-                          > 
+                          >
                             <div
                               style={{
                                 marginLeft: "20px",
@@ -636,7 +636,7 @@ export default class EntranceExamDetails extends Component {
 
                           <div
                             style={{ display: "flex", flexDirection: "row" }}
-                          > 
+                          >
                             <div
                               style={{
                                 marginLeft: "20px",
@@ -656,7 +656,7 @@ export default class EntranceExamDetails extends Component {
 
                           <div
                             style={{ display: "flex", flexDirection: "row" }}
-                          > 
+                          >
                             <div
                               style={{
                                 marginLeft: "20px",
@@ -906,7 +906,9 @@ export default class EntranceExamDetails extends Component {
                             />
                             {this.state.errorGateDiscipline && (
                               <div style={{ color: "red" }}>
-                                <Typography>Please enter GATE Discipline</Typography>
+                                <Typography>
+                                  Please enter GATE Discipline
+                                </Typography>
                               </div>
                             )}
                           </div>
@@ -927,10 +929,11 @@ export default class EntranceExamDetails extends Component {
 
                             {this.state.errorGateCategory && (
                               <div style={{ color: "red" }}>
-                                <Typography>Please select GATE Category</Typography>
+                                <Typography>
+                                  Please select GATE Category
+                                </Typography>
                               </div>
                             )}
-
                           </div>
 
                           <div style={{ marginTop: "3px", paddingTop: "15px" }}>
@@ -995,45 +998,47 @@ export default class EntranceExamDetails extends Component {
                             )}
                           </div> */}
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                <div style={{ width: "100%" }}>
-                  <Typography>GATE Qualified</Typography>
-                  <div style={{ marginTop: "4px" }}>
-                    <input
-                      disabled={this.state.disabled}
-                      type="radio"
-                      value="Yes"
-                      name="gateQualified"
-                      checked={this.state.gateQualified === "Yes"}
-                      onChange={this.onChangegateQualified}
-                      style={{ marginLeft: "20px" }}
-                    />
-                    Yes
-                    <input
-                      disabled={this.state.disabled}
-                      type="radio"
-                      value="No"
-                      name="gateQualified"
-                      checked={this.state.gateQualified === "No"}
-                      onChange={this.onChangegateQualified}
-                      style={{ marginLeft: "30px" }}
-                    />{" "}
-                    No
-                  </div>
-                  {this.state.errorgateQualified && (
-                    <div style={{ color: "red" }}>
-                      <Typography>Please select correct option</Typography>
-                    </div>
-                  )}
-                </div>
-              </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              width: "100%",
+                            }}
+                          >
+                            <div style={{ width: "100%" }}>
+                              <Typography>GATE Qualified</Typography>
+                              <div style={{ marginTop: "4px" }}>
+                                <input
+                                  disabled={this.state.disabled}
+                                  type="radio"
+                                  value="Yes"
+                                  name="gateQualified"
+                                  checked={this.state.gateQualified === "Yes"}
+                                  onChange={this.onChangegateQualified}
+                                  style={{ marginLeft: "20px" }}
+                                />
+                                Yes
+                                <input
+                                  disabled={this.state.disabled}
+                                  type="radio"
+                                  value="No"
+                                  name="gateQualified"
+                                  checked={this.state.gateQualified === "No"}
+                                  onChange={this.onChangegateQualified}
+                                  style={{ marginLeft: "30px" }}
+                                />{" "}
+                                No
+                              </div>
+                              {this.state.errorgateQualified && (
+                                <div style={{ color: "red" }}>
+                                  <Typography>
+                                    Please select correct option
+                                  </Typography>
+                                </div>
+                              )}
+                            </div>
+                          </div>
 
                           <div
                             style={{ marginTop: "10px", paddingTop: "15px" }}
@@ -1069,43 +1074,48 @@ export default class EntranceExamDetails extends Component {
                           </div>
 
                           <Table>
-                          <TableBody>
-                            <div>
-                              {/* Gate Marksheet */}
-                              {this.state.gate.display ? (
-                                <div>
-                                  <div className="field">
-                                    <div>GATE Scorecard</div>
-                                    <div>
-                                      <input
-                                        disabled={this.state.disabled}
-                                        type="file"
-                                        name={this.state.gate.name}
-                                        onChange={this.onFileChange}
-                                      />
-                                      {this.state.gate.error ? (
-                                        <div className="docsError">Please upload file</div>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {this.displayDocs("gate")}
+                            <TableBody>
+                              <div>
+                                {/* Gate Marksheet */}
+                                {this.state.gate.display ? (
+                                  <div>
+                                    <div className="field">
+                                      <div>GATE Scorecard</div>
+                                      <div>
+                                        <input
+                                          disabled={this.state.disabled}
+                                          type="file"
+                                          name={this.state.gate.name}
+                                          onChange={this.onFileChange}
+                                        />
+                                        {this.state.gate.error ? (
+                                          <div className="docsError">
+                                            Please upload file
+                                          </div>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {this.displayDocs("gate")}
+                                      </div>
                                     </div>
+                                    <Divider
+                                      sx={{
+                                        marginTop: "20px",
+                                        marginBottom: "20px",
+                                      }}
+                                    />
                                   </div>
-                                  <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
-                                </div>
-                              ) : (
-                                " "
-                              )}
-                            </div>
-                          </TableBody>
+                                ) : (
+                                  " "
+                                )}
+                              </div>
+                            </TableBody>
                           </Table>
                         </div>
                       </div>
                     ) : (
                       " "
                     )}
-
-        
 
                     {str.id === 4 ? (
                       <div>
