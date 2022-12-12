@@ -125,6 +125,7 @@ export default class AccountsDetails extends Component {
     ) {
       if (!this.state.editable) {
         // return to candidate page
+        
         this.props.nextStep(2);
       }
       if (!this.state.disabled) {

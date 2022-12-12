@@ -586,6 +586,7 @@ class StudentHome extends Component {
                 </li>
               </ul>
             </div>
+
             <div
               style={{
                 display: "flex",
@@ -594,8 +595,28 @@ class StudentHome extends Component {
                 marginTop: "30px",
               }}
             >
+              <h3
+                style={{
+                  // marginTop: "20px",
+                  // marginBottom: "30px",
+                  padding: "3px",
+                  fontSize: "18px",
+                }}
+                >
+                After filling all sections it is compulsory to click on Submit Application and fill the declaration form, then Application ID will get generated.
+              </h3>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "15px",
+              }}
+            >
               <button
-                disabled={!(this.state.editable && this.state.full_completed)}
+                //disabled={!(this.state.editable && this.state.full_completed)}
                 style={{
                   // marginTop: "20px",
                   // marginBottom: "30px",
@@ -609,19 +630,34 @@ class StudentHome extends Component {
                   borderRadius: "10px",
                 }}
                 onClick={() => {
-                  if (this.state.full_completed) {
-                    this.props.history.push({
-                      pathname: "/admissionForm",
-                      state: { step: 10 },
-                    });
-                  } else {
-                    alert("Please fill all information");
+                  if(!this.state.full_completed){
+                    
+              window.location.reload(false);
+
+              if (this.state.full_completed) {
+                this.props.history.push({
+                  pathname: "/admissionForm",
+                  state: { step: 10 },
+                });
+              } else {
+                alert("Confirm if everything has been completed and please click once again Submit Application button");
+              }
                   }
+
+                else{
+                  this.props.history.push({
+                    pathname: "/admissionForm",
+                    state: { step: 10 },
+                  });
+                }
+                  
                 }}
               >
                 Submit Application
               </button>
             </div>
+
+            
           </div>
         </div>
       </div>

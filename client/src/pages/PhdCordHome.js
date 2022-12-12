@@ -291,7 +291,7 @@ class PhdCordHome extends Component {
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
-      const { personalInfo, academicsUG, academicsPG, email, entranceDetails,mobile } =
+      const { personalInfo, academicsUG, academicsPG, email, entranceDetails,mobile, applicationId } =
         otherProp;
 
       // console.log(mobile)
@@ -346,6 +346,7 @@ class PhdCordHome extends Component {
         ...personalInfo,
         email,
         mobile,
+        applicationId,
         ...ug,
         ...pg,
         // gate_score,
