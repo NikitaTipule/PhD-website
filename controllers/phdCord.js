@@ -2,7 +2,7 @@ const { link } = require("fs");
 const Link = require("../models/links");
 const PhdCord = require("../models/phdCord");
 const Student = require("../models/student");
-const logger = require('../util/logger');
+const logger = require("../util/logger");
 
 exports.getPhdCordInfo = (req, res) => {
   if (!req.userRole == "admin") {
@@ -25,7 +25,7 @@ exports.getAllStudents = (req, res) => {
   Student.find()
     .then((student) => res.json(student))
     .catch((err) => res.status(400).res.json(`Error:${err}`));
-}
+};
 
 exports.getAllCords = async (req, res) => {
   try {
@@ -33,6 +33,7 @@ exports.getAllCords = async (req, res) => {
       return res.status(403).json("error : user don't have access to resource");
     }
     var agg = [
+      { $match: { applicationId: { $exists: true, $ne: null } } },
       {
         $group: {
           _id: {
@@ -87,10 +88,9 @@ exports.addPhdCord = (req, res) => {
     user
       .save()
       .then((user) => {
-        logger.info(`Admin ${req.email} added new PhD Coordinator ${mis}`)
+        logger.info(`Admin ${req.email} added new PhD Coordinator ${mis}`);
         res.json({ email });
-      }
-        )
+      })
       .catch((err) => {
         console.log(err);
         res.status(400).json({ err: "invalid data" });
@@ -110,7 +110,7 @@ exports.removePhdCord = (req, res) => {
     if (err || !doc || doc.deletedCount == 0) {
       return res.status(404).json({ error: "user not found" });
     }
-    logger.info(`Admin ${req.email} removed PhD Coordinator ${mis}`)
+    logger.info(`Admin ${req.email} removed PhD Coordinator ${mis}`);
     return res.json({ success: "true" });
   });
 };
@@ -129,8 +129,8 @@ exports.addLink = (req, res) => {
   user
     .save()
     .then((user) => {
-      logger.info(`Admin ${req.email} added new Link ${title}`)
-      res.json({ link })
+      logger.info(`Admin ${req.email} added new Link ${title}`);
+      res.json({ link });
     })
     .catch((err) => {
       console.log(err);
@@ -149,19 +149,17 @@ exports.removeLink = (req, res) => {
 
   var link_title = "";
 
-  Link.findOne({ _id: _id })
-    .then(async (existLink) => {
-      if(existLink){
-        link_title = existLink.title
-      }
-    })
-  
+  Link.findOne({ _id: _id }).then(async (existLink) => {
+    if (existLink) {
+      link_title = existLink.title;
+    }
+  });
 
   Link.deleteOne({ _id: _id }, (err, doc) => {
     if (err || !doc || doc.deletedCount == 0) {
       return res.status(404).json({ error: "user not found" });
     }
-    logger.info(`Admin ${req.email} removed link ${link_title}`)
+    logger.info(`Admin ${req.email} removed link ${link_title}`);
     return res.json({ success: "true" });
   });
 };

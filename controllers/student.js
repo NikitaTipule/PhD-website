@@ -2,7 +2,7 @@ const Student = require("../models/student");
 const Counter = require("../models/counter");
 const send_email = require("./email");
 const { application_stage } = require("../state");
-const logger = require('../util/logger');
+const logger = require("../util/logger");
 
 exports.myProfileStudent = (req, res) => {
   if (!req.userId) {
@@ -44,13 +44,12 @@ exports.getStudentsByDept = (req, res) => {
   let projection = "";
   let filter = {
     "personalInfo.department": department,
-    "feeDetails.verification": "verified",
+    applicationId: { $exists: true, $ne: null },
   };
   if (req.userRole == "phdCord" || req.userRole == "admin") {
     projection = "name applicationId infoVerified feeDetails.verification";
   } else if (req.userRole == "accountSec") {
     projection = "name applicationId personalInfo.category feeDetails";
-    filter = { "personalInfo.department": department };
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
@@ -224,8 +223,11 @@ exports.verifyFeeDetails = async (req, res) => {
     user
       .save()
       .then(() => {
-        logger.info(`Accounts Section ${req.email} verified ${user.personalInfo.name}`)
-        res.json({ success: true })})
+        logger.info(
+          `Accounts Section ${req.email} verified ${user.personalInfo.name}`
+        );
+        res.json({ success: true });
+      })
       .catch((err) => {
         console.log(err);
         res
@@ -333,8 +335,10 @@ exports.verifyStudentInfo = (req, res) => {
       user
         .save()
         .then(() => {
-          logger.info(`${req.userRole} ${req.email} verified ${user.personalInfo.name}`)
-          res.json({ success: true })
+          logger.info(
+            `${req.userRole} ${req.email} verified ${user.personalInfo.name}`
+          );
+          res.json({ success: true });
         })
         .catch((err) => {
           console.log(err);
@@ -358,14 +362,17 @@ exports.getAllStudentsInfoByDept = (req, res) => {
   let projection = "";
   let filter = {
     "personalInfo.department": department,
-    "feeDetails.verification": "verified",
+    applicationId: { $exists: true, $ne: null },
   };
   if (req.userRole == "phdCord" || req.userRole == "admin") {
     projection =
       "mobile personalInfo.name personalInfo.middleName email personalInfo.gender personalInfo.dob personalInfo.mobile personalInfo.nationality personalInfo.category personalInfo.aadhar personalInfo.address personalInfo.physicallyDisabled personalInfo.employed personalInfo.domicile personalInfo.deparment personalInfo.verification personalInfo.remarks academicsUG.institute academicsUG.degree academicsUG.specialization academicsUG.totalAggregate academicsUG.cgpa10 academicsUG.percentageMarks academicsUG.totalMarks academicsUG.dateOfDeclaration academicsPG.institute academicsPG.degree academicsPG.totalAggregate academicsPG.totalMarks academicsPG.cgpa10 academicsPG.percentageMarks academicsPG.verification academicsPG.remarks entranceDetails";
   } else if (req.userRole == "accountSec") {
     projection = "name personalInfo.category feeDetails";
-    filter = { "personalInfo.department": department };
+    filter = {
+      "personalInfo.department": department,
+      applicationId: { $exists: true, $ne: null },
+    };
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
