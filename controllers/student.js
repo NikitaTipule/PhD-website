@@ -82,17 +82,29 @@ exports.lockProfile = (req, res) => {
       return res.status(400).json({ err });
     }
     user.editable = false;
-    const dept = user.personalInfo.department;
-    Counter.findOne({ department: dept }, (err, counter) => {
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ err });
-      }
-      counter.index = counter.index + 1;
-      const ind = counter.index.toString().padStart(3, "0");
-      const appId = `PhD22${counter.code}${ind}`;
-      user.applicationId = appId;
-      Promise.all([user.save(), counter.save()])
+    if (!user.applicationId) {
+      const dept = user.personalInfo.department;
+      Counter.findOne({ department: dept }, (err, counter) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ err });
+        }
+        counter.index = counter.index + 1;
+        const ind = counter.index.toString().padStart(3, "0");
+        const appId = `PhD22${counter.code}${ind}`;
+        user.applicationId = appId;
+        Promise.all([user.save(), counter.save()])
+          .then(() => {
+            res.json({ success: "true", applicationId: appId });
+          })
+          .catch((e) => {
+            console.log(e);
+            return res.status(400).json({ err });
+          });
+      });
+    } else {
+      user
+        .save()
         .then(() => {
           res.json({ success: "true", applicationId: appId });
         })
@@ -100,7 +112,7 @@ exports.lockProfile = (req, res) => {
           console.log(e);
           return res.status(400).json({ err });
         });
-    });
+    }
   });
 };
 
