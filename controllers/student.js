@@ -53,18 +53,10 @@ exports.getStudentsByDept = (req, res) => {
   } else {
     return res.status(403).json("error : user don't have access to resource");
   }
-
   Student.find(filter, projection)
     .lean()
     .exec()
     .then((users) => {
-      if (req.userRole !== "accountSec") {
-        users = users.map((t) => {
-          t.feeVerified = t.feeDetails.verification;
-          delete t["feeDetails"];
-          return t;
-        });
-      }
       return res.json(users);
     })
     .catch((err) => {

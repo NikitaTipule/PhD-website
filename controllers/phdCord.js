@@ -22,7 +22,7 @@ exports.getAllStudents = (req, res) => {
   if (req.userRole != "admin") {
     res.status(403).json({ error: "only admin can see all students" });
   }
-  Student.find()
+  Student.find({}, "name applicationId infoVerified feeDetails.verification")
     .then((student) => res.json(student))
     .catch((err) => res.status(400).res.json(`Error:${err}`));
 };

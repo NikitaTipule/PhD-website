@@ -237,6 +237,11 @@ class PhdCordHome extends Component {
     { id: "id", label: "No.", minWidth: 30 },
     { id: "name", label: "Name", minWidth: 120 },
     { id: "infoVerified", label: "Verification Status", minWidth: 70 },
+    {
+      id: "feeDetails.verification",
+      label: "Fee Details",
+      minWidth: 70,
+    },
     { id: "iconDA", label: "Download Application", minWidth: 30 },
     { id: "icon", label: "", minWidth: 30 },
   ];
@@ -291,8 +296,15 @@ class PhdCordHome extends Component {
     const otherData = [];
     this.state.allStudentData.forEach((student) => {
       const { _id, ...otherProp } = student;
-      const { personalInfo, academicsUG, academicsPG, email, entranceDetails,mobile, applicationId } =
-        otherProp;
+      const {
+        personalInfo,
+        academicsUG,
+        academicsPG,
+        email,
+        entranceDetails,
+        mobile,
+        applicationId,
+      } = otherProp;
 
       // console.log(mobile)
       const {
@@ -724,15 +736,13 @@ class PhdCordHome extends Component {
                                     <TableCell key={column.id} align="center">
                                       {column.id === "infoVerified" ? (
                                         <div>
-                                          {column.id === "infoVerified" &&
-                                          value === "verified" ? (
+                                          {value === "verified" ? (
                                             <div style={{ color: "green" }}>
                                               {value}
                                             </div>
                                           ) : (
                                             <div>
-                                              {column.id === "infoVerified" &&
-                                              value === "pending" ? (
+                                              {value === "pending" ? (
                                                 <div style={{ color: "red" }}>
                                                   {value}
                                                 </div>
@@ -764,20 +774,73 @@ class PhdCordHome extends Component {
                                                   />
                                                 </div>
                                               ) : (
-                                                <div
-                                                  onClick={() => {
-                                                    this.oncellClick(row._id);
-                                                  }}
-                                                >
-                                                  <Link
-                                                    to={{ pathname: "/coform" }}
-                                                    style={{
-                                                      textDecoration: "none",
-                                                      color: "black",
-                                                    }}
-                                                  >
-                                                    {value}
-                                                  </Link>
+                                                <div>
+                                                  {column.id ===
+                                                  "feeDetails.verification" ? (
+                                                    <div>
+                                                      {row.feeDetails
+                                                        .verification ===
+                                                      "verified" ? (
+                                                        <div
+                                                          style={{
+                                                            color: "green",
+                                                          }}
+                                                        >
+                                                          {
+                                                            row.feeDetails
+                                                              .verification
+                                                          }
+                                                        </div>
+                                                      ) : (
+                                                        <div>
+                                                          {row.feeDetails
+                                                            .verification ===
+                                                          "pending" ? (
+                                                            <div
+                                                              style={{
+                                                                color: "red",
+                                                              }}
+                                                            >
+                                                              {
+                                                                row.feeDetails
+                                                                  .verification
+                                                              }
+                                                            </div>
+                                                          ) : (
+                                                            <div
+                                                              style={{
+                                                                color: "blue",
+                                                              }}
+                                                            >
+                                                              Modification
+                                                              Required
+                                                            </div>
+                                                          )}
+                                                        </div>
+                                                      )}
+                                                    </div>
+                                                  ) : (
+                                                    <div
+                                                      onClick={() => {
+                                                        this.oncellClick(
+                                                          row._id
+                                                        );
+                                                      }}
+                                                    >
+                                                      <Link
+                                                        to={{
+                                                          pathname: "/coform",
+                                                        }}
+                                                        style={{
+                                                          textDecoration:
+                                                            "none",
+                                                          color: "black",
+                                                        }}
+                                                      >
+                                                        {value}
+                                                      </Link>
+                                                    </div>
+                                                  )}
                                                 </div>
                                               )}
                                             </div>
