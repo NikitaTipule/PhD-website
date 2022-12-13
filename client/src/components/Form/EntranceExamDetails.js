@@ -1046,8 +1046,13 @@ export default class EntranceExamDetails extends Component {
                             <Typography>GATE score valid upto</Typography>
                             <DatePicker
                               disabled={this.state.disabled}
-                              onChange={(e) => this.onChangeDate(e)}
-                              value={this.state.gateDate}
+                              onChange={(date) => this.onChangeDate(date)}
+                              value={
+                                typeof this.state.gateDate === "string" &&
+                                this.state.gateDate !== ""
+                                  ? new Date(this.state.gateDate)
+                                  : this.state.gateDate
+                              }
                               format={"dd-MM-y"}
                               dayPlaceholder="dd"
                               monthPlaceholder="mm"
@@ -1111,61 +1116,6 @@ export default class EntranceExamDetails extends Component {
                               </div>
                             </TableBody>
                           </Table>
-                        </div>
-                      </div>
-                    ) : (
-                      " "
-                    )}
-
-                    {str.id === 4 ? (
-                      <div>
-                        <div style={{ marginTop: "30px" }}>
-                          <Typography
-                            style={{ fontWeight: 500, fontSize: "17px" }}
-                          >
-                            SPPU PET
-                          </Typography>
-                          <div style={{ marginLeft: "20px" }}>
-                            <div style={{ marginTop: "3px" }}>
-                              <Typography>Details</Typography>
-                              <TextField
-                                disabled={this.state.disabled}
-                                className="mb-3"
-                                variant="outlined"
-                                label="SPPU PET Details"
-                                onChange={this.handleChange}
-                                value={this.state.petDetails}
-                                name="petDetails"
-                                style={{ marginTop: "10px" }}
-                                required
-                              />
-                              {this.state.errorPetDetails && (
-                                <div style={{ color: "red" }}>
-                                  <Typography>Details required</Typography>
-                                </div>
-                              )}
-                            </div>
-
-                            <div style={{ marginTop: "8px" }}>
-                              <Typography>Year</Typography>
-                              <TextField
-                                disabled={this.state.disabled}
-                                className="mb-3"
-                                variant="outlined"
-                                label="Year"
-                                onChange={this.handleChange}
-                                value={this.state.petYear}
-                                name="petYear"
-                                style={{ marginTop: "8px" }}
-                                required
-                              />
-                              {this.state.errorPetYear && (
-                                <div style={{ color: "red" }}>
-                                  <Typography>Invalid year</Typography>
-                                </div>
-                              )}
-                            </div>
-                          </div>
                         </div>
                       </div>
                     ) : (

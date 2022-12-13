@@ -125,7 +125,7 @@ export default class AccountsDetails extends Component {
     ) {
       if (!this.state.editable) {
         // return to candidate page
-        
+
         this.props.nextStep(2);
       }
       if (!this.state.disabled) {
@@ -452,7 +452,12 @@ export default class AccountsDetails extends Component {
           <DatePicker
             disabled={this.state.disabled}
             onChange={(e) => this.onChangeDate(e)}
-            value={this.state.transactionTime}
+            value={
+              typeof this.state.transactionTime === "string" &&
+              this.state.transactionTime !== ""
+                ? new Date(this.state.transactionTime)
+                : this.state.transactionTime
+            }
             format={"dd-MM-y"}
             dayPlaceholder="dd"
             monthPlaceholder="mm"

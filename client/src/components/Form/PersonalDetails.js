@@ -25,10 +25,10 @@ export default class PersonalDetails extends Component {
       //document collection
       photo: { name: docType.photo, error: false, display: true },
       sign: { name: docType.sign, error: false, display: true },
-      proofDOB:{
-        name:docType.proofDOB,
-        error:false,
-        display:true
+      proofDOB: {
+        name: docType.proofDOB,
+        error: false,
+        display: true,
       },
       c_certificate: {
         name: docType.c_certificate,
@@ -48,12 +48,12 @@ export default class PersonalDetails extends Component {
         error: false,
         display: false,
       },
-      doc_employed:{
+      doc_employed: {
         name: docType.doc_employed,
         error: false,
         display: false,
       },
-      doc_domicile:{
+      doc_domicile: {
         name: docType.doc_domicile,
         error: false,
         display: false,
@@ -197,21 +197,21 @@ export default class PersonalDetails extends Component {
       doc_physicallyDisable,
     });
   };
-  onChangeEmployed=(event)=>{
-    let emp=event.target.value;
-    let doc_employed={...this.state.doc_employed};
-    doc_employed.display=emp==="Yes"
+  onChangeEmployed = (event) => {
+    let emp = event.target.value;
+    let doc_employed = { ...this.state.doc_employed };
+    doc_employed.display = emp === "Yes";
     this.setState({
-      employed:emp,
+      employed: emp,
       doc_employed,
     });
   };
-  onChangeDomicile=(event)=>{
-    let mh=event.target.value;
-    let doc_domicile={...this.state.doc_domicile};
-    doc_domicile.display=mh==="Yes"
+  onChangeDomicile = (event) => {
+    let mh = event.target.value;
+    let doc_domicile = { ...this.state.doc_domicile };
+    doc_domicile.display = mh === "Yes";
     this.setState({
-      domicile:mh,
+      domicile: mh,
       doc_domicile,
     });
   };
@@ -508,11 +508,11 @@ export default class PersonalDetails extends Component {
       ? this.setState({ errorDepartment: true })
       : this.setState({ errorDepartment: false });
     this.state.employed === ""
-      ? this.setState({ errorEmployed: true})
-      : this.setState({errorEmployed:false })
+      ? this.setState({ errorEmployed: true })
+      : this.setState({ errorEmployed: false });
     this.state.domicile === ""
-      ? this.setState({ errorDomicile: true})
-      : this.setState({errorDomicile:false })
+      ? this.setState({ errorDomicile: true })
+      : this.setState({ errorDomicile: false });
   };
 
   // NEXT CONFIRM CANCEL
@@ -524,7 +524,7 @@ export default class PersonalDetails extends Component {
       if (
         !this.state.doc_physicallyDisable.error &&
         !this.state.doc_employed.error &&
-        !this.state.doc_domicile.error && 
+        !this.state.doc_domicile.error &&
         !this.state.proofDOB.error &&
         !this.state.nationality_c.error &&
         !this.state.photo.error &&
@@ -545,7 +545,7 @@ export default class PersonalDetails extends Component {
         this.state.errorAddress === false &&
         this.state.errorPhysicallyDisabled === false &&
         this.state.errorEmployed === false &&
-        this.state.errorDomicile ===false &&
+        this.state.errorDomicile === false &&
         this.state.errorDepartment === false
       ) {
         if (!this.state.disabled) {
@@ -579,8 +579,8 @@ export default class PersonalDetails extends Component {
         this.props.data.personalInfo.address = this.state.address;
         this.props.data.personalInfo.physicallyDisabled =
           this.state.physicallyDisabled;
-        this.props.data.personalInfo.employed=this.state.employed;
-        this.props.data.personalInfo.domicile=this.state.domicile;
+        this.props.data.personalInfo.employed = this.state.employed;
+        this.props.data.personalInfo.domicile = this.state.domicile;
         this.props.data.personalInfo.department = this.state.department;
         this.props.data.personalInfo.completed = true;
       }
@@ -798,7 +798,9 @@ export default class PersonalDetails extends Component {
               <div className="popUpContainer">
                 <div className="popUpField">
                   <div>
-                    <Typography>Name (As per University Marksheet) : </Typography>
+                    <Typography>
+                      Name (As per University Marksheet) :{" "}
+                    </Typography>
                   </div>
                   <div>{this.state.name}</div>
                 </div>
@@ -897,7 +899,6 @@ export default class PersonalDetails extends Component {
                   <div>{this.state.domicile}</div>
                 </div>
               </div>
-              
             )}
           </SweetAlert>
         </div>
@@ -1051,7 +1052,11 @@ export default class PersonalDetails extends Component {
                 <DatePicker
                   disabled={this.state.disabled}
                   onChange={(e) => this.onChangeDate(e)}
-                  value={this.state.dob}
+                  value={
+                    typeof this.state.dob === "string" && this.state.dob !== ""
+                      ? new Date(this.state.dob)
+                      : this.state.dob
+                  }
                   format={"dd-MM-y"}
                   dayPlaceholder="dd"
                   monthPlaceholder="mm"
@@ -1311,10 +1316,9 @@ export default class PersonalDetails extends Component {
                   )}
                 </div>
               </div>
-              </div>
-              
+            </div>
 
-              <div className="formEmailNumber">
+            <div className="formEmailNumber">
               <div
                 style={{
                   display: "flex",
@@ -1354,7 +1358,7 @@ export default class PersonalDetails extends Component {
                   )}
                 </div>
               </div>
-              </div>
+            </div>
           </form>
 
           {/**
@@ -1572,7 +1576,7 @@ export default class PersonalDetails extends Component {
                 )}
 
                 {/* Physically Disable  */}
-                {this.state.physicallyDisabled==="Yes" ? (
+                {this.state.physicallyDisabled === "Yes" ? (
                   <div>
                     <div className="field">
                       <div>{this.state.doc_physicallyDisable.name}</div>
@@ -1596,7 +1600,7 @@ export default class PersonalDetails extends Component {
                 ) : (
                   " "
                 )}
-                {this.state.employed==="Yes" ? (
+                {this.state.employed === "Yes" ? (
                   <div>
                     <div className="field">
                       <div>{this.state.doc_employed.name}</div>
@@ -1620,7 +1624,7 @@ export default class PersonalDetails extends Component {
                 ) : (
                   " "
                 )}
-                {this.state.domicile==="Yes" ? (
+                {this.state.domicile === "Yes" ? (
                   <div>
                     <div className="field">
                       <div>{this.state.doc_domicile.name}</div>
@@ -1645,39 +1649,39 @@ export default class PersonalDetails extends Component {
                   " "
                 )}
               </div>
-              {this.state.proofDOB.display?(
-                    <div>
-                    <div className="field">
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <div>{this.state.proofDOB.name}</div>
-                        <div style={{ opacity: "0.8", fontSize: "13px" }}>
-                          <div style={{ marginLeft: "3px" }}>
-                            Any one of these:
-                          </div>
-                          <ul style={{ marginTop: "0px" }}>
-                            <li>Birth Certificate</li>
-                            <li>Leaving Certificate</li>
-                          </ul>
+              {this.state.proofDOB.display ? (
+                <div>
+                  <div className="field">
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <div>{this.state.proofDOB.name}</div>
+                      <div style={{ opacity: "0.8", fontSize: "13px" }}>
+                        <div style={{ marginLeft: "3px" }}>
+                          Any one of these:
                         </div>
-                      </div>
-                      <div>
-                        <input
-                          disabled={this.state.disabled}
-                          type="file"
-                          name={this.state.proofDOB.name}
-                          onChange={this.onFileChange}
-                        />
-                        {this.state.proofDOB.error ? (
-                          <div className="docsError">Please upload file</div>
-                        ) : (
-                          ""
-                        )}
-                        {this.displayDocs("proofDOB")}
+                        <ul style={{ marginTop: "0px" }}>
+                          <li>Birth Certificate</li>
+                          <li>Leaving Certificate</li>
+                        </ul>
                       </div>
                     </div>
-                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
-              </div>
-              ):(
+                    <div>
+                      <input
+                        disabled={this.state.disabled}
+                        type="file"
+                        name={this.state.proofDOB.name}
+                        onChange={this.onFileChange}
+                      />
+                      {this.state.proofDOB.error ? (
+                        <div className="docsError">Please upload file</div>
+                      ) : (
+                        ""
+                      )}
+                      {this.displayDocs("proofDOB")}
+                    </div>
+                  </div>
+                  <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                </div>
+              ) : (
                 " "
               )}
             </TableBody>

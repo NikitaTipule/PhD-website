@@ -30,7 +30,11 @@ export default class AdmissionDetailsUG extends Component {
       confirmAlert: false,
 
       ug: { name: docType.ug, error: false, display: true },
-      ugCertificate: { name: docType.ugCertificate, error: false, display: true },
+      ugCertificate: {
+        name: docType.ugCertificate,
+        error: false,
+        display: true,
+      },
 
       remarks: "",
       verification: "",
@@ -144,7 +148,9 @@ export default class AdmissionDetailsUG extends Component {
           display: this.state.ug.display,
         },
       });
-    } else if(!(this.state.documentsUploaded.some((e) => e.type === docType.ug))){
+    } else if (
+      !this.state.documentsUploaded.some((e) => e.type === docType.ug)
+    ) {
       this.setState({
         ug: {
           name: this.state.ug.name,
@@ -154,7 +160,9 @@ export default class AdmissionDetailsUG extends Component {
       });
     }
 
-    if (this.state.documentsUploaded.some((e) => e.type === docType.ugCertificate)) {
+    if (
+      this.state.documentsUploaded.some((e) => e.type === docType.ugCertificate)
+    ) {
       this.setState({
         ugCertificate: {
           name: this.state.ugCertificate.name,
@@ -162,7 +170,11 @@ export default class AdmissionDetailsUG extends Component {
           display: this.state.ugCertificate.display,
         },
       });
-    } else if(!(this.state.documentsUploaded.some((e) => e.type === docType.ugCertificate))){
+    } else if (
+      !this.state.documentsUploaded.some(
+        (e) => e.type === docType.ugCertificate
+      )
+    ) {
       this.setState({
         ugCertificate: {
           name: this.state.ugCertificate.name,
@@ -417,7 +429,6 @@ export default class AdmissionDetailsUG extends Component {
     });
 
     return (
-     
       <div className="admission_container" style={{ marginTop: "90px" }}>
         {/* Confirmation Alert */}
         <div>
@@ -677,9 +688,7 @@ export default class AdmissionDetailsUG extends Component {
                 if (this.state.specialization === "OTHER") {
                   return (
                     <div>
-                      <Typography>
-                        Please enter your other Branch
-                      </Typography>
+                      <Typography>Please enter your other Branch</Typography>
                       <TextField
                         className="mb-3"
                         fullWidth
@@ -693,9 +702,7 @@ export default class AdmissionDetailsUG extends Component {
                       />
                       {this.state.errorOtherSpecialization && (
                         <div style={{ color: "red" }}>
-                          <Typography>
-                            Please enter other Branch
-                          </Typography>
+                          <Typography>Please enter other Branch</Typography>
                         </div>
                       )}
                     </div>
@@ -820,7 +827,12 @@ export default class AdmissionDetailsUG extends Component {
               <DatePicker
                 disabled={this.state.disabled}
                 onChange={(e) => this.onChangeDate(e)}
-                value={this.state.dateOfDeclaration}
+                value={
+                  typeof this.state.dateOfDeclaration === "string" &&
+                  this.state.dateOfDeclaration !== ""
+                    ? new Date(this.state.dateOfDeclaration)
+                    : this.state.dateOfDeclaration
+                }
                 format={"dd-MM-y"}
                 dayPlaceholder="dd"
                 monthPlaceholder="mm"
@@ -977,7 +989,9 @@ export default class AdmissionDetailsUG extends Component {
                         )} */}
 
                         {this.state.documentsUploaded
-                          .filter((doc) => doc.type === this.state.ugCertificate.name)
+                          .filter(
+                            (doc) => doc.type === this.state.ugCertificate.name
+                          )
                           .map((doc, id) => (
                             <div key={id}>
                               <div className="docsPreviewDiv">
@@ -1051,8 +1065,7 @@ export default class AdmissionDetailsUG extends Component {
             </React.Fragment>
           </div>
         </div>
-      
-      </div>       
+      </div>
     );
   }
 }
