@@ -1,3 +1,3 @@
 module.exports = {
-  application_stage: "grievance", // can be open, closed, grievance
+  application_stage: "open", // can be open, closed, grievance
 };

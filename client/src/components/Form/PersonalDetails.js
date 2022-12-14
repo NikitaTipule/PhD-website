@@ -1603,7 +1603,7 @@ export default class PersonalDetails extends Component {
                 {this.state.employed === "Yes" ? (
                   <div>
                     <div className="field">
-                      <div>{this.state.doc_employed.name}</div>
+                      <div>NOC from employer</div>
                       <div>
                         <input
                           disabled={this.state.disabled}
