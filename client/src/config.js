@@ -1,4 +1,4 @@
 module.exports = {
-  // BACKEND_URL: "https://phdadmissions.sdscoep.com/api",
-  BACKEND_URL: "http://localhost:5000",
+  BACKEND_URL: "https://phdadmission.coep.org.in/api",
+  // BACKEND_URL: "http://localhost:5000",
 };
