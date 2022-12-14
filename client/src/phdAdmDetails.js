@@ -7,6 +7,7 @@ export const departmentNamesList = [
   "Mechanical Engineering",
   "Metallurgy and Materials Science",
   "Manufacturing Engineering and Industrial Management",
+  "Planning",
 ];
 
 export const verification_options = {
@@ -30,7 +31,7 @@ export const docType = {
   pg: "PG Marksheet",
   pg_degree_certificate: "PG Degree Certificate",
   gate: "GATE Marksheet",
-  proofDOB:"Proof of DOB",
+  proofDOB: "Proof of DOB",
   // leaving_certificate: "Leaving Certificate with mention of Indian",
   // passport: "Passport Certificate",
   // birth: "Birth Certificate",
@@ -46,5 +47,5 @@ export const docType = {
 
   doc_physicallyDisable: "Proof of Physical Disability",
   doc_employed: "Proof of Employment",
-  doc_domicile: "Domicile Certificate"
+  doc_domicile: "Domicile Certificate",
 };
