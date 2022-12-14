@@ -215,11 +215,13 @@ export default class AdmissionDetailsUG extends Component {
     //   ? this.setState({ errorTotalMarks: false })
     //   : this.setState({ errorTotalMarks: true });
 
-    !isNaN(parseFloat(this.state.cgpa)) &&
-    isFinite(this.state.cgpa) &&
-    parseInt(this.state.cgpa) < 10
-      ? this.setState({ errorCGPA: false })
-      : this.setState({ errorCGPA: true });
+    if (this.state.cgpa !== "") {
+      !isNaN(parseFloat(this.state.cgpa)) &&
+      isFinite(this.state.cgpa) &&
+      parseInt(this.state.cgpa) < 10
+        ? this.setState({ errorCGPA: false })
+        : this.setState({ errorCGPA: true });
+    }
 
     !isNaN(parseFloat(this.state.percentage)) &&
     isFinite(this.state.percentage) &&
