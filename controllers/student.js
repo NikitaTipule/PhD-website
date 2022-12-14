@@ -98,7 +98,7 @@ exports.lockProfile = (req, res) => {
       user
         .save()
         .then(() => {
-          res.json({ success: "true", applicationId: appId });
+          res.json({ success: "true", applicationId: user.applicationId });
         })
         .catch((e) => {
           console.log(e);
@@ -357,6 +357,7 @@ exports.verifyStudentInfo = (req, res) => {
   });
 };
 
+// returns data of students who have submitted applicstion
 exports.getAllStudentsInfoByDept = (req, res) => {
   const department = req.params && req.params.department;
   if (!department) {
