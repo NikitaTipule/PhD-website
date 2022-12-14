@@ -183,7 +183,7 @@ export default class phdCordForm extends Component {
 
   academicsPGDocTypes = ["PG Marksheet", "PG Degree Certificate"];
 
-  entranceDetailsDocTypes = ["Gate Marksheet"];
+  entranceDetailsDocTypes = ["GATE Marksheet"];
 
   onChangeStatus = (id, status) => {
     var copy = [...this.state.documentsUploaded];
@@ -278,9 +278,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">
-                                Mother's Name
-                              </td>
+                              <td className="first data">Mother's Name</td>
                               <td className="data">
                                 {this.state.personalInfo.motherName}
                               </td>
@@ -333,7 +331,9 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">Physically Challenged(PH)</td>
+                              <td className="first data">
+                                Physically Challenged(PH)
+                              </td>
                               <td className="data">
                                 {this.state.personalInfo.physicallys}
                               </td>
@@ -875,9 +875,7 @@ export default class phdCordForm extends Component {
                             </tr>
 
                             <tr className="row1">
-                              <td className="first data">
-                                Status of PG
-                              </td>
+                              <td className="first data">Status of PG</td>
                               <td className="data">
                                 {this.state.academicsPG.status}
                               </td>
@@ -1250,9 +1248,7 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">
-                                GATE Qualified
-                              </td>
+                              <td className="first data">GATE Qualified</td>
                               <td className="data">
                                 {this.state.entranceDetails.Gate.gateQualified}
                               </td>
