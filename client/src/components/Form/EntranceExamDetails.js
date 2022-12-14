@@ -105,7 +105,7 @@ export default class EntranceExamDetails extends Component {
 
   onChangeDate = (event) => {
     this.setState({
-      gateDate: event,
+      gateDate: new Date(event.getTime() - event.getTimezoneOffset() * 60000),
     });
   };
 

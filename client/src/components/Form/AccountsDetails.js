@@ -54,7 +54,11 @@ export default class AccountsDetails extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   onChangeDate = (event) => {
-    this.setState({ transactionTime: event });
+    this.setState({
+      transactionTime: new Date(
+        event.getTime() - event.getTimezoneOffset() * 60000
+      ),
+    });
   };
 
   // FUNCTIONS FOR FILE DATA

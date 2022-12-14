@@ -136,7 +136,11 @@ export default class AdmissionDetailsUG extends Component {
   };
 
   onChangeDate = (event) => {
-    this.setState({ dateOfDeclaration: event });
+    this.setState({
+      dateOfDeclaration: new Date(
+        event.getTime() - event.getTimezoneOffset() * 60000
+      ),
+    });
   };
 
   validateData = () => {

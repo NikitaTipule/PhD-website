@@ -160,7 +160,7 @@ export default class PersonalDetails extends Component {
 
   onChangeDate = (event) => {
     this.setState({
-      dob: event,
+      dob: new Date(event.getTime() - event.getTimezoneOffset() * 60000),
     });
   };
 
