@@ -12,7 +12,6 @@ const { auth } = require("../middleware/auth");
 const {
   myProfileStudent,
   getStudentInfo,
-  getAllStudents,
   getStudentsByDept,
   editStudentDocs,
   editStudentFeeDetails,
@@ -20,7 +19,6 @@ const {
   verifyFeeDetails,
   verifyStudentInfo,
   lockProfile,
-  getAllStudentsInfoByDept,
   getPartialApplications,
 } = require("../controllers/student");
 
@@ -36,7 +34,6 @@ router.post("/password-reset", passwordReset);
 router.get("/me", [auth, myProfileStudent]);
 router.get("/:userId", [auth, getStudentInfo]);
 router.get("/department/:department", [auth, getStudentsByDept]);
-router.get("/departmentinfo/:department", [auth, getAllStudentsInfoByDept]);
 router.get("/partialApplications/:department", [auth, getPartialApplications]);
 
 router.post("/edit/docs", auth, editStudentDocs);

@@ -7,12 +7,9 @@ const {
   addLink,
   removeLink,
   getAllLinks,
-  getAllStudents
 } = require("../controllers/phdCord");
 const { auth } = require("../middleware/auth");
 const router = express.Router();
-
-router.get("/getAllStudents",auth,getAllStudents);
 
 router.get("/getalllinks", getAllLinks);
 

@@ -40,14 +40,18 @@ exports.getStudentsByDept = (req, res) => {
   if (!department) {
     return res.status(400).json({ error: "department is needed" });
   }
-
   let projection = "";
   let filter = {
     "personalInfo.department": department,
     applicationId: { $exists: true, $ne: null },
   };
+  if (department === "all") {
+    filter = {
+      // applicationId: { $exists: true, $ne: null },
+    };
+  }
   if (req.userRole == "phdCord" || req.userRole == "admin") {
-    projection = "name applicationId infoVerified feeDetails.verification";
+    projection = "-password -documentsUploaded";
   } else if (req.userRole == "accountSec") {
     projection = "name applicationId personalInfo.category feeDetails";
   } else {
@@ -57,6 +61,7 @@ exports.getStudentsByDept = (req, res) => {
     .lean()
     .exec()
     .then((users) => {
+      console.log(users);
       return res.json(users);
     })
     .catch((err) => {
@@ -355,42 +360,6 @@ exports.verifyStudentInfo = (req, res) => {
       res.status(400).json({ error: "request body contains invalid data" });
     }
   });
-};
-
-// returns data of students who have submitted applicstion
-exports.getAllStudentsInfoByDept = (req, res) => {
-  const department = req.params && req.params.department;
-  if (!department) {
-    return res.status(400).json({ error: "department is needed" });
-  }
-
-  let projection = "";
-  let filter = {
-    "personalInfo.department": department,
-    applicationId: { $exists: true, $ne: null },
-  };
-  if (req.userRole == "phdCord" || req.userRole == "admin") {
-    projection =
-      "mobile personalInfo.name personalInfo.middleName email personalInfo.gender personalInfo.dob personalInfo.mobile personalInfo.nationality personalInfo.category personalInfo.aadhar personalInfo.address personalInfo.physicallyDisabled personalInfo.employed personalInfo.domicile personalInfo.deparment personalInfo.verification personalInfo.remarks academicsUG.institute academicsUG.degree academicsUG.specialization academicsUG.totalAggregate academicsUG.cgpa10 academicsUG.percentageMarks academicsUG.totalMarks academicsUG.dateOfDeclaration academicsPG.institute academicsPG.degree academicsPG.totalAggregate academicsPG.totalMarks academicsPG.cgpa10 academicsPG.percentageMarks academicsPG.verification academicsPG.remarks entranceDetails";
-  } else if (req.userRole == "accountSec") {
-    projection = "name personalInfo.category feeDetails";
-    filter = {
-      "personalInfo.department": department,
-      applicationId: { $exists: true, $ne: null },
-    };
-  } else {
-    return res.status(403).json("error : user don't have access to resource");
-  }
-
-  Student.find(filter, projection)
-    .lean()
-    .exec()
-    .then((users) => {
-      return res.json(users);
-    })
-    .catch((err) => {
-      res.status(400).json({ error: "invalid request" });
-    });
 };
 
 // return data of students who have not yet submitted application ID
