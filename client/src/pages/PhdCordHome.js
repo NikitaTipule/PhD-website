@@ -22,6 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { MobileView, BrowserView } from "react-device-detect";
 import downloadApplicationPDF from "../components/ApplicationPDF";
 import DownloadIcon from "@mui/icons-material/Download";
+import { Button } from "@mui/material";
 
 class PhdCordHome extends Component {
   constructor(props) {
@@ -525,11 +526,30 @@ class PhdCordHome extends Component {
                   )}
                 </div>
               </div>
-              {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>
-                <h1 className="textBetween">
-                  List of All Students
-                </h1>
-                </div> */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "15px",
+                  width: "100%",
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/student-stats",
+                      state: { department: this.state.department },
+                    });
+                  }}
+                  style={{
+                    height: "40px",
+                  }}
+                  variant="contained"
+                >
+                  Incomplete Applications
+                </Button>
+              </div>
               <div className="info">
                 <div
                   onClick={() => {
@@ -576,94 +596,6 @@ class PhdCordHome extends Component {
                   />
                 </div>
               </div>
-
-              {/* <div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "30px",
-                    marginBottom: "50px",
-                  }}
-                >
-                  <Paper
-                    sx={{
-                      width: "100%",
-                      "@media screen and (min-width: 40em)": { width: "80%" },
-                      overflow: "hidden",
-                    }}
-                  >
-                    <TableContainer sx={{ maxHeight: 500 }}>
-                      <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                          <TableRow>
-                            {this.upperColumns.map((column) => (
-                              <TableCell
-                                key={column.id}
-                                align="center"
-                                style={{
-                                  minWidth: column.minWidth,
-                                  backgroundColor: "ButtonHighlight",
-                                  color: "black",
-                                  border: "1px",
-                                }}
-                              >
-                                {column.label}
-                              </TableCell>
-                            ))}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          <TableRow hover role="checkbox" tabIndex={-1}>
-                            <TableCell
-                              align="center"
-                              value="Not Verified"
-                              onClick={() => {
-                                this.handleclick1();
-                              }}
-                              className="tablecell"
-                            >
-                              {counterTotal}
-                            </TableCell>
-                            <TableCell
-                              align="center"
-                              value="Verified"
-                              onClick={() => {
-                                this.handleclick2();
-                              }}
-                              className="tablecell"
-                              // style ={{border: "2px"}}
-                            >
-                              {counterVerified}
-                            </TableCell>
-                            <TableCell
-                              align="center"
-                              value="Not Verified"
-                              onClick={() => {
-                                this.handleclick3();
-                              }}
-                              className="tablecell"
-                            >
-                              {counterNotVerified}
-                            </TableCell>
-                            <TableCell
-                              align="center"
-                              value="Modification needed"
-                              onClick={() => {
-                                this.handleclick4();
-                              }}
-                              className="tablecell"
-                            >
-                              {counterModification}
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Paper>
-                </div>
-              </div> */}
 
               <div
                 style={{

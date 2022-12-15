@@ -209,12 +209,7 @@ class Admin extends Component {
                   </div>
                 </div>
               </div>
-              <div
-                style={{
-                  marginLeft: "40%",
-                  marginRight: "35",
-                }}
-              >
+              <div className="info">
                 <Button
                   onClick={() => {
                     this.props.history.push({ pathname: "/candidate-list" });
@@ -223,6 +218,18 @@ class Admin extends Component {
                   style={{ height: "50px", margin: "5px" }}
                 >
                   All Candidates List
+                </Button>
+                <Button
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/student-stats",
+                      state: { department: "all" },
+                    });
+                  }}
+                  variant="contained"
+                  style={{ height: "50px", margin: "5px" }}
+                >
+                  Incomplete Applications
                 </Button>
               </div>
               {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginBottom: '0px', marginTop: '20px'}}>

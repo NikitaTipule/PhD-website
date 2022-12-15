@@ -24,6 +24,7 @@ import DocViewer from "./pages/DocViewer";
 import OTP from "./pages/otp";
 import Link from "./pages/Link";
 import Contact from "./components/Contact";
+import StudentStats from "./pages/StudentStats.js";
 
 function setToken() {
   const token = localStorage.getItem("phd-website-jwt");
@@ -54,6 +55,12 @@ function App() {
           allowedRoles={[roles.admin]}
           path="/candidate-list"
           component={PhdCordHome}
+          exact
+        ></ProtectedRoute>
+        <ProtectedRoute
+          allowedRoles={[roles.admin, roles.phdCord]}
+          path="/student-stats"
+          component={StudentStats}
           exact
         ></ProtectedRoute>
         <ProtectedRoute
