@@ -26,14 +26,14 @@ const personalInfo = {
   dob: { type: Date },
   ageYears: { type: Number },
   physicallyDisabled: { type: String },
-  employed: {type: String},
-  domicile: {type: String},
+  employed: { type: String },
+  domicile: { type: String },
   department: departmentField,
   address: { type: String },
   adressCorrespondance: { type: String },
   verification: verificationField,
   remarks: { type: String, default: "" },
-  completed: {type: Boolean, default: false},
+  completed: { type: Boolean, default: false },
 };
 
 const academicsUG = {
@@ -47,15 +47,15 @@ const academicsUG = {
   percentageMarks: { type: Number },
   dateOfDeclaration: { type: Date },
   verification: verificationField,
-  remarks: { type: String, default: "" },  
-  completed: {type: Boolean, default: false},
+  remarks: { type: String, default: "" },
+  completed: { type: Boolean, default: false },
 };
 
 const academicsPG = {
-  status: {type: String},
+  status: { type: String },
   institute: { type: String },
   degree: { type: String },
-  branch: {type:String},
+  branch: { type: String },
   specialization: { type: String },
   // marksFinalYear: { type: Number },
   //totalAggregate: { type: Number },
@@ -65,31 +65,23 @@ const academicsPG = {
   dateOfDeclaration: { type: Date },
   verification: verificationField,
   remarks: { type: String, default: "" },
-  completed: {type: Boolean, default: false},
-
+  completed: { type: Boolean, default: false },
 };
 
 const entranceDetails = {
   givenGate: { type: Boolean },
-  givenPet: { type: Boolean },
   isInterestedCoepRPET: { type: Boolean },
-  isInterestedCoepEntrance: { type: Boolean },
   Gate: {
-    discipline: {type: String},
-    category: {type: String},
-    score: { type: String},
-    marks: { type:String },
-    // qualimarks: { type: String },
+    discipline: { type: String },
+    category: { type: String },
+    score: { type: String },
+    marks: { type: String },
     lastDateOfValidation: { type: Date },
-    gateQualified: {type: String},
-  },
-  sppuPet: {
-    details: { type: String },
-    year: { type: String },
+    gateQualified: { type: String },
   },
   verification: verificationField,
   remarks: { type: String, default: "" },
-  completed: {type: Boolean, default: false},
+  completed: { type: Boolean, default: false },
 };
 
 const docUploaded = {
@@ -113,7 +105,7 @@ const feeDetails = {
     originalName: { type: String },
     contentType: { type: String },
   },
-  completed: {type: Boolean, default: false},
+  completed: { type: Boolean, default: false },
 };
 
 // TODO : How to store verification data ? (need more info about requirements)
@@ -148,8 +140,7 @@ const StudentSchema = Schema(
       required: true,
     },
   },
-  { timestamps: true },
-
+  { timestamps: true }
 );
 
 StudentSchema.pre("save", preSaveHashPassword);

@@ -881,18 +881,6 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
 
-                            {/* <tr className="row1">
-                              <td className="first data">Marks Obtained</td>
-                              <td className="data">
-                                {this.state.academicsPG.totalAggregate}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">Total Marks</td>
-                              <td className="data">
-                                {this.state.academicsPG.totalMarks}
-                              </td>
-                            </tr> */}
                             {this.state.academicsPG.status === "Passed" && (
                               <tr className="row1">
                                 <td className="first data">CGPA</td>
@@ -1201,17 +1189,6 @@ export default class phdCordForm extends Component {
                               </td>
                             </tr>
                             <tr className="row1">
-                              <td className="first data">
-                                Want to appear for COEP Tech's entrance exam
-                              </td>
-                              <td className="data">
-                                {this.state.entranceDetails
-                                  .isInterestedCoepEntrance
-                                  ? "Yes"
-                                  : "No"}
-                              </td>
-                            </tr>
-                            <tr className="row1">
                               <td className="first data">Given GATE</td>
                               <td className="data">
                                 {this.state.entranceDetails.givenGate
@@ -1265,80 +1242,6 @@ export default class phdCordForm extends Component {
                                 ).slice(0, 10)}
                               </td>
                             </tr>
-                            {/* {this.state.entranceDetails.givenGate && (
-                              <tr className="row1">
-                                <td className="first data">Gate</td>
-
-                                <td className="data">
-                                  {this.state.entranceDetails.Gate.score}
-                                </td>
-                                <td className="data">
-                                  {(
-                                    "" +
-                                    this.state.entranceDetails.Gate
-                                      .lastDateOfValidation
-                                  ).slice(0, 10)}
-                                </td>
-                              </tr>
-                            )} */}
-                            {/* {this.state.entranceDetails
-                              .isInterestedCoepEntrance && (
-                              <tr className="row1">
-                                <div className="fieldName">
-                                  Want to appear for COEP entrance exam
-                                </div>
-                              </tr>
-                            )} */}
-                            <tr className="row1">
-                              <td className="first data">SPPU ET 2021</td>
-                              <td className="data">
-                                {this.state.entranceDetails.sppuPet.details}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">Year</td>
-                              <td className="data">
-                                {this.state.entranceDetails.sppuPet.year}
-                              </td>
-                            </tr>
-                            {/* {this.state.entranceDetails.givenPet && (
-                              <tr className="row1">
-                                <td className="first data">SPPU ET 2021</td>
-
-                                <td className="data">
-                                  {this.state.entranceDetails.sppuPet.details}
-                                </td>
-                                <td className="data">
-                                  {this.state.entranceDetails.sppuPet.year}
-                                </td>
-                              </tr>
-                            )} */}
-
-                            {/* 
-                            <tr className="row1">
-                              <td className="first data">Marks Obtained</td>
-                              <td className="data">
-                                {this.state.academicsPG.totalAggregate}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">Total Marks</td>
-                              <td className="data">
-                                {this.state.academicsPG.totalMarks}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">CGPA</td>
-                              <td className="data">
-                                {this.state.academicsPG.cgpa10}
-                              </td>
-                            </tr>
-                            <tr className="row1">
-                              <td className="first data">Percentage</td>
-                              <td className="data">
-                                {this.state.academicsPG.percentageMarks}
-                              </td>
-                            </tr> */}
                           </tbody>
                         </table>
                         <br />
@@ -1422,51 +1325,6 @@ export default class phdCordForm extends Component {
                             </div>
                           ))}
                         </div>
-
-                        {/* {this.state.entranceDetails.isInterestedCoepRPET && (
-                          <div className="field1">
-                            <div className="fieldName">
-                              Want to appear for COEP's Reasearch Program
-                              Eligibility Test (RPET)
-                            </div>
-                          </div>
-                        )}
-                        {this.state.entranceDetails.givenGate && (
-                          <div className="field1">
-                            <div className="fieldName">Gate</div>
-                            <div>
-                              <div>{this.state.entranceDetails.Gate.score}</div>
-                              <div>
-                                {(
-                                  "" +
-                                  this.state.entranceDetails.Gate
-                                    .lastDateOfValidation
-                                ).slice(0, 10)}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                        {this.state.entranceDetails
-                          .isInterestedCoepEntrance && (
-                          <div className="field1">
-                            <div className="fieldName">
-                              Want to appear for COEP entrance exam
-                            </div>
-                          </div>
-                        )}
-                        {this.state.entranceDetails.givenPet && (
-                          <div className="field1">
-                            <div className="fieldName">SPPU ET 2021</div>
-                            <div>
-                              <div>
-                                {this.state.entranceDetails.sppuPet.details}
-                              </div>
-                              <div>
-                                {this.state.entranceDetails.sppuPet.year}
-                              </div>
-                            </div>
-                          </div>
-                        )} */}
                       </div>
                       {/*Verify + Remark Start*/}
                       <Divider sx={{ marginTop: "5px", marginBottom: "7px" }} />
