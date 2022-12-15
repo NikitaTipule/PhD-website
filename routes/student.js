@@ -21,6 +21,7 @@ const {
   verifyStudentInfo,
   lockProfile,
   getAllStudentsInfoByDept,
+  getPartialApplications,
 } = require("../controllers/student");
 
 const router = express.Router();
@@ -36,6 +37,7 @@ router.get("/me", [auth, myProfileStudent]);
 router.get("/:userId", [auth, getStudentInfo]);
 router.get("/department/:department", [auth, getStudentsByDept]);
 router.get("/departmentinfo/:department", [auth, getAllStudentsInfoByDept]);
+router.get("/partialApplications/:department", [auth, getPartialApplications]);
 
 router.post("/edit/docs", auth, editStudentDocs);
 router.post("/edit/fee", auth, editStudentFeeDetails);

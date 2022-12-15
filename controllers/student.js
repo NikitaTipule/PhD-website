@@ -392,3 +392,32 @@ exports.getAllStudentsInfoByDept = (req, res) => {
       res.status(400).json({ error: "invalid request" });
     });
 };
+
+// return data of students who have not yet submitted application ID
+exports.getPartialApplications = (req, res) => {
+  if (!(req.userRole == "phdCord" || req.userRole == "admin")) {
+    return res.status(403).json("error : user don't have access to resource");
+  }
+  const department = req.params && req.params.department;
+  if (!department) {
+    return res.status(400).json({ error: "department is needed" });
+  }
+  let filter = {
+    "personalInfo.department": department,
+    applicationId: { $exists: false },
+  };
+  if (department === "all") {
+    filter = { applicationId: { $exists: false } };
+  }
+  let projection =
+    "name personalInfo.completed academicsUG.completed academicsPG.completed entranceDetails.completed feeDetails.completed";
+  Student.find(filter, projection)
+    .lean()
+    .exec()
+    .then((users) => {
+      return res.json(users);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: "invalid request" });
+    });
+};
