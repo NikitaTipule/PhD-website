@@ -33,8 +33,6 @@ class PhdCordHome extends Component {
       email: "",
       mis: "",
       studentData: [],
-      allStudentData: [],
-      allStudent: [],
       logout: false,
       page: 0,
       rowsPerPage: 10,
@@ -91,14 +89,10 @@ class PhdCordHome extends Component {
                 });
               });
             axios
-              .get(BACKEND_URL + "/phdCords/getAllStudents", {
+              .get(BACKEND_URL + "/students/department/all", {
                 headers: { "phd-website-jwt": this.state.token },
               })
               .then((response) => {
-                //console.log(response.data);
-                this.setState({
-                  allStudentData: response.data,
-                });
                 this.setState({
                   studentData: response.data,
                   length: response.data.length,
@@ -135,23 +129,6 @@ class PhdCordHome extends Component {
                         length: response.data.length,
                       });
                     });
-                  try {
-                    axios
-                      .get(
-                        BACKEND_URL +
-                          "/students/departmentinfo/" +
-                          this.state.department,
-                        { headers: { "phd-website-jwt": this.state.token } }
-                      )
-                      .then((res) => {
-                        this.setState({
-                          allStudentData: res.data,
-                        });
-                        console.log(res.data);
-                      });
-                  } catch (err) {
-                    console.log(err.message);
-                  }
                 } catch (err) {
                   console.log(err.message);
                 }
@@ -188,23 +165,6 @@ class PhdCordHome extends Component {
                     });
                     // console.log(response.data);
                   });
-                try {
-                  axios
-                    .get(
-                      BACKEND_URL +
-                        "/students/departmentinfo/" +
-                        this.state.department,
-                      { headers: { "phd-website-jwt": this.state.token } }
-                    )
-                    .then((res) => {
-                      // console.log(res.data)
-                      this.setState({
-                        allStudentData: res.data,
-                      });
-                    });
-                } catch (err) {
-                  console.log(err.message);
-                }
               } catch (err) {
                 console.log(err.message);
               }
@@ -214,17 +174,6 @@ class PhdCordHome extends Component {
         }
       }
     }
-    // try {
-    //   axios
-    //     .get(BACKEND_URL + "/departmentinfo/" + this.state.department, {
-    //       headers: { "phd-website-jwt": this.state.token },
-    //     })
-    //     .then((res) => {
-    //       console.log(res.data);
-    //     });
-    // } catch (err) {
-    //   console.log(err.message);
-    // }
   }
 
   upperColumns = [
@@ -293,80 +242,78 @@ class PhdCordHome extends Component {
   }
 
   exportToExcel = () => {
-    //console.log(this.state.allStudentData);
+    //console.log(this.state.studentData);
     const otherData = [];
-    this.state.allStudentData.forEach((student) => {
-      const { _id, ...otherProp } = student;
+    this.state.studentData.forEach((student) => {
       const {
+        _id,
         personalInfo,
         academicsUG,
         academicsPG,
-        email,
         entranceDetails,
-        mobile,
+        feeDetails,
         applicationId,
-      } = otherProp;
+      } = student;
 
-      // console.log(mobile)
-      const {
-        cgpa10: pg_cgpa,
-        degree: pg_degree,
-        institute: pg_institute,
-        percentageMarks: pg_percentageMarks,
-        remarks: pg_remarks,
-        totalAggregate: pg_totalAggregate,
-        totalMarks: pg_totalMarks,
-        verification: pg_verification,
-      } = academicsPG;
-      const {
-        cgpa10: ug_cgpa,
-        dateOfDeclaration: ug_dateOfDeclaration,
-        degree: ug_degree,
-        institute: ug_institute,
-        percentageMarks: ug_percentageMarks,
-        specialization: ug_specialization,
-        totalAggregate: ug_totalAggregate,
-        totalMarks: ug_totalMarks,
-      } = academicsUG;
       const pg = {
-        pg_cgpa,
-        pg_degree,
-        pg_institute,
-        pg_percentageMarks,
-        pg_remarks,
-        pg_totalAggregate,
-        pg_totalMarks,
-        pg_verification,
+        pg_degree: academicsPG?.degree || "",
+        pg_branch: academicsPG?.branch || "",
+        pg_specialization: academicsPG?.specialization || "",
+        pg_institute: academicsPG?.institute || "",
+        pg_percentageMarks: academicsPG?.percentageMarks || "",
+        pg_cgpa: academicsPG?.cgpa10 || "",
       };
       const ug = {
-        ug_cgpa,
-        ug_dateOfDeclaration,
-        ug_degree,
-        ug_institute,
-        ug_percentageMarks,
-        ug_specialization,
-        ug_totalAggregate,
-        ug_totalMarks,
+        ug_institute: academicsUG?.institute || "",
+        ug_degree: academicsUG?.degree || "",
+        ug_specialization: academicsUG?.specialization || "",
+        ug_cgpa: academicsUG?.cgpa10 || "",
+        ug_percentageMarks: academicsUG?.percentageMarks || "",
+        ug_dateOfDeclaration: academicsUG?.dateOfDeclaration || "",
       };
-      const { Gate, sppuPet, ...otherEntranceDetails } = entranceDetails;
-      // const {
-      //   lastDateOfValidation: gate_lastDateOfValidation,
-      //   score: gate_score,
-      // } = Gate;
-      // const { details: sppuPet_details, year: sppuPet_year } = sppuPet;
+
+      const sheetEntranceDetails = {
+        givenGate: entranceDetails?.givenGate || "",
+        isInterestedCoepRPET: entranceDetails?.isInterestedCoepRPET || "",
+        gate_discipline: entranceDetails?.Gate?.discipline || "",
+        gate_category: entranceDetails?.Gate?.category || "",
+        gate_score: entranceDetails?.Gate?.score || "",
+        gate_marks: entranceDetails?.Gate?.marks || "",
+        gate_lastDateOfValidation:
+          entranceDetails?.Gate?.lastDateOfValidation || "",
+        gateQualified: entranceDetails?.Gate?.gateQualified || "",
+      };
+
+      const sheetPersonalInfo = {
+        name: personalInfo?.name || "",
+        middleName: personalInfo?.middleName || "",
+        email: personalInfo?.email || "",
+        gender: personalInfo?.gender || "",
+        mobile: personalInfo?.mobile || "",
+        motherName: personalInfo?.motherName || "",
+        nationality: personalInfo?.nationality || "",
+        category: personalInfo?.category || "",
+        aadhar: personalInfo?.aadhar || "",
+        dob: personalInfo?.dob || "",
+        ageYears: personalInfo?.ageYears || "",
+        physicallyDisabled: personalInfo?.physicallyDisabled || "",
+        employed: personalInfo?.employed || "",
+        domicile: personalInfo?.domicile || "",
+        department: personalInfo?.department || "",
+        address: personalInfo?.address || "",
+        adressCorrespondance: personalInfo?.adressCorrespondance || "",
+      };
+      const sheetFeeDetails = {
+        fee_details: feeDetails.verification,
+      };
 
       otherData.push({
-        ...personalInfo,
-        email,
-        mobile,
         applicationId,
+        ...sheetPersonalInfo,
         ...ug,
         ...pg,
-        // gate_score,
-        // gate_lastDateOfValidation,
-        ...otherEntranceDetails,
-        // sppuPet_details,
-        // sppuPet_year,
+        ...sheetEntranceDetails,
+        ...sheetFeeDetails,
       });
     });
     //console.log(otherData);
@@ -421,7 +368,6 @@ class PhdCordHome extends Component {
     let counterModification = 0;
     let count = 0;
     for (let i = 0; i < this.state.studentData.length; i++) {
-      this.state.allStudent.push(this.state.studentData[i]);
       counterTotal++;
       if (this.state.studentData[i].infoVerified === "verified") {
         counterVerified++;
