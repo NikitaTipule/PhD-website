@@ -378,8 +378,7 @@ exports.getPartialApplications = (req, res) => {
   if (department === "all") {
     filter = { applicationId: { $exists: false } };
   }
-  let projection =
-    "name personalInfo.completed academicsUG.completed academicsPG.completed entranceDetails.completed feeDetails.completed";
+  let projection = "-password -documentsUploaded";
   Student.find(filter, projection)
     .lean()
     .exec()
