@@ -33,16 +33,11 @@ class PhdCordHome extends Component {
       email: "",
       mis: "",
       studentData: [],
-      logout: false,
       page: 0,
       rowsPerPage: 10,
       tableData: "pending",
-      loading: true,
-      success: false,
       department: "",
       token: "",
-      length: 0,
-      flag: true,
       id: "",
       role: localStorage.getItem("phd-website-role"),
       isAllList: false,
@@ -51,97 +46,52 @@ class PhdCordHome extends Component {
   }
 
   async componentDidMount() {
-    let id_phd = "";
-    try {
-      id_phd = this.props.location.state.details;
-      await this.setState({
-        id: this.props.location.state.details,
-      });
-    } catch (error) {
-      this.setState({
-        flag: false,
-      });
+    let id_phd = this.props.location.state?.details;
+    if (id_phd) {
+      this.setState({ id: id_phd });
+    } else {
+      this.setState({ isAllList: true });
     }
-    if (localStorage.getItem("phd-website-jwt")) {
-      await this.setState({
-        token: localStorage.getItem("phd-website-jwt"),
-      });
-      // //console.log(
-      //   localStorage.getItem("phd-website-jwt"),
-      //   localStorage.getItem("phd-website-role")
-      // );
+
+    const fetchData = () => {
+      axios
+        .get(BACKEND_URL + "/students/department/" + this.state.department, {
+          headers: { "phd-website-jwt": this.state.token },
+        })
+        .then((response) => {
+          this.setState({
+            studentData: response.data,
+          });
+        })
+        .catch((err) => console.log(err.message));
+    };
+
+    const token = localStorage.getItem("phd-website-jwt");
+    if (token) {
+      this.setState({ token: token });
       if (localStorage.getItem("phd-website-role") === "admin") {
         if (!id_phd) {
           this.setState({
             isAllList: true,
           });
-          try {
-            axios
-              .get(BACKEND_URL + "/staff/me", {
-                headers: { "phd-website-jwt": this.state.token },
-              })
-              .then((res) => {
-                this.setState({
-                  name: res.data.user.name,
-                  email: res.data.user.email,
-                  mis: res.data.user.mis,
-                  department: res.data.user.department,
-                });
-              });
-            axios
-              .get(BACKEND_URL + "/students/department/all", {
-                headers: { "phd-website-jwt": this.state.token },
-              })
-              .then((response) => {
-                this.setState({
-                  studentData: response.data,
-                  length: response.data.length,
-                });
-              });
-          } catch (err) {
-            console.log(err.message);
-          }
-        } else {
-          try {
-            await axios
-              .get(BACKEND_URL + "/phdCords/" + id_phd, {
-                headers: { "phd-website-jwt": this.state.token },
-              })
-              .then((res) => {
-                //console.log(res);
-                this.setState({
-                  name: res.data.user.name,
-                  email: res.data.user.email,
-                  mis: res.data.user.mis,
-                  department: res.data.user.department,
-                });
-                try {
-                  axios
-                    .get(
-                      BACKEND_URL +
-                        "/students/department/" +
-                        this.state.department,
-                      { headers: { "phd-website-jwt": this.state.token } }
-                    )
-                    .then((response) => {
-                      this.setState({
-                        studentData: response.data,
-                        length: response.data.length,
-                      });
-                    });
-                } catch (err) {
-                  console.log(err.message);
-                }
-              });
-          } catch (error) {
-            console.log(error.message);
-          }
-        }
-      } else {
-        try {
           axios
             .get(BACKEND_URL + "/staff/me", {
-              headers: { "phd-website-jwt": this.state.token },
+              headers: { "phd-website-jwt": token },
+            })
+            .then((res) => {
+              this.setState({
+                name: res.data.user.name,
+                email: res.data.user.email,
+                mis: res.data.user.mis,
+                department: "all",
+              });
+              fetchData();
+            })
+            .catch((err) => console.log(err.message));
+        } else {
+          axios
+            .get(BACKEND_URL + "/phdCords/" + id_phd, {
+              headers: { "phd-website-jwt": token },
             })
             .then((res) => {
               this.setState({
@@ -150,28 +100,25 @@ class PhdCordHome extends Component {
                 mis: res.data.user.mis,
                 department: res.data.user.department,
               });
-              try {
-                axios
-                  .get(
-                    BACKEND_URL +
-                      "/students/department/" +
-                      this.state.department,
-                    { headers: { "phd-website-jwt": this.state.token } }
-                  )
-                  .then((response) => {
-                    this.setState({
-                      studentData: response.data,
-                      length: response.data.length,
-                    });
-                    // console.log(response.data);
-                  });
-              } catch (err) {
-                console.log(err.message);
-              }
-            });
-        } catch (error) {
-          console.log(error.message);
+              fetchData();
+            })
+            .catch((error) => console.log(error.message));
         }
+      } else {
+        axios
+          .get(BACKEND_URL + "/staff/me", {
+            headers: { "phd-website-jwt": token },
+          })
+          .then((res) => {
+            this.setState({
+              name: res.data.user.name,
+              email: res.data.user.email,
+              mis: res.data.user.mis,
+              department: res.data.user.department,
+            });
+            fetchData();
+          })
+          .catch((error) => console.log(error.message));
       }
     }
   }
@@ -742,7 +689,7 @@ class PhdCordHome extends Component {
                   <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={this.state.length}
+                    count={this.state.studentData.length}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.page}
                     onPageChange={this.handleChangePage}
