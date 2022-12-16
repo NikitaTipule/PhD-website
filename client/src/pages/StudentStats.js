@@ -78,6 +78,7 @@ class PhdCordHome extends Component {
       minWidth: 70,
     },
     { id: "feeDetails", label: "Fee Details", minWidth: 30 },
+    { id: "icon", label: "", minWidth: 30 },
   ];
 
   handleChangePage = (event, newPage) => {
@@ -101,6 +102,105 @@ class PhdCordHome extends Component {
   //     state: { details: id, cordId: this.state.id },
   //   });
   // }
+
+  exportToExcel = () => {
+    const otherData = [];
+    this.state.studentData.forEach((student) => {
+      const {
+        name,
+        email,
+        mobile,
+        personalInfo,
+        academicsUG,
+        academicsPG,
+        entranceDetails,
+        feeDetails,
+      } = student;
+
+      const personalInfoStatus = {
+        personalInfo: personalInfo?.completed ? "Yes" : "No",
+      };
+
+      const academicsUGStatus = {
+        academicsUG: academicsUG?.completed ? "Yes" : "No",
+      };
+
+      const academicsPGStatus = {
+        academicsPG: academicsPG?.completed ? "Yes" : "No",
+      };
+
+      const entranceDetailsStatus = {
+        entranceDetails: entranceDetails?.completed ? "Yes" : "No",
+      };
+
+      const feeDetailsStatus = {
+        feeDetails: feeDetails?.completed ? "Yes" : "No",
+      };
+
+      const sheetPersonalInfo = {
+        department: personalInfo?.department || "",
+        gender: personalInfo?.gender || "",
+        motherName: personalInfo?.motherName || "",
+        nationality: personalInfo?.nationality || "",
+        category: personalInfo?.category || "",
+        aadhar: personalInfo?.aadhar || "",
+        dob: personalInfo?.dob || "",
+        PWD: personalInfo?.physicallyDisabled || "",
+        employed: personalInfo?.employed || "",
+        domicile: personalInfo?.domicile || "",
+        address: personalInfo?.address || "",
+      };
+      console.log(email, mobile);
+
+      otherData.push({
+        name,
+        email,
+        mobile,
+        ...personalInfoStatus,
+        ...academicsUGStatus,
+        ...academicsPGStatus,
+        ...entranceDetailsStatus,
+        ...feeDetailsStatus,
+        ...sheetPersonalInfo,
+      });
+    });
+    // console.log(otherData);
+    const XLSX = require("xlsx");
+    const workSheet = XLSX.utils.json_to_sheet(otherData);
+    workSheet["!cols"] = [
+      { wch: 30 },
+      { wch: 35 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 25 },
+      { wch: 8 },
+      { wch: 20 },
+      { wch: 10 },
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 25 },
+      { wch: 10 },
+      { wch: 8 },
+      { wch: 8 },
+      { wch: 60 },
+    ];
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(
+      workBook,
+      workSheet,
+      "IncompleteApplicationsInfo"
+    );
+    XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(
+      workBook,
+      `IncompleteApplications-${this.state.department}.xlsx`
+    );
+  };
 
   render() {
     return (
@@ -221,9 +321,6 @@ class PhdCordHome extends Component {
                                 value={row.name}
                               >
                                 {this.columns.map((column) => {
-                                  {
-                                    console.log(row[column.id]);
-                                  }
                                   return (
                                     <TableCell key={column.id} align="center">
                                       {column.id === "index" ||
@@ -231,13 +328,14 @@ class PhdCordHome extends Component {
                                         <div>{row[column.id]}</div>
                                       ) : (
                                         <div>
-                                          {row[column.id].completed ? (
+                                          {column.id !== "icon" &&
+                                          row[column.id].completed ? (
                                             <div style={{ color: "green" }}>
                                               Yes
                                             </div>
                                           ) : (
                                             <div style={{ color: "red" }}>
-                                              No
+                                              {column.id !== "icon" ? "No" : ""}
                                             </div>
                                           )}
                                         </div>
