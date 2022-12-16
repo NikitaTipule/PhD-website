@@ -16,9 +16,7 @@ const verificationField = {
 const personalInfo = {
   name: { type: String },
   middleName: { type: String },
-  email: { type: String },
   gender: { type: String },
-  mobile: { type: String },
   motherName: { type: String },
   nationality: { type: String },
   category: { type: String },
