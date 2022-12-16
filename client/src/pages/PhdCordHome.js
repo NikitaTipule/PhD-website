@@ -186,6 +186,7 @@ class PhdCordHome extends Component {
   columns = [
     { id: "id", label: "No.", minWidth: 30 },
     { id: "name", label: "Name", minWidth: 120 },
+    { id: "mobile", label: "Mobile No", minWidth: 40 },
     { id: "infoVerified", label: "Verification Status", minWidth: 70 },
     {
       id: "feeDetails.verification",
@@ -246,7 +247,9 @@ class PhdCordHome extends Component {
     const otherData = [];
     this.state.studentData.forEach((student) => {
       const {
-        _id,
+        name,
+        email,
+        mobile,
         personalInfo,
         academicsUG,
         academicsPG,
@@ -285,11 +288,9 @@ class PhdCordHome extends Component {
       };
 
       const sheetPersonalInfo = {
-        name: personalInfo?.name || "",
+        nameInForm: personalInfo?.name || "",
         middleName: personalInfo?.middleName || "",
-        email: personalInfo?.email || "",
         gender: personalInfo?.gender || "",
-        mobile: personalInfo?.mobile || "",
         motherName: personalInfo?.motherName || "",
         nationality: personalInfo?.nationality || "",
         category: personalInfo?.category || "",
@@ -309,6 +310,9 @@ class PhdCordHome extends Component {
 
       otherData.push({
         applicationId,
+        name,
+        email,
+        mobile,
         ...sheetPersonalInfo,
         ...ug,
         ...pg,
@@ -358,7 +362,8 @@ class PhdCordHome extends Component {
     XLSX.utils.book_append_sheet(workBook, workSheet, "Students Data");
     XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
     XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
-    XLSX.writeFile(workBook, "Students Data.xlsx");
+    const dept = this.state.department || "all";
+    XLSX.writeFile(workBook, `Students-Data-${dept}.xlsx`);
   };
 
   render() {

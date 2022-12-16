@@ -18,7 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { MobileView, BrowserView } from "react-device-detect";
 
-class PhdCordHome extends Component {
+class StudentStats extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,8 +55,10 @@ class PhdCordHome extends Component {
   }
 
   columns = [
-    { id: "index", label: "No.", minWidth: 30 },
-    { id: "name", label: "Name", minWidth: 120 },
+    { id: "index", label: "No.", minWidth: 5 },
+    { id: "name", label: "Name", minWidth: 100 },
+    { id: "mobile", label: "Mobile No", minWidth: 40 },
+
     {
       id: "personalInfo",
       label: "Personal Details",
@@ -78,7 +80,7 @@ class PhdCordHome extends Component {
       minWidth: 70,
     },
     { id: "feeDetails", label: "Fee Details", minWidth: 30 },
-    { id: "icon", label: "", minWidth: 30 },
+    { id: "icon", label: "", minWidth: 5 },
   ];
 
   handleChangePage = (event, newPage) => {
@@ -323,8 +325,9 @@ class PhdCordHome extends Component {
                                 {this.columns.map((column) => {
                                   return (
                                     <TableCell key={column.id} align="center">
-                                      {column.id === "index" ||
-                                      column.id === "name" ? (
+                                      {["index", "name", "mobile"].includes(
+                                        column.id
+                                      ) ? (
                                         <div>{row[column.id]}</div>
                                       ) : (
                                         <div>
@@ -368,4 +371,4 @@ class PhdCordHome extends Component {
   }
 }
 
-export default PhdCordHome;
+export default StudentStats;
