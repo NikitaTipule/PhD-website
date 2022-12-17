@@ -60,35 +60,35 @@ export default class phdCordForm extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
+            const user = res.data.user;
             this.setState({
-              email: res.data.user.email,
-              mobile: res.data.user.mobile,
-              personalInfo: res.data.user.personalInfo,
-              personalInfoStatus: res.data.user.personalInfo.verification,
-              personalInfoRemark: res.data.user.personalInfo.remarks,
+              email: user.email,
+              mobile: user.mobile,
+              personalInfo: user.personalInfo,
+              personalInfoStatus: user.personalInfo.verification,
+              personalInfoRemark: user.personalInfo.remarks,
 
-              academicsUG: res.data.user.academicsUG,
-              academicsUGStatus: res.data.user.academicsUG.verification,
-              academicsUGRemark: res.data.user.academicsUG.remarks,
+              academicsUG: user.academicsUG,
+              academicsUGStatus: user.academicsUG.verification,
+              academicsUGRemark: user.academicsUG.remarks,
 
-              academicsPG: res.data.user.academicsPG,
-              academicsPGStatus: res.data.user.academicsPG.verification,
-              academicsPGRemark: res.data.user.academicsPG.remarks,
+              academicsPG: user.academicsPG,
+              academicsPGStatus: user.academicsPG.verification,
+              academicsPGRemark: user.academicsPG.remarks,
 
-              entranceDetails: res.data.user.entranceDetails,
-              entranceDetailsStatus: res.data.user.entranceDetails.verification,
-              entranceDetailsRemark: res.data.user.entranceDetails.remarks,
-              gateMarksheet: res.data.user.entranceDetails.documentsUploaded,
+              entranceDetails: user.entranceDetails,
+              entranceDetailsStatus: user.entranceDetails.givenGate
+                ? user.entranceDetails.verification
+                : "verified",
+              entranceDetailsRemark: user.entranceDetails.remarks,
+              gateMarksheet: user.entranceDetails.documentsUploaded,
 
-              documentsUploaded: res.data.user.documentsUploaded,
+              documentsUploaded: user.documentsUploaded,
 
-              remarks: res.data.user.remarks,
+              remarks: user.remarks,
 
-              appId: res.data.user?.applicationId
-                ? res.data.user.applicationId
-                : null,
+              appId: user?.applicationId ? user.applicationId : null,
             });
-            //console.log(this.state.documentsUploaded);
           });
       } catch (error) {
         console.log(error.response);
