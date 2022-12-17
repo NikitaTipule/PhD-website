@@ -203,18 +203,7 @@ export default class EntranceExamDetails extends Component {
     if (this.state.disabled) {
       this.props.nextStep(1);
     } else {
-      var l = this.state.optionsSelected.length;
-      for (var i = 0; i < l; i++) {
-        if (this.state.optionsSelected[i].id === 1) {
-          this.state.isInterestedCoepRPET = true;
-        }
-        if (this.state.optionsSelected[i].id === 2) {
-          this.state.givenGate = true;
-        }
-      }
-
       await this.validateData();
-
       if (
         this.state.errorgateQualified === false &&
         this.state.errorGateScore === false &&
@@ -267,9 +256,6 @@ export default class EntranceExamDetails extends Component {
     const entranceDetails = {
       entranceDetails: this.props.data.entranceDetails,
     };
-
-    //console.log(entranceDetails);
-
     try {
       axios
         .post(BACKEND_URL + "/students/edit/info", entranceDetails, {
@@ -283,14 +269,54 @@ export default class EntranceExamDetails extends Component {
     }
   };
 
-  handleSelect = (selectedList, selectedItem) => {
-    this.setState({
-      optionsSelected: selectedList,
+  deleteFile = (filename) => {
+    axios.delete(BACKEND_URL + "/files/delete/" + filename, {
+      headers: { "phd-website-jwt": this.state.token },
     });
   };
 
+  handleSelect = (selectedList, selectedItem) => {
+    if (selectedItem.id === 1) {
+      this.setState({
+        isInterestedCoepRPET: true,
+        optionsSelected: selectedList,
+      });
+    } else if (selectedItem.id === 2) {
+      this.setState({
+        givenGate: true,
+        optionsSelected: selectedList,
+      });
+    }
+  };
+
   onRemove = (selectedList, selectedItem) => {
-    this.setState({ optionsSelected: selectedList });
+    if (selectedItem.id === 1) {
+      this.setState({
+        isInterestedCoepRPET: false,
+        optionsSelected: selectedList,
+      });
+    } else if (selectedItem.id === 2) {
+      const deletedDoc = this.state.documentsUploaded.find(
+        (d) => d.type === docType.gate
+      );
+      if (deletedDoc) {
+        this.deleteFile(deletedDoc.filename);
+        const docsNew = this.state.documentsUploaded.filter(
+          (d) => d.type !== docType.gate
+        );
+        this.setState({ documentsUploaded: docsNew });
+      }
+      this.setState({
+        optionsSelected: selectedList,
+        givenGate: false,
+        gateScore: "",
+        gateMarks: "",
+        gateDate: "",
+        gateDiscipline: "",
+        gateCategory: "",
+        gateQualified: "",
+      });
+    }
   };
 
   onCancel = () => {
