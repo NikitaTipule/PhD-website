@@ -28,30 +28,16 @@ export default class EntranceExamDetails extends Component {
           name: "GATE",
           id: 2,
         },
-        // {
-        //   name: "Want to appear for COEP entrance exam",
-        //   id: 3,
-        // },
-        // {
-        //   name: "SPPU ET 2021",
-        //   id: 4,
-        // },
       ],
 
       gateQualified: "",
       givenGate: false,
-      givenPet: false,
       isInterestedCoepRPET: false,
-      isInterestedCoepEntrance: false,
       gateScore: "",
       gateMarks: "",
-      // gateQualiMarks: "",
       gateDate: "",
       gateDiscipline: "",
       gateCategory: "",
-
-      petDetails: "",
-      petYear: "",
 
       remarks: "",
       verification: "",
@@ -63,10 +49,7 @@ export default class EntranceExamDetails extends Component {
       errorGateCategory: false,
       errorGateScore: false,
       errorGateMarks: false,
-      // errorGateQualiMarks: false,
       errorGateDate: false,
-      errorPetDetails: false,
-      errorPetYear: false,
       errorOptionsSelected: false,
       errorGateDoc: false,
       errorgateQualified: false,
@@ -202,14 +185,6 @@ export default class EntranceExamDetails extends Component {
         ? this.setState({ errorGateMarks: false })
         : this.setState({ errorGateMarks: true });
 
-      //
-      // ((/([0-9]+)(\.[0-9]+)/.test(this.state.gateQualiMarks)) ||  (/^\d+$/.test(this.state.gateQualiMarks)) &&
-      //   parseInt(this.state.gateQualiMarks) &&
-      //   parseInt(this.state.gateQualiMarks) >= 0 &&
-      //   parseInt(this.state.gateQualiMarks) <= 100)
-      //     ? this.setState({ errorGateQualiMarks: false })
-      //     : this.setState({ errorGateQualiMarks: true });
-
       this.state.gateDate === ""
         ? this.setState({ errorGateDate: true })
         : this.setState({ errorGateDate: false });
@@ -218,16 +193,6 @@ export default class EntranceExamDetails extends Component {
         ? this.setState({ errorGateDoc: false })
         : this.setState({ errorGateDoc: true });
     }
-
-    this.state.givenPet &&
-      (this.state.petDetails === ""
-        ? this.setState({ errorPetDetails: true })
-        : this.setState({ errorPetDetails: false }));
-
-    this.state.givenPet &&
-      (this.state.petYear.length === 4 && /^\d+$/.test(this.state.petYear)
-        ? this.setState({ errorPetYear: false })
-        : this.setState({ errorPetYear: true }));
 
     this.state.optionsSelected.length < 1
       ? this.setState({ errorOptionsSelected: true })
@@ -246,12 +211,6 @@ export default class EntranceExamDetails extends Component {
         if (this.state.optionsSelected[i].id === 2) {
           this.state.givenGate = true;
         }
-        if (this.state.optionsSelected[i].id === 3) {
-          this.state.isInterestedCoepEntrance = true;
-        }
-        if (this.state.optionsSelected[i].id === 4) {
-          this.state.givenPet = true;
-        }
       }
 
       await this.validateData();
@@ -260,10 +219,7 @@ export default class EntranceExamDetails extends Component {
         this.state.errorgateQualified === false &&
         this.state.errorGateScore === false &&
         this.state.errorGateMarks === false &&
-        // this.state.errorGateQualiMarks === false &&
         this.state.errorGateDate === false &&
-        this.state.errorPetDetails === false &&
-        this.state.errorPetYear === false &&
         this.state.errorOptionsSelected === false &&
         this.state.errorGateDoc === false &&
         this.state.errorGateDiscipline === false &&
@@ -288,23 +244,17 @@ export default class EntranceExamDetails extends Component {
         this.setState({ confirmAlert: !this.state.confirmAlert });
         this.props.data.entranceDetails.isInterestedCoepRPET =
           this.state.isInterestedCoepRPET;
-        this.props.data.entranceDetails.isInterestedCoepEntrance =
-          this.state.isInterestedCoepEntrance;
-        this.props.data.entranceDetails.givenPet = this.state.givenPet;
+
         this.props.data.entranceDetails.givenGate = this.state.givenGate;
         this.props.data.entranceDetails.Gate.gateQualified =
           this.state.gateQualified;
         this.props.data.entranceDetails.Gate.score = this.state.gateScore;
         this.props.data.entranceDetails.Gate.marks = this.state.gateMarks;
-        // this.props.data.entranceDetails.Gate.qualimarks =
-        //   this.state.gateQualiMarks;
         this.props.data.entranceDetails.Gate.lastDateOfValidation =
           this.state.gateDate;
         this.props.data.entranceDetails.Gate.discipline =
           this.state.gateDiscipline;
         this.props.data.entranceDetails.Gate.category = this.state.gateCategory;
-        this.props.data.entranceDetails.sppuPet.details = this.state.petDetails;
-        this.props.data.entranceDetails.sppuPet.year = this.state.petYear;
         this.props.data.entranceDetails.completed = true;
         // this.props.data.entranceDetails.docUploaded = this.state.docUploaded;
       }
@@ -376,16 +326,9 @@ export default class EntranceExamDetails extends Component {
                 givenGate: res.data.user.entranceDetails.givenGate
                   ? res.data.user.entranceDetails.givenGate
                   : false,
-                givenPet: res.data.user.entranceDetails.givenPet
-                  ? res.data.user.entranceDetails.givenPet
-                  : false,
                 isInterestedCoepRPET: res.data.user.entranceDetails
                   .isInterestedCoepRPET
                   ? res.data.user.entranceDetails.isInterestedCoepRPET
-                  : false,
-                isInterestedCoepEntrance: res.data.user.entranceDetails
-                  .isInterestedCoepEntrance
-                  ? res.data.user.entranceDetails.isInterestedCoepEntrance
                   : false,
 
                 gateDiscipline: res.data.user.entranceDetails.Gate
@@ -418,24 +361,9 @@ export default class EntranceExamDetails extends Component {
                     : ""
                   : "",
 
-                // gateQualiMarks: res.data.user.entranceDetails.Gate
-                //   ? res.data.user.entranceDetails.Gate.qualimarks
-                //     ? res.data.user.entranceDetails.Gate.qualimarks
-                //     : ""
-                //   : "",
                 gateDate: res.data.user.entranceDetails.Gate
                   ? res.data.user.entranceDetails.Gate.lastDateOfValidation
                     ? res.data.user.entranceDetails.Gate.lastDateOfValidation
-                    : ""
-                  : "",
-                petDetails: res.data.user.entranceDetails.sppuPet
-                  ? res.data.user.entranceDetails.sppuPet.details
-                    ? res.data.user.entranceDetails.sppuPet.details
-                    : ""
-                  : "",
-                petYear: res.data.user.entranceDetails.sppuPet
-                  ? res.data.user.entranceDetails.sppuPet.year
-                    ? res.data.user.entranceDetails.sppuPet.year
                     : ""
                   : "",
                 remarks: res.data.user.entranceDetails.remarks
@@ -466,22 +394,6 @@ export default class EntranceExamDetails extends Component {
                 optionsSelected: [
                   ...previousState.optionsSelected,
                   this.state.options[0],
-                ],
-              }));
-            }
-            if (this.state.isInterestedCoepEntrance) {
-              this.setState((previousState) => ({
-                optionsSelected: [
-                  ...previousState.optionsSelected,
-                  this.state.options[2],
-                ],
-              }));
-            }
-            if (this.state.givenPet) {
-              this.setState((previousState) => ({
-                optionsSelected: [
-                  ...previousState.optionsSelected,
-                  this.state.options[3],
                 ],
               }));
             }
@@ -746,72 +658,6 @@ export default class EntranceExamDetails extends Component {
                       />
                     </div>
                   )}
-                  {this.state.isInterestedCoepEntrance && (
-                    <div>
-                      <div>{this.state.options[2].name}</div>
-                      <Divider
-                        sx={{
-                          marginTop: "20px",
-                          marginBottom: "20px",
-                          width: "100%",
-                        }}
-                      />
-                    </div>
-                  )}
-                  {this.state.givenPet && (
-                    <div>
-                      <div>{this.state.options[3].name}</div>
-                      <div style={{ marginTop: "0px" }}>
-                        <div>
-                          <div
-                            style={{ display: "flex", flexDirection: "row" }}
-                          >
-                            <div
-                              style={{
-                                marginLeft: "20px",
-                                fontWeight: "400",
-                              }}
-                            >
-                              Details :{" "}
-                            </div>
-                            <div
-                              style={{
-                                marginLeft: "20px",
-                              }}
-                            >
-                              {this.state.petDetails}
-                            </div>
-                          </div>
-                          <div
-                            style={{ display: "flex", flexDirection: "row" }}
-                          >
-                            <div
-                              style={{
-                                marginLeft: "20px",
-                                fontWeight: "400",
-                              }}
-                            >
-                              Year :{" "}
-                            </div>
-                            <div
-                              style={{
-                                marginLeft: "20px",
-                              }}
-                            >
-                              {this.state.petYear}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <Divider
-                        sx={{
-                          marginTop: "20px",
-                          marginBottom: "20px",
-                          width: "100%",
-                        }}
-                      />
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -975,28 +821,6 @@ export default class EntranceExamDetails extends Component {
                               </div>
                             )}
                           </div>
-
-                          {/* <div style={{ marginTop: "5px", paddingTop: "15px" }}>
-                            <Typography>Qualifying Marks</Typography>
-                            <TextField
-                              disabled={this.state.disabled}
-                              className="mb-3"
-                              variant="outlined"
-                              label="Qualifying Marks"
-                              onChange={this.handleChange}
-                              value={this.state.gateQualiMarks}
-                              name="gateQualiMarks"
-                              style={{ marginTop: "10px" }}
-                              required
-                            />
-                            {this.state.errorGateQualiMarks && (
-                              <div style={{ color: "red" }}>
-                                <Typography>
-                                  Invalid Qualifying Marks entered
-                                </Typography>
-                              </div>
-                            )}
-                          </div> */}
 
                           <div
                             style={{
