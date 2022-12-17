@@ -61,7 +61,6 @@ exports.getStudentsByDept = (req, res) => {
     .lean()
     .exec()
     .then((users) => {
-      console.log(users);
       return res.json(users);
     })
     .catch((err) => {
