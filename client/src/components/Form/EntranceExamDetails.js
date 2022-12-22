@@ -146,6 +146,7 @@ export default class EntranceExamDetails extends Component {
             error: false,
             display: this.state.gate.display,
           },
+          errorGateDoc: false,
         });
       } else {
         this.setState({
@@ -154,6 +155,7 @@ export default class EntranceExamDetails extends Component {
             error: true,
             display: this.state.gate.display,
           },
+          errorGateDoc: true,
         });
       }
 
@@ -188,10 +190,6 @@ export default class EntranceExamDetails extends Component {
       this.state.gateDate === ""
         ? this.setState({ errorGateDate: true })
         : this.setState({ errorGateDate: false });
-
-      !this.state.gate.error
-        ? this.setState({ errorGateDoc: false })
-        : this.setState({ errorGateDoc: true });
     }
 
     this.state.optionsSelected.length < 1
