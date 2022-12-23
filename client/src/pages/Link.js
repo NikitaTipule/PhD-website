@@ -17,10 +17,11 @@ class AddLink extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu:false,
+      menu: false,
       links: [],
       title: "",
       link: "",
+      priority: 0,
       token: localStorage.getItem("phd-website-jwt"),
     };
   }
@@ -33,6 +34,7 @@ class AddLink extends Component {
     const data = {
       title: this.state.title,
       link: this.state.link,
+      priority: this.state.priority,
     };
     try {
       await axios.post(BACKEND_URL + "/phdCords/addlink", data).then((res) => {
@@ -116,7 +118,6 @@ class AddLink extends Component {
               <div className="inputs">
                 <Typography>Title for Link</Typography>
                 <TextField
-                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -136,7 +137,6 @@ class AddLink extends Component {
               <div className="inputs">
                 <Typography>Link</Typography>
                 <TextField
-                  disabled={this.state.disabled}
                   className="mb-3"
                   fullWidth
                   onChange={this.handleChange}
@@ -147,11 +147,20 @@ class AddLink extends Component {
                   required="true"
                   style={{ marginTop: "2px" }}
                 />
-                {/* {this.state.errorMotherName && (
-                <div style={{ color: "red" }}>
-                  <Typography>Mother's Name is required field</Typography>
-                </div>
-              )} */}
+              </div>
+              <div className="inputs">
+                <Typography>Priority</Typography>
+                <TextField
+                  className="mb-3"
+                  fullWidth
+                  onChange={this.handleChange}
+                  value={this.state.priority}
+                  name="priority"
+                  label="Priority"
+                  variant="outlined"
+                  required="true"
+                  style={{ marginTop: "2px" }}
+                />
               </div>
               <Button
                 onClick={this.addLink}
@@ -167,7 +176,8 @@ class AddLink extends Component {
                 <li className="table-header item-head">
                   <div className="col col-1">Title</div>
                   <div className="col col-2">Links</div>
-                  <div className="col col-3"></div>
+                  <div className="col col-3">Priority</div>
+                  <div className="col col-4">Delete</div>
                 </li>
                 {this.state.links
                   ? this.state.links.map((item) => (
@@ -177,6 +187,9 @@ class AddLink extends Component {
                         </div>
                         <div className="col col-2" data-label="Link">
                           <a href={{}}>{item.link}</a>
+                        </div>
+                        <div className="col col-3" data-label="Priority">
+                          {item.priority}
                         </div>
                         <Button
                           id={item._id}

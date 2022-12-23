@@ -112,11 +112,11 @@ exports.addLink = (req, res) => {
   }
   const title = req.body.title;
   const link = req.body.link;
-  if (!title || !link) {
+  const priority = req.body.priority;
+  if (!title || !link || !priority) {
     return res.status(404).json({ error: "error" });
   }
-  const user = new Link({ title, link });
-  console.log(user);
+  const user = new Link({ title, link, priority });
   user
     .save()
     .then((user) => {
