@@ -61,8 +61,15 @@ export default function MainLogIn(props) {
   const fetchData = async () => {
     try {
       await axios.get(BACKEND_URL + "/phdCords/getalllinks").then((res) => {
-        const links = res.data;
-        setLinks(links);
+        if (res.data) {
+          const links = res.data.map((link) => {
+            link.priority = link.priority ? link.priority : 0;
+            return link;
+          });
+          links.sort((a, b) => b.priority - a.priority);
+          console.log(links);
+          setLinks(links);
+        }
       });
     } catch (err) {
       console.log(err.message);

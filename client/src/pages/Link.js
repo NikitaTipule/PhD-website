@@ -77,8 +77,13 @@ class AddLink extends Component {
           headers: { "phd-website-jwt": this.state.token },
         })
         .then((res) => {
+          const links = res.data.map((link) => {
+            link.priority = link.priority ? link.priority : 0;
+            return link;
+          });
+          links.sort((a, b) => b.priority - a.priority);
           this.setState({
-            links: res.data,
+            links: links,
           });
           //console.log(this.state.links);
         });
