@@ -69,6 +69,13 @@ exports.getStudentsByDept = (req, res) => {
 };
 
 exports.lockProfile = (req, res) => {
+  if (application_stage !== "open") {
+    return res
+      .status(400)
+      .json({
+        error: "Application period is over. Submission is not allowed now.",
+      });
+  }
   if (req.userRole != "student") {
     res.status(403).json({ error: "only student can confirm his profile" });
   }
