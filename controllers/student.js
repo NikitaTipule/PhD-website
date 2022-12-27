@@ -13,6 +13,7 @@ exports.myProfileStudent = (req, res) => {
       return res.status(404).json({ error: "user doesn't exist" });
     }
     delete user.password;
+    user.applicationId = application_stage;
     if (application_stage === "closed") {
       user.editable = false;
     }
@@ -70,11 +71,9 @@ exports.getStudentsByDept = (req, res) => {
 
 exports.lockProfile = (req, res) => {
   if (application_stage !== "open") {
-    return res
-      .status(400)
-      .json({
-        error: "Application period is over. Submission is not allowed now.",
-      });
+    return res.status(400).json({
+      error: "Application period is over. Submission is not allowed now.",
+    });
   }
   if (req.userRole != "student") {
     res.status(403).json({ error: "only student can confirm his profile" });

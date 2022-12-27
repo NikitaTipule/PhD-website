@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -84,6 +84,21 @@ export default function Register() {
         });
     }
   };
+
+  useEffect(() => {
+    console.log("hello");
+    axios
+      .get(BACKEND_URL + "/students/application-stage")
+      .then((res) => {
+        if (res.data.application_stage !== "open") {
+          alert("New applications are not accepted now");
+          history.push("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

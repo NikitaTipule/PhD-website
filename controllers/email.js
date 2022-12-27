@@ -1,15 +1,17 @@
 var nodemailer = require("nodemailer");
-var smtpTransport = require('nodemailer-smtp-transport');
+var smtpTransport = require("nodemailer-smtp-transport");
 
 const { emailNodemailer, passwordNodemailer } = require("../config/configKeys");
-var transporter = nodemailer.createTransport(smtpTransport({
-  service: 'gmail',
-  host: 'smtp.gmail.com',
-  auth: {
-    user: emailNodemailer,
-    pass: passwordNodemailer
-  }
-}));
+var transporter = nodemailer.createTransport(
+  smtpTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+      user: emailNodemailer,
+      pass: passwordNodemailer,
+    },
+  })
+);
 
 // send email to "to_email" with the otp
 const send_email = (to_email, msg, subject = "OTP for signup confirmation") => {
@@ -22,14 +24,12 @@ const send_email = (to_email, msg, subject = "OTP for signup confirmation") => {
     text: "COEP's Ph.D. Program Application", // plaintext body
     html: mail_html, // html body
   };
-  
+
   // send mail with defined transport object
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     }
-    console.log(info);
-    console.log("Email Sent Successfully");
   });
 };
 

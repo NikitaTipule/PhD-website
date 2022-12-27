@@ -48,6 +48,7 @@ class StudentHome extends Component {
       petYear: "",
       full_completed: false,
       editable: true,
+      application_stage: "open",
     };
   }
 
@@ -106,8 +107,8 @@ class StudentHome extends Component {
               gender: user.personalInfo.gender,
               category: user.personalInfo.category,
               physicallyDisabled: user.personalInfo.physicallyDisabled,
-              employed:user.personalInfo.employed,
-              domicile:user.personalInfo.domicile,
+              employed: user.personalInfo.employed,
+              domicile: user.personalInfo.domicile,
               dob: user.personalInfo.dob
                 ? user.personalInfo.dob.slice(0, 10)
                 : user.personalInfo.dob,
@@ -150,6 +151,7 @@ class StudentHome extends Component {
               petDetails: user.entranceDetails?.sppuPet?.details,
               petYear: user.entranceDetails?.sppuPet?.year,
               editable: user.editable,
+              application_stage: user.application_stage,
             });
           });
       } catch (error) {
@@ -351,26 +353,21 @@ class StudentHome extends Component {
                       ? this.state.PIremarks
                       : "None"}
                   </div>
-                  {this.state.PIverification === "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                    style={{ color: "red" }}
-                  >
-                    Modification Required
-                  </div>
-                  }
+                  {this.state.PIverification === "mod_req" && (
+                    <div
+                      className="col col-4"
+                      data-label="Status"
+                      style={{ color: "red" }}
+                    >
+                      Modification Required
+                    </div>
+                  )}
 
-                  {this.state.PIverification !== "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                  >
-                    {this.state.PIverification}
-                  </div>
-                  }
+                  {this.state.PIverification !== "mod_req" && (
+                    <div className="col col-4" data-label="Status">
+                      {this.state.PIverification}
+                    </div>
+                  )}
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -395,26 +392,21 @@ class StudentHome extends Component {
                       ? this.state.UGremarks
                       : "None"}
                   </div>
-                  {this.state.UGverification === "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                    style={{ color: "red" }}
-                  >
-                    Modification Required
-                  </div>
-                  }
+                  {this.state.UGverification === "mod_req" && (
+                    <div
+                      className="col col-4"
+                      data-label="Status"
+                      style={{ color: "red" }}
+                    >
+                      Modification Required
+                    </div>
+                  )}
 
-                  {this.state.UGverification !== "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                  >
-                    {this.state.UGverification}
-                  </div>
-                  }
+                  {this.state.UGverification !== "mod_req" && (
+                    <div className="col col-4" data-label="Status">
+                      {this.state.UGverification}
+                    </div>
+                  )}
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -440,26 +432,21 @@ class StudentHome extends Component {
                       ? this.state.PGremarks
                       : "None"}
                   </div>
-                  {this.state.PGverification === "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                    style={{ color: "red" }}
-                  >
-                    Modification Required
-                  </div>
-                  }
+                  {this.state.PGverification === "mod_req" && (
+                    <div
+                      className="col col-4"
+                      data-label="Status"
+                      style={{ color: "red" }}
+                    >
+                      Modification Required
+                    </div>
+                  )}
 
-                  {this.state.PGverification !== "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                  >
-                    {this.state.PGverification}
-                  </div>
-                  }
+                  {this.state.PGverification !== "mod_req" && (
+                    <div className="col col-4" data-label="Status">
+                      {this.state.PGverification}
+                    </div>
+                  )}
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -505,26 +492,21 @@ class StudentHome extends Component {
                       ? this.state.ENTremarks
                       : "None"}
                   </div>
-                  {this.state.ENTverification === "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                    style={{ color: "red" }}
-                  >
-                    Modification Required
-                  </div>
-                  }
+                  {this.state.ENTverification === "mod_req" && (
+                    <div
+                      className="col col-4"
+                      data-label="Status"
+                      style={{ color: "red" }}
+                    >
+                      Modification Required
+                    </div>
+                  )}
 
-                  {this.state.ENTverification !== "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                  >
-                    {this.state.ENTverification}
-                  </div>
-                  }
+                  {this.state.ENTverification !== "mod_req" && (
+                    <div className="col col-4" data-label="Status">
+                      {this.state.ENTverification}
+                    </div>
+                  )}
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -549,26 +531,21 @@ class StudentHome extends Component {
                       ? this.state.FEEremarks
                       : "None"}
                   </div>
-                  {this.state.FEEverification === "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                    style={{ color: "red" }}
-                  >
-                    Modification Required
-                  </div>
-                  }
+                  {this.state.FEEverification === "mod_req" && (
+                    <div
+                      className="col col-4"
+                      data-label="Status"
+                      style={{ color: "red" }}
+                    >
+                      Modification Required
+                    </div>
+                  )}
 
-                  {this.state.FEEverification !== "mod_req" && 
-                  
-                  <div
-                    className="col col-4"
-                    data-label="Status"
-                  >
-                    {this.state.FEEverification}
-                  </div>
-                  }
+                  {this.state.FEEverification !== "mod_req" && (
+                    <div className="col col-4" data-label="Status">
+                      {this.state.FEEverification}
+                    </div>
+                  )}
                   <div
                     className="col col-5 editButton"
                     onClick={() => {
@@ -602,8 +579,18 @@ class StudentHome extends Component {
                   padding: "3px",
                   fontSize: "18px",
                 }}
-                >
-                After filling all sections it is compulsory to click on Submit Application and fill the declaration form, then Application ID will get generated.
+              >
+                {this.state.application_stage === "open" ? (
+                  <div>
+                    After filling all sections it is compulsory to click on
+                    Submit Application and fill the declaration form, then
+                    Application ID will get generated.
+                  </div>
+                ) : (
+                  <div>
+                    Application period is over. Submission is not allowed now.
+                  </div>
+                )}
               </h3>
             </div>
 
@@ -630,34 +617,30 @@ class StudentHome extends Component {
                   borderRadius: "10px",
                 }}
                 onClick={() => {
-                  if(!this.state.full_completed){
-                    
-              window.location.reload(false);
+                  if (!this.state.full_completed) {
+                    window.location.reload(false);
 
-              if (this.state.full_completed) {
-                this.props.history.push({
-                  pathname: "/admissionForm",
-                  state: { step: 10 },
-                });
-              } else {
-                alert("Confirm if everything has been completed and please click once again Submit Application button");
-              }
+                    if (this.state.full_completed) {
+                      this.props.history.push({
+                        pathname: "/admissionForm",
+                        state: { step: 10 },
+                      });
+                    } else {
+                      alert(
+                        "Confirm if everything has been completed and please click once again Submit Application button"
+                      );
+                    }
+                  } else {
+                    this.props.history.push({
+                      pathname: "/admissionForm",
+                      state: { step: 10 },
+                    });
                   }
-
-                else{
-                  this.props.history.push({
-                    pathname: "/admissionForm",
-                    state: { step: 10 },
-                  });
-                }
-                  
                 }}
               >
                 Submit Application
               </button>
             </div>
-
-            
           </div>
         </div>
       </div>
