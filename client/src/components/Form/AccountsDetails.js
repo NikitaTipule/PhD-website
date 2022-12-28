@@ -156,7 +156,7 @@ export default class AccountsDetails extends Component {
       const feeDetails = {
         feeDetails: this.props.data.feeDetails,
       };
-      //console.log(feeDetails);
+
       try {
         axios
           .post(BACKEND_URL + "/students/edit/fee", feeDetails, {
@@ -165,9 +165,7 @@ export default class AccountsDetails extends Component {
           .then((res) => {
             console.log("Accounts Info Added");
           });
-      } catch (err) {
-        //console.log(err);
-      }
+      } catch (err) {}
     }
 
     // try {

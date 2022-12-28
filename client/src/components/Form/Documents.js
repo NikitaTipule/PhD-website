@@ -103,8 +103,6 @@ export default class Documents extends Component {
         // this.setState((prevState) => ({
         //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
         // }));
-
-        console.log(this.state.documentsUploaded);
       })
       .catch((err) => console.log(err.response || "error"));
   };

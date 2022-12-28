@@ -149,7 +149,6 @@ export default class phdCordForm extends Component {
         this.setState({
           redirect: !this.state.redirect,
         });
-        //console.log("verification details submitted");
       })
       .catch((err) => {
         console.log(err.response.data);

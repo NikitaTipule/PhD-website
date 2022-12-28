@@ -75,7 +75,6 @@ class DisplayData extends Component {
   }
 
   async componentDidMount() {
-    //console.log(this.props.id);
     if (localStorage.getItem("phd-website-jwt")) {
       await this.setState({
         token: localStorage.getItem("phd-website-jwt"),
@@ -86,7 +85,6 @@ class DisplayData extends Component {
             headers: { "phd-website-jwt": this.state.token },
           })
           .then((res) => {
-            //console.log(res.data);
             const details = res.data.user;
             this.setState({
               name: res.data.user.name,
@@ -100,7 +98,7 @@ class DisplayData extends Component {
               aadhar: res.data.user.personalInfo.aadhar,
               address: res.data.user.personalInfo.adressPermenant,
               physicallyDisabled: res.data.user.personalInfo.physicalDisability,
-              employed:res.data.user.personalInfo.employed,
+              employed: res.data.user.personalInfo.employed,
               domicile: res.data.user.personalInfo.domicile,
               department: res.data.user.personalInfo.department,
 
@@ -145,7 +143,7 @@ class DisplayData extends Component {
     this.setState({
       message: this.state.message,
     });
-    //console.log(this.state.message);
+
     this.setState({
       redirect: !this.state.redirect,
     });
@@ -228,13 +226,13 @@ class DisplayData extends Component {
           </div>
         </div>
         <div className="field">
-            <div className="fieldName">Employed :</div>
-            <div>{this.state.employed}</div>
-          </div>
-          <div className="field">
-            <div className="fieldName">MH State Candidature :</div>
-            <div>{this.state.domicile}</div>
-          </div>
+          <div className="fieldName">Employed :</div>
+          <div>{this.state.employed}</div>
+        </div>
+        <div className="field">
+          <div className="fieldName">MH State Candidature :</div>
+          <div>{this.state.domicile}</div>
+        </div>
         <Divider sx={{ marginTop: "25px", marginBottom: "10px" }} />
 
         {/* UG Details  */}

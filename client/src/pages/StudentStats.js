@@ -97,7 +97,7 @@ class StudentStats extends Component {
 
   // TODO: show student details
   // oncellClick(id) {
-  //   //console.log(id);
+  //
   //   this.props.history.push({
   //     pathname: "/coform",
   //     // search: `/${id}`,

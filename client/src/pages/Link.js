@@ -37,9 +37,9 @@ class AddLink extends Component {
       priority: this.state.priority,
     };
     try {
-      await axios.post(BACKEND_URL + "/phdCords/addlink", data).then((res) => {
-        //console.log("Link Added");
-      });
+      await axios
+        .post(BACKEND_URL + "/phdCords/addlink", data)
+        .then((res) => {});
     } catch (err) {
       console.log(err.res);
     }
@@ -49,13 +49,10 @@ class AddLink extends Component {
   };
 
   removeLink = (value) => async (e) => {
-    //console.log(value);
     try {
       await axios
         .post(BACKEND_URL + "/phdCords/removelink/:linkid", { _id: value })
-        .then((res) => {
-          //console.log("Link removed");
-        });
+        .then((res) => {});
     } catch (err) {
       console.log(err.res);
     }
@@ -85,7 +82,6 @@ class AddLink extends Component {
           this.setState({
             links: links,
           });
-          //console.log(this.state.links);
         });
     } catch (err) {
       console.log(err.message);

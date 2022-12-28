@@ -27,15 +27,19 @@ export default class AdmissionDetailsPG extends Component {
       percentage: "",
       confirmAlert: false,
       otherSpecialization: "",
-      branch : "",
-      otherBranch : "",
+      branch: "",
+      otherBranch: "",
 
       status: "",
       errorStatus: false,
 
       pg: { name: docType.pg, error: false, display: true },
 
-      pg_degree_certificate: {name: docType.pg_degree_certificate, error: false, display: true},
+      pg_degree_certificate: {
+        name: docType.pg_degree_certificate,
+        error: false,
+        display: true,
+      },
 
       remarks: "",
       verification: "",
@@ -64,15 +68,15 @@ export default class AdmissionDetailsPG extends Component {
 
   onChangeBranch = (event) => {
     this.setState({
-      branch: event.value
-    })
-  }
+      branch: event.value,
+    });
+  };
 
   onChangeStatus = (event) => {
     this.setState({
-      status: event.target.value
-    })
-  }
+      status: event.target.value,
+    });
+  };
 
   onChangeSpecialization = (event) => {
     this.setState({
@@ -99,13 +103,13 @@ export default class AdmissionDetailsPG extends Component {
     const formData = new FormData();
     formData.append("file", this.state.selectedFile);
 
-    if(this.state.selectedFile !== undefined && this.state.selectedFile.size > 1000000)
-    {
-      this.state.errorFileSize = true
-    }
-
-    else{
-      this.state.errorFileSize = false
+    if (
+      this.state.selectedFile !== undefined &&
+      this.state.selectedFile.size > 1000000
+    ) {
+      this.state.errorFileSize = true;
+    } else {
+      this.state.errorFileSize = false;
     }
 
     const i = await this.state.documentsUploaded
@@ -141,8 +145,6 @@ export default class AdmissionDetailsPG extends Component {
         // this.setState((prevState) => ({
         //   documentsUploaded: [...prevState.documentsUploaded, docUploaded],
         // }));
-
-        //console.log(this.state.documentsUploaded);
       })
       .catch((err) => console.log(err.response || "error"));
   };
@@ -152,7 +154,7 @@ export default class AdmissionDetailsPG extends Component {
   };
 
   validateData = () => {
-    if(this.state.status === "Passed"){
+    if (this.state.status === "Passed") {
       if (this.state.documentsUploaded.some((e) => e.type === docType.pg)) {
         this.setState({
           pg: {
@@ -170,8 +172,12 @@ export default class AdmissionDetailsPG extends Component {
           },
         });
       }
-  
-      if (this.state.documentsUploaded.some((e) => e.type === docType.pg_degree_certificate)) {
+
+      if (
+        this.state.documentsUploaded.some(
+          (e) => e.type === docType.pg_degree_certificate
+        )
+      ) {
         this.setState({
           pg_degree_certificate: {
             name: this.state.pg_degree_certificate.name,
@@ -189,11 +195,10 @@ export default class AdmissionDetailsPG extends Component {
         });
       }
     }
-    
 
     this.state.status === ""
-      ? this.setState({ errorStatus: true})
-      : this.setState({ errorStatus: false});
+      ? this.setState({ errorStatus: true })
+      : this.setState({ errorStatus: false });
 
     this.state.university.replace(/ /g, "") === ""
       ? this.setState({ errorUniversity: true })
@@ -233,15 +238,15 @@ export default class AdmissionDetailsPG extends Component {
     //   ? this.setState({ errorTotalMarks: false })
     //   : this.setState({ errorTotalMarks: true });
 
-    if(this.state.status === "Passed"){
+    if (this.state.status === "Passed") {
       !isNaN(parseFloat(this.state.cgpa)) &&
       isFinite(this.state.cgpa) &&
       parseInt(this.state.cgpa) < 10
         ? this.setState({ errorCGPA: false })
         : this.setState({ errorCGPA: true });
     }
-    
-    if(this.state.status === "Passed"){
+
+    if (this.state.status === "Passed") {
       !isNaN(parseFloat(this.state.percentage)) &&
       isFinite(this.state.percentage) &&
       parseInt(this.state.percentage) < 100
@@ -259,10 +264,8 @@ export default class AdmissionDetailsPG extends Component {
         this.state.pg.error === false &&
         this.state.errorFileSize === false &&
         this.state.errorUniversity === false &&
-        ((this.state.errorBranch === false &&
-          this.state.branch !== "OTHER") ||
-          (this.state.branch === "OTHER" &&
-            this.state.otherBranch)) &&
+        ((this.state.errorBranch === false && this.state.branch !== "OTHER") ||
+          (this.state.branch === "OTHER" && this.state.otherBranch)) &&
         ((this.state.errorSpecialization === false &&
           this.state.specialization !== "OTHER") ||
           (this.state.specialization === "OTHER" &&
@@ -317,24 +320,21 @@ export default class AdmissionDetailsPG extends Component {
           this.props.data.academicsPG.branch =
             this.state.branch + " " + this.state.otherBranch;
         } else {
-          this.props.data.academicsPG.branch =
-            this.state.branch;
+          this.props.data.academicsPG.branch = this.state.branch;
         }
 
         //this.props.data.academicsPG.degree = this.state.nomenclature + " " + this.state.otherNomenclature;
         //this.props.data.academicsPG.specialization = this.state.specialization + " " + this.state.otherSpecialization;
         // this.props.data.academicsPG.totalAggregate = this.state.marksObtained;
         // this.props.data.academicsPG.totalMarks = this.state.totalMarks;
-        if(this.state.status === "Passed"){
+        if (this.state.status === "Passed") {
           this.props.data.academicsPG.cgpa10 = this.state.cgpa;
-        }
-        else{
+        } else {
           this.props.data.academicsPG.cgpa10 = "";
         }
-        if(this.state.status === "Passed"){
+        if (this.state.status === "Passed") {
           this.props.data.academicsPG.percentageMarks = this.state.percentage;
-        }
-        else{
+        } else {
           this.props.data.academicsPG.percentageMarks = "";
         }
         this.props.data.academicsPG.completed = true;
@@ -421,7 +421,6 @@ export default class AdmissionDetailsPG extends Component {
                 status: res.data.user.academicsPG.status
                   ? res.data.user.academicsPG.status
                   : "",
-
               });
             this.setState({ editable: res.data.user.editable });
             res.data.user.editable &&
@@ -561,15 +560,11 @@ export default class AdmissionDetailsPG extends Component {
                   </div>
                   {this.state.specialization !== "" && (
                     <div>
-                      {this.state.specialization} {this.state.otherSpecialization}
+                      {this.state.specialization}{" "}
+                      {this.state.otherSpecialization}
                     </div>
                   )}
-                  {this.state.specialization === "" && (
-                    <div>
-                      { "None" }
-                    </div>
-                  )}
-                  
+                  {this.state.specialization === "" && <div>{"None"}</div>}
                 </div>
                 {/* <div className="popUpField">
                   <div>
@@ -590,9 +585,8 @@ export default class AdmissionDetailsPG extends Component {
                     </div>
                     <div>{this.state.cgpa}</div>
                   </div>
-                )
-                }
-                
+                )}
+
                 {this.state.status === "Passed" && (
                   <div className="popUpField">
                     <div>
@@ -601,7 +595,6 @@ export default class AdmissionDetailsPG extends Component {
                     <div>{this.state.percentage}%</div>
                   </div>
                 )}
-                
               </div>
             )}
           </SweetAlert>
@@ -635,7 +628,6 @@ export default class AdmissionDetailsPG extends Component {
         <div className="title">Academic Details - PG</div>
         <div className={"Form"}>
           <form onSubmit={this.onSubmit}>
-
             {/* Status of PG exam - appearing or passed */}
             <div style={{ marginBottom: "12px" }}>
               <div className="formGenderDob">
@@ -778,12 +770,10 @@ export default class AdmissionDetailsPG extends Component {
                 }
               })()}
             </div>
-            
+
             {/* BRANCH AND OTHER BRANCH FIELD */}
             <div style={{ marginTop: "3px", paddingTop: "15px" }}>
-              <Typography style={{ marginBottom: "12px" }}>
-                  Branch
-              </Typography>
+              <Typography style={{ marginBottom: "12px" }}>Branch</Typography>
               <DropDown
                 disabled={this.state.disabled}
                 options={dropdown_options_branch}
@@ -800,42 +790,34 @@ export default class AdmissionDetailsPG extends Component {
                 </div>
               )}
 
-
-              {
-                this.state.branch === "OTHER" && (
-                  
-                    <div>
-                      <Typography>
-                        Please enter your other branch
-                      </Typography>
-                      <TextField
-                        className="mb-3"
-                        fullWidth
-                        required
-                        onChange={this.handleChange}
-                        value={this.state.otherBranch}
-                        name="otherBranch"
-                        label="Other Branch Field"
-                        variant="outlined"
-                        style={{ marginTop: "8px" }}
-                      />
-                      {this.state.errorOtherBranch && (
-                        <div style={{ color: "red" }}>
-                          <Typography>
-                            Please enter other branch
-                          </Typography>
-                        </div>
-                      )}
+              {this.state.branch === "OTHER" && (
+                <div>
+                  <Typography>Please enter your other branch</Typography>
+                  <TextField
+                    className="mb-3"
+                    fullWidth
+                    required
+                    onChange={this.handleChange}
+                    value={this.state.otherBranch}
+                    name="otherBranch"
+                    label="Other Branch Field"
+                    variant="outlined"
+                    style={{ marginTop: "8px" }}
+                  />
+                  {this.state.errorOtherBranch && (
+                    <div style={{ color: "red" }}>
+                      <Typography>Please enter other branch</Typography>
                     </div>
-                  )
-                }
-              
-
+                  )}
+                </div>
+              )}
             </div>
-            
+
             {/* 3. Specialization Branch  */}
             <div style={{ marginBottom: "12px" }}>
-              <Typography style={{paddingTop: "15px"}}>Specialization Branch</Typography>
+              <Typography style={{ paddingTop: "15px" }}>
+                Specialization Branch
+              </Typography>
               <TextField
                 disabled={this.state.disabled}
                 className="mb-3"
@@ -964,7 +946,7 @@ export default class AdmissionDetailsPG extends Component {
              *   6. CGPA
              *   7. Percentage of Marks
              */}
-            {this.state.status==="Passed" && (
+            {this.state.status === "Passed" && (
               <div>
                 <div className="marksContainer">
                   <div>
@@ -990,8 +972,8 @@ export default class AdmissionDetailsPG extends Component {
                 </div>
               </div>
             )}
-            
-            {this.state.status==="Passed" && (
+
+            {this.state.status === "Passed" && (
               <div>
                 <div className="marksContainer">
                   <div>
@@ -1017,8 +999,6 @@ export default class AdmissionDetailsPG extends Component {
                 </div>
               </div>
             )}
-
-            
           </form>
 
           {/**
@@ -1026,170 +1006,190 @@ export default class AdmissionDetailsPG extends Component {
            * Document Collection Component
            *
            */}
-           {this.state.status === "Passed" && 
-           (
-          <div>
-            <div
-              className="formContainer"
-              style={{ marginTop: "30px", fontSize: "21px" }}
-            >
-              Documents Required
+          {this.state.status === "Passed" && (
+            <div>
+              <div
+                className="formContainer"
+                style={{ marginTop: "30px", fontSize: "21px" }}
+              >
+                Documents Required
+              </div>
+              <div style={{ opacity: "0.7", fontSize: "12px" }}>
+                (document size must be less than 1MB)
+              </div>
             </div>
-            <div style={{ opacity: "0.7", fontSize: "12px" }}>
-              (document size must be less than 1MB)
-            </div>
-          </div>
-           )
-          }
-          {this.state.status === "Passed" && 
-          (
-          <Table>
-            <TableBody>
-              <div>
-                {/* PG Marksheet */}
-                {this.state.pg.display ? (
-                  <div>
-                    <div className="field">
-                      <div>{this.state.pg.name}{" (Compulsory) "}</div>
-                      <div>
-                        <input
-                          disabled={this.state.disabled}
-                          type="file"
-                          name={this.state.pg.name}
-                          onChange={this.onFileChange}
-                        />
-              {(() => {
-                if (this.state.errorFileSize)
-                {
-                  this.state.pg.error = false
-                  return(<div className="docsError">File size exceeded than 10 MB</div>)
-                }
-                else if (this.state.pg.error) {
-                  return(<div className="docsError">Please upload file</div>)
-                }
-              })()}
-                        {/* {this.state.pg.error ? (
+          )}
+          {this.state.status === "Passed" && (
+            <Table>
+              <TableBody>
+                <div>
+                  {/* PG Marksheet */}
+                  {this.state.pg.display ? (
+                    <div>
+                      <div className="field">
+                        <div>
+                          {this.state.pg.name}
+                          {" (Compulsory) "}
+                        </div>
+                        <div>
+                          <input
+                            disabled={this.state.disabled}
+                            type="file"
+                            name={this.state.pg.name}
+                            onChange={this.onFileChange}
+                          />
+                          {(() => {
+                            if (this.state.errorFileSize) {
+                              this.state.pg.error = false;
+                              return (
+                                <div className="docsError">
+                                  File size exceeded than 10 MB
+                                </div>
+                              );
+                            } else if (this.state.pg.error) {
+                              return (
+                                <div className="docsError">
+                                  Please upload file
+                                </div>
+                              );
+                            }
+                          })()}
+                          {/* {this.state.pg.error ? (
                           <div className="docsError">Please upload file</div>
                         ) : (
                           ""
                         )} */}
-                        {this.state.documentsUploaded
-                          .filter((doc) => doc.type === this.state.pg.name)
-                          .map((doc, id) => (
-                            <div key={id}>
-                              <div className="docsPreviewDiv">
-                                <div className="docsPreviewFilename">
-                                  {doc.originalName.slice(0, 10) + "...  "}
+                          {this.state.documentsUploaded
+                            .filter((doc) => doc.type === this.state.pg.name)
+                            .map((doc, id) => (
+                              <div key={id}>
+                                <div className="docsPreviewDiv">
+                                  <div className="docsPreviewFilename">
+                                    {doc.originalName.slice(0, 10) + "...  "}
+                                  </div>
+                                  <DocViewer
+                                    data={{
+                                      filename: doc.filename,
+                                      contentType: doc.contentType,
+                                      originalName: doc.originalName,
+                                    }}
+                                  />
                                 </div>
-                                <DocViewer
-                                  data={{
-                                    filename: doc.filename,
-                                    contentType: doc.contentType,
-                                    originalName: doc.originalName,
-                                  }}
-                                />
+                                <div>
+                                  {doc.verification === "verified" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "green" }}
+                                    >
+                                      Verified
+                                    </div>
+                                  )}
+                                  {doc.verification === "mod_req" && (
+                                    <div
+                                      className="docVerify"
+                                      style={{ color: "red" }}
+                                    >
+                                      Modification Required
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                              <div>
-                                {doc.verification === "verified" && (
-                                  <div
-                                    className="docVerify"
-                                    style={{ color: "green" }}
-                                  >
-                                    Verified
-                                  </div>
-                                )}
-                                {doc.verification === "mod_req" && (
-                                  <div
-                                    className="docVerify"
-                                    style={{ color: "red" }}
-                                  >
-                                    Modification Required
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
+                            ))}
+                        </div>
                       </div>
+                      <Divider
+                        sx={{ marginTop: "20px", marginBottom: "20px" }}
+                      />
                     </div>
-                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
-                  </div>
-                ) : (
-                  " "
-                )}
-              </div>
-              {this.state.status === "Passed" && (
-              <div>
-                {/* PG Degree Certificate */}
-                {this.state.pg.display ? (
+                  ) : (
+                    " "
+                  )}
+                </div>
+                {this.state.status === "Passed" && (
                   <div>
-                    <div className="field">
-                      <div>{this.state.pg_degree_certificate.name}{" (Optional) "}</div>
+                    {/* PG Degree Certificate */}
+                    {this.state.pg.display ? (
                       <div>
-                        <input
-                          disabled={this.state.disabled}
-                          type="file"
-                          name={this.state.pg_degree_certificate.name}
-                          onChange={this.onFileChange}
-                        />
-              {(() => {
-                if (this.state.errorFileSize)
-                {
-                  this.state.pg_degree_certificate.error = false
-                  return(<div className="docsError">File size exceeded than 10 MB</div>)
-                }
-              })()}
-                        {/* {this.state.pg.error ? (
+                        <div className="field">
+                          <div>
+                            {this.state.pg_degree_certificate.name}
+                            {" (Optional) "}
+                          </div>
+                          <div>
+                            <input
+                              disabled={this.state.disabled}
+                              type="file"
+                              name={this.state.pg_degree_certificate.name}
+                              onChange={this.onFileChange}
+                            />
+                            {(() => {
+                              if (this.state.errorFileSize) {
+                                this.state.pg_degree_certificate.error = false;
+                                return (
+                                  <div className="docsError">
+                                    File size exceeded than 10 MB
+                                  </div>
+                                );
+                              }
+                            })()}
+                            {/* {this.state.pg.error ? (
                           <div className="docsError">Please upload file</div>
                         ) : (
                           ""
                         )} */}
-                        {this.state.documentsUploaded
-                          .filter((doc) => doc.type === this.state.pg_degree_certificate.name)
-                          .map((doc, id) => (
-                            <div key={id}>
-                              <div className="docsPreviewDiv">
-                                <div className="docsPreviewFilename">
-                                  {doc.originalName.slice(0, 10) + "...  "}
+                            {this.state.documentsUploaded
+                              .filter(
+                                (doc) =>
+                                  doc.type ===
+                                  this.state.pg_degree_certificate.name
+                              )
+                              .map((doc, id) => (
+                                <div key={id}>
+                                  <div className="docsPreviewDiv">
+                                    <div className="docsPreviewFilename">
+                                      {doc.originalName.slice(0, 10) + "...  "}
+                                    </div>
+                                    <DocViewer
+                                      data={{
+                                        filename: doc.filename,
+                                        contentType: doc.contentType,
+                                        originalName: doc.originalName,
+                                      }}
+                                    />
+                                  </div>
+                                  <div>
+                                    {doc.verification === "verified" && (
+                                      <div
+                                        className="docVerify"
+                                        style={{ color: "green" }}
+                                      >
+                                        Verified
+                                      </div>
+                                    )}
+                                    {doc.verification === "mod_req" && (
+                                      <div
+                                        className="docVerify"
+                                        style={{ color: "red" }}
+                                      >
+                                        Modification Required
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
-                                <DocViewer
-                                  data={{
-                                    filename: doc.filename,
-                                    contentType: doc.contentType,
-                                    originalName: doc.originalName,
-                                  }}
-                                />
-                              </div>
-                              <div>
-                                {doc.verification === "verified" && (
-                                  <div
-                                    className="docVerify"
-                                    style={{ color: "green" }}
-                                  >
-                                    Verified
-                                  </div>
-                                )}
-                                {doc.verification === "mod_req" && (
-                                  <div
-                                    className="docVerify"
-                                    style={{ color: "red" }}
-                                  >
-                                    Modification Required
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
+                              ))}
+                          </div>
+                        </div>
+                        <Divider
+                          sx={{ marginTop: "20px", marginBottom: "20px" }}
+                        />
                       </div>
-                    </div>
-                    <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+                    ) : (
+                      " "
+                    )}
                   </div>
-                ) : (
-                  " "
                 )}
-              </div>
-              )}
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
           )}
           <React.Fragment>
             <ThemeProvider theme={theme}>

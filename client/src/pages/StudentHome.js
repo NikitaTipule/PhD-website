@@ -64,7 +64,7 @@ class StudentHome extends Component {
           })
           .then((res) => {
             const user = res.data.user;
-            //console.log(user);
+
             // Get the verification status of documents
             let dv = 0,
               dp = 0,
@@ -97,7 +97,7 @@ class StudentHome extends Component {
             ) {
               this.setState({ full_completed: true });
             }
-            //console.log("Full completed: ",this.state.full_completed)
+
             this.setState({
               pdfName: user.personalInfo.name,
               pdfEmail: user.personalInfo.email,

@@ -52,7 +52,7 @@ export default function StudentLogIn() {
         email: values.email,
         password: values.password,
       };
-      //console.log(data);
+
       const url = BACKEND_URL + "/students/login";
       setLoading(true);
       axios

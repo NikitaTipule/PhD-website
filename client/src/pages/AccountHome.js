@@ -173,7 +173,7 @@ class AccountHomeNew extends Component {
     //   // search: `/${id}`,
     //   state: { details: id, cordId: this.state.id },
     // });
-    //console.log(row.index);
+
     this.setState({
       selectedStudent: row.index,
     });

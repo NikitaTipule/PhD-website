@@ -65,7 +65,7 @@ export default function Register() {
         mobile: values.mobile,
         password: values.password,
       };
-      //console.log(data);
+
       const url = BACKEND_URL + "/students/register";
       setLoading(true);
       axios
@@ -86,7 +86,6 @@ export default function Register() {
   };
 
   useEffect(() => {
-    console.log("hello");
     axios
       .get(BACKEND_URL + "/students/application-stage")
       .then((res) => {

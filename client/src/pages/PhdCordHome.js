@@ -181,7 +181,6 @@ class PhdCordHome extends Component {
   };
 
   oncellClick(id) {
-    //console.log(id);
     this.props.history.push({
       pathname: "/coform",
       // search: `/${id}`,
@@ -190,7 +189,6 @@ class PhdCordHome extends Component {
   }
 
   exportToExcel = () => {
-    //console.log(this.state.studentData);
     const otherData = [];
     this.state.studentData.forEach((student) => {
       const {
@@ -267,7 +265,7 @@ class PhdCordHome extends Component {
         ...sheetFeeDetails,
       });
     });
-    //console.log(otherData);
+
     const XLSX = require("xlsx");
     const workSheet = XLSX.utils.json_to_sheet(otherData);
     workSheet["!cols"] = [

@@ -26,7 +26,7 @@ const { application_stage } = require("../state");
 const router = express.Router();
 
 router.get("/application-stage", (req, res) => {
-  res.send({ applcation_stage: application_stage });
+  res.send({ application_stage: application_stage });
 });
 
 router.post("/login", loginStudent);

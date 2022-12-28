@@ -202,7 +202,7 @@ const MyDoc = (props) => {
             </View>
           </View>
           <View style={styles.tableRow}>
-          <View style={styles.tableCol1}>
+            <View style={styles.tableCol1}>
               <Text style={styles.tableCell}>Employed</Text>
             </View>
             <View style={styles.tableCol}>
@@ -254,7 +254,7 @@ const MyDoc = (props) => {
               <Text style={styles.tableCell}>{""}</Text>
             </View>
           </View>
-          
+
           <View style={styles.tableRow}>
             <View style={styles.tableColHeader}>
               <Text style={styles.tableCellHeader}>Academics UG</Text>
@@ -329,7 +329,7 @@ const MyDoc = (props) => {
               </Text>
             </View> */}
           </View>
-          
+
           <View style={styles.tableRow}>
             <View style={styles.tableCol1}>
               <Text style={styles.tableCell}>Degree</Text>
@@ -347,28 +347,27 @@ const MyDoc = (props) => {
             </View>
           </View>
 
-          {props.academicsPG.status === "Passed" &&
-          (
+          {props.academicsPG.status === "Passed" && (
             <View style={styles.tableRow}>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>CGPA</Text>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>CGPA</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{props.academicsPG.cgpa10}</Text>
+              </View>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>Percentage Marks</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>
+                  {props.academicsPG.percentageMarks}
+                </Text>
+              </View>
             </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{props.academicsPG.cgpa10}</Text>
-            </View>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCell}>Percentage Marks</Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>
-                {props.academicsPG.percentageMarks}
-              </Text>
-            </View>
-          </View>
           )}
 
           <View style={styles.tableRow}>
-          <View style={styles.tableCol1}>
+            <View style={styles.tableCol1}>
               <Text style={styles.tableCell}>Branch</Text>
             </View>
             <View style={styles.tableCol}>
@@ -390,7 +389,9 @@ const MyDoc = (props) => {
           </View>
           <View style={styles.tableRow}>
             <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>Is Interested in COEP Tech RPET</Text>
+              <Text style={styles.tableCell}>
+                Is Interested in COEP Tech RPET
+              </Text>
             </View>
             <View style={styles.tableCol3}>
               {props.entranceDetails.isInterestedCoepRPET ? (
@@ -567,13 +568,13 @@ const MyDoc = (props) => {
         <Text style={styles.declare}>
           I have read all the rules of admission and after understanding these
           rules, I have filled this application form for admission to Ph.D. in
-          COEP Technological University for the academic year 2022-23. The information given by me in
-          this application is true to the best of my knowledge and belief. At
-          any later state, if it is found that I have furnished wrong
-          information and/or submitted false certificate(s), I am aware that my
-          admission stands cancelled and fees paid by me will be forfeited.
-          Further, I will be subject to legal and/or penal action as per the
-          provisions of the law.
+          COEP Technological University for the academic year 2022-23. The
+          information given by me in this application is true to the best of my
+          knowledge and belief. At any later state, if it is found that I have
+          furnished wrong information and/or submitted false certificate(s), I
+          am aware that my admission stands cancelled and fees paid by me will
+          be forfeited. Further, I will be subject to legal and/or penal action
+          as per the provisions of the law.
         </Text>
         <Text style={styles.place}>Place :</Text>
         <Text style={styles.date}>Date :</Text>
@@ -597,7 +598,6 @@ export default function downloadApplicationPDF(candidateID = null, token) {
     .then(async (res) => {
       const user = res.data.user;
       const blob = await pdf(<MyDoc {...user} />).toBlob();
-      console.log(user);
       saveAs(blob, `${user.applicationId}.pdf`);
     })
     .catch((err) => {

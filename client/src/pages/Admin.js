@@ -99,7 +99,6 @@ class Admin extends Component {
   };
 
   oncellClick(id) {
-    //console.log(id);
     this.props.history.push({
       pathname: "/coordinator",
       // search: `/${id}`,

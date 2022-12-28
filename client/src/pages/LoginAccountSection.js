@@ -56,7 +56,7 @@ export default function StudentLogIn() {
         .post(url, data)
         .then((res) => {
           setLoading(false);
-          //console.log(res.data.token);
+
           localStorage.setItem("phd-website-jwt", res.data.token);
           localStorage.setItem("phd-website-role", "accountSec");
           history.push("/account");

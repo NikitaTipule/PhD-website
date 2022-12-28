@@ -67,7 +67,6 @@ export default function MainLogIn(props) {
             return link;
           });
           links.sort((a, b) => b.priority - a.priority);
-          console.log(links);
           setLinks(links);
         }
       });
