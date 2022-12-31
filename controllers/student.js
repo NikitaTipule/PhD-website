@@ -8,10 +8,11 @@ exports.myProfileStudent = (req, res) => {
   if (!req.userId) {
     return res.status(400).json({ error: "id is reqsuired" });
   }
-  Student.findById(req.userId, (err, user) => {
+  Student.findById(req.userId, (err, result) => {
     if (err) {
       return res.status(404).json({ error: "user doesn't exist" });
     }
+    const user = result.toJSON();
     delete user.password;
     user.application_stage = application_stage;
     if (application_stage === "closed") {
