@@ -6,14 +6,14 @@ const logger = require("../util/logger");
 
 exports.myProfileStudent = (req, res) => {
   if (!req.userId) {
-    return res.status(400).json({ error: "id is required" });
+    return res.status(400).json({ error: "id is reqsuired" });
   }
   Student.findById(req.userId, (err, user) => {
     if (err) {
       return res.status(404).json({ error: "user doesn't exist" });
     }
     delete user.password;
-    user.applicationId = application_stage;
+    user.application_stage = application_stage;
     if (application_stage === "closed") {
       user.editable = false;
     }
