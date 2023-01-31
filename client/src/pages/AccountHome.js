@@ -348,7 +348,7 @@ class AccountHomeNew extends Component {
                       Department
                     </Typography>
                     <DropDown
-                      options={departmentNamesList}
+                      options={[...departmentNamesList, "all"]}
                       onChange={this.onChangeDepartment}
                       value={this.state.department}
                       placeholder="Select Department"

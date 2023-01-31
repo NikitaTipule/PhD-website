@@ -49,7 +49,7 @@ exports.getStudentsByDept = (req, res) => {
   };
   if (department === "all") {
     filter = {
-      // applicationId: { $exists: true, $ne: null },
+      applicationId: { $exists: true, $ne: null },
     };
   }
   if (req.userRole == "phdCord" || req.userRole == "admin") {
