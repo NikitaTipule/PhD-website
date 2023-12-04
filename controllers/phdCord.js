@@ -3,6 +3,7 @@ const Link = require("../models/links");
 const PhdCord = require("../models/phdCord");
 const Student = require("../models/student");
 const logger = require("../util/logger");
+const sendEmail = require("../controllers/email")
 
 exports.getPhdCordInfo = (req, res) => {
   if (!req.userRole == "admin") {
@@ -66,6 +67,7 @@ exports.addPhdCord = (req, res) => {
     res.status(403).json({ error: "only admin can add phdCord" });
   }
   const { name, mis, email, department } = req.body;
+  const password = Math.random().toString(36).slice(2, 8);
   if (!(name && mis && email && department)) {
     res.status(400).json({ error: "missing data" });
   }
@@ -75,10 +77,16 @@ exports.addPhdCord = (req, res) => {
         .status(409)
         .json({ error: "User Already Exist. Please ask to Login" });
     }
-    const user = new PhdCord({ name, mis, email, department });
+    const user = new PhdCord({ name, mis, email, department, password });
     user
       .save()
       .then((user) => {
+        sendEmail(
+          email,
+          `Your password for Ph.D. website portal with email ${email} is ${password}.
+           Your role is PhD Coordinator`,
+          "Ph.D. Website Account Section details"
+        );
         logger.info(`Admin ${req.email} added new PhD Coordinator ${mis}`);
         res.json({ email });
       })

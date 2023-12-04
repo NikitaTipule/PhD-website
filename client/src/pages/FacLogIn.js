@@ -38,6 +38,7 @@ export default function FacLogIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(state)
     const url = BACKEND_URL + "/staff/login";
     setLoading(true);
     axios

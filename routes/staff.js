@@ -1,6 +1,6 @@
 // Functionality common to staff users (non-Student users)
 
-const { loginStaff } = require("../controllers/auth");
+const { loginStaff, registerAdmin } = require("../controllers/auth");
 // const { loginFaculty } = require("../controllers/auth");
 const { auth } = require("../middleware/auth");
 const express = require("express");
@@ -27,5 +27,7 @@ router.get("/me", [auth, myProfileStaff]);
 router.get("/getuser", auth, (req, res) => {
   return res.status(200).json({ userId: req.userId, userRole: req.userRole });
 });
+
+router.post("/register", registerAdmin)
 
 module.exports = router;

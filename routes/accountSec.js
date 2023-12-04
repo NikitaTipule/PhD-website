@@ -32,7 +32,7 @@ const addAccountSec = (req, res) => {
         sendEmail(
           email,
           `Your password for Ph.D. website portal with email ${email} is ${pass}.
-           Please reset after signing in`,
+           Your role is Accounts Section`,
           "Ph.D. Website Account Section details"
         );
         res.send({

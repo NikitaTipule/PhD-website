@@ -7,7 +7,7 @@ const departmentCodes = {
   "Mechanical Engineering": "10",
   "Metallurgy and Materials Science": "11",
   "Manufacturing Engineering and Industrial Management": "12",
-  Planning: "13",
+  "Planning": "13",
 };
 
 module.exports = departmentCodes;

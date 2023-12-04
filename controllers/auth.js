@@ -230,25 +230,67 @@ exports.loginStaff = (req, res) => {
     MIS: mis,
     Password: password,
   };
-  axios
-    .post(ldapAuthUrl, reqData)
-    .then((resp) => {
-      const User = roleToModel[role];
-      User.findOne({ mis }).then(async (user) => {
-        if (!user) {
-          return res.status(404).json({ error: "user not found" });
-        }
-        user.role = role;
-        const token = generateToken(user);
-        return res.json(token);
-      });
+  const User = roleToModel[role];
+  User.findOne({mis}).then(async(user) => {
+    if (!user) {
+      return res.status(404).json({ error: "user not found" });
+    }
+    const isMatch = await compare(password, user.password);
+    if(isMatch){
+      user.role = role;
+      const token = generateToken(user);
+      return res.json(token);
+    }
+     
+    else{
+      return res.status(404).json({ error: "user not found" });
+    }
+  })
+  // axios
+  //   .post(ldapAuthUrl, reqData)
+  //   .then((resp) => {
+  //     const User = roleToModel[role];
+  //     User.findOne({ mis }).then(async (user) => {
+  //       if (!user) {
+  //         return res.status(404).json({ error: "user not found" });
+  //       }
+  //       user.role = role;
+  //       const token = generateToken(user);
+  //       return res.json(token);
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     if (err && err.response) {
+  //       return res.status(400).json({ error: err.response.statusText });
+  //     } else {
+  //       return res.status(400).json({ error: "UNKNOWN_ERR" });
+  //     }
+  //   });
+};
+
+// register admin
+exports.registerAdmin = (req, res) => {
+  const { mis, email, password, name } = req.body;
+  const User = roleToModel["admin"]
+  User.findOne({ mis })
+    .then((old) => {
+      if (old) {
+        return res
+          .status(409)
+          .send({ message: "Admin Already Exist. Please Login" })
+          .json({ error: "Admin Already Exist. Please Login" });
+      }
+      const newAdmin = new User({ mis, email, password, name });
+      newAdmin
+        .save()
+        .then((user) => {
+          res.send({ message: "Admin Successfully Registered" });
+        })
+        .catch((err) => res.status(400).json({ error: err.message }));
     })
     .catch((err) => {
       console.log(err);
-      if (err && err.response) {
-        return res.status(400).json({ error: err.response.statusText });
-      } else {
-        return res.status(400).json({ error: "UNKNOWN_ERR" });
-      }
+      return res.status(400).json({ error: err.message });
     });
 };
