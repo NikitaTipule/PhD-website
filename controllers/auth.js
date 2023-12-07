@@ -231,14 +231,12 @@ exports.loginStaff = (req, res) => {
     Password: password,
   };
   const User = roleToModel[role];
-  User.findOne({mis}).then(async(user) => {
-    if (!user) {
-      return res.status(404).json({ error: "user not found" });
-    }
-    const isMatch = await compare(password, user.password);
-    if(isMatch){
+  User.find({ "mis" : mis }).then(async(user) => {
+    // const isMatch = await compare(password, user.password);
+    if(user.length > 0 && password == user[0].password){
       user.role = role;
       const token = generateToken(user);
+      console.log(token)
       return res.json(token);
     }
      

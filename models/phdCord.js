@@ -9,8 +9,8 @@ const PhdCordSchema = mongoose.Schema({
   password : reqString
 });
 
-PhdCordSchema.pre("save", preSaveHashPassword)
+// PhdCordSchema.pre("save", preSaveHashPassword)
 
-const PhdCord = mongoose.model("phdCord", PhdCordSchema, "phdCords");
+const PhdCords = mongoose.model("phdCord", PhdCordSchema, "phdCords");
 
-module.exports = PhdCord;
+module.exports = PhdCords;

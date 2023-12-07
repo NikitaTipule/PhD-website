@@ -8,7 +8,7 @@ const AdminSchema = mongoose.Schema({
   password : reqString,
 });
 
-AdminSchema.pre("save", preSaveHashPassword)
+// AdminSchema.pre("save", preSaveHashPassword)
 
 const Admin = mongoose.model("admin", AdminSchema, "admins");
 
