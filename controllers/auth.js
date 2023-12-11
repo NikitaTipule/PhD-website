@@ -234,9 +234,9 @@ exports.loginStaff = (req, res) => {
   User.find({ "mis" : mis }).then(async(user) => {
     // const isMatch = await compare(password, user.password);
     if(user.length > 0 && password == user[0].password){
-      user.role = role;
-      const token = generateToken(user);
-      console.log(token)
+      let user_actual = user[0]
+      user_actual.role = role;
+      const token = generateToken(user_actual);
       return res.json(token);
     }
      

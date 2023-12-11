@@ -9,8 +9,9 @@ const roleToModel = require("../controllers/roles");
 const router = express.Router();
 
 const myProfileStaff = (req, res) => {
-  if (!req.userId) res.status(400).json({ error: "id is required" });
+  if (!req.userId) return res.status(400).json({ error: "id is required" });
   const User = roleToModel[req.userRole];
+  console.log(User)
   User.findById(req.userId, (err, user) => {
     if (err) {
       return res.status(404).json({ error: "user doesn't exist" });
