@@ -105,7 +105,7 @@ export default function Register() {
       <Container
         component="main"
         item="true"
-        maxWidth="xs"
+        maxWidth="md"
         style={{ marginTop: "90px" }}
       >
         <CssBaseline />
@@ -117,7 +117,15 @@ export default function Register() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "cadetblue" }}></Avatar>
+          <Typography component="h1" variant="h5" sx = {{mt : 4}}>
+            New Registrations for COEP PhD Admissions have been Closed.
+          </Typography>
+          <Typography component="h1" variant="h5" sx = {{mt : 4}}>
+                  <Link href="/login/candidate" variant="body2">
+                    {"Registered Students can Login Here"}
+                  </Link>
+                  </Typography>
+          {/* <Avatar sx={{ m: 1, bgcolor: "cadetblue" }}></Avatar>
           <Typography component="h1" variant="h5">
             Register
           </Typography>
@@ -184,7 +192,7 @@ export default function Register() {
                 </Grid>
               </Grid>
             </Grid>
-          </Form>
+          </Form> */}
         </Box>
       </Container>
     </ThemeProvider>
