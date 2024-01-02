@@ -36,7 +36,7 @@ export default function Contact(){
           >
             <div style={{alignItems: "center", marginTop: "10%", marginBottom: "10%"}}>
             <h5 style={{fontSize: "20px", marginLeft: "25%", marginRight: "25%"}}>Email: phdadmissioncoeptech2023-24@coep.ac.in</h5>
-            <h5 style={{fontSize: "20px", marginLeft: "25%", marginRight: "25%"}}>Contact No: 020-2550-7222</h5>
+            {/* <h5 style={{fontSize: "20px", marginLeft: "25%", marginRight: "25%"}}>Contact No: 020-2550-7222</h5> */}
             </div>
         </div>
         </ThemeProvider>

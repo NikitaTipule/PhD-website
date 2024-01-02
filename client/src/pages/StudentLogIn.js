@@ -100,7 +100,7 @@ export default function StudentLogIn() {
             <Form onSubmit={handleSubmit}>
               <Grid align="center" xs={12} item>
                 <Grid align="center" item xs={12}>
-                  <Input
+                  {/* <Input
                     name="email"
                     label="Email*"
                     value={values.email}
@@ -114,8 +114,8 @@ export default function StudentLogIn() {
                     value={values.password}
                     onChange={handleInputChange}
                     error={errors.password}
-                  />
-                  <Grid item xs={12}>
+                  /> */}
+                  {/* <Grid item xs={12}>
                     <Button
                       type="submit"
                       variant="contained"
@@ -129,6 +129,18 @@ export default function StudentLogIn() {
                         "Sign In"
                       )}
                     </Button>
+                  </Grid> */}
+                  <Grid item xs={12}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      style={{ width: "100%", marginLeft: "2%" }}
+                    >
+                      Student Login has been closed. 
+                      Results to be published soon. 
+                      Please keep checking COEP Website.
+                    </Button>
                   </Grid>
                   <Grid container spacing={5}>
                     <Grid item xs>
@@ -136,7 +148,7 @@ export default function StudentLogIn() {
                         {"Home Page"}
                       </Link>
                     </Grid>
-                    <Grid item xs>
+                    {/* <Grid item xs>
                       <Link href="/forgetpassword" variant="body2">
                         {"Forget Password?"}
                       </Link>
@@ -145,7 +157,7 @@ export default function StudentLogIn() {
                       <Link href="/Register" variant="body2">
                         {"Don't have an account? Register"}
                       </Link>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Grid>
               </Grid>
