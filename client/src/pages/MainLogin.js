@@ -85,7 +85,7 @@ export default function MainLogIn(props) {
             id="container"
             style={{ marginTop: "90px" }}
           >
-            <div className="form-container log-in-container">
+            {/* <div className="form-container log-in-container">
               <div className="form-container">
                 <Typography component="h1" variant="h5" mt={2}>
                   <b>Sign in </b>
@@ -136,7 +136,7 @@ export default function MainLogIn(props) {
                   </Button>
                 </Grid>
               </div>
-            </div>
+            </div> */}
             <div className="overlay-container">
               <div className="overlay">
                 <div className="overlay-panel overlay-right">
@@ -144,7 +144,10 @@ export default function MainLogIn(props) {
                     <b>Important Announcements</b>
                   </Typography>
                   <div className="scroll-box">
-                    {links
+                  <p className="link">
+                            COEP PhD Admissions are closed now.
+                  </p>
+                    {/* {links
                       ? links.map((item, key) => (
                           <p key={key} className="link">
                             <a className="main_link" href={item.link}>
@@ -152,7 +155,7 @@ export default function MainLogIn(props) {
                             </a>
                           </p>
                         ))
-                      : ""}
+                      : ""} */}
                   </div>
                 </div>
               </div>

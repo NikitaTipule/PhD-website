@@ -88,6 +88,13 @@
   z-index: 2;
 }
 
+/* .overlay-container {
+  position: absolute;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+} */
+
 .overlay-container {
   position: absolute;
   left: 50%;
@@ -119,7 +126,7 @@
   text-align: center;
   top: 0;
   height: 100%;
-  width: 50%;
+  width: 100%;
 }
 
 .overlay-right {
